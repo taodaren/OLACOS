@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="二手交易" />
+        android:text="二手交易"
+        android:textSize="25sp" />
 
 </RelativeLayout>
