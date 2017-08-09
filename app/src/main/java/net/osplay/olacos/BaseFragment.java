@@ -1,5 +1,6 @@
 package net.osplay.olacos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -71,13 +72,13 @@ public abstract class BaseFragment extends Fragment {
         appCompatActivity.setSupportActionBar(toolbar);
 
         //设置标题
-//        TextView textTitle = (TextView) getActivity().findViewById(R.id.title_toolbar);
-//        textTitle.setVisibility(View.VISIBLE);
-//        textTitle.setText(title);
+        TextView textTitle = (TextView) getActivity().findViewById(R.id.title_toolbar);
+        textTitle.setVisibility(View.VISIBLE);
+        textTitle.setText(title);
 
         //城市选择
-//        RelativeLayout cityLayout = (RelativeLayout) getActivity().findViewById(R.id.layout_city);
-//        cityLayout.setVisibility(cityVisibility);
+        RelativeLayout cityLayout = (RelativeLayout) getActivity().findViewById(R.id.layout_city);
+        cityLayout.setVisibility(cityVisibility);
 //        cityLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -125,14 +126,14 @@ public abstract class BaseFragment extends Fragment {
 //                });
 //            }
 //        });
-//
-//        ActionBar actionBar = appCompatActivity.getSupportActionBar();
-//        if (actionBar != null) {
-//            //隐藏左上角图标（true 为显示）
-//            actionBar.setDisplayHomeAsUpEnabled(false);
-//            //隐藏 Toolbar 自带标题栏
-//            actionBar.setDisplayShowTitleEnabled(false);
-//        }
+
+        ActionBar actionBar = appCompatActivity.getSupportActionBar();
+        if (actionBar != null) {
+            //隐藏左上角图标（true 为显示）
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            //隐藏 Toolbar 自带标题栏
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
         return toolbar;
     }
 
