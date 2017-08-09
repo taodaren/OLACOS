@@ -66,14 +66,14 @@ public abstract class BaseFragment extends Fragment {
      * @param cityVisibility 城市选择控件是否显示
      * @return menu_toolbar
      */
-    public Toolbar setToolbar(int toolbarId, int title, int cityVisibility) {
+    public Toolbar setToolbar(int toolbarId, int title, int titleVisibility,int cityVisibility) {
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         Toolbar toolbar = (Toolbar) appCompatActivity.findViewById(toolbarId);
         appCompatActivity.setSupportActionBar(toolbar);
 
         //设置标题
         TextView textTitle = (TextView) getActivity().findViewById(R.id.title_toolbar);
-        textTitle.setVisibility(View.VISIBLE);
+        textTitle.setVisibility(titleVisibility);
         textTitle.setText(title);
 
         //城市选择

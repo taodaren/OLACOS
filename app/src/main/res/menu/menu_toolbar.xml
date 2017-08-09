@@ -11,4 +11,9 @@
         android:icon="@drawable/menu_msg"
         android:title="消息"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_category"
+        android:icon="@drawable/menu_category"
+        android:title="筛选"
+        app:showAsAction="always" />
 </menu>
