@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -61,12 +62,14 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置 Toolbar
      *
-     * @param toolbarId      menu_toolbar ID
-     * @param title          标题
-     * @param cityVisibility 城市选择控件是否显示
+     * @param toolbarId       menu_toolbar ID
+     * @param title           标题
+     * @param titleVisibility 标题控件是否显示
+     * @param cityVisibility  城市选择控件是否显示
+     * @param isHomeBottom    侧滑控件是否显示（true 为显示 false 为隐藏）
      * @return menu_toolbar
      */
-    public Toolbar setToolbar(int toolbarId, int title, int titleVisibility,int cityVisibility) {
+    public Toolbar setToolbar(int toolbarId, int title, int titleVisibility, int cityVisibility, boolean isHomeBottom) {
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
         Toolbar toolbar = (Toolbar) appCompatActivity.findViewById(toolbarId);
         appCompatActivity.setSupportActionBar(toolbar);
@@ -130,7 +133,9 @@ public abstract class BaseFragment extends Fragment {
         ActionBar actionBar = appCompatActivity.getSupportActionBar();
         if (actionBar != null) {
             //隐藏左上角图标（true 为显示）
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(isHomeBottom);
+            //设置侧滑导航按钮图标
+            actionBar.setHomeAsUpIndicator(R.drawable.title_mi);
             //隐藏 Toolbar 自带标题栏
             actionBar.setDisplayShowTitleEnabled(false);
         }
