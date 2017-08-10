@@ -1,8 +1,11 @@
 package net.osplay.olacos;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Toast;
 
 import net.osplay.module_home.HomeFragment;
 import net.osplay.module_league.LeagueFragment;
@@ -24,8 +27,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setBottomTab();
+        setFabButton();
     }
 
+    /**
+     * 设置悬浮按钮
+     */
+    private void setFabButton() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "FAB 被点击", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * 设置底部导航
+     */
     private void setBottomTab() {
         //默认显示首页
         replaceFragment(new HomeFragment());
@@ -100,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         SpecialTabRound mainTab = new SpecialTabRound(this);
         mainTab.initialize(drawable, checkedDrawable, text);
         mainTab.setTextDefaultColor(0xFF888888);
-        mainTab.setTextCheckedColor(0xFFF7C936);
+//        mainTab.setTextCheckedColor(0xFFF7C936);
         return mainTab;
     }
 
