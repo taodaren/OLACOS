@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single"><!-- 设定组中所有菜单项只能单选 -->
+        <item
+            android:id="@+id/nav_column"
+            android:icon="@drawable/menu_column"
+            android:title="我的专栏" />
+        <item
+            android:id="@+id/nav_word"
+            android:icon="@drawable/menu_word"
+            android:title="我的社区" />
+        <item
+            android:id="@+id/nav_league"
+            android:icon="@drawable/menu_league"
+            android:title="我的社团" />
+        <item
+            android:id="@+id/nav_money"
+            android:icon="@drawable/menu_money"
+            android:title="我的钱包" />
+    </group>
+</menu>

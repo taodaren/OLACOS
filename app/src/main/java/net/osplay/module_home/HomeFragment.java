@@ -2,7 +2,9 @@ package net.osplay.module_home;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -26,9 +28,24 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_home, null);
+        setDrawerLayout();
+        return inflate;
+    }
+
+    private void setDrawerLayout() {
         //注意 getActivity() 若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        return inflate;
+        NavigationView navView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        //设置默认选中项
+        navView.setCheckedItem(R.id.nav_column);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                //将滑动菜单关闭
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
     }
 
     /**
