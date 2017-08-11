@@ -163,8 +163,8 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                 mContext.startActivity(intentGoods);
                 break;
             case R.id.posts_window:
-//                Intent intentPosts = new Intent(mContext, PublishPostsActivity.class);
-//                mContext.startActivity(intentPosts);
+                Intent intentPosts = new Intent(mContext, PublishPostsActivity.class);
+                mContext.startActivity(intentPosts);
                 break;
             case R.id.activity_window:
 //                Intent intentActivity = new Intent(mContext, PublishActivityActivity.class);

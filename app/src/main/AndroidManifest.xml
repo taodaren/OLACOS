@@ -23,6 +23,9 @@
         <activity
             android:name="net.osplay.module_post.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name="net.osplay.module_post.PublishPostsActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
 
 </manifest>
