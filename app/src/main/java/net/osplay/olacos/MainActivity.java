@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import net.osplay.module_home.HomeFragment;
 import net.osplay.module_league.LeagueFragment;
+import net.osplay.module_post.PublishPopWindow;
 import net.osplay.module_secondhand.SecondhandFragment;
 import net.osplay.module_word.WordFragment;
 import net.osplay.tab.SpecialTab;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private BaseTabItem newRoundItem(int drawable, int checkedDrawable, String text) {
         SpecialTabRound mainTab = new SpecialTabRound(this);
         mainTab.initialize(drawable, checkedDrawable, text);
-        mainTab.setTextDefaultColor(0xFF888888);
+//        mainTab.setTextDefaultColor(0xFF888888);
 //        mainTab.setTextCheckedColor(0xFFF7C936);
         return mainTab;
     }
@@ -142,4 +143,13 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_content, fragment)
                 .commit();
     }
+
+    /**
+     * 首页 → 发布
+     */
+    public void onClickPublish(View v) {
+        PublishPopWindow popWindow = new PublishPopWindow(MainActivity.this);
+        popWindow.showMoreWindow(v);
+    }
+
 }
