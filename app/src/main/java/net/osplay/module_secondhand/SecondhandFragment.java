@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -28,6 +29,8 @@ import java.util.Random;
 public class SecondhandFragment extends BaseFragment {
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
+    //下拉刷新
+    private SwipeRefreshLayout swipeRefresh;
 
     //测试使用数据，有后台后可删除使用网络数据
     private SecondhandBean[] secondhands = {
@@ -40,7 +43,7 @@ public class SecondhandFragment extends BaseFragment {
             new SecondhandBean(R.drawable.example07, "￥365.00", "【全职高手】1025荣耀学院"),
             new SecondhandBean(R.drawable.example08, "￥131.00", "【MAD】 聖なるかな 永遠になるかな CompleteVer"),
             new SecondhandBean(R.drawable.example09, "￥186.00", "【ToLove】我的后宫不可能都是狐狸精！"),
-            new SecondhandBean(R.drawable.example10, "￥1121.00", "【腐向】一言不合就发车 奉上你们想要的《K》"),
+            new SecondhandBean(R.drawable.example10, "￥1121.00", "【腐向】一言不合就发车 奉上你们想要的《K》")
     };
 
     private List<SecondhandBean> beanList = new ArrayList<>();
@@ -52,13 +55,61 @@ public class SecondhandFragment extends BaseFragment {
         //注意 getActivity() 若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
 
+        setRecyclerView(inflate);
+        setSwipeRefresh(inflate);
+        return inflate;
+    }
+
+    private void setRecyclerView(View inflate) {
         initSecondhands();
         RecyclerView recyclerView = (RecyclerView) inflate.findViewById(R.id.recycler_secondhand);
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SecondhandAdapter(beanList);
         recyclerView.setAdapter(adapter);
-        return inflate;
+    }
+
+    /**
+     * 设置下拉刷新
+     *
+     * @param inflate
+     */
+    private void setSwipeRefresh(View inflate) {
+        swipeRefresh = (SwipeRefreshLayout) inflate.findViewById(R.id.swipe_refresh_secondhand);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //在此处理刷新逻辑
+                refreshSecondhand();
+            }
+        });
+    }
+
+    private void refreshSecondhand() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //为了本地测试效果
+                    Thread.sleep(1300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                //将线程切回主线程
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //重新生成数据
+                        initSecondhands();
+                        //通知数据发生变化
+                        adapter.notifyDataSetChanged();
+                        //刷新事件结束，并隐藏刷新进度条
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void initSecondhands() {
