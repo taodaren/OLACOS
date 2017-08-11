@@ -26,8 +26,8 @@ import rx.schedulers.Schedulers;
 /**
  * 首页 → 发布
  */
-public class PublishPopWindow extends PopupWindow implements View.OnClickListener {
 
+public class PublishPopWindow extends PopupWindow implements View.OnClickListener {
     private View rootView;
     private RelativeLayout contentView;
     private Activity mContext;
@@ -167,8 +167,8 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                 mContext.startActivity(intentPosts);
                 break;
             case R.id.activity_window:
-//                Intent intentActivity = new Intent(mContext, PublishActivityActivity.class);
-//                mContext.startActivity(intentActivity);
+                Intent intentActivity = new Intent(mContext, PublishActivityActivity.class);
+                mContext.startActivity(intentActivity);
                 break;
             case R.id.ll_close:
                 if (isShowing()) {
@@ -179,4 +179,5 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                 break;
         }
     }
+
 }
