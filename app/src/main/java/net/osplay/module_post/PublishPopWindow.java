@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -158,8 +159,8 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.commodity_window:
-//                Intent intentGoods = new Intent(mContext, PublishGoodsActivity.class);
-//                mContext.startActivity(intentGoods);
+                Intent intentGoods = new Intent(mContext, PublishGoodsActivity.class);
+                mContext.startActivity(intentGoods);
                 break;
             case R.id.posts_window:
 //                Intent intentPosts = new Intent(mContext, PublishPostsActivity.class);
