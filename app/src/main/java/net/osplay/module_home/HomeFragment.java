@@ -13,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import net.osplay.olacos.BaseFragment;
+import net.osplay.olacos.LoginActivity;
 import net.osplay.olacos.QRCodeActivity;
 import net.osplay.olacos.R;
 
@@ -75,6 +75,7 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
         menu.findItem(R.id.menu_code).setVisible(true);
         menu.findItem(R.id.menu_msg).setVisible(true);
         menu.findItem(R.id.menu_category).setVisible(false);
+        menu.findItem(R.id.menu_register).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -88,7 +89,8 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         if (item.getItemId() == R.id.menu_msg) {
-            Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), LoginActivity.class));
         }
         return true;
     }

@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.osplay.olacos">
-
-    <!--为了方便写demo，引入了 https://github.com/bingoogolapple/BGAPhotoPicker-Android
+    <!--
+    为了方便写demo，引入了 https://github.com/bingoogolapple/BGAPhotoPicker-Android
     和 https://github.com/bingoogolapple/BGAAdapter-Android 这两个库
-    你自己项目里没用这两个库的话不需要加这个-->
+    你自己项目里没用这两个库的话不需要加这个
+    -->
     <uses-sdk tools:overrideLibrary="cn.bingoogolapple.photopicker,cn.bingoogolapple.androidcommon.adapter" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -40,7 +41,13 @@
         <activity
             android:name="net.osplay.module_post.PublishActivityActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".QRCodeActivity"></activity>
+        <activity android:name=".QRCodeActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".RegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

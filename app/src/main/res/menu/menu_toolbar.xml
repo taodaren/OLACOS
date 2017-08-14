@@ -16,4 +16,9 @@
         android:icon="@drawable/menu_category"
         android:title="筛选"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_register"
+        android:icon="@drawable/menu_register"
+        android:title="注册"
+        app:showAsAction="always" />
 </menu>
