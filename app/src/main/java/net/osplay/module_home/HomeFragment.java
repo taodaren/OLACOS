@@ -1,6 +1,8 @@
 package net.osplay.module_home;
 
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,14 +16,22 @@ import android.view.View;
 import android.widget.Toast;
 
 import net.osplay.olacos.BaseFragment;
+import net.osplay.olacos.QRCodeActivity;
 import net.osplay.olacos.R;
+
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
  * 首页模块
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
+    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
 
@@ -71,7 +81,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_code) {
-            Toast.makeText(mContext, "menu_code", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), QRCodeActivity.class));
         }
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
             //展示滑动菜单
@@ -83,4 +93,30 @@ public class HomeFragment extends BaseFragment {
         return true;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        requestCodeQRCodePermissions();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
+
+    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    private void requestCodeQRCodePermissions() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(getContext(), perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+        }
+    }
 }
