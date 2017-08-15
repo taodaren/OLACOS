@@ -21,4 +21,9 @@
         android:icon="@drawable/menu_register"
         android:title="注册"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_set"
+        android:icon="@drawable/menu_set"
+        android:title="设置"
+        app:showAsAction="always" />
 </menu>

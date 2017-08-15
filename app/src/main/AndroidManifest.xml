@@ -52,6 +52,7 @@
         <activity
             android:name=".activity.ForgetPwdActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.MineCenterActivity" />
     </application>
 
 </manifest>

@@ -197,6 +197,7 @@ public class LoginActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         //显示需要菜单项，隐藏多余菜单项
+        menu.findItem(R.id.menu_set).setVisible(false);
         menu.findItem(R.id.menu_category).setVisible(false);
         menu.findItem(R.id.menu_code).setVisible(false);
         menu.findItem(R.id.menu_msg).setVisible(false);

@@ -42,6 +42,9 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
         return inflate;
     }
 
+    /**
+     * 设置侧滑界面
+     */
     private void setDrawerLayout() {
         //注意 getActivity() 若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -76,6 +79,7 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
         menu.findItem(R.id.menu_msg).setVisible(true);
         menu.findItem(R.id.menu_category).setVisible(false);
         menu.findItem(R.id.menu_register).setVisible(false);
+        menu.findItem(R.id.menu_set).setVisible(false);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
