@@ -1,5 +1,6 @@
 package net.osplay.olacos.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +45,7 @@ public class MineCenterActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.menu_set:
-//                startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
+                startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
                 break;
         }
         return true;
