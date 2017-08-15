@@ -1,4 +1,4 @@
-package net.osplay.olacos;
+package net.osplay.olacos.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +13,7 @@ import net.osplay.module_league.LeagueFragment;
 import net.osplay.module_post.PublishPopWindow;
 import net.osplay.module_secondhand.SecondhandFragment;
 import net.osplay.module_word.WordFragment;
+import net.osplay.olacos.R;
 import net.osplay.tab.SpecialTab;
 import net.osplay.tab.SpecialTabRound;
 

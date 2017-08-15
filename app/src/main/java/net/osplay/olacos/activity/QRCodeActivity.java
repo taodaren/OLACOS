@@ -1,4 +1,4 @@
-package net.osplay.olacos;
+package net.osplay.olacos.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import net.osplay.olacos.R;
+import net.osplay.olacos.base.BaseActivity;
 
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity;
 import cn.bingoogolapple.qrcode.core.QRCodeView;

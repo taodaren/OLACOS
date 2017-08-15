@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import net.osplay.olacos.BaseActivity;
+import net.osplay.olacos.base.BaseActivity;
 import net.osplay.olacos.R;
 
 import java.util.Calendar;

@@ -1,11 +1,17 @@
-package net.osplay.olacos;
+package net.osplay.olacos.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 
-public class SplashActivity extends AppCompatActivity {
+import net.osplay.olacos.R;
+import net.osplay.olacos.base.BaseActivity;
+
+/**
+ * 闪屏启动页
+ */
+
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

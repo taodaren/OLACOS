@@ -1,4 +1,4 @@
-package net.osplay.olacos;
+package net.osplay.olacos.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import net.osplay.olacos.R;
+import net.osplay.olacos.base.BaseActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

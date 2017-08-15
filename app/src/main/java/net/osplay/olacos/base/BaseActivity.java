@@ -1,4 +1,4 @@
-package net.osplay.olacos;
+package net.osplay.olacos.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import net.osplay.olacos.R;
 
 /**
  * Activity 基类

@@ -8,7 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.osplay.olacos.BaseFragment;
+import net.osplay.olacos.base.BaseFragment;
 import net.osplay.olacos.R;
 
 

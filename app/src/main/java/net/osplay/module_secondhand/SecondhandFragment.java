@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.osplay.olacos.BaseFragment;
+import net.osplay.olacos.base.BaseFragment;
 import net.osplay.olacos.R;
 
 import java.util.ArrayList;

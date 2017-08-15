@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.osplay.olacos.BaseActivity;
+import net.osplay.olacos.base.BaseActivity;
 import net.osplay.olacos.R;
 
 public class PublishPostsActivity extends BaseActivity {

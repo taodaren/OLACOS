@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
-import net.osplay.olacos.BaseActivity;
+import net.osplay.olacos.base.BaseActivity;
 import net.osplay.olacos.R;
 
 public class PublishGoodsActivity extends BaseActivity implements View.OnClickListener {

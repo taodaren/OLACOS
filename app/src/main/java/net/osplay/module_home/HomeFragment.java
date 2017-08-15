@@ -14,9 +14,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.osplay.olacos.BaseFragment;
-import net.osplay.olacos.LoginActivity;
-import net.osplay.olacos.QRCodeActivity;
+import net.osplay.olacos.base.BaseFragment;
+import net.osplay.olacos.activity.LoginActivity;
+import net.osplay.olacos.activity.QRCodeActivity;
 import net.osplay.olacos.R;
 
 import java.util.List;

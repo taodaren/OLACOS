@@ -1,4 +1,4 @@
-package net.osplay.olacos;
+package net.osplay.olacos.base;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lljjcoder.citypickerview.widget.CityPicker;
+
+import net.osplay.olacos.R;
 
 /**
  * Fragment 基类
