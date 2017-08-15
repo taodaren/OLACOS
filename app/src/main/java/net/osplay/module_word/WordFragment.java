@@ -25,6 +25,7 @@ public class WordFragment extends BaseFragment {
         View inflate = View.inflate(getContext(), R.layout.fragment_word, null);
         //注意 getActivity() 若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        isLogin();
         return inflate;
     }
 

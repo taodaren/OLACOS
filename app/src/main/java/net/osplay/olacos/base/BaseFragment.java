@@ -1,6 +1,8 @@
 package net.osplay.olacos.base;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
 import net.osplay.olacos.R;
+import net.osplay.olacos.activity.LoginActivity;
 
 /**
  * Fragment 基类
@@ -142,6 +146,36 @@ public abstract class BaseFragment extends Fragment {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         return toolbar;
+    }
+
+    /**
+     * 判断用户是否已经登录
+     */
+    public void isLogin() {
+        //查看本地是否有用户的登录信息
+        SharedPreferences sp = this.getActivity().getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        String name = sp.getString("name", "");
+        if (TextUtils.isEmpty(name)) {
+            //本地没有保存过用户信息
+            startActivity(new Intent(getContext(), LoginActivity.class));
+        } else {
+            //已经登录过，则直接加载用户的信息并显示
+        }
+    }
+
+    /**
+     * 保存用户信息
+     * 基类中写读取用户信息的代码，其中参数在有接口的情况，可传入user实体类，存入的值是user.getName
+     *
+     * @param name
+     * @param password
+     */
+    public void saveUser(String name, String password) {
+        SharedPreferences sp = getContext().getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("name", name);
+        editor.putString("password", password);
+        editor.commit();
     }
 
 }
