@@ -49,6 +49,9 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.ForgetPwdActivity"
+            android:windowSoftInputMode="stateHidden" />
     </application>
 
 </manifest>

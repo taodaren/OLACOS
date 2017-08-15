@@ -22,7 +22,7 @@ public class LoginActivity extends BaseActivity {
     private static final int REQUEST_REGISTER = 0;
 
     private Button btnLogin;
-    private TextView textWeiXin, textQQ, textWeiBo;
+    private TextView textWeiXin, textQQ, textWeiBo, textForgetPwd;
     private EditText editAccount, editPassword;
 //    private LoginBean loginBean;
 
@@ -41,6 +41,7 @@ public class LoginActivity extends BaseActivity {
         btnLogin = (Button) findViewById(R.id.btn_login);
         editAccount = (EditText) findViewById(R.id.edit_account_login);
         editPassword = (EditText) findViewById(R.id.edit_password_login);
+        textForgetPwd = (TextView) findViewById(R.id.text_forget);
         textWeiXin = (TextView) findViewById(R.id.text_wei_xin);
         textQQ = (TextView) findViewById(R.id.text_qq);
         textWeiBo = (TextView) findViewById(R.id.text_wei_bo);
@@ -49,6 +50,13 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 login();
+            }
+        });
+
+        textForgetPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgetPwdActivity.class));
             }
         });
 
