@@ -25,14 +25,18 @@
         <!-- activity有EditText时禁止自动弹出软键盘 -->
         <!-- 声明Activity时加上：android:windowSoftInputMode="stateHidden" -->
         <!-- 解决软键盘将布局顶起方法：android:windowSoftInputMode="adjustPan|stateHidden" -->
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/transparentStatusTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/transparentStatusTheme" />
         <activity
             android:name="net.osplay.module_post.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -52,7 +56,9 @@
         <activity
             android:name=".activity.ForgetPwdActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="net.osplay.module_mine.MineCenterActivity" />
+        <activity
+            android:name="net.osplay.module_mine.MineCenterActivity"
+            android:theme="@style/transparentStatusTheme" />
         <activity android:name="net.osplay.module_mine.MineSetActivity" />
     </application>
 
