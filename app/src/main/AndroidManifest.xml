@@ -52,8 +52,8 @@
         <activity
             android:name=".activity.ForgetPwdActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".activity.MineCenterActivity" />
-        <activity android:name=".activity.MineSetActivity"></activity>
+        <activity android:name="net.osplay.module_mine.MineCenterActivity" />
+        <activity android:name="net.osplay.module_mine.MineSetActivity" />
     </application>
 
 </manifest>

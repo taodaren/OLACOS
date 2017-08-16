@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorContentBg"
     android:orientation="vertical"
-    tools:context="net.osplay.olacos.activity.MineSetActivity">
+    tools:context="net.osplay.olacos.net.osplay.module_mine.MineSetActivity">
 
     <include layout="@layout/layout_toolbar" />
 

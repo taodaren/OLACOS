@@ -1,4 +1,4 @@
-package net.osplay.olacos.activity;
+package net.osplay.module_mine;
 
 import android.os.Bundle;
 import android.view.MenuItem;
