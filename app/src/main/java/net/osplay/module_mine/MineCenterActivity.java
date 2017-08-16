@@ -39,8 +39,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MineCenterActivity extends BaseActivity implements View.OnClickListener {
     private CircleImageView mine_avatar;
+    //图库
     private static final int PICTURE = 100;
+    //相机
     private static final int CAMERA = 200;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +127,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_avatar:
-                String[] items = new String[]{"图库","相机"};
+                String[] items = new String[]{"图库", "相机"};
                 //提供一个AlertDialog
                 new AlertDialog.Builder(MineCenterActivity.this)
                         .setTitle("选择来源")
@@ -132,14 +135,11 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
-                                    case 0 ://图库
-                                        Intent picture = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                        startActivityForResult(picture, PICTURE);
+                                    case 0://图库
+                                        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), PICTURE);
                                         break;
                                     case 1://相机
-
-                                        Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                        startActivityForResult(camera, CAMERA);
+                                        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA);
                                         break;
                                 }
                             }
@@ -203,32 +203,32 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 break;
         }
     }
+
     //回调方法
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == CAMERA && resultCode == RESULT_OK && data != null){//相机
+        if (requestCode == CAMERA && resultCode == RESULT_OK && data != null) {//相机
             //获取intent中的图片对象
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
-
             //加载显示
             mine_avatar.setImageBitmap(bitmap);
             //上传到服务器（省略）
+
             //保存到本地
             saveImage(bitmap);
-        }else if(requestCode == PICTURE && resultCode == RESULT_OK && data != null){//图库
+        } else if (requestCode == PICTURE && resultCode == RESULT_OK && data != null) {//图库
 
             //图库
             Uri selectedImage = data.getData();
             //android各个不同的系统版本,对于获取外部存储上的资源，返回的Uri对象都可能各不一样,
-            // 所以要保证无论是哪个系统版本都能正确获取到图片资源的话就需要针对各种情况进行一个处理了
+            //所以要保证无论是哪个系统版本都能正确获取到图片资源的话就需要针对各种情况进行一个处理了
             //这里返回的uri情况就有点多了
             //在4.4.2之前返回的uri是:content://media/external/images/media/3951或者file://....
-            // 在4.4.2返回的是content://com.android.providers.media.documents/document/image
-
+            //在4.4.2返回的是content://com.android.providers.media.documents/document/image
             String pathResult = getPath(selectedImage);
-            //存储--->内存
+            //存储 → 内存
             Bitmap decodeFile = BitmapFactory.decodeFile(pathResult);
 
             //加载显示
@@ -237,7 +237,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
             //保存到本地
             saveImage(decodeFile);
-
         }
     }
 
@@ -245,35 +244,35 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 数据的存储。（5种）
-     * Bimap:内存层面的图片对象。
-     *
+     * Bitmap:内存层面的图片对象。
+     * <p>
      * 存储--->内存：
-     *      BitmapFactory.decodeFile(String filePath);
-     *      BitmapFactory.decodeStream(InputStream is);
+     * BitmapFactory.decodeFile(String filePath);
+     * BitmapFactory.decodeStream(InputStream is);
      * 内存--->存储：
-     *      bitmap.compress(Bitmap.CompressFormat.PNG,100,OutputStream os);
+     * bitmap.compress(Bitmap.CompressFormat.PNG,100,OutputStream os);
      */
     private void saveImage(Bitmap bitmap) {
         File filesDir;
-        if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){//判断sd卡是否挂载
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡是否挂载
             //路径1：storage/sdcard/Android/data/包名/files
             filesDir = this.getExternalFilesDir("");
 
-        }else{//手机内部存储
+        } else {//手机内部存储
             //路径：data/data/包名/files
             filesDir = this.getFilesDir();
 
         }
         FileOutputStream fos = null;
         try {
-            File file = new File(filesDir,"icon.png");
+            File file = new File(filesDir, "icon.png");
             fos = new FileOutputStream(file);
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100,fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }finally{
-            if(fos != null){
+        } finally {
+            if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
@@ -283,13 +282,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-
-
-
     /**
      * 根据系统相册选择的文件获取路径
-     *
-     * @param uri
      */
     @SuppressLint("NewApi")
     private String getPath(Uri uri) {
@@ -332,29 +326,20 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 actualimagecursor.moveToFirst();
                 return actualimagecursor.getString(actual_image_column_index);
             }
-
-
         } else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            // Return the remote address
-            if (isGooglePhotosUri(uri))
+            //返回远程地址
+            if (isGooglePhotosUri(uri)) {
                 return uri.getLastPathSegment();
+            }
             return getDataColumn(this, uri, null, null);
-        }
-        // File
-        else if ("file".equalsIgnoreCase(uri.getScheme())) {
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {// File
             return uri.getPath();
         }
         return null;
     }
 
     /**
-     * uri路径查询字段
-     *
-     * @param context
-     * @param uri
-     * @param selection
-     * @param selectionArgs
-     * @return
+     * uri 路径查询字段
      */
     public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
         Cursor cursor = null;
@@ -392,7 +377,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
     /**
      * @param uri The Uri to check.
-     * @return Whether the Uri authority is Google Photos.
+     * @return Uri 权限是否是Google照片
      */
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
