@@ -1,6 +1,5 @@
 package net.osplay.module_mine;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
@@ -36,6 +35,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             actionBar.setDisplayHomeAsUpEnabled(true);
             //隐藏 Toolbar 自带标题栏
             actionBar.setDisplayShowTitleEnabled(false);
+            //设置侧滑导航按钮图标
+            actionBar.setHomeAsUpIndicator(R.drawable.title_back);
         }
         //隐藏 CollapsingToolbarLayout 标题
         collapsingToolbar.setTitleEnabled(false);
@@ -51,6 +52,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_league).setOnClickListener(this);
         findViewById(R.id.mine_money).setOnClickListener(this);
         findViewById(R.id.mine_bao_xiang).setOnClickListener(this);
+        findViewById(R.id.mine_order).setOnClickListener(this);
+        findViewById(R.id.mine_fu_kuan).setOnClickListener(this);
         findViewById(R.id.mine_fa_huo).setOnClickListener(this);
         findViewById(R.id.mine_shou_huo).setOnClickListener(this);
         findViewById(R.id.mine_ping_jia).setOnClickListener(this);
@@ -72,7 +75,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         menu.findItem(R.id.menu_code).setVisible(true);
         menu.findItem(R.id.menu_msg).setVisible(false);
         menu.findItem(R.id.menu_register).setVisible(false);
-        menu.findItem(R.id.menu_set).setVisible(true);
+        menu.findItem(R.id.menu_set).setVisible(false);
         return true;
     }
 
@@ -82,9 +85,9 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.menu_set:
-                startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
-                break;
+//            case R.id.menu_set:
+//                startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
+//                break;
         }
         return true;
     }
@@ -117,6 +120,12 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_bao_xiang:
+
+                break;
+            case R.id.mine_order:
+
+                break;
+            case R.id.mine_fu_kuan:
 
                 break;
             case R.id.mine_fa_huo:
