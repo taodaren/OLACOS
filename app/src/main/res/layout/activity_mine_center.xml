@@ -11,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar_mine"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -36,7 +36,7 @@
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="25dp"
                     android:layout_marginLeft="30dp"
                     android:src="@drawable/avatar" />
 
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="25dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/mine_avatar">
 
@@ -208,6 +208,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_bao_xiang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white">
@@ -231,12 +232,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
                 <TextView
                     android:id="@+id/mine_fa_huo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_fa_huo"
@@ -246,7 +247,7 @@
 
                 <TextView
                     android:id="@+id/mine_shou_huo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_shou_huo"
@@ -256,7 +257,7 @@
 
                 <TextView
                     android:id="@+id/mine_ping_jia"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_ping_jia"
@@ -266,7 +267,7 @@
 
                 <TextView
                     android:id="@+id/mine_tui_huo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_tui_huo"
@@ -280,12 +281,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:background="@color/white"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
                 <TextView
                     android:id="@+id/mine_fa_bu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_fa_bu"
@@ -295,7 +296,7 @@
 
                 <TextView
                     android:id="@+id/mine_mai_chu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_mai_chu"
@@ -305,7 +306,7 @@
 
                 <TextView
                     android:id="@+id/mine_mai_dao"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_mai_dao"
@@ -315,7 +316,7 @@
 
                 <TextView
                     android:id="@+id/mine_zan_guo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/mine_zan_guo"
@@ -325,6 +326,4 @@
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
 </android.support.design.widget.CoordinatorLayout>

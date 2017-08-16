@@ -34,9 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/transparentStatusTheme" />
+        <activity android:name=".activity.MainActivity" />
         <activity
             android:name="net.osplay.module_post.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
