@@ -94,7 +94,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
         findViewById(R.id.mine_mai_dao).setOnClickListener(this);
         findViewById(R.id.mine_zan_guo).setOnClickListener(this);
-        findViewById(R.id.mine_fan_kui).setOnClickListener(this);
+        findViewById(R.id.mine_feedback).setOnClickListener(this);
         findViewById(R.id.mine_set).setOnClickListener(this);
     }
 
@@ -204,8 +204,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_zan_guo:
 
                 break;
-            case R.id.mine_fan_kui:
-
+            case R.id.mine_feedback:
+                startActivity(new Intent(MineCenterActivity.this, FeedbackActivity.class));
                 break;
             case R.id.mine_set:
                 startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
