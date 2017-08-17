@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorContentBg"
+    android:orientation="vertical"
+    tools:context="net.osplay.module_mine.MineSetActivity">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="意见反馈"
+        android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:hint="有什么意见尽管提出来吧！"
+        android:maxLines="3"
+        android:padding="10dp"
+        android:textColorHint="@color/colorTiShiWenZi"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_mine_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/btn_shape_yellow"
+        android:text="提交"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="客服咨询电话：185-1234-1234"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp" />
+</LinearLayout>

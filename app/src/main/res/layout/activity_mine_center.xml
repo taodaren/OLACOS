@@ -203,7 +203,7 @@
                 android:paddingTop="8dp">
 
                 <TextView
-                    android:id="@+id/mine_fu_kuan"
+                    android:id="@+id/mine_pay"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -213,7 +213,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/mine_fa_huo"
+                    android:id="@+id/mine_ship"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -223,7 +223,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/mine_shou_huo"
+                    android:id="@+id/mine_receipt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -233,7 +233,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/mine_ping_jia"
+                    android:id="@+id/mine_assess"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -386,7 +386,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/mine_fan_kui"
+                android:id="@+id/mine_about"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -397,7 +397,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
-                    android:text="意见反馈"
+                    android:text="关于"
                     android:textSize="15sp" />
 
                 <View

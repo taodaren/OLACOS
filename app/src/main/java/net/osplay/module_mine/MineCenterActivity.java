@@ -22,7 +22,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import net.osplay.module_mine.fragment.OrderPayFragment;
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
 
@@ -38,7 +40,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MineCenterActivity extends BaseActivity implements View.OnClickListener {
-    private CircleImageView mine_avatar;
+    private CircleImageView mIvAvatar;
+
     //图库
     private static final int PICTURE = 100;
     //相机
@@ -54,7 +57,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        mine_avatar = (CircleImageView) findViewById(R.id.mine_avatar);
+        mIvAvatar = (CircleImageView) findViewById(R.id.mine_avatar);
     }
 
     private void setToolbar() {
@@ -84,15 +87,17 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_money).setOnClickListener(this);
         findViewById(R.id.mine_bao_xiang).setOnClickListener(this);
         findViewById(R.id.mine_order).setOnClickListener(this);
-        findViewById(R.id.mine_fu_kuan).setOnClickListener(this);
-        findViewById(R.id.mine_fa_huo).setOnClickListener(this);
-        findViewById(R.id.mine_shou_huo).setOnClickListener(this);
-        findViewById(R.id.mine_ping_jia).setOnClickListener(this);
+        findViewById(R.id.mine_pay).setOnClickListener(this);
+        findViewById(R.id.mine_ship).setOnClickListener(this);
+        findViewById(R.id.mine_receipt).setOnClickListener(this);
+        findViewById(R.id.mine_assess).setOnClickListener(this);
         findViewById(R.id.mine_tui_huo).setOnClickListener(this);
         findViewById(R.id.mine_fa_bu).setOnClickListener(this);
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
         findViewById(R.id.mine_mai_dao).setOnClickListener(this);
         findViewById(R.id.mine_zan_guo).setOnClickListener(this);
+        findViewById(R.id.mine_about).setOnClickListener(this);
+        findViewById(R.id.mine_set).setOnClickListener(this);
     }
 
     /**
@@ -172,18 +177,19 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_order:
+                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
+                break;
+            case R.id.mine_pay:
+                OrderPayFragment orderPayFragment = (OrderPayFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_order_par);
+                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
+                break;
+            case R.id.mine_ship:
 
                 break;
-            case R.id.mine_fu_kuan:
+            case R.id.mine_receipt:
 
                 break;
-            case R.id.mine_fa_huo:
-
-                break;
-            case R.id.mine_shou_huo:
-
-                break;
-            case R.id.mine_ping_jia:
+            case R.id.mine_assess:
 
                 break;
             case R.id.mine_tui_huo:
@@ -201,6 +207,12 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_zan_guo:
 
                 break;
+            case R.id.mine_about:
+                Toast.makeText(this, "关于 OLACOS", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.mine_set:
+                startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
+                break;
         }
     }
 
@@ -213,13 +225,12 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             Bundle extras = data.getExtras();
             Bitmap bitmap = (Bitmap) extras.get("data");
             //加载显示
-            mine_avatar.setImageBitmap(bitmap);
+            mIvAvatar.setImageBitmap(bitmap);
             //上传到服务器（省略）
 
             //保存到本地
             saveImage(bitmap);
         } else if (requestCode == PICTURE && resultCode == RESULT_OK && data != null) {//图库
-
             //图库
             Uri selectedImage = data.getData();
             //android各个不同的系统版本,对于获取外部存储上的资源，返回的Uri对象都可能各不一样,
@@ -232,7 +243,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             Bitmap decodeFile = BitmapFactory.decodeFile(pathResult);
 
             //加载显示
-            mine_avatar.setImageBitmap(decodeFile);
+            mIvAvatar.setImageBitmap(decodeFile);
             //上传到服务器（省略）
 
             //保存到本地
@@ -240,16 +251,18 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    //将Bitmap保存到本地的操作
+    //
 
     /**
+     * 将Bitmap保存到本地的操作
+     * <p>
      * 数据的存储。（5种）
      * Bitmap:内存层面的图片对象。
      * <p>
-     * 存储--->内存：
+     * 存储 → 内存：
      * BitmapFactory.decodeFile(String filePath);
      * BitmapFactory.decodeStream(InputStream is);
-     * 内存--->存储：
+     * 内存 → 存储：
      * bitmap.compress(Bitmap.CompressFormat.PNG,100,OutputStream os);
      */
     private void saveImage(Bitmap bitmap) {
@@ -257,17 +270,14 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {//判断sd卡是否挂载
             //路径1：storage/sdcard/Android/data/包名/files
             filesDir = this.getExternalFilesDir("");
-
         } else {//手机内部存储
             //路径：data/data/包名/files
             filesDir = this.getFilesDir();
-
         }
         FileOutputStream fos = null;
         try {
             File file = new File(filesDir, "icon.png");
             fos = new FileOutputStream(file);
-
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -288,8 +298,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     @SuppressLint("NewApi")
     private String getPath(Uri uri) {
         int sdkVersion = Build.VERSION.SDK_INT;
-        //高于4.4.2的版本
-        if (sdkVersion >= 19) {
+
+        if (sdkVersion >= 19) {//高于4.4.2的版本
             Log.e("TAG", "uri auth: " + uri.getAuthority());
             if (isExternalStorageDocument(uri)) {
                 String docId = DocumentsContract.getDocumentId(uri);
@@ -300,8 +310,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 }
             } else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
-                final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
-                        Long.valueOf(id));
+                final Uri contentUri = ContentUris
+                        .withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
                 return getDataColumn(this, contentUri, null, null);
             } else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
@@ -358,7 +368,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         return null;
     }
 
-
     private boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
@@ -382,6 +391,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
+
 }
 
 

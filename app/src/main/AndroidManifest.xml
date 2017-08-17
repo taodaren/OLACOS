@@ -58,6 +58,8 @@
             android:name="net.osplay.module_mine.MineCenterActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity android:name="net.osplay.module_mine.MineSetActivity" />
+        <activity android:name="net.osplay.module_mine.FeedbackActivity" />
+        <activity android:name="net.osplay.module_mine.OrderActivity" />
     </application>
 
 </manifest>
