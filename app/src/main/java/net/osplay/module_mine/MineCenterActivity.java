@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import net.osplay.module_mine.fragment.OrderPayFragment;
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
 
@@ -86,10 +87,10 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_money).setOnClickListener(this);
         findViewById(R.id.mine_bao_xiang).setOnClickListener(this);
         findViewById(R.id.mine_order).setOnClickListener(this);
-        findViewById(R.id.mine_fu_kuan).setOnClickListener(this);
-        findViewById(R.id.mine_fa_huo).setOnClickListener(this);
-        findViewById(R.id.mine_shou_huo).setOnClickListener(this);
-        findViewById(R.id.mine_ping_jia).setOnClickListener(this);
+        findViewById(R.id.mine_pay).setOnClickListener(this);
+        findViewById(R.id.mine_ship).setOnClickListener(this);
+        findViewById(R.id.mine_receipt).setOnClickListener(this);
+        findViewById(R.id.mine_assess).setOnClickListener(this);
         findViewById(R.id.mine_tui_huo).setOnClickListener(this);
         findViewById(R.id.mine_fa_bu).setOnClickListener(this);
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
@@ -178,16 +179,17 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_order:
                 startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
                 break;
-            case R.id.mine_fu_kuan:
+            case R.id.mine_pay:
+                OrderPayFragment orderPayFragment = (OrderPayFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_order_par);
+                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
+                break;
+            case R.id.mine_ship:
 
                 break;
-            case R.id.mine_fa_huo:
+            case R.id.mine_receipt:
 
                 break;
-            case R.id.mine_shou_huo:
-
-                break;
-            case R.id.mine_ping_jia:
+            case R.id.mine_assess:
 
                 break;
             case R.id.mine_tui_huo:
