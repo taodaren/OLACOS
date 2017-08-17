@@ -176,7 +176,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_order:
-
+                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
                 break;
             case R.id.mine_fu_kuan:
 
