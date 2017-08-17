@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import net.osplay.olacos.R;
+import net.osplay.olacos.activity.ForgetPwdActivity;
 import net.osplay.olacos.base.BaseActivity;
 
 /**
@@ -29,7 +30,7 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.text_modify_pwd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MineSetActivity.this, "跳转到登录密码修改", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MineSetActivity.this, ForgetPwdActivity.class));
             }
         });
 
