@@ -33,4 +33,11 @@
         <item name="android:statusBarColor">@android:color/transparent
         </item>
     </style>
+
+
+    <!-- 文本框风格-->
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/colorMedia</item>
+        <item name="colorControlActivated">#019FE8</item>
+    </style>
 </resources>
