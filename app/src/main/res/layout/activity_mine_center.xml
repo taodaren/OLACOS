@@ -386,7 +386,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/mine_feedback"
+                android:id="@+id/mine_about"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -397,7 +397,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
-                    android:text="意见反馈"
+                    android:text="关于"
                     android:textSize="15sp" />
 
                 <View

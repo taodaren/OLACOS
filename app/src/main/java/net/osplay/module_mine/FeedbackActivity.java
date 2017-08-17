@@ -3,6 +3,7 @@ package net.osplay.module_mine;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
@@ -16,11 +17,11 @@ public class FeedbackActivity extends BaseActivity {
 
         setToolbar("意见反馈", View.VISIBLE);
 
-        //退出按钮
-        findViewById(R.id.btn_mine_set).setOnClickListener(new View.OnClickListener() {
+        //提交按钮
+        findViewById(R.id.btn_mine_feedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Toast.makeText(FeedbackActivity.this, "提交反馈信息", Toast.LENGTH_SHORT).show();
             }
         });
     }

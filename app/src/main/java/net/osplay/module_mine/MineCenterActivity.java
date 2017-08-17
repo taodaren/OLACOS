@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
@@ -94,7 +95,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
         findViewById(R.id.mine_mai_dao).setOnClickListener(this);
         findViewById(R.id.mine_zan_guo).setOnClickListener(this);
-        findViewById(R.id.mine_feedback).setOnClickListener(this);
+        findViewById(R.id.mine_about).setOnClickListener(this);
         findViewById(R.id.mine_set).setOnClickListener(this);
     }
 
@@ -204,8 +205,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_zan_guo:
 
                 break;
-            case R.id.mine_feedback:
-                startActivity(new Intent(MineCenterActivity.this, FeedbackActivity.class));
+            case R.id.mine_about:
+                Toast.makeText(this, "关于 OLACOS", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mine_set:
                 startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
