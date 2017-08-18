@@ -33,8 +33,12 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void initView() {
+        //接收上一个 Activity 传来数据
         int tabNum = getIntent().getIntExtra("data", 1);
         switch (tabNum) {
+            case 0:
+                new OrderActivity();
+                break;
             case 1:
                 new OrderPayFragment();
                 break;
@@ -86,5 +90,7 @@ public class OrderActivity extends BaseActivity {
 
         //绑定
         tabLayout.setupWithViewPager(viewPager);
+        //滑动到指定页码
+        viewPager.setCurrentItem(tabNum);
     }
 }

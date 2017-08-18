@@ -178,6 +178,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_order:
+                intent.putExtra("data", 0);
                 startActivity(intent);
                 break;
             case R.id.mine_pay:
