@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import net.osplay.module_mine.activity.MinePageActivity;
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
 
@@ -133,25 +134,26 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_avatar:
-                String[] items = new String[]{"图库", "相机"};
-                //提供一个AlertDialog
-                new AlertDialog.Builder(MineCenterActivity.this)
-                        .setTitle("选择来源")
-                        .setItems(items, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0://图库
-                                        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), PICTURE);
-                                        break;
-                                    case 1://相机
-                                        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA);
-                                        break;
-                                }
-                            }
-                        })
-                        .setCancelable(false)
-                        .show();
+                startActivity(new Intent(MineCenterActivity.this, MinePageActivity.class));
+//                String[] items = new String[]{"图库", "相机"};
+//                //提供一个AlertDialog
+//                new AlertDialog.Builder(MineCenterActivity.this)
+//                        .setTitle("选择来源")
+//                        .setItems(items, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                switch (which) {
+//                                    case 0://图库
+//                                        startActivityForResult(new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), PICTURE);
+//                                        break;
+//                                    case 1://相机
+//                                        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA);
+//                                        break;
+//                                }
+//                            }
+//                        })
+//                        .setCancelable(false)
+//                        .show();
                 break;
             case R.id.mine_praise:
 
