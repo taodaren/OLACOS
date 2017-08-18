@@ -1,10 +1,10 @@
 package net.osplay.module_mine;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.View;
 
 import net.osplay.module_mine.fragment.OrderALLFragment;
@@ -33,6 +33,24 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void initView() {
+        int tabNum = getIntent().getIntExtra("data", 1);
+        switch (tabNum) {
+            case 1:
+                new OrderPayFragment();
+                break;
+            case 2:
+                new OrderShipFragment();
+                break;
+            case 3:
+                new OrderReceiptFragment();
+                break;
+            case 4:
+                new OrderAssessFragment();
+                break;
+            default:
+                break;
+        }
+
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
         viewPager = (ViewPager) findViewById(R.id.vp_order);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {

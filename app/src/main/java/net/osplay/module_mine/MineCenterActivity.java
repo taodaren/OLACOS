@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.osplay.module_mine.fragment.OrderPayFragment;
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
 
@@ -46,6 +45,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     private static final int PICTURE = 100;
     //相机
     private static final int CAMERA = 200;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
     private void initView() {
         mIvAvatar = (CircleImageView) findViewById(R.id.mine_avatar);
+        intent = new Intent(MineCenterActivity.this, OrderActivity.class);
     }
 
     private void setToolbar() {
@@ -177,20 +178,23 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_order:
-                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
+                startActivity(intent);
                 break;
             case R.id.mine_pay:
-                OrderPayFragment orderPayFragment = (OrderPayFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_order_par);
-                startActivity(new Intent(MineCenterActivity.this, OrderActivity.class));
+                intent.putExtra("data", 1);
+                startActivity(intent);
                 break;
             case R.id.mine_ship:
-
+                intent.putExtra("data", 2);
+                startActivity(intent);
                 break;
             case R.id.mine_receipt:
-
+                intent.putExtra("data", 3);
+                startActivity(intent);
                 break;
             case R.id.mine_assess:
-
+                intent.putExtra("data", 4);
+                startActivity(intent);
                 break;
             case R.id.mine_tui_huo:
 
