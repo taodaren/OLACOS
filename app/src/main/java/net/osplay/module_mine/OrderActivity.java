@@ -35,25 +35,6 @@ public class OrderActivity extends BaseActivity {
     private void initView() {
         //接收上一个 Activity 传来数据
         int tabNum = getIntent().getIntExtra("data", 1);
-        switch (tabNum) {
-            case 0:
-                new OrderActivity();
-                break;
-            case 1:
-                new OrderPayFragment();
-                break;
-            case 2:
-                new OrderShipFragment();
-                break;
-            case 3:
-                new OrderReceiptFragment();
-                break;
-            case 4:
-                new OrderAssessFragment();
-                break;
-            default:
-                break;
-        }
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
         viewPager = (ViewPager) findViewById(R.id.vp_order);
