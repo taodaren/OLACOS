@@ -1,10 +1,8 @@
-package net.osplay.module_mine;
+package net.osplay.module_mine.activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -24,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.osplay.module_mine.activity.MinePageActivity;
 import net.osplay.olacos.R;
 import net.osplay.olacos.base.BaseActivity;
 

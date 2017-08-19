@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import net.osplay.module_home.HomeFragment;
 import net.osplay.module_league.LeagueFragment;
-import net.osplay.module_mine.MineCenterActivity;
+import net.osplay.module_mine.activity.MineCenterActivity;
 import net.osplay.module_post.PublishPopWindow;
 import net.osplay.module_secondhand.SecondhandFragment;
 import net.osplay.module_word.WordFragment;

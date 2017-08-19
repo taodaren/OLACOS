@@ -1,4 +1,4 @@
-package net.osplay.module_mine;
+package net.osplay.module_mine.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

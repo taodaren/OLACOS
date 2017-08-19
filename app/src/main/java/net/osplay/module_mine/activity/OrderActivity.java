@@ -1,4 +1,4 @@
-package net.osplay.module_mine;
+package net.osplay.module_mine.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorContentBg"
     android:orientation="vertical"
-    tools:context="net.osplay.module_mine.MineSetActivity">
+    tools:context="net.osplay.module_mine.activity.MineSetActivity">
 
     <include layout="@layout/layout_toolbar" />
 
