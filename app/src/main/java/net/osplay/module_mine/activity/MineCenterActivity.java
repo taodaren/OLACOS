@@ -197,7 +197,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.mine_tui_huo:
-
+                startActivity(new Intent(MineCenterActivity.this, ReturnGoodsActivity.class));
                 break;
             case R.id.mine_fa_bu:
 
