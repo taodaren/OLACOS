@@ -5,6 +5,7 @@ import android.content.Context;
 import net.osplay.service.RetrofitHelper;
 import net.osplay.service.RetrofitService;
 import net.osplay.service.entity.TestBean;
+import net.osplay.service.entity.TestSecondBean;
 
 import java.util.List;
 
@@ -23,5 +24,9 @@ public class DataManager {
 
     public Observable<List<TestBean>> getTestData(int catId, int pageId, int pageSize) {
         return mRetrofitService.getTextData(catId, pageId, pageSize);
+    }
+
+    public Observable<List<TestSecondBean>> getTextSecond(int catId, int pageId, int pageSize) {
+        return mRetrofitService.getTextSecond(catId, pageId, pageSize);
     }
 }

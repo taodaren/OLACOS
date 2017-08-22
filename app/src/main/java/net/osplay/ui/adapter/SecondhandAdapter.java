@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import net.osplay.service.entity.SecondhandBean;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.TestSecondBean;
 
 import java.util.List;
 
@@ -22,9 +22,9 @@ import java.util.List;
 
 public class SecondhandAdapter extends RecyclerView.Adapter<SecondhandAdapter.ViewHolder> {
     private Context mContext;
-    private List<SecondhandBean> secondhandBeanList;
+    private List<TestSecondBean> secondhandBeanList;
 
-    public SecondhandAdapter(List<SecondhandBean> secondhandBeanList) {
+    public SecondhandAdapter(List<TestSecondBean> secondhandBeanList) {
         this.secondhandBeanList = secondhandBeanList;
     }
 
@@ -39,11 +39,11 @@ public class SecondhandAdapter extends RecyclerView.Adapter<SecondhandAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        SecondhandBean secondhandBean = secondhandBeanList.get(position);
-        holder.textTitle.setText(secondhandBean.getTitle());
-        holder.textPrice.setText(secondhandBean.getPrice());
+        TestSecondBean secondhandBean = secondhandBeanList.get(position);
+        holder.textTitle.setText(secondhandBean.getGoodsBrief());
+        holder.textPrice.setText(secondhandBean.getShopPrice());
         //使用Glide加载图片
-        Glide.with(mContext).load(secondhandBean.getImgId()).into(holder.imgSecondhand);
+        Glide.with(mContext).load(secondhandBean.getGoodsImg()).into(holder.imgSecondhand);
     }
 
     @Override
