@@ -26,7 +26,7 @@
         <!-- 声明Activity时加上：android:windowSoftInputMode="stateHidden" -->
         <!-- 解决软键盘将布局顶起方法：android:windowSoftInputMode="adjustPan|stateHidden" -->
         <activity
-            android:name=".activity.SplashActivity"
+            android:name="net.osplay.ui.activity.SplashActivity"
             android:theme="@style/transparentStatusTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,37 +34,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name="net.osplay.ui.activity.MainActivity" />
         <activity
-            android:name="net.osplay.module_post.PublishGoodsActivity"
+            android:name="net.osplay.ui.activity.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="net.osplay.module_post.PublishPostsActivity"
+            android:name="net.osplay.ui.activity.PublishPostsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="net.osplay.module_post.PublishActivityActivity"
+            android:name="net.osplay.ui.activity.PublishActivityActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".activity.QRCodeActivity" />
+        <activity android:name="net.osplay.ui.activity.QRCodeActivity" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name="net.osplay.ui.activity.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name="net.osplay.ui.activity.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".activity.ForgetPwdActivity"
+            android:name="net.osplay.ui.activity.ForgetPwdActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="net.osplay.module_mine.activity.MineCenterActivity"
+            android:name="net.osplay.ui.activity.MineCenterActivity"
             android:theme="@style/transparentStatusTheme" />
-        <activity android:name="net.osplay.module_mine.activity.MineSetActivity" />
-        <activity android:name="net.osplay.module_mine.activity.FeedbackActivity" />
-        <activity android:name="net.osplay.module_mine.activity.OrderActivity" />
+        <activity android:name="net.osplay.ui.activity.MineSetActivity" />
+        <activity android:name="net.osplay.ui.activity.FeedbackActivity" />
+        <activity android:name="net.osplay.ui.activity.OrderActivity" />
         <activity
-            android:name="net.osplay.module_mine.activity.MinePageActivity"
+            android:name="net.osplay.ui.activity.MinePageActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity
-            android:name="net.osplay.module_mine.activity.ReturnGoodsActivity"
+            android:name="net.osplay.ui.activity.ReturnGoodsActivity"
             android:windowSoftInputMode="stateHidden" />
     </application>
 
