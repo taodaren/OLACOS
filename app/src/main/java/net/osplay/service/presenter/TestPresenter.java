@@ -2,12 +2,13 @@ package net.osplay.service.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import net.osplay.service.entity.TestBean;
 import net.osplay.service.manager.DataManager;
 import net.osplay.service.view.TextDataView;
 import net.osplay.service.view.View;
+
+import java.util.List;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,7 +24,7 @@ public class TestPresenter implements Presenter {
     private CompositeSubscription mCompositeSubscription;
     private Context mContext;
     private TextDataView mTextDataView;
-    private TestBean mTestBean;
+    private List<TestBean> mTestList;
 
     public TestPresenter(Context mContext) {
         this.mContext = mContext;
@@ -65,11 +66,11 @@ public class TestPresenter implements Presenter {
         mCompositeSubscription.add(manager.getTestData(catId, pageId, pageSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TestBean>() {
+                .subscribe(new Observer<List<TestBean>>() {
                     @Override
                     public void onCompleted() {
-                        if (mTestBean != null) {
-                            mTextDataView.onSuccess(mTestBean);
+                        if (mTestList != null) {
+                            mTextDataView.onSuccess(mTestList);
                         }
                     }
 
@@ -80,8 +81,8 @@ public class TestPresenter implements Presenter {
                     }
 
                     @Override
-                    public void onNext(TestBean testBean) {
-                        mTestBean = testBean;
+                    public void onNext(List<TestBean> testBean) {
+                        mTestList = testBean;
                     }
                 })
         );

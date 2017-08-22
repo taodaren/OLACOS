@@ -15,6 +15,8 @@ import net.osplay.service.entity.TestBean;
 import net.osplay.service.presenter.TestPresenter;
 import net.osplay.service.view.TextDataView;
 
+import java.util.List;
+
 
 /**
  * 社团模块
@@ -28,7 +30,7 @@ public class LeagueFragment extends BaseFragment {
     private TestPresenter testPresenter = new TestPresenter(getContext());
     private TextDataView textDataView = new TextDataView() {
         @Override
-        public void onSuccess(TestBean testBean) {
+        public void onSuccess(List<TestBean> testBean) {
             textShow.setText(testBean.toString());
         }
 

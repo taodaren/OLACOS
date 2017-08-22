@@ -6,6 +6,8 @@ import net.osplay.service.RetrofitHelper;
 import net.osplay.service.RetrofitService;
 import net.osplay.service.entity.TestBean;
 
+import java.util.List;
+
 import rx.Observable;
 
 /**
@@ -19,7 +21,7 @@ public class DataManager {
         this.mRetrofitService = RetrofitHelper.getInstance(context).getServer();
     }
 
-    public Observable<TestBean> getTestData(int catId, int pageId, int pageSize) {
+    public Observable<List<TestBean>> getTestData(int catId, int pageId, int pageSize) {
         return mRetrofitService.getTextData(catId, pageId, pageSize);
     }
 }
