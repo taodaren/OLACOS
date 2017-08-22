@@ -1,4 +1,4 @@
-package net.osplay.service.bean;
+package net.osplay.service.entity;
 
 /**
  * 二手交易实体类

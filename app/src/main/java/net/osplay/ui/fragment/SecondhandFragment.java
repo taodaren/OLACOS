@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.osplay.service.bean.SecondhandBean;
+import net.osplay.service.entity.SecondhandBean;
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.SecondhandAdapter;
 

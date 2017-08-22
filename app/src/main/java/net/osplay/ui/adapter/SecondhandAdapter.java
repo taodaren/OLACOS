@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import net.osplay.service.bean.SecondhandBean;
+import net.osplay.service.entity.SecondhandBean;
 import net.osplay.olacos.R;
 
 import java.util.List;
