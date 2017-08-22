@@ -9,11 +9,21 @@
         layout="@layout/layout_toolbar" />
 
     <TextView
+        android:id="@+id/textData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="社团"
         android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/btn_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textData"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="37dp"
+        android:text="Button" />
 
 </RelativeLayout>

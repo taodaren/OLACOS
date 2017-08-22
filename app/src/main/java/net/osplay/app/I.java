@@ -6,7 +6,7 @@ package net.osplay.app;
 
 public interface I {
     //基础 url
-    String BASE_URL = "https://api.douban.com/v2/";
+    String BASE_URL = "http://101.251.196.90:8080/FuLiCenterServerV2.0/";
     //拼接 url
-    String ADD_BOOK_SEARCH = "book/search";
+    String ADD_TEXT_DATA = "findNewAndBoutiqueGoods";
 }

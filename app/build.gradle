@@ -42,5 +42,9 @@ dependencies {
     compile 'cn.bingoogolapple:bga-adapter:1.1.8@aar'
     compile 'cn.bingoogolapple:bga-photopicker:1.2.3@aar'
     compile 'pub.devrel:easypermissions:0.1.7'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
     testCompile 'junit:junit:4.12'
 }
