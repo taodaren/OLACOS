@@ -1,5 +1,6 @@
 package net.osplay.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -7,19 +8,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
+import net.osplay.olacos.R;
 import net.osplay.ui.fragment.MinePageDynamicFragment;
 import net.osplay.ui.fragment.MinePageGoodsFragment;
 import net.osplay.ui.fragment.MinePageWordFragment;
-import net.osplay.olacos.R;
 
 /**
  * 个人主页
  */
 
-public class MinePageActivity extends AppCompatActivity {
+public class MinePageActivity extends BaseActivity implements View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -49,6 +50,15 @@ public class MinePageActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setTabLayout();
+        findViewById(R.id.btn_page_edit).setOnClickListener(this);
+        findViewById(R.id.btn_dou_picture).setOnClickListener(this);
+    }
+
+    /**
+     * 设置 TabLayout
+     */
+    private void setTabLayout() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_page);
         viewPager = (ViewPager) findViewById(R.id.vp_page);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -81,6 +91,18 @@ public class MinePageActivity extends AppCompatActivity {
 //        viewPager.setAdapter(new MyTabAdapter(getSupportFragmentManager()));
         //绑定
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_page_edit://编辑资料
+                startActivity(new Intent(MinePageActivity.this, EditInfoActivity.class));
+                break;
+            case R.id.btn_dou_picture://斗图
+                startActivity(new Intent(MinePageActivity.this, DouPictureActivity.class));
+                break;
+        }
     }
 
 //    public class MyTabAdapter extends FragmentPagerAdapter {
