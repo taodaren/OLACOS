@@ -68,7 +68,8 @@
             android:name="net.osplay.ui.activity.ReturnGoodsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="net.osplay.ui.activity.EditInfoActivity" />
-        <activity android:name="net.osplay.ui.activity.DouPictureActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.DouPictureActivity" />
+        <activity android:name="net.osplay.ui.activity.EditRealNameActivity"></activity>
     </application>
 
 </manifest>
