@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.olacos.R;
@@ -91,6 +92,16 @@ public class MinePageActivity extends BaseActivity implements View.OnClickListen
 //        viewPager.setAdapter(new MyTabAdapter(getSupportFragmentManager()));
         //绑定
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     @Override

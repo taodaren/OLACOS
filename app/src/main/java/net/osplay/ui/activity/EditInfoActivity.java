@@ -2,6 +2,7 @@ package net.osplay.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.olacos.R;
@@ -15,6 +16,16 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
 
         setToolbar("编辑资料", View.VISIBLE);
         findViewById(R.id.edit_info_real_name).setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     @Override
