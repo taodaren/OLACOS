@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/layout_toolbar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/details_avatar1_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/avatar1"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/details_nickname1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/details_avatar1_img"
+            android:text="保护我方咸菜"
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/dou_vs"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/details_nickname2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:text="内涵馒头"
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dou_avatar2_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/details_nickname2_tv"
+            android:src="@drawable/avatar2"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/details_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="斗图模式："
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/details_mode_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="限时30秒"
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/details_tv"/>
+
+    </RelativeLayout>
+
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_weight="17">
+
+  </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/details_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="倒计时:"
+            android:textSize="15sp"
+            android:layout_marginLeft="15dp"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/details_tcount_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15秒"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/details_time_tv"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/details_ppivture_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="剩余图片:"
+            android:textSize="15sp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/details_tcount_tv"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/details_pcount_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15张"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/details_ppivture_tv"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/details_expression_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/details_expression"
+            android:layout_toRightOf="@id/details_pcount_tv"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="10dp"/>
+
+        <Button
+            android:id="@+id/vote_send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:layout_toRightOf="@id/details_expression_img"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/button_shape2"
+           />
+    </RelativeLayout>
+</LinearLayout>
