@@ -48,7 +48,15 @@ public class MineSetActivity extends BaseActivity {
             }
         });
 
-        //意见反馈
+        //关于
+        findViewById(R.id.mine_set_about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MineSetActivity.this, "关于 OLACOS", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //反馈帮助
         findViewById(R.id.mine_set_feedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

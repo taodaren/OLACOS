@@ -69,7 +69,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
         findViewById(R.id.mine_mai_dao).setOnClickListener(this);
         findViewById(R.id.mine_praise).setOnClickListener(this);
-        findViewById(R.id.mine_about).setOnClickListener(this);
         findViewById(R.id.mine_set).setOnClickListener(this);
     }
 
@@ -162,9 +161,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.mine_praise://赞
 
-                break;
-            case R.id.mine_about://关于
-                Toast.makeText(this, "关于 OLACOS", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mine_set://设置
                 startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
