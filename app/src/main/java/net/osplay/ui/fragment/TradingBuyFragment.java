@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import net.osplay.olacos.R;
 
 /**
- * 宅配宝箱 → 我卖出的
+ * 宅配宝箱 → 我买到的
  */
 
 public class TradingBuyFragment extends Fragment {
