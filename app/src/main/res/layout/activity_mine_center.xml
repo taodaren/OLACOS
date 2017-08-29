@@ -36,35 +36,21 @@
                     android:layout_width="65dp"
                     android:layout_height="65dp"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="25dp"
+                    android:layout_marginBottom="30dp"
                     android:layout_marginLeft="30dp"
                     android:src="@drawable/avatar" />
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/mine_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/mine_avatar">
-
-                    <TextView
-                        android:id="@+id/mine_username"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="5dp"
-                        android:text="密探灵灵狗"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/mine_phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/mine_username"
-                        android:padding="5dp"
-                        android:text="10795279527"
-                        android:textSize="15sp" />
-                </RelativeLayout>
+                    android:layout_alignTop="@+id/mine_avatar"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toEndOf="@+id/mine_avatar"
+                    android:padding="5dp"
+                    android:text="密探灵灵狗"
+                    android:textSize="18sp" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
@@ -94,7 +80,7 @@
                 android:paddingTop="10dp">
 
                 <LinearLayout
-                    android:id="@+id/mine_praise"
+                    android:id="@+id/mine_collect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -105,12 +91,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:text="21" />
+                        android:text="19" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="被赞数"
+                        android:text="收藏"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -126,12 +112,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:text="21" />
+                        android:text="67" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="关注数"
+                        android:text="关注"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -147,12 +133,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="3dp"
-                        android:text="21" />
+                        android:text="104" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="粉丝数"
+                        android:text="粉丝"
                         android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -189,9 +175,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/mine_right"
-                    app:srcCompat="?android:attr/textCheckMark" />
+                    android:layout_margin="5dp"
+                    android:src="@drawable/mine_right" />
             </LinearLayout>
 
             <LinearLayout
@@ -372,7 +357,7 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/mine_zan_guo"
+                    android:id="@+id/mine_praise"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
@@ -381,7 +366,7 @@
                     android:drawableTop="@drawable/mine_zan_guo"
                     android:gravity="center"
                     android:paddingTop="15dp"
-                    android:text="我赞过的"
+                    android:text="我的收藏"
                     android:textSize="13sp" />
             </LinearLayout>
 
