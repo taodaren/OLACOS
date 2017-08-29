@@ -71,11 +71,10 @@
         <activity android:name="net.osplay.ui.activity.DouPictureActivity" />
         <activity android:name="net.osplay.ui.activity.EditRealNameActivity" />
         <activity android:name="net.osplay.ui.activity.MineCollectActivity" />
-        <activity android:name="net.osplay.ui.activity.MinePublishActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.MinePublishActivity" />
         <activity android:name="net.osplay.ui.activity.DouPictureDetailsActivity" />
-        <activity android:name="net.osplay.ui.activity.DouPictureVoteActivity">
-
-        </activity>
+        <activity android:name="net.osplay.ui.activity.DouPictureVoteActivity" />
+        <activity android:name="net.osplay.ui.activity.MineTradingActivity" />
     </application>
 
 </manifest>

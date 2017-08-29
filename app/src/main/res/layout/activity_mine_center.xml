@@ -239,9 +239,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/mine_fa_bu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="10dp"
+                    android:text="我发布的"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/mine_right" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="1dp">
 
                 <TextView
                     android:id="@+id/mine_column"
@@ -288,28 +316,15 @@
                 android:layout_marginTop="1dp">
 
                 <TextView
-                    android:id="@+id/mine_bao_xiang"
+                    android:id="@+id/mine_money"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:drawableTop="@drawable/mine_word"
+                    android:drawableTop="@drawable/mine_money"
                     android:gravity="center"
                     android:paddingTop="15dp"
-                    android:text="宅配宝箱"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/mine_mai_chu"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:drawableTop="@drawable/mine_mai_chu"
-                    android:gravity="center"
-                    android:paddingTop="15dp"
-                    android:text="我卖出的"
+                    android:text="我的钱包"
                     android:textSize="13sp" />
 
                 <TextView
@@ -324,56 +339,25 @@
                     android:paddingTop="15dp"
                     android:text="我买到的"
                     android:textSize="13sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginTop="1dp">
 
                 <TextView
-                    android:id="@+id/mine_money"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:drawableTop="@drawable/mine_money"
-                    android:gravity="center"
-                    android:paddingTop="15dp"
-                    android:text="我的钱包"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/mine_fa_bu"
+                    android:id="@+id/mine_mai_chu"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:drawableTop="@drawable/mine_fa_bu"
+                    android:drawableTop="@drawable/mine_mai_chu"
                     android:gravity="center"
                     android:paddingTop="15dp"
-                    android:text="我发布的"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/mine_praise"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:drawableTop="@drawable/mine_zan_guo"
-                    android:gravity="center"
-                    android:paddingTop="15dp"
-                    android:text="我的收藏"
+                    android:text="我卖出的"
                     android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/mine_set"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/white">
 

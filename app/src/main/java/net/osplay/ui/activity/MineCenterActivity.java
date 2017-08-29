@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import net.osplay.olacos.R;
 
@@ -17,7 +16,7 @@ import net.osplay.olacos.R;
  */
 
 public class MineCenterActivity extends BaseActivity implements View.OnClickListener {
-    private Intent intent;
+    private Intent mIntentOrder, mIntentTrading;//订单，宅配宝箱
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     private void initView() {
         setToolbar();
         setClickListener();
-        intent = new Intent(MineCenterActivity.this, OrderActivity.class);
+        mIntentOrder = new Intent(MineCenterActivity.this, OrderActivity.class);
+        mIntentTrading = new Intent(MineCenterActivity.this, MineTradingActivity.class);
     }
 
     private void setToolbar() {
@@ -58,7 +58,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_word).setOnClickListener(this);
         findViewById(R.id.mine_league).setOnClickListener(this);
         findViewById(R.id.mine_money).setOnClickListener(this);
-        findViewById(R.id.mine_bao_xiang).setOnClickListener(this);
         findViewById(R.id.mine_order).setOnClickListener(this);
         findViewById(R.id.mine_pay).setOnClickListener(this);
         findViewById(R.id.mine_ship).setOnClickListener(this);
@@ -68,7 +67,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_fa_bu).setOnClickListener(this);
         findViewById(R.id.mine_mai_chu).setOnClickListener(this);
         findViewById(R.id.mine_mai_dao).setOnClickListener(this);
-        findViewById(R.id.mine_praise).setOnClickListener(this);
         findViewById(R.id.mine_set).setOnClickListener(this);
     }
 
@@ -113,24 +111,24 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_order://我的订单
-                intent.putExtra("data", 0);
-                startActivity(intent);
+                mIntentOrder.putExtra("data", 0);
+                startActivity(mIntentOrder);
                 break;
             case R.id.mine_pay://待付款
-                intent.putExtra("data", 1);
-                startActivity(intent);
+                mIntentOrder.putExtra("data", 1);
+                startActivity(mIntentOrder);
                 break;
             case R.id.mine_ship://待发货
-                intent.putExtra("data", 2);
-                startActivity(intent);
+                mIntentOrder.putExtra("data", 2);
+                startActivity(mIntentOrder);
                 break;
             case R.id.mine_receipt://待收货
-                intent.putExtra("data", 3);
-                startActivity(intent);
+                mIntentOrder.putExtra("data", 3);
+                startActivity(mIntentOrder);
                 break;
             case R.id.mine_assess://待评价
-                intent.putExtra("data", 4);
-                startActivity(intent);
+                mIntentOrder.putExtra("data", 4);
+                startActivity(mIntentOrder);
                 break;
             case R.id.mine_tui_huo://退货售后
                 startActivity(new Intent(MineCenterActivity.this, ReturnGoodsActivity.class));
@@ -147,20 +145,16 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_money://钱包
 
                 break;
-            case R.id.mine_bao_xiang://宅配宝箱
-
+            case R.id.mine_mai_dao://买到
+                mIntentTrading.putExtra("data", 0);
+                startActivity(mIntentTrading);
+                break;
+            case R.id.mine_mai_chu://卖出
+                mIntentTrading.putExtra("data", 1);
+                startActivity(mIntentTrading);
                 break;
             case R.id.mine_fa_bu://发布
                 startActivity(new Intent(MineCenterActivity.this, MinePublishActivity.class));
-                break;
-            case R.id.mine_mai_chu://卖出
-
-                break;
-            case R.id.mine_mai_dao://买到
-
-                break;
-            case R.id.mine_praise://赞
-
                 break;
             case R.id.mine_set://设置
                 startActivity(new Intent(MineCenterActivity.this, MineSetActivity.class));
