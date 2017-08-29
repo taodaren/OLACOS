@@ -105,7 +105,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(MineCenterActivity.this, MinePageActivity.class));
                 break;
             case R.id.mine_collect://收藏
-
+                startActivity(new Intent(MineCenterActivity.this, MineCollectActivity.class));
                 break;
             case R.id.mine_follow://关注
 
