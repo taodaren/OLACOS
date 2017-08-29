@@ -152,7 +152,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_fa_bu://发布
-
+                startActivity(new Intent(MineCenterActivity.this, MinePublishActivity.class));
                 break;
             case R.id.mine_mai_chu://卖出
 
