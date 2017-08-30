@@ -18,6 +18,7 @@ import net.osplay.olacos.R;
 import net.osplay.utils.tab.SpecialTab;
 import net.osplay.utils.tab.SpecialTabRound;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
@@ -156,5 +157,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void navAvatar(View view) {
         startActivity(new Intent(this, MineCenterActivity.class));
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

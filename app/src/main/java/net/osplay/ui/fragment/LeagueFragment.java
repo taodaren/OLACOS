@@ -6,30 +6,42 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import net.osplay.olacos.R;
+import net.osplay.utils.TabUtils;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 /**
  * 社团模块
  */
 
-public class LeagueFragment extends Fragment {
+public class LeagueFragment extends BaseFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    @Nullable
+    //侧滑菜单
+    private DrawerLayout mDrawerLayout;
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_league, null);
-        tabLayout= (TabLayout) inflate.findViewById(R.id.league_tabLayout);
-        viewPager= (ViewPager) inflate.findViewById(R.id.league_viewPager);
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
+        tabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                TabUtils.setIndicator(tabLayout,25,25);
+            }
+        });
+        viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
         viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-            String[] itemName=new String[]{
-                    "最新","最热","我的"
+            String[] itemName = new String[]{
+                    "推荐", "社团活动", "社团作品"
             };
             @Override
             public int getCount() {
@@ -38,7 +50,7 @@ public class LeagueFragment extends Fragment {
 
             @Override
             public Fragment getItem(int position) {
-                switch (position){
+                switch (position) {
                     case 0:
                         return new NewestFragment();
                     case 1:
@@ -48,12 +60,29 @@ public class LeagueFragment extends Fragment {
                 }
                 return new NewestFragment();
             }
+
             @Override
             public CharSequence getPageTitle(int position) {
                 return itemName[position];
             }
         });
         tabLayout.setupWithViewPager(viewPager);
-        return  inflate;
+        return inflate;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setToolbar(R.id.toolbar_home, R.string.league_name, View.VISIBLE, View.GONE, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
+            //展示滑动菜单
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        return true;
+    }
+
 }
