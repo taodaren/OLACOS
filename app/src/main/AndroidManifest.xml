@@ -76,6 +76,9 @@
         <activity android:name="net.osplay.ui.activity.DouPictureVoteActivity" />
         <activity android:name="net.osplay.ui.activity.MineTradingActivity" />
         <activity android:name="net.osplay.ui.activity.MineMoneyActivity" />
+        <activity android:name="net.osplay.ui.activity.MoneyValueActivity" />
+        <activity android:name="net.osplay.ui.activity.MoneyWithdrawActivity" />
+        <activity android:name="net.osplay.ui.activity.MoneyNewCardActivity"></activity>
     </application>
 
 </manifest>
