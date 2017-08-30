@@ -1,5 +1,6 @@
 package net.osplay.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,8 +13,6 @@ import net.osplay.olacos.R;
 import net.osplay.ui.fragment.MoneyConsumeFragment;
 import net.osplay.ui.fragment.MoneyValueFragment;
 import net.osplay.ui.fragment.MoneyWithdrawFragment;
-import net.osplay.ui.fragment.TradingBuyFragment;
-import net.osplay.ui.fragment.TradingSellFragment;
 
 /**
  * 个人中心 → 我的钱包
@@ -39,7 +38,7 @@ public class MineMoneyActivity extends BaseActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_money);
         viewPager = (ViewPager) findViewById(R.id.vp_money);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            String[] itemName = {"充值记录", "消费记录","提现记录"};
+            String[] itemName = {"充值记录", "消费记录", "提现记录"};
 
             @Override
             public Fragment getItem(int position) {
@@ -69,6 +68,25 @@ public class MineMoneyActivity extends BaseActivity {
         tabLayout.setupWithViewPager(viewPager);
         //滑动到指定页码
         viewPager.setCurrentItem(tabNum);
+        setClickListener();
+    }
+
+    private void setClickListener() {
+        //充值
+        findViewById(R.id.btn_money_value).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MineMoneyActivity.this, MoneyValueActivity.class));
+            }
+        });
+
+        //提现
+        findViewById(R.id.btn_money_withdraw).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MineMoneyActivity.this, MoneyWithdrawActivity.class));
+            }
+        });
     }
 
     @Override
