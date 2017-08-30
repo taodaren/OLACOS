@@ -55,7 +55,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         findViewById(R.id.mine_fans).setOnClickListener(this);
         findViewById(R.id.mine_column).setOnClickListener(this);
         findViewById(R.id.mine_word).setOnClickListener(this);
-        findViewById(R.id.mine_league).setOnClickListener(this);
         findViewById(R.id.mine_money).setOnClickListener(this);
         findViewById(R.id.mine_order).setOnClickListener(this);
         findViewById(R.id.mine_pay).setOnClickListener(this);
@@ -136,10 +135,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_word://社区
-
-                break;
-            case R.id.mine_league://社团
-
+                startActivity(new Intent(MineCenterActivity.this, WordActivity.class));
                 break;
             case R.id.mine_money://钱包
                 startActivity(new Intent(MineCenterActivity.this, MineMoneyActivity.class));
