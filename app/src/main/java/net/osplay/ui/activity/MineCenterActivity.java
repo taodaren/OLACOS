@@ -131,11 +131,8 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
             case R.id.mine_tui_huo://退货售后
                 startActivity(new Intent(MineCenterActivity.this, ReturnGoodsActivity.class));
                 break;
-            case R.id.mine_column://专栏
-
-                break;
             case R.id.mine_word://社区
-                startActivity(new Intent(MineCenterActivity.this, WordActivity.class));
+
                 break;
             case R.id.mine_money://钱包
                 startActivity(new Intent(MineCenterActivity.this, MineMoneyActivity.class));

@@ -80,7 +80,6 @@
         <activity android:name="net.osplay.ui.activity.MoneyWithdrawActivity" />
         <activity android:name="net.osplay.ui.activity.MoneyNewCardActivity" />
         <activity android:name="net.osplay.ui.activity.MoneySelectCardActivity" />
-        <activity android:name="net.osplay.ui.activity.WordActivity"></activity>
     </application>
 
 </manifest>
