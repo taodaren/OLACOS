@@ -23,7 +23,6 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_center);
         initView();
-
     }
 
     private void initView() {
@@ -143,7 +142,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
 
                 break;
             case R.id.mine_money://钱包
-
+                startActivity(new Intent(MineCenterActivity.this, MineMoneyActivity.class));
                 break;
             case R.id.mine_mai_dao://买到
                 mIntentTrading.putExtra("data", 0);
