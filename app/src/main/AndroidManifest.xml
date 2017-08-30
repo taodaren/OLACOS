@@ -28,7 +28,7 @@
         <!-- 声明Activity时加上：android:windowSoftInputMode="stateHidden" -->
         <!-- 解决软键盘将布局顶起方法：android:windowSoftInputMode="adjustPan|stateHidden" -->
         <activity
-            android:name="net.osplay.ui.activity.SplashActivity"
+            android:name="net.osplay.ui.activity.sub.SplashActivity"
             android:theme="@style/transparentStatusTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,53 +37,53 @@
             </intent-filter>
         </activity>
         <!--横竖屏感应configChanges  screenOrientation-->
-        <activity android:name="net.osplay.ui.activity.MainActivity"
+        <activity android:name="net.osplay.ui.activity.sub.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="net.osplay.ui.activity.PublishGoodsActivity"
+            android:name="net.osplay.ui.activity.sub.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="net.osplay.ui.activity.PublishPostsActivity"
+            android:name="net.osplay.ui.activity.sub.PublishPostsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="net.osplay.ui.activity.PublishActivityActivity"
+            android:name="net.osplay.ui.activity.sub.PublishActivityActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name="net.osplay.ui.activity.QRCodeActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.QRCodeActivity" />
         <activity
-            android:name="net.osplay.ui.activity.LoginActivity"
+            android:name="net.osplay.ui.activity.sub.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="net.osplay.ui.activity.RegisterActivity"
+            android:name="net.osplay.ui.activity.sub.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="net.osplay.ui.activity.ForgetPwdActivity"
+            android:name="net.osplay.ui.activity.sub.ForgetPwdActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="net.osplay.ui.activity.MineCenterActivity"
+            android:name="net.osplay.ui.activity.sub.MineCenterActivity"
             android:theme="@style/transparentStatusTheme" />
-        <activity android:name="net.osplay.ui.activity.MineSetActivity" />
-        <activity android:name="net.osplay.ui.activity.FeedbackActivity" />
-        <activity android:name="net.osplay.ui.activity.OrderActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MineSetActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.FeedbackActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.OrderActivity" />
         <activity
-            android:name="net.osplay.ui.activity.MinePageActivity"
+            android:name="net.osplay.ui.activity.sub.MinePageActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity
-            android:name="net.osplay.ui.activity.ReturnGoodsActivity"
+            android:name="net.osplay.ui.activity.sub.ReturnGoodsActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name="net.osplay.ui.activity.EditInfoActivity" />
-        <activity android:name="net.osplay.ui.activity.DouPictureActivity" />
-        <activity android:name="net.osplay.ui.activity.EditRealNameActivity" />
-        <activity android:name="net.osplay.ui.activity.MineCollectActivity" />
-        <activity android:name="net.osplay.ui.activity.MinePublishActivity" />
-        <activity android:name="net.osplay.ui.activity.DouPictureDetailsActivity" />
-        <activity android:name="net.osplay.ui.activity.DouPictureVoteActivity" />
-        <activity android:name="net.osplay.ui.activity.MineTradingActivity" />
-        <activity android:name="net.osplay.ui.activity.MineMoneyActivity" />
-        <activity android:name="net.osplay.ui.activity.MoneyValueActivity" />
-        <activity android:name="net.osplay.ui.activity.MoneyWithdrawActivity" />
-        <activity android:name="net.osplay.ui.activity.MoneyNewCardActivity" />
-        <activity android:name="net.osplay.ui.activity.MoneySelectCardActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.EditInfoActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.DouPictureActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.EditRealNameActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MineCollectActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MinePublishActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.DouPictureDetailsActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.DouPictureVoteActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MineTradingActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MineMoneyActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MoneyValueActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MoneyWithdrawActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MoneyNewCardActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MoneySelectCardActivity" />
     </application>
 
 </manifest>

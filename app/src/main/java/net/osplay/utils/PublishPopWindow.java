@@ -14,9 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
-import net.osplay.ui.activity.PublishActivityActivity;
-import net.osplay.ui.activity.PublishGoodsActivity;
-import net.osplay.ui.activity.PublishPostsActivity;
+import net.osplay.ui.activity.sub.PublishActivityActivity;
+import net.osplay.ui.activity.sub.PublishGoodsActivity;
+import net.osplay.ui.activity.sub.PublishPostsActivity;
 import net.osplay.olacos.R;
 
 import java.util.concurrent.TimeUnit;

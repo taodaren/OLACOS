@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorContentBg"
     android:orientation="vertical"
-    tools:context="net.osplay.ui.activity.MineCollectActivity">
+    tools:context="net.osplay.ui.activity.sub.MineCollectActivity">
 
     <include layout="@layout/layout_toolbar" />
 

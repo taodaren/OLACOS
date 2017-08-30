@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorContentBg"
     android:orientation="vertical"
-    tools:context="net.osplay.ui.activity.EditInfoActivity">
+    tools:context="net.osplay.ui.activity.sub.EditInfoActivity">
 
     <include layout="@layout/layout_toolbar" />
 
