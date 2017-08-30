@@ -17,6 +17,7 @@ public class MineFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        return null;
+        View inflate = View.inflate(getContext(), R.layout.fragment_mine, null);
+        return inflate;
     }
 }

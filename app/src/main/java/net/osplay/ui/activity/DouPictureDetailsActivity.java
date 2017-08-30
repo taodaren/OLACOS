@@ -1,13 +1,15 @@
 package net.osplay.ui.activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import net.osplay.olacos.R;
 
+/**
+ * 发起斗图界面
+ */
 public class DouPictureDetailsActivity extends BaseActivity {
 
     private Button vote_send_btn;

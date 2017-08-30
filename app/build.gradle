@@ -48,4 +48,6 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     testCompile 'junit:junit:4.12'
     compile 'fm.jiecao:jiecaovideoplayer:5.8.1'//视频播放
+    compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'
+    compile 'com.squareup.picasso:picasso:2.5.1'
 }

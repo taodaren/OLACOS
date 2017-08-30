@@ -1,7 +1,6 @@
 package net.osplay.ui.activity;
 
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +10,9 @@ import android.view.View;
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.VoteAdapter;
 
+/**
+ * 发起斗图界面
+ */
 public class DouPictureVoteActivity extends BaseActivity {
 
     private NestedScrollView vote_scrollview;

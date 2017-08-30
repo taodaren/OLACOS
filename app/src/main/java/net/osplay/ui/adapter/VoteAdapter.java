@@ -40,6 +40,8 @@ public class VoteAdapter extends RecyclerView.Adapter<ViewHolder> {
 class ViewHolder extends RecyclerView.ViewHolder{
 
     public ImageView icon;
+
+
     public ViewHolder(View itemView) {
         super(itemView);
         icon= (ImageView) itemView.findViewById(R.id.vote_item_img);
