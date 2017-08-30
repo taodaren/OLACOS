@@ -29,7 +29,6 @@ public class MinePageActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mine_page);
-
         setToolbar();
         initView();
     }

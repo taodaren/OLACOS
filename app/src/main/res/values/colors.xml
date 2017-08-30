@@ -11,6 +11,8 @@
     <color name="colorVoteRed">#FFB3AF</color>
 
     <color name="colorTiShiWenZi">#a0a0a0</color>
+    <color name="colorSearch">#CCCCCC</color>
+
     <color name="colorMedia">#f1f5f8</color>
     <color name="colorContentBg">#f2f2f2</color>
 </resources>

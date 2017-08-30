@@ -5,4 +5,7 @@
     <string name="word_name">社区</string>
     <string name="secondhand_name">二手交易</string>
     <string name="league_name">社团</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
