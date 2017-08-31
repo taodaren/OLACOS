@@ -124,6 +124,8 @@ public class LoginActivity extends BaseActivity {
         }else if(password.isEmpty() || password.length() < 4 || password.length() > 10){
             editPassword.setError("4到10个字母、数字或字符");
         }else{//模拟登陆
+            //保存用户登录信息
+            saveUser(account,password);
             final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
             pd.setIndeterminate(true);
             pd.setMessage("登录中...");
@@ -131,7 +133,7 @@ public class LoginActivity extends BaseActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this,CreateCommunityActivity.class));
                             finish();
                             ed.putString("Username",account);
                             ed.putString("password",password);
