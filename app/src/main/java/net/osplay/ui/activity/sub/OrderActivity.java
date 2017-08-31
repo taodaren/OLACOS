@@ -4,16 +4,17 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 
+import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.ui.fragment.sub.OrderALLFragment;
 import net.osplay.ui.fragment.sub.OrderAssessFragment;
 import net.osplay.ui.fragment.sub.OrderPayFragment;
 import net.osplay.ui.fragment.sub.OrderReceiptFragment;
 import net.osplay.ui.fragment.sub.OrderShipFragment;
-import net.osplay.olacos.R;
 
 /**
  * 我的订单
@@ -28,14 +29,15 @@ public class OrderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        setToolbar("我的订单", View.VISIBLE);
         initView();
     }
 
     private void initView() {
-        //接收上一个 Activity 传来数据
-        int tabNum = getIntent().getIntExtra("data", 1);
+//        setToolbar();
+        setTabLayout();
+    }
 
+    private void setTabLayout() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
         viewPager = (ViewPager) findViewById(R.id.vp_order);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -71,7 +73,31 @@ public class OrderActivity extends BaseActivity {
 
         //绑定
         tabLayout.setupWithViewPager(viewPager);
-        //滑动到指定页码
-        viewPager.setCurrentItem(tabNum);
     }
+
+//    private void setToolbar() {
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.order_toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            //设置左上角后退按钮
+//            actionBar.setDisplayHomeAsUpEnabled(true);
+//            //设置导航按钮图标
+//            actionBar.setHomeAsUpIndicator(R.drawable.title_back);
+//            //隐藏 Toolbar 自带标题栏
+//            actionBar.setDisplayShowTitleEnabled(false);
+//        }
+//    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                break;
+//        }
+//        return true;
+//    }
+
 }

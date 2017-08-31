@@ -2,20 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single"><!-- 设定组中所有菜单项只能单选 -->
         <item
-            android:id="@+id/nav_column"
-            android:icon="@drawable/menu_column"
-            android:title="我的专栏" />
-        <item
-            android:id="@+id/nav_word"
-            android:icon="@drawable/menu_word"
-            android:title="我的社区" />
-        <item
-            android:id="@+id/nav_league"
-            android:icon="@drawable/menu_league"
-            android:title="我的社团" />
-        <item
             android:id="@+id/nav_money"
             android:icon="@drawable/menu_money"
             android:title="我的钱包" />
+        <item
+            android:id="@+id/nav_car"
+            android:icon="@drawable/menu_car"
+            android:title="购物车" />
+        <item
+            android:id="@+id/nav_order"
+            android:icon="@drawable/menu_order"
+            android:title="我的订单" />
+        <item
+            android:id="@+id/nav_collect"
+            android:icon="@drawable/menu_collect"
+            android:title="我的收藏" />
+        <item
+            android:id="@+id/nav_publish"
+            android:icon="@drawable/mine_fa_bu"
+            android:title="我的发布" />
+        <item
+            android:id="@+id/nav_set"
+            android:icon="@drawable/menu_set"
+            android:title="我的设置" />
     </group>
 </menu>

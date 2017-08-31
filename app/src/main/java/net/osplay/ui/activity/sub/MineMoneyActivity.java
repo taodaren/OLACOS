@@ -32,9 +32,7 @@ public class MineMoneyActivity extends BaseActivity {
 
     private void initView() {
         setToolbar("我的钱包", View.VISIBLE);
-
-        //接收上一个 Activity 传来数据
-        int tabNum = getIntent().getIntExtra("data", 1);
+        setClickListener();
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_money);
         viewPager = (ViewPager) findViewById(R.id.vp_money);
@@ -67,9 +65,6 @@ public class MineMoneyActivity extends BaseActivity {
 
         //绑定
         tabLayout.setupWithViewPager(viewPager);
-        //滑动到指定页码
-        viewPager.setCurrentItem(tabNum);
-        setClickListener();
     }
 
     private void setClickListener() {
