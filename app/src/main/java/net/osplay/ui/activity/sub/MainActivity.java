@@ -9,12 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
+import net.osplay.olacos.R;
 import net.osplay.ui.fragment.sub.HomeFragment;
 import net.osplay.ui.fragment.sub.LeagueFragment;
-import net.osplay.utils.PublishPopWindow;
 import net.osplay.ui.fragment.sub.SecondhandFragment;
 import net.osplay.ui.fragment.sub.WordFragment;
-import net.osplay.olacos.R;
+import net.osplay.utils.PublishPopWindow;
 import net.osplay.utils.tab.SpecialTab;
 import net.osplay.utils.tab.SpecialTabRound;
 
@@ -98,16 +98,12 @@ public class MainActivity extends AppCompatActivity {
                 //重复选中时触发
                 switch (index) {
                     case 0:
-                        replaceFragment(new HomeFragment());
                         break;
                     case 1:
-                        replaceFragment(new WordFragment());
                         break;
                     case 3:
-                        replaceFragment(new SecondhandFragment());
                         break;
                     case 4:
-                        replaceFragment(new LeagueFragment());
                         break;
                 }
             }
@@ -147,19 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    /**
-     * 首页 → 发布
-     */
-    public void onClickPublish(View v) {
-        PublishPopWindow popWindow = new PublishPopWindow(MainActivity.this);
-        popWindow.showMoreWindow(v);
-    }
-
-    public void navAvatar(View view) {
-        startActivity(new Intent(this, MineCenterActivity.class));
-    }
-
-
     @Override
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
@@ -173,4 +156,28 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         JCVideoPlayer.releaseAllVideos();
     }
+
+    /**
+     * 首页 → 发布
+     */
+    public void onClickPublish(View v) {
+        PublishPopWindow popWindow = new PublishPopWindow(MainActivity.this);
+        popWindow.showMoreWindow(v);
+    }
+
+    /**
+     * 侧滑栏头部布局点击事件
+     */
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.nav_avatar:
+                startActivity(new Intent(this, MinePageActivity.class));
+                break;
+            case R.id.nav_code:
+                startActivity(new Intent(this, QRCodeActivity.class));
+                break;
+            default:
+        }
+    }
+
 }

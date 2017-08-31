@@ -13,10 +13,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-import net.osplay.ui.activity.sub.LoginActivity;
-import net.osplay.ui.activity.sub.QRCodeActivity;
 import net.osplay.olacos.R;
+import net.osplay.ui.activity.sub.LoginActivity;
+import net.osplay.ui.activity.sub.MineCollectActivity;
+import net.osplay.ui.activity.sub.MineMoneyActivity;
+import net.osplay.ui.activity.sub.MinePublishActivity;
+import net.osplay.ui.activity.sub.MineSetActivity;
+import net.osplay.ui.activity.sub.OrderActivity;
+import net.osplay.ui.activity.sub.QRCodeActivity;
 import net.osplay.ui.fragment.base.BaseFragment;
 
 import java.util.List;
@@ -49,12 +55,35 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         NavigationView navView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         //设置默认选中项
-        navView.setCheckedItem(R.id.nav_column);
+//        navView.setCheckedItem(R.id.nav_money);
+
+        //设置 menu 部分点击事件
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 //将滑动菜单关闭
-                mDrawerLayout.closeDrawers();
+//                mDrawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.nav_money:
+                        startActivity(new Intent(getContext(), MineMoneyActivity.class));
+                        break;
+                    case R.id.nav_car:
+                        Toast.makeText(mContext, "跳转到购物车", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.nav_order:
+                        startActivity(new Intent(getContext(), OrderActivity.class));
+                        break;
+                    case R.id.nav_collect:
+                        startActivity(new Intent(getContext(), MineCollectActivity.class));
+                        break;
+                    case R.id.nav_publish:
+                        startActivity(new Intent(getContext(), MinePublishActivity.class));
+                        break;
+                    case R.id.nav_set:
+                        startActivity(new Intent(getContext(), MineSetActivity.class));
+                        break;
+                    default:
+                }
                 return true;
             }
         });
@@ -84,16 +113,18 @@ public class HomeFragment extends BaseFragment implements EasyPermissions.Permis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home://导航按钮固定 id
+                //展示滑动菜单
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+            case R.id.menu_msg:
+//                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), LoginActivity.class));
+                break;
+        }
         if (item.getItemId() == R.id.menu_code) {
             startActivity(new Intent(getContext(), QRCodeActivity.class));
-        }
-        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            //展示滑动菜单
-            mDrawerLayout.openDrawer(GravityCompat.START);
-        }
-        if (item.getItemId() == R.id.menu_msg) {
-//            Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(getContext(), LoginActivity.class));
         }
         return true;
     }
