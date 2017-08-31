@@ -29,13 +29,11 @@ public class OrderActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        setToolbar("我的订单", View.VISIBLE);
         initView();
     }
 
     private void initView() {
-        //接收上一个 Activity 传来数据
-        int tabNum = getIntent().getIntExtra("data", 1);
+        setToolbar("我的订单", View.VISIBLE);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
         viewPager = (ViewPager) findViewById(R.id.vp_order);
@@ -72,8 +70,6 @@ public class OrderActivity extends BaseActivity {
 
         //绑定
         tabLayout.setupWithViewPager(viewPager);
-        //滑动到指定页码
-        viewPager.setCurrentItem(tabNum);
     }
 
     @Override
