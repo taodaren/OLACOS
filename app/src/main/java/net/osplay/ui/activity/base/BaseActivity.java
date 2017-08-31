@@ -1,5 +1,7 @@
 package net.osplay.ui.activity.base;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -53,4 +55,16 @@ public class BaseActivity extends AppCompatActivity {
         textTitle.setVisibility(titleVisibility);
         textTitle.setText(title);
     }
+
+
+    //保存用户信息
+    public void saveUser(String name,String password){
+        SharedPreferences sp = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putString("name",name);
+        editor.putString("password",password);
+        editor.commit();//
+    }
+
+
 }
