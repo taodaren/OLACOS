@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.ui.activity.base.BaseActivity;
@@ -74,4 +75,15 @@ public class OrderActivity extends BaseActivity {
         //滑动到指定页码
         viewPager.setCurrentItem(tabNum);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
+    }
+
 }
