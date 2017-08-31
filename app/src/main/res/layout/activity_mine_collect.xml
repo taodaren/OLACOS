@@ -3,24 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorContentBg"
     android:orientation="vertical"
     tools:context="net.osplay.ui.activity.sub.MineCollectActivity">
 
     <include layout="@layout/layout_toolbar" />
 
-    <android.support.v4.widget.NestedScrollView
+    <!-- Tab导航栏 -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout_collect"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="enterAlways"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/item_goods" />
-
-            <include layout="@layout/item_posts" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_collect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </LinearLayout>
