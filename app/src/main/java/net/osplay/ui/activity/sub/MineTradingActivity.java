@@ -43,11 +43,11 @@ public class MineTradingActivity extends BaseActivity {
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return new TradingBuyFragment();
+                       // return new TradingBuyFragment();
                     case 1:
-                        return new TradingSellFragment();
+                       // return new TradingSellFragment();
                 }
-                return new TradingBuyFragment();
+                return null;
             }
 
             @Override
