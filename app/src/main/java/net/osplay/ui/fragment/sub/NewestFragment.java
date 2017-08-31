@@ -1,6 +1,8 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 import net.osplay.ui.adapter.LeagueAdapter;
+import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.ui.fragment.base.BaseFragment;
 
 import java.util.List;
@@ -26,15 +29,18 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewestFragment extends BaseFragment {
+public class NewestFragment extends BaseBussFragment {
 
     private RecyclerView community_recy;
     Gson mGson=new Gson();
     LeagueAdapter adapter;
+    public NewestFragment(Context mContext, int resId) {
+        super(mContext, resId);
+    }
+
     @Override
-    public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_newest, null);
-        community_recy = (RecyclerView)inflate.findViewById(R.id.community_recy);
+    protected void initView(View view, Bundle savedInstanceState) {
+        community_recy = (RecyclerView) view.findViewById(R.id.community_recy);
         community_recy.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://api.m.mtime.cn/PageSubArea/TrailerList.api", RequestMethod.GET);
@@ -64,8 +70,18 @@ public class NewestFragment extends BaseFragment {
 
             }
         });
-        return inflate;
     }
+
+    @Override
+    protected void bindEvent() {
+
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
 
 
 

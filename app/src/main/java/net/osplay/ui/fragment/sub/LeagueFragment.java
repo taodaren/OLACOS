@@ -13,8 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.adapter.base.FragmentAdapter;
+import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 社团模块
@@ -24,6 +29,10 @@ public class LeagueFragment extends BaseFragment {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private List<Fragment> mList = new ArrayList<>();
+    private String[] titles = new String[]{"推荐", "社团活动","社区作品"};
+    private FragmentAdapter fragmentAdapter = null;
+
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
     @Override
@@ -38,33 +47,12 @@ public class LeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-        viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-            String[] itemName = new String[]{
-                    "推荐", "社团活动", "社团作品"
-            };
-            @Override
-            public int getCount() {
-                return itemName.length;
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new NewestFragment();
-                    case 1:
-                        return new HottestFragment();
-                    case 2:
-                        return new MineFragment();
-                }
-                return new NewestFragment();
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return itemName[position];
-            }
-        });
+        mList.add(new NewestFragment(getActivity(), R.layout.fragment_newest));
+        mList.add(new HottestFragment(getActivity(),R.layout.fragment_create_community));
+        mList.add(new MineFragment(getActivity(),R.layout.fragment_mine));
+        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),mContext,mList,titles);
+        viewPager.setAdapter(fragmentAdapter);
+        //设置tablayout和viewpager绑定
         tabLayout.setupWithViewPager(viewPager);
         return inflate;
     }

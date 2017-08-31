@@ -30,6 +30,16 @@ import net.osplay.ui.activity.sub.LoginActivity;
 public abstract class BaseFragment extends Fragment {
     public Context mContext;
 
+    protected int resId;
+
+    public BaseFragment() {
+    }
+
+    public BaseFragment(Context context, int resId) {
+        mContext = context;
+        this.resId = resId;
+    }
+
     /**
      * 当该类被系统创建的时候回调
      */
