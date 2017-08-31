@@ -1,6 +1,8 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -9,8 +11,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.base.FragmentAdapter;
@@ -32,12 +36,21 @@ public class LeagueFragment extends BaseFragment {
     private List<Fragment> mList = new ArrayList<>();
     private String[] titles = new String[]{"推荐", "社团活动","社区作品"};
     private FragmentAdapter fragmentAdapter = null;
+    private NewestFragment nFragment;
+    private HottestFragment hFragment;
+    private MineFragment mFragment;
+    private CommunityFragment cFragment;
+    private String lannotated="olacos";
+    private String cAnnotated;
 
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
+
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_league, null);
+        SharedPreferences preferences=getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
+        cAnnotated=preferences.getString("Annotated", "defaultname");
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
         tabLayout.post(new Runnable() {
@@ -47,9 +60,17 @@ public class LeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-        mList.add(new NewestFragment(getActivity(), R.layout.fragment_newest));
-        mList.add(new HottestFragment(getActivity(),R.layout.fragment_create_community));
-        mList.add(new MineFragment(getActivity(),R.layout.fragment_mine));
+        nFragment=new NewestFragment(getActivity(), R.layout.fragment_newest);
+        hFragment=new HottestFragment(getActivity(),R.layout.fragment_create_community);
+        mFragment=new MineFragment(getActivity(),R.layout.fragment_mine);
+        cFragment=new CommunityFragment(getActivity(),R.layout.fragment_community);
+        mList.add(nFragment);
+        if(lannotated.equals(cAnnotated)){
+            mList.add(cFragment);
+        }else{
+            mList.add(hFragment);
+       }
+        mList.add(mFragment);
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),mContext,mList,titles);
         viewPager.setAdapter(fragmentAdapter);
         //设置tablayout和viewpager绑定
