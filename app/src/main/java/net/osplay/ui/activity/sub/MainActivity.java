@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.fragment.sub.HomeFragment;
-import net.osplay.ui.fragment.sub.LeagueFragment;
-import net.osplay.ui.fragment.sub.SecondhandFragment;
-import net.osplay.ui.fragment.sub.WordFragment;
+import net.osplay.ui.fragment.sub.TabGodsFragment;
+import net.osplay.ui.fragment.sub.TabHomeFragment;
+import net.osplay.ui.fragment.sub.TabLeagueFragment;
+import net.osplay.ui.fragment.sub.TabWordFragment;
 import net.osplay.utils.PublishPopWindow;
 import net.osplay.utils.tab.SpecialTab;
 import net.osplay.utils.tab.SpecialTabRound;
@@ -25,7 +25,6 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 public class MainActivity extends AppCompatActivity {
-
     private int id;
     private NavigationController navigationController;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 //            System.out.println("aaa" + id);
 //        }
         if (id == 1) {
-            replaceFragment(new LeagueFragment());
+            replaceFragment(new TabLeagueFragment());
             navigationController.setSelect(4);
         }
     }
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setBottomTab() {
         //默认显示首页
-        replaceFragment(new HomeFragment());
+        replaceFragment(new TabHomeFragment());
 
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.main_tab);
 
@@ -92,16 +91,16 @@ public class MainActivity extends AppCompatActivity {
                 //选中时触发
                 switch (index) {
                     case 0:
-                        replaceFragment(new HomeFragment());
+                        replaceFragment(new TabHomeFragment());
                         break;
                     case 1:
-                        replaceFragment(new WordFragment());
+                        replaceFragment(new TabWordFragment());
                         break;
                     case 3:
-                        replaceFragment(new SecondhandFragment());
+                        replaceFragment(new TabGodsFragment());
                         break;
                     case 4:
-                        replaceFragment(new LeagueFragment());
+                        replaceFragment(new TabLeagueFragment());
                         break;
                 }
             }

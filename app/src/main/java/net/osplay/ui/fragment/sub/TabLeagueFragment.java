@@ -1,7 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,49 +24,48 @@ import java.util.List;
  * 社团模块
  */
 
-public class LeagueFragment extends BaseFragment {
-
+public class TabLeagueFragment extends BaseFragment {
+    //侧滑菜单
+    private DrawerLayout mDrawerLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private List<Fragment> mList = new ArrayList<>();
-    private String[] titles = new String[]{"推荐", "社团活动","社区作品"};
+    private String[] titles = new String[]{"推荐", "社团活动", "社区作品"};
     private FragmentAdapter fragmentAdapter = null;
     private NewestFragment nFragment;
     private HottestFragment hFragment;
     private MineFragment mFragment;
     private CommunityFragment cFragment;
-    private String lannotated="olacos";
+    private String lannotated = "olacos";
     private String cAnnotated;
-
-    //侧滑菜单
-    private DrawerLayout mDrawerLayout;
 
     @Override
     public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_league, null);
-        SharedPreferences preferences=getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
-        cAnnotated=preferences.getString("Annotated", "defaultname");
+        View inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
+        setDrawerLayout();
+        SharedPreferences preferences = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
+        cAnnotated = preferences.getString("Annotated", "defaultname");
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                TabUtils.setIndicator(tabLayout,25,25);
+                TabUtils.setIndicator(tabLayout, 25, 25);
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-        nFragment=new NewestFragment(getActivity(), R.layout.fragment_newest);
-        hFragment=new HottestFragment(getActivity(),R.layout.fragment_create_community);
-        mFragment=new MineFragment(getActivity(),R.layout.fragment_mine);
-        cFragment=new CommunityFragment(getActivity(),R.layout.fragment_community);
+        nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);
+        hFragment = new HottestFragment(getActivity(), R.layout.fragment_create_community);
+        mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);
+        cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);
         mList.add(nFragment);
-        if(lannotated.equals(cAnnotated)){
+        if (lannotated.equals(cAnnotated)) {
             mList.add(cFragment);
-        }else{
+        } else {
             mList.add(hFragment);
-       }
+        }
         mList.add(mFragment);
-        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(),mContext,mList,titles);
+        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
         //设置tablayout和viewpager绑定
         tabLayout.setupWithViewPager(viewPager);

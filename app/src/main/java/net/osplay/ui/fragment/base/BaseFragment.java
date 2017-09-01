@@ -5,13 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -22,6 +26,11 @@ import com.lljjcoder.citypickerview.widget.CityPicker;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.LoginActivity;
+import net.osplay.ui.activity.sub.MineCollectActivity;
+import net.osplay.ui.activity.sub.MineMoneyActivity;
+import net.osplay.ui.activity.sub.MinePublishActivity;
+import net.osplay.ui.activity.sub.MineSetActivity;
+import net.osplay.ui.activity.sub.OrderActivity;
 
 /**
  * Fragment 基类
@@ -186,6 +195,44 @@ public abstract class BaseFragment extends Fragment {
         editor.putString("name", name);
         editor.putString("password", password);
         editor.commit();
+    }
+
+    /**
+     * 设置侧滑界面
+     */
+    public void setDrawerLayout() {
+        NavigationView navView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        //设置默认选中项
+//        navView.setCheckedItem(R.id.nav_money);
+
+        //设置 menu 部分点击事件
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_money:
+                        startActivity(new Intent(getContext(), MineMoneyActivity.class));
+                        break;
+                    case R.id.nav_car:
+                        Toast.makeText(mContext, "跳转到购物车", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.nav_order:
+                        startActivity(new Intent(getContext(), OrderActivity.class));
+                        break;
+                    case R.id.nav_collect:
+                        startActivity(new Intent(getContext(), MineCollectActivity.class));
+                        break;
+                    case R.id.nav_publish:
+                        startActivity(new Intent(getContext(), MinePublishActivity.class));
+                        break;
+                    case R.id.nav_set:
+                        startActivity(new Intent(getContext(), MineSetActivity.class));
+                        break;
+                    default:
+                }
+                return true;
+            }
+        });
     }
 
 }

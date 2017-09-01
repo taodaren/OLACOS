@@ -1,6 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -11,20 +10,20 @@ import android.view.View;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.base.BaseFragment;
 
-
 /**
  * 社区模块
  */
 
-public class WordFragment extends BaseFragment {
+public class TabWordFragment extends BaseFragment {
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
 
     @Override
     public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_word, null);
+        View inflate = View.inflate(getContext(), R.layout.fragment_tab_word, null);
         //注意 getActivity() 若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        setDrawerLayout();
         return inflate;
     }
 
