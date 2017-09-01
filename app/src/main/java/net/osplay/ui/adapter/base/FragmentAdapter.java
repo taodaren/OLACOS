@@ -9,60 +9,56 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by leeandy007 on 2017/6/15.
+ * TabLayout + ViewPager 使用
  */
 
 public class FragmentAdapter extends FragmentPagerAdapter {
-
-    private Context context;
-
-    private List<Fragment> list;
-
-    private FragmentManager fm;
-
+    private Context mContext;
+    private List<Fragment> mFragmentList;
+    private FragmentManager mFragmentManager;
     private String[] mTitles;
 
-
-    public FragmentAdapter(FragmentManager fm, Context context, List<Fragment> list) {
-        super(fm);
-        this.fm = fm;
-        this.context = context;
-        this.list = list;
+    public FragmentAdapter(FragmentManager fragmentManager, Context context, List<Fragment> fragmentList) {
+        super(fragmentManager);
+        this.mFragmentManager = fragmentManager;
+        this.mContext = context;
+        this.mFragmentList = fragmentList;
     }
 
-    public FragmentAdapter(FragmentManager fm, Context context, List<Fragment> list, String[] titles) {
-        super(fm);
-        this.fm = fm;
-        this.context = context;
-        this.list = list;
+    public FragmentAdapter(FragmentManager fragmentManager, Context context, List<Fragment> fragmentList, String[] titles) {
+        super(fragmentManager);
+        this.mFragmentManager = fragmentManager;
+        this.mContext = context;
+        this.mFragmentList = fragmentList;
         this.mTitles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return list.get(position);
+        return mFragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return list.size();
+        return mFragmentList.size();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        fm.beginTransaction().show(fragment).commitAllowingStateLoss();
+        mFragmentManager.beginTransaction().show(fragment).commitAllowingStateLoss();
         return fragment;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         Fragment fragment = getItem(position);
-        fm.beginTransaction().hide(fragment).commitAllowingStateLoss();
+        mFragmentManager.beginTransaction().hide(fragment).commitAllowingStateLoss();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         return mTitles[position];
     }
+
 }

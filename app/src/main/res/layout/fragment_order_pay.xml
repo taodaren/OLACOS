@@ -1,24 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_order_par"
+    android:id="@+id/layout_order_pay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="net.osplay.ui.fragment.sub.OrderPayFragment">
 
-    <android.support.v4.widget.NestedScrollView
+    <!-- Tab导航栏 -->
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout_order_pay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_scrollFlags="enterAlways"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="待付款" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_order_pay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tab_layout_order_pay"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</RelativeLayout>

@@ -1,25 +1,18 @@
 package net.osplay.ui.activity.sub;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
-import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.ui.fragment.sub.OrderALLFragment;
 import net.osplay.ui.fragment.sub.OrderAssessFragment;
 import net.osplay.ui.fragment.sub.OrderPayFragment;
 import net.osplay.ui.fragment.sub.OrderReceiptFragment;
 import net.osplay.ui.fragment.sub.OrderShipFragment;
-import net.osplay.ui.fragment.sub.TradingBuyFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +21,10 @@ import java.util.List;
  * 我的订单
  */
 
-public class OrderActivity extends FragmentActivity {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private List<Fragment> mList = new ArrayList<>();
-    private String[] titles = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
-    private FragmentAdapter fragmentAdapter = null;
+public class OrderActivity extends BaseActivity {
+    private List<Fragment> mFragmentList = new ArrayList<>();
+    private String[] mTitles = new String[]{"全部", "待付款", "待发货", "待收货", "待评价"};
+    private FragmentAdapter mAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +40,19 @@ public class OrderActivity extends FragmentActivity {
     }
 
     private void setTabLayout() {
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
-        viewPager = (ViewPager) findViewById(R.id.vp_order);
-        mList.add(new OrderALLFragment(OrderActivity.this,R.layout.fragment_order_all));
-        mList.add(new OrderPayFragment(OrderActivity.this,R.layout.fragment_order_pay));
-        mList.add(new OrderShipFragment(OrderActivity.this,R.layout.fragment_order_ship));
-        mList.add(new OrderReceiptFragment(OrderActivity.this,R.layout.fragment_order_receipt));
-        mList.add(new OrderAssessFragment(OrderActivity.this,R.layout.fragment_order_assess));
-        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(),OrderActivity.this,mList,titles);
-        viewPager.setAdapter(fragmentAdapter);
-        //设置tablayout和viewpager绑定
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_order);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.vp_order);
+
+        mFragmentList.add(new OrderALLFragment(this, R.layout.fragment_order_all));
+        mFragmentList.add(new OrderPayFragment(this, R.layout.fragment_order_pay));
+        mFragmentList.add(new OrderShipFragment(this, R.layout.fragment_order_ship));
+        mFragmentList.add(new OrderReceiptFragment(this, R.layout.fragment_order_receipt));
+        mFragmentList.add(new OrderAssessFragment(this, R.layout.fragment_order_assess));
+
+        mAdapter = new FragmentAdapter(getSupportFragmentManager(), OrderActivity.this, mFragmentList, mTitles);
+        viewPager.setAdapter(mAdapter);
+
+        //设置 TabLayout 和 ViewPager 绑定
         tabLayout.setupWithViewPager(viewPager);
     }
 
