@@ -26,6 +26,9 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int id;
+    private NavigationController navigationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
         setBottomTab();
         setFabButton();
+
+        Intent intent = getIntent();
+        id = intent.getIntExtra("jgb", -1);
+//        if (id > 0) {
+//            System.out.println("aaa" + id);
+//        }
+        if (id == 1) {
+            replaceFragment(new LeagueFragment());
+            navigationController.setSelect(4);
+        }
     }
 
     /**
@@ -64,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         PageNavigationView tab = (PageNavigationView) findViewById(R.id.main_tab);
 
-        NavigationController navigationController = tab.custom()
+        navigationController = tab.custom()
                 .addItem(newItem(R.drawable.tab_home, R.drawable.tab_home_selected, "首页"))
                 .addItem(newItem(R.drawable.tab_word, R.drawable.tab_word_selected, "社区"))
                 .addItem(newRoundItem(R.drawable.tab_post, R.drawable.tab_post, "发布"))

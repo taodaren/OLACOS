@@ -49,9 +49,14 @@ public class CreateCommunityActivity extends BaseActivity {
                 }else if(create_reason_ed.getText().toString().isEmpty()){
                     Toast.makeText(CreateCommunityActivity.this,"请输入申团理由",Toast.LENGTH_SHORT).show();
                 }else{
-                    startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
+                   // startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
+
+                    Intent show=new Intent(CreateCommunityActivity.this,MainActivity.class);
+                    show.putExtra("jgb",1);
+                    startActivity(show);
                     editor.putString("Annotated", "olacos");
                     editor.commit();
+                    finish();
                 }
             }
         });
