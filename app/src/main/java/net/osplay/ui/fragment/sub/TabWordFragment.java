@@ -55,8 +55,8 @@ public class TabWordFragment extends BaseFragment {
 
     private void setViewPager() {
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(new TradingBuyFragment(getActivity(), R.layout.fragment_trading_buy));
-        mFragmentList.add(new TradingSellFragment(getActivity(), R.layout.fragment_trading_sell));
+        mFragmentList.add(new WordHotFragment(getActivity(),R.layout.fragment_word_hot));
+        mFragmentList.add(new WordMineFragment(getActivity(),R.layout.fragment_word_mine));
         mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
         mViewPager.setAdapter(mAdapter);
     }

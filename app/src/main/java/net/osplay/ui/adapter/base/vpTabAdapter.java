@@ -30,7 +30,7 @@ public class vpTabAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mTitles.length;
+        return mFragmentList.size();
     }
 
     @Override
