@@ -50,7 +50,6 @@ public class CreateCommunityActivity extends BaseActivity {
                     Toast.makeText(CreateCommunityActivity.this,"请输入申团理由",Toast.LENGTH_SHORT).show();
                 }else{
                     startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
-                    finish();
                     editor.putString("Annotated", "olacos");
                     editor.commit();
                 }
