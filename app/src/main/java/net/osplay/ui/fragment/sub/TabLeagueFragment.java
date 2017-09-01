@@ -30,7 +30,7 @@ public class TabLeagueFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private List<Fragment> mList = new ArrayList<>();
-    private String[] titles = new String[]{"推荐", "社团活动", "社区作品"};
+    private String[] titles = new String[]{"推荐", "社团活动", "社团作品"};
     private FragmentAdapter fragmentAdapter = null;
     private NewestFragment nFragment;
     private HottestFragment hFragment;

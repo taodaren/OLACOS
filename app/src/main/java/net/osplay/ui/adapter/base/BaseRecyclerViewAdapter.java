@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+
 import java.util.List;
 
 
-abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
-    private Context context;
+public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
+
+    public Context context;
     private LayoutInflater inflater;
     private List<T> datas;
     private int layoutId;
@@ -67,6 +70,9 @@ abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<BaseViewH
     public void setOnItemLongClickListner(OnItemLongClickListner onItemLongClickListner) {
         this.onItemLongClickListner = onItemLongClickListner;
     }
+
+
+
 
     public interface OnItemClickListner {
         void onItemClickListner(View v, int position);

@@ -1,85 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/league_avatar_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/avatar1"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:src="@drawable/avatar1" />
+
         <TextView
             android:id="@+id/league_nickname_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
             android:layout_toRightOf="@id/league_avatar_img"
             android:text="内涵馒头"
-            android:textSize="15sp"
-            android:layout_marginTop="17dp"
-            android:textColor="@color/colorBlack2"/>
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/league_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="两小时前"
-            android:layout_below="@id/league_nickname_tv"
             android:layout_alignLeft="@id/league_nickname_tv"
-            android:textSize="13sp"
-            android:layout_marginTop="8dp"/>
+            android:layout_below="@id/league_nickname_tv"
+            android:layout_marginTop="8dp"
+            android:text="两小时前"
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/league_community_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="三千院風"
-            android:textSize="15sp"
-            android:textColor="@color/colorBlack2"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp"
+            android:text="三千院風"
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/league_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="此生无悔入火影，来事愿往木叶村。此生无悔入火影，来事愿往木叶村。此生无悔入火影，来事愿往木叶村。"
             android:layout_below="@id/league_time_tv"
-            android:textColor="@color/colorBlack2"
-            android:textSize="15sp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            />
+            android:layout_marginTop="15dp"
+            android:text="此生无悔入火影，来事愿往木叶村。此生无悔入火影，来事愿往木叶村。此生无悔入火影，来事愿往木叶村。"
+            android:textColor="@color/colorBlack2"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignRight="@id/league_community_tv"
             android:layout_below="@+id/league_community_tv"
             android:text="最新预告"
-            android:layout_alignRight="@id/league_community_tv"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
+
         <net.osplay.utils.MyJCVideoPlayerStandard
             android:id="@+id/league_jcVideoPlayer"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginRight="10dp"
+            android:layout_below="@id/league_title_tv"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_below="@id/league_title_tv">
-        </net.osplay.utils.MyJCVideoPlayerStandard>
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"></net.osplay.utils.MyJCVideoPlayerStandard>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorContentBg"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        />
+        android:layout_marginTop="10dp"
+        android:background="@color/colorContentBg" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -88,9 +94,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:text="即将开始"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginLeft="10dp"/>
+            android:textColor="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -150,10 +156,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:text="（7）"
                     android:textColor="@color/colorTiShiWenZi"
-                    android:textSize="10sp"
-                    android:layout_marginRight="10dp"/>
+                    android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -162,6 +168,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@color/colorContentBg"
-        />
+        android:background="@color/colorContentBg" />
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,6 +15,7 @@ import net.osplay.service.entity.LeagueBean;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
@@ -40,6 +42,13 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueViewHolder> {
         holder.tv.setText(list.get(position).getVideoTitle());
         holder.jcVideoPlayer.setUp(list.get(position).getHightUrl(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL);
         Picasso.with(mContext).load(list.get(position).getCoverImg()).into(holder.jcVideoPlayer.thumbImageView);
+        holder.civ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "15", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
@@ -53,10 +62,13 @@ class LeagueViewHolder extends RecyclerView.ViewHolder{
 
     public JCVideoPlayerStandard jcVideoPlayer;
     public TextView tv;
+    public CircleImageView civ;
     public LeagueViewHolder(View itemView) {
         super(itemView);
         jcVideoPlayer= (JCVideoPlayerStandard) itemView.findViewById(R.id.league_jcVideoPlayer);
         tv= (TextView) itemView.findViewById(R.id.league_title_tv);
+
+        civ= (CircleImageView) itemView.findViewById(R.id.league_avatar_img);
     }
 }
 
