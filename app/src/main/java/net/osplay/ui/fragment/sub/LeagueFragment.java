@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,3 +90,5 @@ public class LeagueFragment extends BaseFragment {
     }
 
 }
+
+
