@@ -27,7 +27,7 @@ public class TabWordFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private List<Fragment> mFragmentList;
-    private String[] mTitles = new String[]{"热区", "我的"};
+    private String[] mTitles = new String[]{"我的", "热区"};
     private vpTabAdapter mAdapter;
 
     @Override
@@ -55,8 +55,8 @@ public class TabWordFragment extends BaseFragment {
 
     private void setViewPager() {
         mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotFragment(getActivity(),R.layout.fragment_word_hot));
-        mFragmentList.add(new WordMineFragment(getActivity(),R.layout.fragment_word_mine));
+        mFragmentList.add(new WordMineFragment(getActivity(), R.layout.fragment_word_mine));
+        mFragmentList.add(new WordHotFragment(getActivity(), R.layout.fragment_word_hot));
         mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
         mViewPager.setAdapter(mAdapter);
     }

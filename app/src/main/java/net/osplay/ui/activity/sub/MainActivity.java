@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(newItem(R.drawable.tab_home, R.drawable.tab_home_selected, "首页"))
                 .addItem(newItem(R.drawable.tab_word, R.drawable.tab_word_selected, "社区"))
                 .addItem(newRoundItem(R.drawable.tab_post, R.drawable.tab_post, "发布"))
-                .addItem(newItem(R.drawable.tab_secondhand, R.drawable.tab_secondhand_selected, "二手交易"))
+                .addItem(newItem(R.drawable.tab_secondhand, R.drawable.tab_secondhand_selected, "商品"))
                 .addItem(newItem(R.drawable.tab_league, R.drawable.tab_league_selected, "社团"))
                 .build();
 
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         SpecialTab mainTab = new SpecialTab(this);
         mainTab.initialize(drawable, checkedDrawable, text);
         mainTab.setTextDefaultColor(0xFF888888);
-        mainTab.setTextCheckedColor(0xFFF7C936);
+        mainTab.setTextCheckedColor(0xFFFF7580);
         return mainTab;
     }
 
