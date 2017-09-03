@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorContentBg"
     android:orientation="vertical">
 
@@ -14,19 +14,17 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="40dp">
+                android:padding="30dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/hls_logo" />
@@ -34,29 +32,28 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:background="@color/colorWhite"
                 android:gravity="center_vertical"
                 android:padding="5dp">
 
                 <EditText
-                    android:drawablePadding="10dp"
-                    android:drawableLeft="@mipmap/user"
                     android:id="@+id/edit_account_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:theme="@style/MyEditText"
-                    android:maxLength="11"
                     android:background="@null"
-                    android:hint="用户名/手机号/电子邮件地址"/>
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@mipmap/user"
+                    android:hint="用户名/手机号/电子邮件地址"
+                    android:maxLength="11"
+                    android:theme="@style/MyEditText" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/colorWhite"
                 android:gravity="center_vertical"
@@ -76,11 +73,10 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginTop="20dp"
-                        android:drawableLeft="@mipmap/pwd"
+                        android:background="@null"
                         android:drawablePadding="10dp"
                         android:drawableStart="@mipmap/pwd"
                         android:hint="密码"
-                        android:background="@null"
                         android:inputType="textPassword"
                         android:theme="@style/MyEditText" />
                 </android.support.design.widget.TextInputLayout>
@@ -89,30 +85,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                 >
+                android:padding="8dp">
+
                 <CheckBox
                     android:id="@+id/cb_remember_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="记住密码"
-                 />
+                    android:text="记住密码" />
+
                 <CheckBox
                     android:id="@+id/cb_gtlogin_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="自动登录"/>
+                    android:text="自动登录" />
             </LinearLayout>
+
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/btn_shape_yellow"
                 android:padding="10dp"
                 android:text="登录"
@@ -140,14 +134,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_margin="10dp"
                 android:gravity="center_vertical">
 
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:background="@color/colorTiShiWenZi" />
 
@@ -159,7 +152,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:layout_weight="1"
                     android:background="@color/colorTiShiWenZi" />
             </LinearLayout>
@@ -172,7 +165,7 @@
                     android:id="@+id/text_wei_xin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="50dp"
                     android:drawableTop="@drawable/login_wei_xin"
                     android:gravity="center"
                     android:padding="10dp"
@@ -192,8 +185,8 @@
                     android:id="@+id/text_wei_bo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="50dp"
                     android:drawableTop="@drawable/login_wei_bo"
                     android:gravity="center"
                     android:padding="10dp"
