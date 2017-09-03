@@ -18,7 +18,7 @@ import net.osplay.ui.fragment.base.BaseFragment;
  * 商品模块
  */
 
-public class TabGodsFragment extends BaseFragment {
+public class TabGoodsFragment extends BaseFragment {
     //侧滑菜单
     private DrawerLayout mDrawerLayout;
 
