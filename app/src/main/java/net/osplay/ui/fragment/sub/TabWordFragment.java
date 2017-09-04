@@ -36,14 +36,14 @@ public class TabWordFragment extends BaseFragment {
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);//注意使用的是 getActivity()
         mTabLayout = (TabLayout) inflate.findViewById(R.id.tab_layout_toolbar);
         mViewPager = (ViewPager) inflate.findViewById(R.id.vp_tab_word);
-        setDrawerLayout();
-        setTabLayout();
-        setViewPager();
+        initDrawerLayout();
+        initTabLayout();
+        initViewPager();
         mTabLayout.setupWithViewPager(mViewPager);
         return inflate;
     }
 
-    private void setTabLayout() {
+    private void initTabLayout() {
         //设置 TabLayout 下划线长度
         mTabLayout.post(new Runnable() {
             @Override
@@ -53,7 +53,7 @@ public class TabWordFragment extends BaseFragment {
         });
     }
 
-    private void setViewPager() {
+    private void initViewPager() {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new WordMineFragment(getActivity(), R.layout.fragment_word_mine));
         mFragmentList.add(new WordHotFragment(getActivity(), R.layout.fragment_word_hot));
@@ -67,20 +67,13 @@ public class TabWordFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         setToolbar(R.id.toolbar_word, R.string.word_name, View.GONE, View.GONE, true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            //展示滑动菜单
-            mDrawerLayout.openDrawer(GravityCompat.START);
+            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
         }
         return true;
     }

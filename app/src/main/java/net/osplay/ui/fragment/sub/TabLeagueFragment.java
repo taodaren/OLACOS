@@ -1,6 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,7 +24,6 @@ import java.util.List;
  */
 
 public class TabLeagueFragment extends BaseFragment {
-    //侧滑菜单
     private DrawerLayout mDrawerLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -42,7 +40,7 @@ public class TabLeagueFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
-        setDrawerLayout();
+        initDrawerLayout();
         SharedPreferences preferences = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
         cAnnotated = preferences.getString("Annotated", "defaultname");
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
@@ -67,28 +65,20 @@ public class TabLeagueFragment extends BaseFragment {
         mList.add(mFragment);
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
-        //设置tablayout和viewpager绑定
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
         return inflate;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            //展示滑动菜单
-            mDrawerLayout.openDrawer(GravityCompat.START);
+            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
         }
         return true;
     }

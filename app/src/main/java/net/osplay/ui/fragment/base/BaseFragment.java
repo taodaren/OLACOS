@@ -37,10 +37,8 @@ import net.osplay.ui.activity.sub.OrderActivity;
 
 public abstract class BaseFragment extends Fragment {
     public Context mContext;
-
     protected int resId;
-    // Fragment layout
-    protected View layout;
+    protected View layout;//Fragment layout
 
     public BaseFragment() {
     }
@@ -58,7 +56,7 @@ public abstract class BaseFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
 
-        // 加上这句话，menu才会显示出来
+        //加上这句话，menu才会显示出来
         setHasOptionsMenu(true);
     }
 
@@ -88,7 +86,6 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 设置 Toolbar
-     *
      *
      * @param toolbarId       menu_toolbar ID
      * @param title           标题
@@ -188,9 +185,6 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 保存用户信息
      * 基类中写读取用户信息的代码，其中参数在有接口的情况，可传入user实体类，存入的值是user.getName
-     *
-     * @param name
-     * @param password
      */
     public void saveUser(String name, String password) {
         SharedPreferences sp = getContext().getSharedPreferences("user_info", Context.MODE_PRIVATE);
@@ -203,7 +197,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置侧滑界面
      */
-    public void setDrawerLayout() {
+    public void initDrawerLayout() {
         NavigationView navView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         //设置默认选中项
 //        navView.setCheckedItem(R.id.nav_money);

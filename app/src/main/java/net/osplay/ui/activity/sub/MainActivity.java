@@ -23,11 +23,11 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar mNavigationBar;
+    private BaseFragment currentFragment;
     private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
     private TabLeagueFragment tabLeagueFragment;
-    private BaseFragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
 
     private void initView() {
-        setBottomTab();
-        setFabButton();
+        initBottomNavBar();
+        initFabButton();
 
 //        int intExtra = getIntent().getIntExtra("jgb", -1);
 //        if (intExtra == 1) {
@@ -48,9 +48,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //                addFragment(R.id.main_content, tabLeagueFragment);
 //                currentFragment = tabLeagueFragment;
 //            }
-////            navigationController.setSelect(4);
+//            navigationController.setSelect(4);
 //        }
-        // 默认显示HomeFragment
+
+        defaultShowHome();
+    }
+
+    /**
+     * 默认显示 TabHomeFragment
+     */
+    private void defaultShowHome() {
         tabHomeFragment = new TabHomeFragment();
         if (!tabHomeFragment.isAdded()) {
             addFragment(R.id.main_content, tabHomeFragment);
@@ -59,42 +66,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
 
     /**
-     * 设置悬浮按钮
-     */
-    private void setFabButton() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //首页 → 发布
-                PublishPopWindow popWindow = new PublishPopWindow(MainActivity.this);
-                popWindow.showMoreWindow(v);
-            }
-        });
-    }
-
-    /**
      * 设置底部导航
      */
-    private void setBottomTab() {
-        initBottomNavBar();
-
-
-        mNavigationBar.setTabSelectedListener(this);
-    }
-
-    /**
-     * Adds a {@link Fragment} to this activity's layout.
-     *
-     * @param containerViewId The container view to where add the fragment.
-     * @param fragment        The fragment to be added.
-     */
-    protected void addFragment(int containerViewId, Fragment fragment) {
-        final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
-        fragmentTransaction.commit();
-    }
-
     private void initBottomNavBar() {
         mNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_nav_bar);
 
@@ -121,35 +94,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
                         .setActiveColorResource(R.color.colorWhite))
                 .setFirstSelectedPosition(0)//默认显示面板
                 .initialise();//初始化
-    }
 
-    @Override
-    public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        mNavigationBar.setTabSelectedListener(this);
     }
 
     /**
-     * 侧滑栏头部布局点击事件
+     * 设置悬浮按钮
      */
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.nav_avatar:
-                startActivity(new Intent(this, MinePageActivity.class));
-                break;
-            case R.id.nav_code:
-                startActivity(new Intent(this, QRCodeActivity.class));
-                break;
-            default:
-        }
+    private void initFabButton() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //首页 → 发布
+                PublishPopWindow popWindow = new PublishPopWindow(MainActivity.this);
+                popWindow.showMoreWindow(v);
+            }
+        });
+    }
+
+    /**
+     * 添加一个 {@link Fragment} 到活动的布局
+     *
+     * @param containerViewId 存放 fragment 容器的 id
+     * @param fragment        被添加的 fragment
+     */
+    protected void addFragment(int containerViewId, Fragment fragment) {
+        final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.commit();
     }
 
     /**
@@ -163,15 +136,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     /**
      * 添加或者显示 fragment
-     *
-     * @param transaction
-     * @param fragment
      */
     private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
         if (currentFragment == fragment)
             return;
-
-        if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
+        //如果当前 fragment 未被添加，则添加到 Fragment 管理器中
+        if (!fragment.isAdded()) {
             transaction.hide(currentFragment).add(R.id.main_content, fragment).commit();
         } else {
             transaction.hide(currentFragment).show(fragment).commit();
@@ -233,6 +203,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+    /**
+     * 侧滑栏头部布局点击事件
+     */
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.nav_avatar:
+                startActivity(new Intent(this, MinePageActivity.class));
+                break;
+            case R.id.nav_code:
+                startActivity(new Intent(this, QRCodeActivity.class));
+                break;
+            default:
+        }
     }
 
 }

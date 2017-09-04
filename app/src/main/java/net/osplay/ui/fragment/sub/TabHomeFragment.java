@@ -1,6 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,16 +26,14 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class TabHomeFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
     private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
-
-    //侧滑菜单
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout mDrawerLayout;//侧滑菜单
 
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_home, null);
-        //注意 getActivity() 若使用 view 会报错，此处有大坑
+        //注意 getActivity()若使用 view 会报错，此处有大坑
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        setDrawerLayout();
+        initDrawerLayout();
         return inflate;
     }
 
@@ -46,6 +43,8 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
+        requestCodeQRCodePermissions();
     }
 
     @Override
@@ -77,13 +76,6 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
-        requestCodeQRCodePermissions();
-    }
-
-    @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
@@ -103,4 +95,5 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
             EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
         }
     }
+
 }
