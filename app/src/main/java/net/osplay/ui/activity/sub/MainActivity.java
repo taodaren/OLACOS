@@ -70,14 +70,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         initBottomNavBar();
         // 默认显示HomeFragment
         tabHomeFragment = new TabHomeFragment();
-        changeCurrentFragment(tabHomeFragment);
-        replaceFragment(tabHomeFragment);
+        if (!tabHomeFragment.isAdded()) {
+            addFragment(R.id.main_content, tabHomeFragment);
+            currentFragment = tabHomeFragment;
+        }
 
         mNavigationBar.setTabSelectedListener(this);
     }
 
-    private void changeCurrentFragment(BaseFragment currentFragment) {
-        this.currentFragment = currentFragment;
+    /**
+     * Adds a {@link Fragment} to this activity's layout.
+     *
+     * @param containerViewId The container view to where add the fragment.
+     * @param fragment The fragment to be added.
+     */
+    protected void addFragment(int containerViewId, Fragment fragment) {
+        final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.commit();
     }
 
     private void initBottomNavBar() {
