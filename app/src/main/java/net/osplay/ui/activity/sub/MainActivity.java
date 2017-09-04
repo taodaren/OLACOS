@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.ui.fragment.sub.TabGoodsFragment;
 import net.osplay.ui.fragment.sub.TabHomeFragment;
 import net.osplay.ui.fragment.sub.TabLeagueFragment;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
     private TabLeagueFragment tabLeagueFragment;
+    private BaseFragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      */
     private void setBottomTab() {
         initBottomNavBar();
-        replaceFragment(new TabHomeFragment());
+        // 默认显示HomeFragment
+        tabHomeFragment = new TabHomeFragment();
+        changeCurrentFragment(tabHomeFragment);
+        replaceFragment(tabHomeFragment);
+
         mNavigationBar.setTabSelectedListener(this);
+    }
+
+    private void changeCurrentFragment(BaseFragment currentFragment) {
+        this.currentFragment = currentFragment;
     }
 
     private void initBottomNavBar() {
@@ -132,9 +143,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * @param fragment 待切换碎片
      */
     private void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, fragment)
-                .commit();
+        addOrShowFragment(getSupportFragmentManager().beginTransaction(), fragment);
+    }
+
+    /**
+     * 添加或者显示 fragment
+     *
+     * @param transaction
+     * @param fragment
+     */
+    private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
+        if (currentFragment == fragment)
+            return;
+
+        if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
+            transaction.hide(currentFragment).add(R.id.main_content, fragment).commit();
+        } else {
+            transaction.hide(currentFragment).show(fragment).commit();
+        }
+        currentFragment = (BaseFragment) fragment;
     }
 
     /**
