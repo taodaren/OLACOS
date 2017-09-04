@@ -85,14 +85,6 @@ public class TabLeagueFragment extends BaseFragment {
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
             //展示滑动菜单

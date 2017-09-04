@@ -47,14 +47,6 @@ public class TabGoodsFragment extends BaseFragment {
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
-        }
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //显示菜单
         inflater.inflate(R.menu.menu_toolbar, menu);
