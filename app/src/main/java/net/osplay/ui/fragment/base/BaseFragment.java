@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +39,8 @@ public abstract class BaseFragment extends Fragment {
     public Context mContext;
 
     protected int resId;
+    // Fragment layout
+    protected View layout;
 
     public BaseFragment() {
     }
@@ -64,7 +65,8 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return initView();
+        layout = initView();
+        return layout;
     }
 
     @Override
@@ -87,6 +89,7 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 设置 Toolbar
      *
+     *
      * @param toolbarId       menu_toolbar ID
      * @param title           标题
      * @param titleVisibility 标题控件是否显示
@@ -96,16 +99,16 @@ public abstract class BaseFragment extends Fragment {
      */
     public Toolbar setToolbar(int toolbarId, int title, int titleVisibility, int cityVisibility, boolean isHomeBottom) {
         AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-        Toolbar toolbar = (Toolbar) appCompatActivity.findViewById(toolbarId);
+        Toolbar toolbar = (Toolbar) layout.findViewById(toolbarId);
         appCompatActivity.setSupportActionBar(toolbar);
 
         //设置标题
-        TextView textTitle = (TextView) getActivity().findViewById(R.id.title_toolbar);
+        TextView textTitle = (TextView) layout.findViewById(R.id.title_toolbar);
         textTitle.setVisibility(titleVisibility);
         textTitle.setText(title);
 
         //城市选择
-        RelativeLayout cityLayout = (RelativeLayout) getActivity().findViewById(R.id.layout_city);
+        RelativeLayout cityLayout = (RelativeLayout) layout.findViewById(R.id.layout_city);
         cityLayout.setVisibility(cityVisibility);
         cityLayout.setOnClickListener(new View.OnClickListener() {
             @Override

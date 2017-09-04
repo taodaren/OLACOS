@@ -37,7 +37,21 @@ public class TabGoodsFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_home, R.string.goods_name, View.GONE, View.GONE, true);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
+        }
     }
 
     @Override

@@ -75,7 +75,21 @@ public class TabLeagueFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_home, R.string.league_name, View.VISIBLE, View.GONE, true);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
+        }
     }
 
     @Override

@@ -46,7 +46,6 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
     }
 
     @Override
@@ -80,7 +79,16 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     @Override
     public void onStart() {
         super.onStart();
+        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
         requestCodeQRCodePermissions();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
+        }
     }
 
     @Override

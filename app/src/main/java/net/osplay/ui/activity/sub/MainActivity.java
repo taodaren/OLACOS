@@ -41,10 +41,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         setBottomTab();
         setFabButton();
 
-        int intExtra = getIntent().getIntExtra("jgb", -1);
-        if (intExtra == 1) {
-            replaceFragment(new TabLeagueFragment());
-//            navigationController.setSelect(4);
+//        int intExtra = getIntent().getIntExtra("jgb", -1);
+//        if (intExtra == 1) {
+//            tabLeagueFragment = new TabLeagueFragment();
+//            if (!tabLeagueFragment.isAdded()) {
+//                addFragment(R.id.main_content, tabLeagueFragment);
+//                currentFragment = tabLeagueFragment;
+//            }
+////            navigationController.setSelect(4);
+//        }
+        // 默认显示HomeFragment
+        tabHomeFragment = new TabHomeFragment();
+        if (!tabHomeFragment.isAdded()) {
+            addFragment(R.id.main_content, tabHomeFragment);
+            currentFragment = tabHomeFragment;
         }
     }
 
@@ -68,12 +78,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      */
     private void setBottomTab() {
         initBottomNavBar();
-        // 默认显示HomeFragment
-        tabHomeFragment = new TabHomeFragment();
-        if (!tabHomeFragment.isAdded()) {
-            addFragment(R.id.main_content, tabHomeFragment);
-            currentFragment = tabHomeFragment;
-        }
+
 
         mNavigationBar.setTabSelectedListener(this);
     }
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * Adds a {@link Fragment} to this activity's layout.
      *
      * @param containerViewId The container view to where add the fragment.
-     * @param fragment The fragment to be added.
+     * @param fragment        The fragment to be added.
      */
     protected void addFragment(int containerViewId, Fragment fragment) {
         final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();

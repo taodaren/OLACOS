@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <include
-            android:id="@+id/toolbar_home"
+            android:id="@+id/toolbar_goods"
             layout="@layout/layout_toolbar" />
     </android.support.design.widget.AppBarLayout>
 
