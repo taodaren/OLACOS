@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <include
+        android:id="@+id/event_toolbar"
+        layout="@layout/layout_toolbar" />
+
+        <RelativeLayout
+            android:id="@+id/event_rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/event_toolbar"
+            android:background="@color/white"
+            android:layout_marginTop="10dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/event_avatar_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/avatar1" />
+
+            <TextView
+                android:id="@+id/event_nickname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="17dp"
+                android:layout_toRightOf="@id/event_avatar_img"
+                android:text="内涵馒头"
+                android:textColor="@color/colorBlack2"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/event_time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/commodity_sign_ll"
+                android:layout_toEndOf="@+id/event_avatar_img"
+                android:text="发布于2小时前"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/commodity_shard_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/fenxiang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分享"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/commodity_check_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/commodity_shard_ll"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/qiandao" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="签到"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/commodity_sign_ll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/commodity_check_ll"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/qiandao" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="报名"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_avatar_img"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="一起看漫画可好？"
+                android:textColor="@color/colorBlack2"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/commodity_sign_ll"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_launcher_round" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="（5）"
+                        android:textColor="@color/colorTiShiWenZi"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_launcher_round" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="（2）"
+                        android:textColor="@color/colorTiShiWenZi"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:padding="3dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@mipmap/ic_launcher_round" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="（7）"
+                        android:textColor="@color/colorTiShiWenZi"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/there"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/two"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="报名人数"
+                    android:textColor="@color/colorGray"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（5）"
+                    android:textColor="@color/colorGray"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="已签到"
+                    android:textColor="@color/colorGray"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（5）"
+                    android:textColor="@color/colorGray"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/event_signup_recy"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/there"
+                android:layout_marginTop="15dp"></android.support.v7.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/event_decs_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_signup_recy"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:text="坐标福州 台江 20号下午有漫展 约么 坐标福州 台江 20号下午有漫展 约么 坐标福州 台江 20号下午有漫展 约么 重要的事说三遍"
+                android:textColor="@color/colorBlack2"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:id="@+id/event_fore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/event_decs_tv"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-100dp"
+                    android:src="@drawable/eventtest" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/event_fore"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp">
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="评价"
+                      android:textColor="@color/colorAccent"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="（0）"
+                      android:textColor="@color/colorAccent"/>
+              </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/event_comment_recy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <EditText
+                        android:id="@+id/event_comment_ed"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:hint="你想说点什么？"
+                        android:textSize="15sp"
+                        android:background="@drawable/dou_edit_zheng"
+                        android:layout_weight="5    "
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center" />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/details_expression"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_vertical"/>
+                    <Button
+                        android:id="@+id/event_send_but"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:text="发送"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_shape_yellow"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>
