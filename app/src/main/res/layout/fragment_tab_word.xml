@@ -1,13 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="net.osplay.ui.fragment.sub.TabWordFragment">
 
-    <include
-        android:id="@+id/toolbar_word"
-        layout="@layout/layout_toolbar" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/toolbar_word"
+            layout="@layout/layout_toolbar" />
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_tab_word"
@@ -15,4 +20,4 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar_word"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
