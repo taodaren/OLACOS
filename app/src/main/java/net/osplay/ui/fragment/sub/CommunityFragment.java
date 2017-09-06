@@ -19,7 +19,7 @@ import net.osplay.ui.fragment.base.BaseBussFragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 社团活动帖
  */
 public class CommunityFragment extends BaseBussFragment {
     private RelativeLayout rl;

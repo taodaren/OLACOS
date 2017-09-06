@@ -13,6 +13,9 @@ import android.widget.Toast;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 
+/**
+ * 创建社团
+ */
 public class CreateCommunityActivity extends BaseActivity {
 
     private EditText create_community_ed, create_area_ed, create_reason_ed;
@@ -50,7 +53,6 @@ public class CreateCommunityActivity extends BaseActivity {
                     Toast.makeText(CreateCommunityActivity.this,"请输入申团理由",Toast.LENGTH_SHORT).show();
                 }else{
                    // startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
-
                     Intent show=new Intent(CreateCommunityActivity.this,MainActivity.class);
                     show.putExtra("jgb",1);
                     startActivity(show);

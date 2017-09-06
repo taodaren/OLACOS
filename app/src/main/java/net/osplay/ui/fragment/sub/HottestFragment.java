@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.CreateCommunityActivity;
+import net.osplay.ui.activity.sub.CreateOrJoinActivity;
 import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.ui.fragment.base.BaseFragment;
@@ -42,7 +43,7 @@ public class HottestFragment extends BaseBussFragment {
                     startActivity(new Intent(getContext(),LoginActivity.class));
                     getActivity().finish();
                 }else{
-                    startActivity(new Intent(getContext(),CreateCommunityActivity.class));
+                    startActivity(new Intent(getContext(),CreateOrJoinActivity.class));
                 }
             }
         });

@@ -2,14 +2,13 @@ package net.osplay.service;
 
 import android.content.Context;
 
-import com.google.gson.GsonBuilder;
 
 import net.osplay.app.I;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * 主要用于 Retrofit 的初始化
@@ -21,7 +20,7 @@ public class RetrofitHelper {
     private Retrofit mRetrofit = null;
 
     OkHttpClient client = new OkHttpClient();
-    GsonConverterFactory factory = GsonConverterFactory.create(new GsonBuilder().create());
+    //GsonConverterFactory factory = GsonConverterFactory.create(new GsonBuilder().create());
 
     public RetrofitHelper(Context context) {
         mContext = context;
@@ -46,7 +45,7 @@ public class RetrofitHelper {
         mRetrofit = new Retrofit.Builder()
                 .baseUrl(I.BASE_URL)
                 .client(client)
-                .addConverterFactory(factory)
+               // .addConverterFactory(factory)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
     }

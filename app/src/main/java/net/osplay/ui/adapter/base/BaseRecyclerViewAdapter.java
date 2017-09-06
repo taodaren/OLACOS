@@ -19,7 +19,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     public Context context;
     private LayoutInflater inflater;
-    private List<T> datas;
+    public List<T> datas;
     private int layoutId;
     protected OnItemClickListner onItemClickListner;//单击事件
     protected OnItemLongClickListner onItemLongClickListner;//长按单击事件

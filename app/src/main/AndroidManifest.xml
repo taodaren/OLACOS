@@ -86,7 +86,8 @@
         <activity android:name="net.osplay.ui.activity.sub.MoneyNewCardActivity" />
         <activity android:name="net.osplay.ui.activity.sub.MoneySelectCardActivity" />
         <activity android:name="net.osplay.ui.activity.sub.CreateCommunityActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.CreateOrJoinActivity"></activity>
     </application>
 
 </manifest>

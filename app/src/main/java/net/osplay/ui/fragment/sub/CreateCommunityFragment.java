@@ -3,17 +3,18 @@ package net.osplay.ui.fragment.sub;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.activity.sub.CreateCommunityActivity;
+import net.osplay.ui.activity.sub.CreateOrJoinActivity;
+import net.osplay.ui.activity.sub.DouPictureVoteActivity;
 import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.fragment.base.BaseFragment;
 
 /**
  * Created by acer-PC on 2017/8/31.
+ * 判断是否加入或创建过社团
  */
 
 public class CreateCommunityFragment extends BaseFragment {
@@ -31,11 +32,10 @@ public class CreateCommunityFragment extends BaseFragment {
                 if (TextUtils.isEmpty(name)) {
                     //本地没有保存过用户信息
                     startActivity(new Intent(getContext(), LoginActivity.class));
-                    getActivity().finish();
-                } else {
-                    startActivity(new Intent(getContext(),CreateCommunityActivity.class));
                 }
-
+                if (!TextUtils.isEmpty(name)){
+                    startActivity(new Intent(getContext(),CreateOrJoinActivity.class));//
+                }
             }
         });
         return inflate;

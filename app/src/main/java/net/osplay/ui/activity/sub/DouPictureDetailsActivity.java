@@ -9,7 +9,7 @@ import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 
 /**
- * 发起斗图界面
+ * 斗图详情
  */
 public class DouPictureDetailsActivity extends BaseActivity {
 

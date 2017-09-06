@@ -133,7 +133,8 @@ public class LoginActivity extends BaseActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                            startActivity(new Intent(LoginActivity.this,CreateCommunityActivity.class));
+                           // startActivity(new Intent(LoginActivity.this,CreateCommunityActivity.class));
+                            startActivity(new Intent(LoginActivity.this,CreateOrJoinActivity.class));
                             finish();
                             ed.putString("Username",account);
                             ed.putString("password",password);
