@@ -36,10 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--横竖屏感应configChanges  screenOrientation-->
-        <activity android:name="net.osplay.ui.activity.sub.MainActivity"
+        <!-- 横竖屏感应configChanges  screenOrientation -->
+        <activity
+            android:name="net.osplay.ui.activity.sub.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="net.osplay.ui.activity.sub.PublishGoodsActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
@@ -84,7 +85,8 @@
         <activity android:name="net.osplay.ui.activity.sub.MoneyWithdrawActivity" />
         <activity android:name="net.osplay.ui.activity.sub.MoneyNewCardActivity" />
         <activity android:name="net.osplay.ui.activity.sub.MoneySelectCardActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.CreateCommunityActivity"/>
+        <activity android:name="net.osplay.ui.activity.sub.CreateCommunityActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity"></activity>
     </application>
 
 </manifest>

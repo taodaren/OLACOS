@@ -19,6 +19,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by acer-PC on 2017/9/1.
+ * newsfragment的帖子显示适配器
  */
 
 public class RecommendAdapter extends BaseRecyclerViewAdapter<LeagueBean.TrailersBean>{

@@ -10,6 +10,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorBlack2">#444444</color>
     <color name="colorVoteRed">#FFB3AF</color>
+    <color name="colorGray">#808080</color>
 
     <color name="colorTiShiWenZi">#a0a0a0</color>
     <color name="colorSearch">#CCCCCC</color>
