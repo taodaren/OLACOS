@@ -24,11 +24,13 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
+import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
 import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.utils.HomeDataMapper;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -105,7 +107,10 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         mRvHome.setLayoutManager(mLayoutManager);
-        mHomeAdapter = new TabHomeAdapter(getContext(), bannerBeanList);
+
+        List<HomeData> list = HomeDataMapper.transformBannerDatas(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false);
+        mHomeAdapter = new TabHomeAdapter(getContext(), list);
+
         mRvHome.setAdapter(mHomeAdapter);
     }
 
