@@ -33,6 +33,7 @@ import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -60,7 +61,6 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
         mRvHome = (RecyclerView) inflate.findViewById(R.id.recycler_home);
 
         initDrawerLayout();
-        initRecyclerView();
         return inflate;
     }
 
@@ -86,6 +86,8 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
                 }.getType();
                 bannerBeanList = mGson.fromJson(json, type);
 
+                initRecyclerView();
+
                 //数据解析(解析对象)
 //                HomeBannerBean bannerBean = mGson.fromJson(json, HomeBannerBean.class);
 //                String imgUrl = bannerBean.getImgUrl();
@@ -107,8 +109,10 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     private void initRecyclerView() {
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         mRvHome.setLayoutManager(mLayoutManager);
+        mRvHome.setHasFixedSize(true);
 
-        List<HomeData> list = HomeDataMapper.transformBannerDatas(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false);
+        List<HomeData> list = new ArrayList<>();
+        list.add(HomeDataMapper.transformBannerDatas(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
         mHomeAdapter = new TabHomeAdapter(getContext(), list);
 
         mRvHome.setAdapter(mHomeAdapter);

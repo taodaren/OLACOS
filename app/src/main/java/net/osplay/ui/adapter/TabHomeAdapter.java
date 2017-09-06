@@ -34,21 +34,14 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private int mItemCount = 1;//recycler item 个数
-    private int mCurrentType = 0;
+
     private List<HomeData> mDatas;
-//    private List<HomeBannerBean> bannerBeanList;
     private List<HomeCateBean> cateBeanList;
     private List<HomeDetailBean> detailBeanList;
 
-    public TabHomeAdapter(Context context) {
+    public TabHomeAdapter(Context context, List<HomeData> data) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        mDatas = new ArrayList<>();
-    }
-
-    public TabHomeAdapter(Context mContext, List<HomeData> data) {
-        this.mContext = mContext;
         mDatas = new ArrayList<>();
         mDatas.addAll(data);
     }
@@ -56,8 +49,8 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
-            case 1:
-                return new BannerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_home_banner, parent, false));
+            case TYPE_BANNER:
+                return new BannerViewHolder(mInflater.inflate(R.layout.layout_home_banner, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;
@@ -66,14 +59,16 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof BannerViewHolder) {
-           ((BannerViewHolder) holder).bindData(mDatas.get(position).getData());
+        switch (mDatas.get(position).getItemType()) {
+            case TYPE_BANNER:
+                ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDatas.get(position).getData());
+                break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return mItemCount;
+        return mDatas == null ? 0 : mDatas.size();
     }
 
     @Override
@@ -107,7 +102,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private void bindBanner(List<String> images) {
             //设置banner样式
-            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
             //设置图片加载器
             banner.setImageLoader(new GlideImageLoader());
             //设置图片集合
