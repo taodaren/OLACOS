@@ -1,7 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
 import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -28,7 +28,6 @@ import net.osplay.app.I;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -50,6 +49,7 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
     private List<HomeBannerBean> bannerBeanList;
+    private List<HomeBannerBean> cateBeanList;
     private Gson gson = new Gson();
 
     @Override
@@ -71,35 +71,33 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e(TAG, "onSucceed: " + json);
+//                Log.e(TAG, "onSucceed: " + json);
 
                 //数据解析（集合）
                 Type type = new TypeToken<List<HomeBannerBean>>() {
                 }.getType();
                 bannerBeanList = gson.fromJson(json, type);
-
-                initRecyclerView();
+                cateBeanList = gson.fromJson(json, type);
 
                 //数据解析(解析对象)
 //                HomeBannerBean bannerBean = gson.fromJson(json, HomeBannerBean.class);
 //                String imgUrl = bannerBean.getImgUrl();
 //                Log.e(TAG, "onSucceed: " + imgUrl);
+
+                initRecyclerView();
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -111,6 +109,7 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
 
         List<HomeData> list = new ArrayList<>();
         list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
+        list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_CATE, false));
         TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
         mRvHome.setAdapter(mHomeAdapter);
     }
@@ -146,8 +145,7 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.menu_msg:
-//                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;

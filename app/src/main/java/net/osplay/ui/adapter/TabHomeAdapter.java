@@ -1,16 +1,22 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import net.osplay.app.I;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
@@ -46,6 +52,8 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewType) {
             case TYPE_BANNER:
                 return new BannerViewHolder(mInflater.inflate(R.layout.layout_home_banner, parent, false));
+            case TYPE_CATE:
+                return new CateViewHolder(mInflater.inflate(R.layout.layout_home_cate, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;
@@ -57,6 +65,9 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (mDataList.get(position).getItemType()) {
             case TYPE_BANNER:
                 ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
+                break;
+            case TYPE_CATE:
+                ((CateViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
                 break;
         }
     }
@@ -111,6 +122,93 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //banner设置方法全部调用完毕时最后调用
             banner.start();
         }
+    }
+
+    private class CateViewHolder extends RecyclerView.ViewHolder {
+        Context cateContext;
+        RecyclerView rvHomeCate;
+        RecyclerView.LayoutManager layoutManager;
+        List<HomeBannerBean> beanList;
+        HomeCateAdapter adapter;
+
+        CateViewHolder(View itemView) {
+            super(itemView);
+            rvHomeCate = (RecyclerView) itemView.findViewById(R.id.recycler_home_cate);
+            layoutManager = new LinearLayoutManager(cateContext, LinearLayoutManager.HORIZONTAL, false);
+            rvHomeCate.setLayoutManager(layoutManager);
+        }
+
+        void bindData(List<HomeBannerBean> beanList) {
+            Log.e(TAG, "bindData: imgTvData===================" + beanList.get(1).getImgUrl());
+            Log.e(TAG, "bindData: imgTvData===================" + beanList.get(1).getName());
+            if (beanList != null && !beanList.isEmpty()) {
+                List<HomeBannerBean> beans = new ArrayList<>();
+//                List<String> imgCate = new ArrayList<>();
+//                List<String> tvCate = new ArrayList<>();
+                for (HomeBannerBean bean : beanList) {
+                    beans.add(bean);
+//                    imgCate.add(bean.getImgUrl());
+//                    tvCate.add(bean.getName());
+                }
+                Log.e(TAG, "bindData: imgTvDataOver===================" + beanList.get(1).getImgUrl());
+                Log.e(TAG, "bindData: imgTvDataOver===================" + beanList.get(1).getName());
+                bindCate();
+            }
+        }
+
+        private void bindCate() {
+            adapter = new HomeCateAdapter();
+            rvHomeCate.setAdapter(adapter);
+        }
+
+        private class HomeCateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+            private LayoutInflater inflater;
+
+            HomeCateAdapter() {
+                inflater = LayoutInflater.from(cateContext);
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new CateItemViewHolder(inflater.inflate(R.layout.item_img_tv, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                ((CateItemViewHolder) holder).bindData(beanList.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+                return beanList == null ? 0 : beanList.size();
+            }
+
+        }
+
+        class CateItemViewHolder extends RecyclerView.ViewHolder {
+            CardView cardView;
+            ImageView imgHomeCate;
+            TextView tvHomeCate;
+            HomeBannerBean cateItemBean;
+
+            CateItemViewHolder(View itemView) {
+                super(itemView);
+                cardView = (CardView) itemView.findViewById(R.id.layout_img_tv);
+                imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
+                tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
+            }
+
+            void bindData(HomeBannerBean itemBean) {
+                cateItemBean = itemBean;
+                if (itemBean != null) {//如果有网络数据，加载网络数据
+                    Glide.with(cateContext).load(I.HOME_BANNER).into(imgHomeCate);
+                    tvHomeCate.setText(itemBean.getName());
+                } else {//否则，加载本地数据
+                    Glide.with(cateContext).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                }
+            }
+        }
+
     }
 
 }
