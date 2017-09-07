@@ -2,6 +2,8 @@ package net.osplay.ui.adapter;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
@@ -23,6 +24,10 @@ import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
+import net.osplay.ui.adapter.base.vpTabAdapter;
+import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
+import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
 import net.osplay.utils.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -215,6 +220,12 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private CardView cardView;
         private TabLayout tabLayout;
         private ViewPager viewPager;
+//        private List<Fragment> fragments;
+//        private vpTabAdapter adapter;
+
+        private BaseFragment currentFragment;
+        private MinePageGoodsFragment oneFrag;
+        private MinePageDynamicFragment twoFrag;
 
         public TableViewHolder(View itemView) {
             super(itemView);
@@ -224,12 +235,50 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bindData() {
-            tabLayout.addTab(tabLayout.newTab().setText("商品"));
+            tabLayout.addTab(tabLayout.newTab().setText("商品"), true);//设置默认选中
             tabLayout.addTab(tabLayout.newTab().setText("热帖"));
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     //选中 tab 的逻辑
+
+                    // TODO: 2017/9/8 两种方法 都因 FragmentManager 调用问题无法绑定 fragment
+
+                    // TODO: 2017/9/8 方法一
+//                    fragments = new ArrayList<>();
+//                    fragments.add(new WordMineFragment(MyApplication.getContext(), R.layout.fragment_word_mine));
+//                    fragments.add(new WordHotFragment(MyApplication.getContext(), R.layout.fragment_word_hot));
+//                    adapter = new vpTabAdapter(fm, MyApplication.getContext());
+//                    viewPager.setAdapter(adapter);
+
+                    // TODO: 2017/9/8 方法二
+//                    switch (tab.getPosition()) {
+//                        case 0:
+//                            if (oneFrag == null) {
+//                                oneFrag = new MinePageGoodsFragment();
+//                            }
+//                            addOrShowFragment(getAdapterPosition().beginTransaction(), oneFrag);
+//                            break;
+//                        case 1:
+//                            if (twoFrag == null) {
+//                                twoFrag = new MinePageDynamicFragment();
+//                            }
+//                            addOrShowFragment(getSupportFragmentManager().beginTransaction(), twoFrag);
+//                            break;
+//                    }
+
+                }
+
+                private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
+                    if (currentFragment == fragment)
+                        return;
+                    //如果当前 fragment 未被添加，则添加到 Fragment 管理器中
+                    if (!fragment.isAdded()) {
+                        transaction.hide(currentFragment).add(R.id.main_content, fragment).commit();
+                    } else {
+                        transaction.hide(currentFragment).show(fragment).commit();
+                    }
+                    currentFragment = (BaseFragment) fragment;
                 }
 
                 @Override
@@ -242,7 +291,8 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     //重复选中 tab 的逻辑
                 }
             });
-            tabLayout.setupWithViewPager(viewPager);
+
+//            tabLayout.setupWithViewPager(viewPager);
         }
     }
 
