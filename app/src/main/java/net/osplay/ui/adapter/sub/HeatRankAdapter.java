@@ -21,7 +21,6 @@ public class HeatRankAdapter extends BaseRecyclerViewAdapter<LeagueBean.Trailers
     public HeatRankAdapter(Context context, final List<LeagueBean.TrailersBean> datas, int layoutId) {
         super(context, datas, layoutId);
     }
-
     @Override
     protected void bindData(BaseViewHolder holder, LeagueBean.TrailersBean data, int position) {
         item_heat_community_icon=holder.getView(R.id.item_heat_community_icon);
