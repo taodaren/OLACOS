@@ -3,6 +3,7 @@ package net.osplay.ui.fragment.sub;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -45,13 +46,11 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class TabHomeFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
     private static final String TAG = "TabHomeFragment";
-    private static final int REQUEST_CODE_QRCODE_PERMISSIONS = 1;
+    private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     private DrawerLayout mDrawerLayout;//侧滑菜单
-    private TabHomeAdapter mHomeAdapter;
     private RecyclerView mRvHome;
-    private LinearLayoutManager mLayoutManager;
-    private Gson mGson = new Gson();
     private List<HomeBannerBean> bannerBeanList;
+    private Gson gson = new Gson();
 
     @Override
     public View initView() {
@@ -67,7 +66,6 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     @Override
     public void initData() {
         super.initData();
-        // TODO: 2017/9/6 处理网络数据
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -84,12 +82,12 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
                 //数据解析（集合）
                 Type type = new TypeToken<List<HomeBannerBean>>() {
                 }.getType();
-                bannerBeanList = mGson.fromJson(json, type);
+                bannerBeanList = gson.fromJson(json, type);
 
                 initRecyclerView();
 
                 //数据解析(解析对象)
-//                HomeBannerBean bannerBean = mGson.fromJson(json, HomeBannerBean.class);
+//                HomeBannerBean bannerBean = gson.fromJson(json, HomeBannerBean.class);
 //                String imgUrl = bannerBean.getImgUrl();
 //                Log.e(TAG, "onSucceed: " + imgUrl);
             }
@@ -107,14 +105,13 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     }
 
     private void initRecyclerView() {
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
         mRvHome.setLayoutManager(mLayoutManager);
         mRvHome.setHasFixedSize(true);
 
         List<HomeData> list = new ArrayList<>();
-        list.add(HomeDataMapper.transformBannerDatas(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
-        mHomeAdapter = new TabHomeAdapter(getContext(), list);
-
+        list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
+        TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
         mRvHome.setAdapter(mHomeAdapter);
     }
 
@@ -157,7 +154,7 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
@@ -169,11 +166,11 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     public void onPermissionsDenied(int requestCode, List<String> perms) {
     }
 
-    @AfterPermissionGranted(REQUEST_CODE_QRCODE_PERMISSIONS)
+    @AfterPermissionGranted(REQUEST_QR_CODE_PERMISSIONS)
     private void requestCodeQRCodePermissions() {
         String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (!EasyPermissions.hasPermissions(getContext(), perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_CODE_QRCODE_PERMISSIONS, perms);
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
         }
     }
 

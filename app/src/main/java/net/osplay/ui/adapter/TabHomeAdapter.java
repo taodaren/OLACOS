@@ -14,8 +14,6 @@ import com.youth.banner.Transformer;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.service.entity.HomeCateBean;
-import net.osplay.service.entity.HomeDetailBean;
 import net.osplay.utils.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -28,22 +26,19 @@ import java.util.List;
 public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = "TabHomeAdapter";
     public static final int TYPE_BANNER = 1;
-    private static final int TYPE_CATE = 2;
-    private static final int TYPE_TAB = 3;
-    private static final int TYPE_DETAIL = 4;
+    public static final int TYPE_CATE = 2;
+    public static final int TYPE_TAB = 3;
+    public static final int TYPE_DETAIL = 4;
 
     private Context mContext;
     private LayoutInflater mInflater;
-
-    private List<HomeData> mDatas;
-    private List<HomeCateBean> cateBeanList;
-    private List<HomeDetailBean> detailBeanList;
+    private List<HomeData> mDataList;
 
     public TabHomeAdapter(Context context, List<HomeData> data) {
         this.mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        mDatas = new ArrayList<>();
-        mDatas.addAll(data);
+        mDataList = new ArrayList<>();
+        mDataList.addAll(data);
     }
 
     @Override
@@ -59,38 +54,34 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        switch (mDatas.get(position).getItemType()) {
+        switch (mDataList.get(position).getItemType()) {
             case TYPE_BANNER:
-                ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDatas.get(position).getData());
+                ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
                 break;
         }
     }
 
     @Override
     public int getItemCount() {
-        return mDatas == null ? 0 : mDatas.size();
+        return mDataList == null ? 0 : mDataList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return mDatas.get(position).getItemType();
+        return mDataList.get(position).getItemType();
     }
-
-    //////////////////// bind data ////////////////////
-
-
 
     //////////////////// view holder ////////////////////
 
-    static class BannerViewHolder extends RecyclerView.ViewHolder {
+    private static class BannerViewHolder extends RecyclerView.ViewHolder {
         Banner banner;
 
-        public BannerViewHolder(View itemView) {
+        BannerViewHolder(View itemView) {
             super(itemView);
             banner = (Banner) itemView.findViewById(R.id.banner_home);
         }
 
-        public void bindData(List<HomeBannerBean> data) {
+        void bindData(List<HomeBannerBean> data) {
             if (data != null && !data.isEmpty()) {
                 List<String> images = new ArrayList<>();
                 for (HomeBannerBean bean : data) {
