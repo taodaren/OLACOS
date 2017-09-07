@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -28,9 +29,11 @@ public class OrderAssessFragment extends BaseFragment {
     private String[] mTitles = new String[]{"我买到的", "我卖出的"};
     private FragmentAdapter mAdapter = null;
 
+    @SuppressLint("ValidFragment")
     public OrderAssessFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public OrderAssessFragment(Context mContext, int resId) {
         super(mContext, resId);
     }
