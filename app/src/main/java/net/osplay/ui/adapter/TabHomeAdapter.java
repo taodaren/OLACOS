@@ -17,6 +17,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
 import net.osplay.app.I;
+import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
@@ -125,39 +126,39 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private static class CateViewHolder extends RecyclerView.ViewHolder {
-        Context cateContext;
-        RecyclerView rvHomeCate;
-        RecyclerView.LayoutManager layoutManager;
-        List<HomeBannerBean> beanList;
-        HomeCateAdapter adapter;
+        private RecyclerView rvHomeCate;
+        private RecyclerView.LayoutManager layoutManager;
+        private List<HomeBannerBean> datas;
+        private HomeCateAdapter adapter;
 
         CateViewHolder(View itemView) {
             super(itemView);
             rvHomeCate = (RecyclerView) itemView.findViewById(R.id.recycler_home_cate);
-            layoutManager = new LinearLayoutManager(cateContext, LinearLayoutManager.HORIZONTAL, false);
-            rvHomeCate.setLayoutManager(layoutManager);
         }
 
         void bindData(List<HomeBannerBean> beanList) {
             if (beanList != null && !beanList.isEmpty()) {
-                List<HomeBannerBean> beans = new ArrayList<>();
-                for (HomeBannerBean bean : beanList) {
-                    beans.add(bean);
-                }
-//                bindCate();
+                datas = new ArrayList<>();
+                datas.addAll(beanList);
+                bindCate();
             }
         }
 
         private void bindCate() {
-            adapter = new HomeCateAdapter();
+            layoutManager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            rvHomeCate.setLayoutManager(layoutManager);
+            adapter = new HomeCateAdapter(datas);
             rvHomeCate.setAdapter(adapter);
         }
 
         private class HomeCateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private LayoutInflater inflater;
+            private List<HomeBannerBean> datas;
 
-            HomeCateAdapter() {
-                inflater = LayoutInflater.from(cateContext);
+            HomeCateAdapter(List<HomeBannerBean> datas) {
+                inflater = LayoutInflater.from(MyApplication.getContext());
+                this.datas = new ArrayList<>();
+                this.datas.addAll(datas);
             }
 
             @Override
@@ -167,12 +168,12 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                ((CateItemViewHolder) holder).bindData(beanList.get(position));
+                ((CateItemViewHolder) holder).bindData(datas.get(position));
             }
 
             @Override
             public int getItemCount() {
-                return beanList == null ? 0 : beanList.size();
+                return datas == null ? 0 : datas.size();
             }
 
             class CateItemViewHolder extends RecyclerView.ViewHolder {
@@ -191,10 +192,10 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 void bindData(HomeBannerBean itemBean) {
                     cateItemBean = itemBean;
                     if (itemBean != null) {//如果有网络数据，加载网络数据
-                        Glide.with(cateContext).load(I.HOME_BANNER).into(imgHomeCate);
-                        tvHomeCate.setText(itemBean.getName());
+                        Glide.with(MyApplication.getContext()).load(cateItemBean.getImgUrl()).into(imgHomeCate);
+                        tvHomeCate.setText(cateItemBean.getName());
                     } else {//否则，加载本地数据
-                        Glide.with(cateContext).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                        Glide.with(MyApplication.getContext()).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
                     }
                 }
             }
