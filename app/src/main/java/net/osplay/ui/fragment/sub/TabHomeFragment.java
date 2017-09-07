@@ -1,14 +1,11 @@
 package net.osplay.ui.fragment.sub;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,16 +33,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
-
 /**
  * 首页模块
  */
 
-public class TabHomeFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
+public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
-    private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
     private List<HomeBannerBean> bannerBeanList;
@@ -149,27 +142,6 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-    }
-
-    @AfterPermissionGranted(REQUEST_QR_CODE_PERMISSIONS)
-    private void requestCodeQRCodePermissions() {
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (!EasyPermissions.hasPermissions(getContext(), perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
-        }
     }
 
 }

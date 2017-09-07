@@ -1,5 +1,6 @@
 package net.osplay.ui.fragment.base;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,11 +32,17 @@ import net.osplay.ui.activity.sub.MinePublishActivity;
 import net.osplay.ui.activity.sub.MineSetActivity;
 import net.osplay.ui.activity.sub.OrderActivity;
 
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 /**
  * Fragment 基类
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+    private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     public Context mContext;
     protected int resId;
     protected View layout;//Fragment layout
@@ -230,6 +237,29 @@ public abstract class BaseFragment extends Fragment {
                 return true;
             }
         });
+    }
+
+    //////////////////// 二维码使用 ////////////////////
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+    }
+
+    @AfterPermissionGranted(REQUEST_QR_CODE_PERMISSIONS)
+    public void requestCodeQRCodePermissions() {
+        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (!EasyPermissions.hasPermissions(getContext(), perms)) {
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
+        }
     }
 
 }
