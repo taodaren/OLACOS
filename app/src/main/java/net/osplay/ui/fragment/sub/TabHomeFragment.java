@@ -103,6 +103,7 @@ public class TabHomeFragment extends BaseFragment {
         List<HomeData> list = new ArrayList<>();
         list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
         list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_CATE, false));
+        list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_TABLE, false));
         TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
         mRvHome.setAdapter(mHomeAdapter);
     }

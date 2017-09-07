@@ -120,7 +120,7 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
                 CityPicker cityPicker = new CityPicker.Builder(getContext()).textSize(20)
                         .title("地址选择")
                         .backgroundPop(0xa0000000)
-                        .titleBackgroundColor("#f7c936")
+                        .titleBackgroundColor("#ff7580")
                         .titleTextColor("#ffffff")
                         .confirTextColor("#ffffff")
                         .cancelTextColor("#ffffff")

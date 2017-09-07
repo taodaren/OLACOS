@@ -1,6 +1,8 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
-import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
@@ -34,7 +36,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final String TAG = "TabHomeAdapter";
     public static final int TYPE_BANNER = 1;
     public static final int TYPE_CATE = 2;
-    public static final int TYPE_TAB = 3;
+    public static final int TYPE_TABLE = 3;
     public static final int TYPE_DETAIL = 4;
 
     private Context mContext;
@@ -55,6 +57,8 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new BannerViewHolder(mInflater.inflate(R.layout.layout_home_banner, parent, false));
             case TYPE_CATE:
                 return new CateViewHolder(mInflater.inflate(R.layout.layout_home_cate, parent, false));
+            case TYPE_TABLE:
+                return new TableViewHolder(mInflater.inflate(R.layout.layout_home_table, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;
@@ -69,6 +73,9 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
             case TYPE_CATE:
                 ((CateViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
+                break;
+            case TYPE_TABLE:
+                ((TableViewHolder) holder).bindData();
                 break;
         }
     }
@@ -202,6 +209,41 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
 
+    }
+
+    private static class TableViewHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
+        private TabLayout tabLayout;
+        private ViewPager viewPager;
+
+        public TableViewHolder(View itemView) {
+            super(itemView);
+            cardView = (CardView) itemView.findViewById(R.id.card_home_table);
+            tabLayout = (TabLayout) itemView.findViewById(R.id.tab_home_table);
+            viewPager = (ViewPager) itemView.findViewById(R.id.vp_home_table);
+        }
+
+        public void bindData() {
+            tabLayout.addTab(tabLayout.newTab().setText("商品"));
+            tabLayout.addTab(tabLayout.newTab().setText("热帖"));
+            tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    //选中 tab 的逻辑
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                    //未选中 tab 的逻辑
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                    //重复选中 tab 的逻辑
+                }
+            });
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
 }
