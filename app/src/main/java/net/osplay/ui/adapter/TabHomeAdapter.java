@@ -124,7 +124,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private class CateViewHolder extends RecyclerView.ViewHolder {
+    private static class CateViewHolder extends RecyclerView.ViewHolder {
         Context cateContext;
         RecyclerView rvHomeCate;
         RecyclerView.LayoutManager layoutManager;
@@ -139,20 +139,12 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         void bindData(List<HomeBannerBean> beanList) {
-            Log.e(TAG, "bindData: imgTvData===================" + beanList.get(1).getImgUrl());
-            Log.e(TAG, "bindData: imgTvData===================" + beanList.get(1).getName());
             if (beanList != null && !beanList.isEmpty()) {
                 List<HomeBannerBean> beans = new ArrayList<>();
-//                List<String> imgCate = new ArrayList<>();
-//                List<String> tvCate = new ArrayList<>();
                 for (HomeBannerBean bean : beanList) {
                     beans.add(bean);
-//                    imgCate.add(bean.getImgUrl());
-//                    tvCate.add(bean.getName());
                 }
-                Log.e(TAG, "bindData: imgTvDataOver===================" + beanList.get(1).getImgUrl());
-                Log.e(TAG, "bindData: imgTvDataOver===================" + beanList.get(1).getName());
-                bindCate();
+//                bindCate();
             }
         }
 
@@ -183,30 +175,30 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return beanList == null ? 0 : beanList.size();
             }
 
-        }
+            class CateItemViewHolder extends RecyclerView.ViewHolder {
+                CardView cardView;
+                ImageView imgHomeCate;
+                TextView tvHomeCate;
+                HomeBannerBean cateItemBean;
 
-        class CateItemViewHolder extends RecyclerView.ViewHolder {
-            CardView cardView;
-            ImageView imgHomeCate;
-            TextView tvHomeCate;
-            HomeBannerBean cateItemBean;
+                CateItemViewHolder(View itemView) {
+                    super(itemView);
+                    cardView = (CardView) itemView.findViewById(R.id.layout_img_tv);
+                    imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
+                    tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
+                }
 
-            CateItemViewHolder(View itemView) {
-                super(itemView);
-                cardView = (CardView) itemView.findViewById(R.id.layout_img_tv);
-                imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
-                tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
-            }
-
-            void bindData(HomeBannerBean itemBean) {
-                cateItemBean = itemBean;
-                if (itemBean != null) {//如果有网络数据，加载网络数据
-                    Glide.with(cateContext).load(I.HOME_BANNER).into(imgHomeCate);
-                    tvHomeCate.setText(itemBean.getName());
-                } else {//否则，加载本地数据
-                    Glide.with(cateContext).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                void bindData(HomeBannerBean itemBean) {
+                    cateItemBean = itemBean;
+                    if (itemBean != null) {//如果有网络数据，加载网络数据
+                        Glide.with(cateContext).load(I.HOME_BANNER).into(imgHomeCate);
+                        tvHomeCate.setText(itemBean.getName());
+                    } else {//否则，加载本地数据
+                        Glide.with(cateContext).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                    }
                 }
             }
+
         }
 
     }
