@@ -103,7 +103,7 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     }
 
     private void initRecyclerView() {
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRvHome.setLayoutManager(mLayoutManager);
         mRvHome.setHasFixedSize(true);
 
