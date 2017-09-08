@@ -1,7 +1,6 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -27,7 +26,6 @@ import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.service.entity.HomeDetailBean;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.ui.fragment.HomeTabFragment;
 import net.osplay.utils.GlideImageLoader;
@@ -47,6 +45,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private Activity mContext;
     private LayoutInflater mInflater;
+
     private List<HomeData> mDataList;
     private List<VideoBean> newGoodsList;
     private List<VideoBean> hotTopicList;
@@ -123,24 +122,15 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         private void bindBanner(List<String> images) {
-            //设置banner样式
-            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-            //设置图片加载器
-            banner.setImageLoader(new GlideImageLoader());
-            //设置图片集合
-            banner.setImages(images);
-            //设置banner动画效果
-            banner.setBannerAnimation(Transformer.DepthPage);
-            //设置标题集合（当banner样式有显示title时）
-//            banner.setBannerTitles(titles);
-            //设置自动轮播，默认为true
-            banner.isAutoPlay(true);
-            //设置轮播时间
-            banner.setDelayTime(3000);
-            //设置指示器位置（当banner模式中有指示器时）
-            banner.setIndicatorGravity(BannerConfig.CENTER);
-            //banner设置方法全部调用完毕时最后调用
-            banner.start();
+//            banner.setBannerTitles(titles);//设置标题集合（当 banner 样式有显示 title 时）
+            banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//设置 banner 样式
+            banner.setImageLoader(new GlideImageLoader());//设置图片加载器
+            banner.setImages(images);//设置图片集合
+            banner.setBannerAnimation(Transformer.DepthPage);//设置 banner 动画效果
+            banner.isAutoPlay(true);//设置自动轮播，默认为 true
+            banner.setDelayTime(3000);//设置轮播时间
+            banner.setIndicatorGravity(BannerConfig.CENTER);//设置指示器位置（当 banner 模式中有指示器时）
+            banner.start();//banner 设置方法全部调用完毕时最后调用
         }
     }
 
@@ -224,25 +214,28 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private class TableViewHolder extends RecyclerView.ViewHolder {
-        private static final int FRAGMENT_NEWGOODS = 0;
-        private static final int FRAGMENT_HOTTOPIC = 1;
+        private static final int FRAGMENT_NEW_GOODS = 0;
+        private static final int FRAGMENT_HOT_TOPIC = 1;
+
         private RelativeLayout layout;
         private TabLayout tabLayout;
         private FrameLayout content;
+
         private List<VideoBean> newGoodsList;
         private List<VideoBean> hotTopicList;
+
         private HomeTabFragment newGoodsFragment;
         private HomeTabFragment hotTopicFragment;
         private HomeTabFragment currentFragment;
 
-        public TableViewHolder(View itemView) {
+        TableViewHolder(View itemView) {
             super(itemView);
             layout = (RelativeLayout) itemView.findViewById(R.id.layout_home_table);
             tabLayout = (TabLayout) itemView.findViewById(R.id.tab_home_table);
             content = (FrameLayout) itemView.findViewById(R.id.tab_home_content);
         }
 
-        public void bindData(final List<String> beanList, List<VideoBean> newGoodsList, List<VideoBean> hotTopicList) {
+        void bindData(final List<String> beanList, List<VideoBean> newGoodsList, List<VideoBean> hotTopicList) {
             this.newGoodsList = new ArrayList<>();
             this.newGoodsList.addAll(newGoodsList);
             this.hotTopicList = new ArrayList<>();
@@ -252,59 +245,34 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             tabLayout.addTab(tabLayout.newTab().setText(beanList.get(0)), true);//设置默认选中
             tabLayout.addTab(tabLayout.newTab().setText(beanList.get(1)));
-            // init load
+
+            //init load
             addFragment(R.id.tab_home_content, newGoodsFragment);
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    //选中 tab 的逻辑
+                public void onTabSelected(TabLayout.Tab tab) {//选中 tab 的逻辑
+
                     switch (tab.getPosition()) {
-                        case FRAGMENT_NEWGOODS:
+                        case FRAGMENT_NEW_GOODS:
                             onClickNewGoodsFragment();
                             break;
-                        case FRAGMENT_HOTTOPIC:
+                        case FRAGMENT_HOT_TOPIC:
                             onClickHotTopicFragment();
                             break;
                     }
-
                 }
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                    //未选中 tab 的逻辑
+                public void onTabUnselected(TabLayout.Tab tab) {//未选中 tab 的逻辑
                 }
 
                 @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-                    //重复选中 tab 的逻辑
+                public void onTabReselected(TabLayout.Tab tab) {//重复选中 tab 的逻辑
                 }
+
             });
 
-        }
-
-        /**
-         * 添加或者显示 fragment
-         *
-         * @param transaction
-         * @param fragment
-         */
-        private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
-            if (currentFragment == fragment)
-                return;
-
-            if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
-                transaction.hide(currentFragment).add(R.id.tab_home_content, fragment).commit();
-            } else {
-                transaction.hide(currentFragment).show(fragment).commit();
-            }
-            currentFragment = (HomeTabFragment) fragment;
-        }
-
-        private void addFragment(int containerViewId, Fragment fragment) {
-            final FragmentTransaction fragmentTransaction = ((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.add(containerViewId, fragment);
-            fragmentTransaction.commit();
         }
 
         private void createFragment() {
@@ -313,12 +281,30 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentFragment = newGoodsFragment;
         }
 
+        private void addFragment(int containerViewId, Fragment fragment) {
+            final FragmentTransaction fragmentTransaction = ((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.add(containerViewId, fragment);
+            fragmentTransaction.commit();
+        }
+
+        private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
+            if (currentFragment == fragment)
+                return;
+
+            if (!fragment.isAdded()) {//如果当前 fragment 未被添加，则添加到 Fragment 管理器中
+                transaction.hide(currentFragment).add(R.id.tab_home_content, fragment).commit();
+            } else {//如果当前 fragment 已添加，则显示该 Fragment
+                transaction.hide(currentFragment).show(fragment).commit();
+            }
+            currentFragment = (HomeTabFragment) fragment;
+        }
+
         private void onClickNewGoodsFragment() {
-            addOrShowFragment(((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction(), newGoodsFragment);
+            addOrShowFragment(((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction(), newGoodsFragment);
         }
 
         private void onClickHotTopicFragment() {
-            addOrShowFragment(((AppCompatActivity)mContext).getSupportFragmentManager().beginTransaction(), hotTopicFragment);
+            addOrShowFragment(((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction(), hotTopicFragment);
         }
     }
 

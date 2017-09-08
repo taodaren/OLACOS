@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Created by admin on 2017/9/8.
- *
+ * <p>
  * id : 67132
  * movieName : 《追捕》国际版预告
  * coverImg : http://img5.mtime.cn/mg/2017/08/16/162030.31009578.jpg
@@ -22,7 +22,6 @@ import java.util.List;
  */
 
 public class VideoBean implements Parcelable {
-
     private String id;
     private String movieName;
     private String coverImg;
@@ -168,4 +167,5 @@ public class VideoBean implements Parcelable {
         dest.writeString(summary);
         dest.writeStringList(type);
     }
+
 }

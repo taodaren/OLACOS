@@ -26,7 +26,6 @@ import net.osplay.app.I;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.service.entity.HomeDetailBean;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.ui.adapter.TabHomeAdapter;
@@ -47,12 +46,11 @@ public class TabHomeFragment extends BaseFragment {
     private RecyclerView mRvHome;
 
     private List<HomeBannerBean> bannerBeanList;
-    private List<HomeBannerBean> recoBeanList;
+    private List<HomeBannerBean> recommendBeanList;
+    private List<String> tabList;
     private List<VideoBean> newGoodsList;
     private List<VideoBean> hotTopicList;
-    private List<String> tabList;
 
-    private List<HomeDetailBean.TrailersBean> tableBeanList;
     private Gson gson = new Gson();
 
     @Override
@@ -70,24 +68,22 @@ public class TabHomeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        // 请求首页Banner数据
-        Request<String> bannerRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
-        // 获取首页推荐数据
-        Request<String> recoRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
-        // 获取最新商品
-        Request<String> newGoodsRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
-        // 获取热帖
-        Request<String> hotTopicRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
 
+        //创建一个字符串类型请求，自定义请求方法。
+        Request<String> bannerRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);//Banner 数据
+        Request<String> recommendRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);//推荐数据
+        Request<String> newGoodsRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);//最新商品
+        Request<String> hotTopicRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);//热帖
+
+        //获取数据请求并解析
         getBannerData(requestQueue, bannerRequest);
-        getRecoData(requestQueue, recoRequest);
+        getRecommendData(requestQueue, recommendRequest);
         getTabData();
         getNewGoodsData(requestQueue, newGoodsRequest);
         getHotTopicData(requestQueue, hotTopicRequest);
-
     }
 
-    private void getHotTopicData(final RequestQueue requestQueue, Request<String> request) {
+    private void getBannerData(final RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -96,17 +92,12 @@ public class TabHomeFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: hotTopicRequest====================" + json);
+                Log.d(TAG, "onSucceed: bannerRequest====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<VideoMapperBean>() {
+                Type type = new TypeToken<List<HomeBannerBean>>() {
                 }.getType();
-                VideoMapperBean bean = gson.fromJson(json, type);
-                List<VideoBean> temp = bean.getTrailers();
-                hotTopicList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    hotTopicList.add(temp.get(i));
-                }
+                bannerBeanList = gson.fromJson(json, type);
                 initRecyclerView();
             }
 
@@ -118,6 +109,43 @@ public class TabHomeFragment extends BaseFragment {
             public void onFinish(int what) {
             }
         });
+
+    }
+
+    private void getRecommendData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: recommendRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<List<HomeBannerBean>>() {
+                }.getType();
+                recommendBeanList = gson.fromJson(json, type);
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+    }
+
+    private void getTabData() {
+        tabList = new ArrayList<>();
+        tabList.add(getString(R.string.text_new_goods));
+        tabList.add(getString(R.string.text_hot_topic));
+        initRecyclerView();
     }
 
     private void getNewGoodsData(final RequestQueue requestQueue, Request<String> request) {
@@ -153,7 +181,7 @@ public class TabHomeFragment extends BaseFragment {
         });
     }
 
-    private void getBannerData(final RequestQueue requestQueue, Request<String> request) {
+    private void getHotTopicData(final RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -162,12 +190,17 @@ public class TabHomeFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: bannerRequest====================" + json);
+                Log.d(TAG, "onSucceed: hotTopicRequest====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<List<HomeBannerBean>>() {
+                Type type = new TypeToken<VideoMapperBean>() {
                 }.getType();
-                bannerBeanList = gson.fromJson(json, type);
+                VideoMapperBean bean = gson.fromJson(json, type);
+                List<VideoBean> temp = bean.getTrailers();
+                hotTopicList = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    hotTopicList.add(temp.get(i));
+                }
                 initRecyclerView();
             }
 
@@ -179,43 +212,6 @@ public class TabHomeFragment extends BaseFragment {
             public void onFinish(int what) {
             }
         });
-    }
-
-    private void getRecoData(final RequestQueue requestQueue, Request<String> request) {
-        requestQueue.add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: recoRequest====================" + json);
-
-                //数据解析（集合）
-                Type type = new TypeToken<List<HomeBannerBean>>() {
-                }.getType();
-                recoBeanList = gson.fromJson(json, type);
-                initRecyclerView();
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-            }
-
-            @Override
-            public void onFinish(int what) {
-            }
-        });
-
-    }
-
-    private void getTabData() {
-        tabList = new ArrayList<>();
-        tabList.add(getString(R.string.text_new_goods));
-        tabList.add(getString(R.string.text_hot_topic
-        ));
-        initRecyclerView();
     }
 
     private void initRecyclerView() {
@@ -226,19 +222,20 @@ public class TabHomeFragment extends BaseFragment {
 
             List<HomeData> list = new ArrayList<>();
             list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
-            list.add(HomeDataMapper.transformBannerData(recoBeanList, TabHomeAdapter.TYPE_CATE, false));
+            list.add(HomeDataMapper.transformRecommendData(recommendBeanList, TabHomeAdapter.TYPE_CATE, false));
             list.add(HomeDataMapper.transformTabData(tabList, TabHomeAdapter.TYPE_TABLE, false));
+
             TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getActivity(), list, newGoodsList, hotTopicList);
             mRvHome.setAdapter(mHomeAdapter);
         }
     }
 
     private boolean checkoutData() {
-        return bannerBeanList != null &&
-                recoBeanList != null &&
-                tabList != null &&
-                newGoodsList != null &&
-                hotTopicList != null;
+        return bannerBeanList != null
+                && recommendBeanList != null
+                && tabList != null
+                && newGoodsList != null
+                && hotTopicList != null;
     }
 
     /**

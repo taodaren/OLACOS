@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * Created by admin on 2017/9/8.
- *
  */
 
 public class VideoMapperBean {
@@ -20,4 +19,5 @@ public class VideoMapperBean {
     public void setTrailers(List<VideoBean> trailers) {
         this.trailers = trailers;
     }
+
 }
