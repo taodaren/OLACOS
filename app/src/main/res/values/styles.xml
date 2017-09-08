@@ -41,4 +41,5 @@
         <item name="colorControlNormal">@color/colorMedia</item>
         <item name="colorControlActivated">#019FE8</item>
     </style>
+
 </resources>

@@ -12,8 +12,7 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 
 /**
- * Created by Sy on 2017/05/08.
- * Copyright © 2016年 AXD. All rights reserved.
+ * 改变tablayout长度的工具类
  */
 
 public class TabUtils {
