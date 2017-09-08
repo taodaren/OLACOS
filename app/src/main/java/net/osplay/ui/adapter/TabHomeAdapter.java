@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,7 +25,6 @@ import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.ui.adapter.base.vpTabAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
 import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
@@ -189,14 +189,14 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             class CateItemViewHolder extends RecyclerView.ViewHolder {
-                CardView cardView;
+                LinearLayout layout;
                 ImageView imgHomeCate;
                 TextView tvHomeCate;
                 HomeBannerBean cateItemBean;
 
                 CateItemViewHolder(View itemView) {
                     super(itemView);
-                    cardView = (CardView) itemView.findViewById(R.id.layout_img_tv);
+                    layout = (LinearLayout) itemView.findViewById(R.id.layout_img_tv);
                     imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
                     tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
                 }
