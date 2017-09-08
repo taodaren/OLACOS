@@ -19,13 +19,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.activity.sub.MainActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.FastBlur;
+import net.osplay.utils.PublishPopWindow;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class TabLeagueFragment extends BaseFragment {
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private ImageView league_bg;
+    private Button jcd_release_but;
 
     @Override
     public View initView() {
@@ -120,6 +124,13 @@ public class TabLeagueFragment extends BaseFragment {
             appBarLayout.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
         }
+
+
+        /**
+         * 发布
+         */
+        jcd_release_but= (Button) inflate.findViewById(R.id.jcd_release_but);
+        jcd_release_but.setOnClickListener(mOnClickListener);
     }
 
 
@@ -158,6 +169,18 @@ public class TabLeagueFragment extends BaseFragment {
         view.setBackground(new BitmapDrawable(getResources(), overlay));
         System.out.println(System.currentTimeMillis() - startMs + "ms");
     }
+
+    private View.OnClickListener mOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.jcd_release_but:
+                    PublishPopWindow popWindow = new PublishPopWindow(getActivity());
+                    popWindow.showMoreWindow(v);
+                    break;
+            }
+        }
+    };
 }
 
 
