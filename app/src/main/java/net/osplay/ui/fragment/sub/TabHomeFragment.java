@@ -27,6 +27,8 @@ import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
 import net.osplay.service.entity.HomeDetailBean;
+import net.osplay.service.entity.VideoBean;
+import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -43,8 +45,13 @@ public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
+
     private List<HomeBannerBean> bannerBeanList;
-    private List<HomeBannerBean> cateBeanList;
+    private List<HomeBannerBean> recoBeanList;
+    private List<VideoBean> newGoodsList;
+    private List<VideoBean> hotTopicList;
+    private List<String> tabList;
+
     private List<HomeDetailBean.TrailersBean> tableBeanList;
     private Gson gson = new Gson();
 
@@ -63,7 +70,24 @@ public class TabHomeFragment extends BaseFragment {
     public void initData() {
         super.initData();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
+        // 请求首页Banner数据
+        Request<String> bannerRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
+        // 获取首页推荐数据
+        Request<String> recoRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
+        // 获取最新商品
+        Request<String> newGoodsRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
+        // 获取热帖
+        Request<String> hotTopicRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
+
+        getBannerData(requestQueue, bannerRequest);
+        getRecoData(requestQueue, recoRequest);
+        getTabData();
+        getNewGoodsData(requestQueue, newGoodsRequest);
+        getHotTopicData(requestQueue, hotTopicRequest);
+
+    }
+
+    private void getHotTopicData(final RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -72,21 +96,18 @@ public class TabHomeFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e(TAG, "onSucceed: " + json);
+                Log.d(TAG, "onSucceed: hotTopicRequest====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<List<HomeBannerBean>>() {
+                Type type = new TypeToken<VideoMapperBean>() {
                 }.getType();
-                bannerBeanList = gson.fromJson(json, type);
-                cateBeanList = gson.fromJson(json, type);
-                tableBeanList = gson.fromJson(json, type);
-
-                //数据解析(解析对象)
-//                HomeBannerBean bannerBean = gson.fromJson(json, HomeBannerBean.class);
-//                String imgUrl = bannerBean.getImgUrl();
-//                Log.e(TAG, "onSucceed: " + imgUrl);
-
-//                initRecyclerView();
+                VideoMapperBean bean = gson.fromJson(json, type);
+                List<VideoBean> temp = bean.getTrailers();
+                hotTopicList = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    hotTopicList.add(temp.get(i));
+                }
+                initRecyclerView();
             }
 
             @Override
@@ -97,10 +118,10 @@ public class TabHomeFragment extends BaseFragment {
             public void onFinish(int what) {
             }
         });
+    }
 
-        //请求首页商品数据
-        Request<String> requestHomeGoods = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
-        requestQueue.add(0, requestHomeGoods, new OnResponseListener<String>() {
+    private void getNewGoodsData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -108,12 +129,74 @@ public class TabHomeFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e(TAG, "onSucceed: requestHomeGoods====================" + json);
+                Log.d(TAG, "onSucceed: newGoodsRequest====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<List<HomeDetailBean.TrailersBean>>() {
+                Type type = new TypeToken<VideoMapperBean>() {
                 }.getType();
-                tableBeanList = gson.fromJson(json, type);
+                VideoMapperBean bean = gson.fromJson(json, type);
+                List<VideoBean> temp = bean.getTrailers();
+                newGoodsList = new ArrayList<>();
+                for (int i = 10; i < 20; i++) {
+                    newGoodsList.add(temp.get(i));
+                }
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    private void getBannerData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: bannerRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<List<HomeBannerBean>>() {
+                }.getType();
+                bannerBeanList = gson.fromJson(json, type);
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    private void getRecoData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: recoRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<List<HomeBannerBean>>() {
+                }.getType();
+                recoBeanList = gson.fromJson(json, type);
+                initRecyclerView();
             }
 
             @Override
@@ -125,20 +208,37 @@ public class TabHomeFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void getTabData() {
+        tabList = new ArrayList<>();
+        tabList.add(getString(R.string.text_new_goods));
+        tabList.add(getString(R.string.text_hot_topic
+        ));
         initRecyclerView();
     }
 
     private void initRecyclerView() {
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRvHome.setLayoutManager(mLayoutManager);
-        mRvHome.setHasFixedSize(true);
+        if (checkoutData()) {
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            mRvHome.setLayoutManager(mLayoutManager);
+            mRvHome.setHasFixedSize(true);
 
-        List<HomeData> list = new ArrayList<>();
-        list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
-        list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_CATE, false));
-        list.add(HomeDataMapper.transformHomeGoodsData(tableBeanList, TabHomeAdapter.TYPE_TABLE, false));
-        TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
-        mRvHome.setAdapter(mHomeAdapter);
+            List<HomeData> list = new ArrayList<>();
+            list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
+            list.add(HomeDataMapper.transformBannerData(recoBeanList, TabHomeAdapter.TYPE_CATE, false));
+            list.add(HomeDataMapper.transformTabData(tabList, TabHomeAdapter.TYPE_TABLE, false));
+            TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getActivity(), list, newGoodsList, hotTopicList);
+            mRvHome.setAdapter(mHomeAdapter);
+        }
+    }
+
+    private boolean checkoutData() {
+        return bannerBeanList != null &&
+                recoBeanList != null &&
+                tabList != null &&
+                newGoodsList != null &&
+                hotTopicList != null;
     }
 
     /**
