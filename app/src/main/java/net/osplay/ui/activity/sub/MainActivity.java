@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         initBottomNavBar();
         initFabButton();
 
-        int intExtra = getIntent().getIntExtra("jgb", -1);
-        if (intExtra == 1) {
-            tabLeagueFragment = new TabLeagueFragment();
-            if (!tabLeagueFragment.isAdded()) {
-                addFragment(R.id.main_content, tabLeagueFragment);
-                currentFragment = tabLeagueFragment;
-            }
-        }
+//        int intExtra = getIntent().getIntExtra("jgb", -1);
+//        if (intExtra == 1) {
+//            tabLeagueFragment = new TabLeagueFragment();
+//            if (!tabLeagueFragment.isAdded()) {
+//                addFragment(R.id.main_content, tabLeagueFragment);
+//                currentFragment = tabLeagueFragment;
+//            }
+//        }
         defaultShowHome();
     }
 

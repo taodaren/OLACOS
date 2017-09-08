@@ -1,5 +1,8 @@
 package net.osplay.ui.activity.sub;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -24,8 +27,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
@@ -41,17 +46,24 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
     private JoinCommunityDetailsAdapter jAdapter;
     private Toolbar jcd_toolbar;
     private ImageView jcd_bg;
+    private Button jcd_add_but;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        preferences=getSharedPreferences("AddCommunity", Activity.MODE_PRIVATE);
+        editor=preferences.edit();
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         noBar();
         setContentView(R.layout.activity_join_community_details);
         initView();
+        bindEvent();
     }
-
     private void initView() {
+        jcd_add_but= (Button) findViewById(R.id.jcd_add_but);
+        //设置背景图片虚化
         jcd_bg= (ImageView) findViewById(R.id.jcd_bg);
         final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
                 R.drawable.example02);
@@ -71,8 +83,14 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         jcd_recy.setLayoutManager(new LinearLayoutManager(JoinCommunityDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
         jAdapter=new JoinCommunityDetailsAdapter(JoinCommunityDetailsActivity.this);
         jcd_recy.setAdapter(jAdapter);
+
     }
 
+    private void bindEvent() {
+        jcd_add_but.setOnClickListener(mOnClickListener);
+    }
+
+    //去除状态栏
     private void noBar(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -87,6 +105,7 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         }
     }
 
+    //图片虚化
     private void blur(Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
         float scaleFactor = 8;
@@ -108,5 +127,21 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         view.setBackground(new BitmapDrawable(getResources(), overlay));
         System.out.println(System.currentTimeMillis() - startMs + "ms");
     }
+
+    private View.OnClickListener mOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.jcd_add_but://加入社团
+                    Toast.makeText(JoinCommunityDetailsActivity.this,"加入成功",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(JoinCommunityDetailsActivity.this,MainActivity.class));
+                    finish();
+                    editor.putString("addAnnotated", "addolacos");
+                    editor.commit();
+                    break;
+            }
+        }
+    };
+
 }
 

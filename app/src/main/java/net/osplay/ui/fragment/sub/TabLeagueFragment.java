@@ -10,6 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.widget.LinearLayout;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.base.FragmentAdapter;
@@ -37,12 +39,27 @@ public class TabLeagueFragment extends BaseFragment {
     private String lannotated = "olacos";
     private String cAnnotated;
 
+    private String addlannotated="addolacos";
+    private String addcAnnotated;
+    private View view;
+    private View inflate;
+    private LinearLayout league_community;
+
     @Override
     public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
+        inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
-        SharedPreferences preferences = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
-        cAnnotated = preferences.getString("Annotated", "defaultname");
+        //获取窗户社团的值
+        SharedPreferences preferences1 = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
+        cAnnotated = preferences1.getString("Annotated", "defaultname");
+        //获取加入社团的值
+        SharedPreferences preferences2 = getActivity().getSharedPreferences("AddCommunity", getActivity().MODE_PRIVATE);
+        addcAnnotated = preferences2.getString("addAnnotated", "defaultname");
+        setView();
+        return inflate;
+    }
+
+    private void setView() {
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
         tabLayout.post(new Runnable() {
@@ -57,7 +74,8 @@ public class TabLeagueFragment extends BaseFragment {
         mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);
         cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);
         mList.add(nFragment);
-        if (lannotated.equals(cAnnotated)) {
+        //如果创建或者加入社团后将不再显示创建或加入社团界面
+        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
             mList.add(cFragment);
         } else {
             mList.add(hFragment);
@@ -66,15 +84,18 @@ public class TabLeagueFragment extends BaseFragment {
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
-        return inflate;
+        league_community= (LinearLayout) inflate.findViewById(R.id.league_community);
+        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
+            league_community.setVisibility(View.VISIBLE);
+        }
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
@@ -82,6 +103,7 @@ public class TabLeagueFragment extends BaseFragment {
         }
         return true;
     }
+
 
 }
 
