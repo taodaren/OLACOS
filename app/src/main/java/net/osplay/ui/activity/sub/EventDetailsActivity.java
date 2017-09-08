@@ -34,7 +34,9 @@ import net.osplay.ui.adapter.sub.EventSignUpAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 社团活动详情页
+ */
 public class EventDetailsActivity extends BaseActivity {
     private RecyclerView event_signup_recy,event_comment_recy;
     private EventSignUpAdapter adapter;
@@ -89,18 +91,12 @@ public class EventDetailsActivity extends BaseActivity {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e("TAG",json);
-                RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
-                List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
-                adapter = new EventSignUpAdapter(EventDetailsActivity.this, trailers, R.layout.item_sign);
-                event_signup_recy.setAdapter(adapter);
-
+                gsonFormat(json);
             }
 
             @Override
@@ -113,6 +109,12 @@ public class EventDetailsActivity extends BaseActivity {
 
             }
         });
+    }
+    private void gsonFormat(String json) {
+        RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
+        List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
+        adapter = new EventSignUpAdapter(EventDetailsActivity.this, trailers);
+        event_signup_recy.setAdapter(adapter);
     }
 
 

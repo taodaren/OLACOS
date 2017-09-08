@@ -58,7 +58,9 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
      */
     @Override
     public int getItemCount() {
-        return datas == null ? 0 : datas.size();
+        return datas == null ? 0 : 10;
+        //加载全部数据的item，以后再改回来
+        //return datas == null ? 0 : datas.size();
     }
 
     protected abstract void bindData(BaseViewHolder holder, T data, int position);

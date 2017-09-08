@@ -20,6 +20,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 import net.osplay.service.entity.RecommendBean;
@@ -39,12 +40,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewestFragment extends BaseBussFragment  {
+public class NewestFragment extends BaseBussFragment {
 
     private RecyclerView community_recy;
-    private Gson mGson=new Gson();
-    private RecommendAdapter adapter;
+    private Gson mGson = new Gson();
+    private LeagueAdapter adapter;
     private CircleImageView cir;
+
     public NewestFragment(Context mContext, int resId) {
         super(mContext, resId);
     }
@@ -64,23 +66,9 @@ public class NewestFragment extends BaseBussFragment  {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e("TAG",json);
-                RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
-                List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
-                adapter = new RecommendAdapter(getActivity(), trailers, R.layout.item_league);
-                adapter.setOnItemClickListner(new BaseRecyclerViewAdapter.OnItemClickListner() {
-                    @Override
-                    public void onItemClickListner(View v, int position) {
-                        cir= (CircleImageView) v.findViewById(R.id.league_avatar_img);
-                        cir.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                               startActivity(new Intent(getActivity(), MinePageActivity.class));
-                            }
-                        });
-                    }
-                });
-                community_recy.setAdapter(adapter);
+                Log.e("TAG", json);
+                gsonFormat(json);
+                setOnclick();
             }
 
             @Override
@@ -93,12 +81,27 @@ public class NewestFragment extends BaseBussFragment  {
 
             }
         });
+    }
 
+    private void setOnclick() {
+        SetOnClickListen setOnClickListen = new SetOnClickListen() {
+            @Override
+            public void setOnClick(int position) {
+                startActivity(new Intent(getActivity(), MinePageActivity.class));
+            }
+        };
+        adapter.onClick(setOnClickListen);
+    }
 
-
+    private void gsonFormat(String json) {
+        RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
+        List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
+        adapter = new LeagueAdapter(getActivity(), trailers);
+        community_recy.setAdapter(adapter);
     }
 
     @Override
+
     protected void bindEvent() {
 
     }

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 
@@ -22,6 +23,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  * Created by acer-PC on 2017/8/30.
  */
 public class LeagueAdapter extends RecyclerView.Adapter<LeagueViewHolder> {
+    private SetOnClickListen setOnClickListen;
     private Context mContext;
     private  List<LeagueBean.TrailersBean> list;
 
@@ -30,6 +32,9 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueViewHolder> {
         this.list = list;
     }
 
+    public void onClick(SetOnClickListen setOnClickListen){
+        this.setOnClickListen=setOnClickListen;
+    }
     @Override
     public LeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_league, parent, false);
@@ -38,14 +43,14 @@ public class LeagueAdapter extends RecyclerView.Adapter<LeagueViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(LeagueViewHolder holder, int position) {
+    public void onBindViewHolder(LeagueViewHolder holder, final int position) {
         holder.tv.setText(list.get(position).getVideoTitle());
         holder.jcVideoPlayer.setUp(list.get(position).getHightUrl(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL);
         Picasso.with(mContext).load(list.get(position).getCoverImg()).into(holder.jcVideoPlayer.thumbImageView);
         holder.civ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, "15", Toast.LENGTH_SHORT).show();
+                setOnClickListen.setOnClick(position);
 
             }
         });
@@ -67,7 +72,6 @@ class LeagueViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         jcVideoPlayer= (JCVideoPlayerStandard) itemView.findViewById(R.id.league_jcVideoPlayer);
         tv= (TextView) itemView.findViewById(R.id.league_title_tv);
-
         civ= (CircleImageView) itemView.findViewById(R.id.league_avatar_img);
     }
 }

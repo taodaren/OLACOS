@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -25,6 +26,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'io.reactivex:rxandroid:1.2.1'
+    //compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    testCompile 'junit:junit:4.12'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -43,15 +46,13 @@ dependencies {
     compile 'cn.bingoogolapple:bga-photopicker:1.2.3@aar'
     compile 'pub.devrel:easypermissions:0.1.7'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    //compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
     compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'
     compile 'com.squareup.picasso:picasso:2.5.1'
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
     compile 'com.youth.banner:banner:1.4.9'
-    testCompile 'junit:junit:4.12'
     compile 'com.jakewharton:butterknife:5.1.1'
-    testCompile 'junit:junit:4.12'
     compile 'com.google.code.gson:gson:2.2.4'
+    testCompile 'junit:junit:4.12'
 }
