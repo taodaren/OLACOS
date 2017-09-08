@@ -1,35 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_home_table"
+    android:id="@+id/layout_home_table"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    app:cardCornerRadius="4dp">
+    android:gravity="center_vertical">
 
-    <RelativeLayout
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_home_table"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="fill_horizontal"
+        app:layout_scrollFlags="enterAlways"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="3dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextAppearance="@android:style/TextAppearance.Holo.Widget"
+        app:tabTextColor="@color/colorTiShiWenZi" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_home_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorContentBg">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_home_table"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="fill_horizontal"
-            app:layout_scrollFlags="enterAlways"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimary"
-            app:tabIndicatorHeight="3dp"
-            app:tabMode="fixed"
-            app:tabTextAppearance="@android:style/TextAppearance.Holo.Widget"
-            app:tabSelectedTextColor="@color/colorPrimary"
-            app:tabTextColor="@color/colorTiShiWenZi" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_home_table"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tab_home_table" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        android:layout_below="@id/tab_home_table" />
+</RelativeLayout>

@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     tools:context="net.osplay.ui.fragment.sub.ItemPostsFragment">
 
-    <include layout="@layout/item_posts" />
+    <include layout="@layout/item_home_posts_one" />
 </FrameLayout>
