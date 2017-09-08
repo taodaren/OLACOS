@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import net.osplay.app.I;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
+import net.osplay.service.entity.HomeDetailBean;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -43,6 +45,7 @@ public class TabHomeFragment extends BaseFragment {
     private RecyclerView mRvHome;
     private List<HomeBannerBean> bannerBeanList;
     private List<HomeBannerBean> cateBeanList;
+    private List<HomeDetailBean.TrailersBean> tableBeanList;
     private Gson gson = new Gson();
 
     @Override
@@ -69,20 +72,21 @@ public class TabHomeFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-//                Log.e(TAG, "onSucceed: " + json);
+                Log.e(TAG, "onSucceed: " + json);
 
                 //数据解析（集合）
                 Type type = new TypeToken<List<HomeBannerBean>>() {
                 }.getType();
                 bannerBeanList = gson.fromJson(json, type);
                 cateBeanList = gson.fromJson(json, type);
+                tableBeanList = gson.fromJson(json, type);
 
                 //数据解析(解析对象)
 //                HomeBannerBean bannerBean = gson.fromJson(json, HomeBannerBean.class);
 //                String imgUrl = bannerBean.getImgUrl();
 //                Log.e(TAG, "onSucceed: " + imgUrl);
 
-                initRecyclerView();
+//                initRecyclerView();
             }
 
             @Override
@@ -93,6 +97,35 @@ public class TabHomeFragment extends BaseFragment {
             public void onFinish(int what) {
             }
         });
+
+        //请求首页商品数据
+        Request<String> requestHomeGoods = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
+        requestQueue.add(0, requestHomeGoods, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.e(TAG, "onSucceed: requestHomeGoods====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<List<HomeDetailBean.TrailersBean>>() {
+                }.getType();
+                tableBeanList = gson.fromJson(json, type);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+        initRecyclerView();
     }
 
     private void initRecyclerView() {
@@ -103,7 +136,7 @@ public class TabHomeFragment extends BaseFragment {
         List<HomeData> list = new ArrayList<>();
         list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
         list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_CATE, false));
-        list.add(HomeDataMapper.transformBannerData(cateBeanList, TabHomeAdapter.TYPE_TABLE, false));
+        list.add(HomeDataMapper.transformHomeGoodsData(tableBeanList, TabHomeAdapter.TYPE_TABLE, false));
         TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
         mRvHome.setAdapter(mHomeAdapter);
     }

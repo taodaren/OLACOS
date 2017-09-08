@@ -2,10 +2,6 @@ package net.osplay.ui.adapter;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,9 +22,7 @@ import net.osplay.app.MyApplication;
 import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
-import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
+import net.osplay.service.entity.HomeDetailBean;
 import net.osplay.utils.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -42,7 +37,6 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public static final int TYPE_BANNER = 1;
     public static final int TYPE_CATE = 2;
     public static final int TYPE_TABLE = 3;
-    public static final int TYPE_DETAIL = 4;
 
     private Context mContext;
     private LayoutInflater mInflater;
@@ -80,7 +74,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((CateViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
                 break;
             case TYPE_TABLE:
-                ((TableViewHolder) holder).bindData();
+                ((TableViewHolder) holder).bindData((List<HomeDetailBean.TrailersBean>) mDataList.get(position).getData());
                 break;
         }
     }
@@ -217,68 +211,42 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private static class TableViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
+        private RelativeLayout layout;
         private TabLayout tabLayout;
-        private ViewPager viewPager;
-//        private List<Fragment> fragments;
-//        private vpTabAdapter adapter;
-
-        private BaseFragment currentFragment;
-        private MinePageGoodsFragment oneFrag;
-        private MinePageDynamicFragment twoFrag;
+        private RecyclerView rvHomeTable;
+        private RecyclerView.LayoutManager layoutManager;
+        private List<HomeDetailBean.TrailersBean> datas;
+        private HomeTableGoodsAdapter goodsAdapter;
+        private HomeTablePostsAdapter postsAdapter;
 
         public TableViewHolder(View itemView) {
             super(itemView);
-            cardView = (CardView) itemView.findViewById(R.id.card_home_table);
+            layout = (RelativeLayout) itemView.findViewById(R.id.layout_home_table);
             tabLayout = (TabLayout) itemView.findViewById(R.id.tab_home_table);
-            viewPager = (ViewPager) itemView.findViewById(R.id.vp_home_table);
+            rvHomeTable = (RecyclerView) itemView.findViewById(R.id.recycler_home_detail);
         }
 
-        public void bindData() {
+        public void bindData(final List<HomeDetailBean.TrailersBean> beanList) {
             tabLayout.addTab(tabLayout.newTab().setText("商品"), true);//设置默认选中
             tabLayout.addTab(tabLayout.newTab().setText("热帖"));
             tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
                     //选中 tab 的逻辑
-
-                    // TODO: 2017/9/8 两种方法 都因 FragmentManager 调用问题无法绑定 fragment
-
-                    // TODO: 2017/9/8 方法一
-//                    fragments = new ArrayList<>();
-//                    fragments.add(new WordMineFragment(MyApplication.getContext(), R.layout.fragment_word_mine));
-//                    fragments.add(new WordHotFragment(MyApplication.getContext(), R.layout.fragment_word_hot));
-//                    adapter = new vpTabAdapter(fm, MyApplication.getContext());
-//                    viewPager.setAdapter(adapter);
-
-                    // TODO: 2017/9/8 方法二
-//                    switch (tab.getPosition()) {
-//                        case 0:
-//                            if (oneFrag == null) {
-//                                oneFrag = new MinePageGoodsFragment();
-//                            }
-//                            addOrShowFragment(getAdapterPosition().beginTransaction(), oneFrag);
-//                            break;
-//                        case 1:
-//                            if (twoFrag == null) {
-//                                twoFrag = new MinePageDynamicFragment();
-//                            }
-//                            addOrShowFragment(getSupportFragmentManager().beginTransaction(), twoFrag);
-//                            break;
-//                    }
-
-                }
-
-                private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
-                    if (currentFragment == fragment)
-                        return;
-                    //如果当前 fragment 未被添加，则添加到 Fragment 管理器中
-                    if (!fragment.isAdded()) {
-                        transaction.hide(currentFragment).add(R.id.main_content, fragment).commit();
-                    } else {
-                        transaction.hide(currentFragment).show(fragment).commit();
+                    if (beanList != null && !beanList.isEmpty()) {
+                        datas = new ArrayList<>();
+                        datas.addAll(beanList);
+                        switch (tab.getPosition()) {
+                            case 0:
+                                bindTableGoods();
+                                break;
+                            case 1:
+                                bindTablePosts();
+                                break;
+                            default:
+                        }
                     }
-                    currentFragment = (BaseFragment) fragment;
                 }
 
                 @Override
@@ -292,7 +260,122 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-//            tabLayout.setupWithViewPager(viewPager);
+        }
+
+        private void bindTableGoods() {
+            layoutManager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
+            rvHomeTable.setLayoutManager(layoutManager);
+            goodsAdapter = new HomeTableGoodsAdapter(datas);
+            rvHomeTable.setAdapter(goodsAdapter);
+        }
+
+        private void bindTablePosts() {
+            layoutManager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
+            rvHomeTable.setLayoutManager(layoutManager);
+            postsAdapter = new HomeTablePostsAdapter(datas);
+            rvHomeTable.setAdapter(postsAdapter);
+        }
+
+        private class HomeTableGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+            private LayoutInflater inflater;
+            private List<HomeDetailBean.TrailersBean> datas;
+
+            HomeTableGoodsAdapter(List<HomeDetailBean.TrailersBean> datas) {
+                inflater = LayoutInflater.from(MyApplication.getContext());
+                this.datas = new ArrayList<>();
+                this.datas.addAll(datas);
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new CateItemViewHolder(inflater.inflate(R.layout.item_home_goods_one, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                ((CateItemViewHolder) holder).bindData(datas.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+                return datas == null ? 0 : datas.size();
+            }
+
+            class CateItemViewHolder extends RecyclerView.ViewHolder {
+                LinearLayout layout;
+                ImageView imgHomeCate;
+                TextView tvHomeCate;
+                HomeDetailBean.TrailersBean cateItemBean;
+
+                CateItemViewHolder(View itemView) {
+                    super(itemView);
+                    layout = (LinearLayout) itemView.findViewById(R.id.layout_img_tv);
+                    imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
+                    tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
+                }
+
+                void bindData(HomeDetailBean.TrailersBean itemBean) {
+                    cateItemBean = itemBean;
+                    if (itemBean != null) {//如果有网络数据，加载网络数据
+                        Glide.with(MyApplication.getContext()).load(cateItemBean.getCoverImg()).into(imgHomeCate);
+                        tvHomeCate.setText(cateItemBean.getMovieName());
+                    } else {//否则，加载本地数据
+                        Glide.with(MyApplication.getContext()).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                    }
+                }
+            }
+
+        }
+
+        private class HomeTablePostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+            private LayoutInflater inflater;
+            private List<HomeDetailBean.TrailersBean> datas;
+
+            HomeTablePostsAdapter(List<HomeDetailBean.TrailersBean> datas) {
+                inflater = LayoutInflater.from(MyApplication.getContext());
+                this.datas = new ArrayList<>();
+                this.datas.addAll(datas);
+            }
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new CateItemViewHolder(inflater.inflate(R.layout.item_img_tv, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                ((CateItemViewHolder) holder).bindData(datas.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+                return datas == null ? 0 : datas.size();
+            }
+
+            class CateItemViewHolder extends RecyclerView.ViewHolder {
+                LinearLayout layout;
+                ImageView imgHomeCate;
+                TextView tvHomeCate;
+                HomeDetailBean.TrailersBean cateItemBean;
+
+                CateItemViewHolder(View itemView) {
+                    super(itemView);
+                    layout = (LinearLayout) itemView.findViewById(R.id.layout_img_tv);
+                    imgHomeCate = (ImageView) itemView.findViewById(R.id.img_card_view);
+                    tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
+                }
+
+                void bindData(HomeDetailBean.TrailersBean itemBean) {
+                    cateItemBean = itemBean;
+                    if (itemBean != null) {//如果有网络数据，加载网络数据
+                        Glide.with(MyApplication.getContext()).load(cateItemBean.getCoverImg()).into(imgHomeCate);
+                        tvHomeCate.setText(cateItemBean.getMovieName());
+                    } else {//否则，加载本地数据
+                        Glide.with(MyApplication.getContext()).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
+                    }
+                }
+            }
+
         }
     }
 
