@@ -1,21 +1,31 @@
 package net.osplay.ui.fragment.sub;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.utils.FastBlur;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
@@ -43,7 +53,9 @@ public class TabLeagueFragment extends BaseFragment {
     private String addcAnnotated;
     private View view;
     private View inflate;
-    private LinearLayout league_community;
+    private AppBarLayout appBarLayout;
+    private Toolbar toolbar;
+    private ImageView league_bg;
 
     @Override
     public View initView() {
@@ -84,9 +96,29 @@ public class TabLeagueFragment extends BaseFragment {
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
-        league_community= (LinearLayout) inflate.findViewById(R.id.league_community);
+
+        appBarLayout= (AppBarLayout) inflate.findViewById(R.id.league_appbar);
+        toolbar= (Toolbar) inflate.findViewById(R.id.toolbar_league);
+        league_bg= (ImageView) inflate.findViewById(R.id.league_bg);
+
         if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
-            league_community.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(View.GONE);
+            //这里是背景虚化加了背景虚化 使用时不得放在隐藏后的APPbar中 之后会非常卡后期看需求
+//            final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+//                    R.drawable.example02);
+//            league_bg.getViewTreeObserver().addOnPreDrawListener(
+//                    new ViewTreeObserver.OnPreDrawListener() {
+//
+//                        @Override
+//                        public boolean onPreDraw() {
+//                            blur(bitmap, league_bg);
+//                            return true;
+//                        }
+//                    });
+        }else{
+            appBarLayout.setVisibility(View.GONE);
+            toolbar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -104,7 +136,28 @@ public class TabLeagueFragment extends BaseFragment {
         return true;
     }
 
+    //图片虚化
+    private void blur(Bitmap bkg, View view) {
+        long startMs = System.currentTimeMillis();
+        float scaleFactor = 2;
+        float radius = 1;
 
+        Bitmap overlay = Bitmap.createBitmap(
+                (int) (view.getMeasuredWidth() / scaleFactor),
+                (int) (view.getMeasuredHeight() / scaleFactor),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(overlay);
+        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
+                / scaleFactor);
+        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
+        Paint paint = new Paint();
+        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
+        canvas.drawBitmap(bkg, 0, 0, paint);
+
+        overlay = FastBlur.doBlur(overlay, (int) radius, true);
+        view.setBackground(new BitmapDrawable(getResources(), overlay));
+        System.out.println(System.currentTimeMillis() - startMs + "ms");
+    }
 }
 
 
