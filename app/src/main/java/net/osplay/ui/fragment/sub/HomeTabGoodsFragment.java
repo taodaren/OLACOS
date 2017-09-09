@@ -1,4 +1,4 @@
-package net.osplay.ui.fragment;
+package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,24 +12,23 @@ import android.view.ViewGroup;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
-import net.osplay.ui.adapter.HomeTabAdapter;
+import net.osplay.ui.adapter.HomeTabGoodsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by admin on 2017/9/9.
- * 首页Tab标签下的Fragment
+ * 首页 → Tab → Goods
  */
 
-public class HomeTabFragment extends Fragment {
-    private static final String KEY_DATA = "HomeTabFragment.key.data";
+public class HomeTabGoodsFragment extends Fragment {
+    private static final String KEY_DATA = "HomeTabGoodsFragment.key.data";
     private List<VideoBean> dataList = new ArrayList<>();
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
 
-    public static HomeTabFragment newInstance(List<VideoBean> datas) {
-        HomeTabFragment fragment = new HomeTabFragment();
+    public static HomeTabGoodsFragment newInstance(List<VideoBean> datas) {
+        HomeTabGoodsFragment fragment = new HomeTabGoodsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(KEY_DATA, (ArrayList<? extends Parcelable>) datas);
         fragment.setArguments(bundle);
@@ -53,7 +52,6 @@ public class HomeTabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_home_tab, container, false);
         mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.rv_f_home_tab);
-
         return fragmentView;
     }
 
@@ -68,7 +66,7 @@ public class HomeTabFragment extends Fragment {
             mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mRecyclerView.setHasFixedSize(true);
             mRecyclerView.setLayoutManager(mLayoutManager);
-            HomeTabAdapter adapter = new HomeTabAdapter(getContext(), dataList);
+            HomeTabGoodsAdapter adapter = new HomeTabGoodsAdapter(getContext(), dataList);
             mRecyclerView.setAdapter(adapter);
         }
 

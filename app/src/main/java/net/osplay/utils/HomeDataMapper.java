@@ -2,7 +2,7 @@ package net.osplay.utils;
 
 import android.util.SparseArray;
 
-import net.osplay.data.bean.HomeData;
+import net.osplay.service.entity.base.HomeData;
 import net.osplay.service.entity.HomeBannerBean;
 import net.osplay.service.entity.VideoBean;
 
