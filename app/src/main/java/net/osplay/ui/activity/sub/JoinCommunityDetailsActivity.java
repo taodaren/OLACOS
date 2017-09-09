@@ -105,28 +105,28 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         }
     }
 
-    //图片虚化
-    private void blur(Bitmap bkg, View view) {
-        long startMs = System.currentTimeMillis();
-        float scaleFactor = 4;
-        float radius = 2;
-
-        Bitmap overlay = Bitmap.createBitmap(
-                (int) (view.getMeasuredWidth() / scaleFactor),
-                (int) (view.getMeasuredHeight() / scaleFactor),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
-                / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setBackground(new BitmapDrawable(getResources(), overlay));
-        System.out.println(System.currentTimeMillis() - startMs + "ms");
-    }
+//    //图片虚化
+//    private void blur(Bitmap bkg, View view) {
+//        long startMs = System.currentTimeMillis();
+//        float scaleFactor = 4;
+//        float radius = 2;
+//
+//        Bitmap overlay = Bitmap.createBitmap(
+//                (int) (view.getMeasuredWidth() / scaleFactor),
+//                (int) (view.getMeasuredHeight() / scaleFactor),
+//                Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(overlay);
+//        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
+//                / scaleFactor);
+//        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
+//        Paint paint = new Paint();
+//        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
+//        canvas.drawBitmap(bkg, 0, 0, paint);
+//
+//        overlay = FastBlur.doBlur(overlay, (int) radius, true);
+//        view.setBackground(new BitmapDrawable(getResources(), overlay));
+//        System.out.println(System.currentTimeMillis() - startMs + "ms");
+//    }
 
     private View.OnClickListener mOnClickListener=new View.OnClickListener() {
         @Override

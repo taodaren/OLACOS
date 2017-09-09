@@ -60,19 +60,16 @@ public class TabLeagueFragment extends BaseFragment {
     private CommunityFragment cFragment;
     private String lannotated = "olacos";
     private String cAnnotated;
-
-    private String addlannotated="addolacos";
+    private String addlannotated = "addolacos";
     private String addcAnnotated;
-    private View view;
     private View inflate;
     private AppBarLayout appBarLayout;
     private Toolbar toolbar;
     private ImageView league_bg;
     private Button jcd_release_but;
     private ImageView league_menu;
-
     private PopupMenu popupMenu;
-    private  Menu menu;
+    private Menu menu;
 
     @Override
     public View initView() {
@@ -114,14 +111,14 @@ public class TabLeagueFragment extends BaseFragment {
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
 
-        appBarLayout= (AppBarLayout) inflate.findViewById(R.id.league_appbar);
-        toolbar= (Toolbar) inflate.findViewById(R.id.toolbar_league);
-        league_bg= (ImageView) inflate.findViewById(R.id.league_bg);
+        appBarLayout = (AppBarLayout) inflate.findViewById(R.id.league_appbar);
+        toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_league);
+//        league_bg = (ImageView) inflate.findViewById(R.id.league_bg);
 
         /**
          * 创建或加入社团成功后才显示的社团主页
          */
-        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
+        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
             appBarLayout.setVisibility(View.VISIBLE);
             toolbar.setVisibility(View.GONE);
             //这里是背景虚化加了背景虚化 使用时不得放在隐藏后的APPbar中 之后会非常卡后期看需求
@@ -136,7 +133,7 @@ public class TabLeagueFragment extends BaseFragment {
 //                            return true;
 //                        }
 //                    });
-        }else{
+        } else {
             appBarLayout.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
         }
@@ -151,12 +148,12 @@ public class TabLeagueFragment extends BaseFragment {
         /**
          * 发布
          */
-        jcd_release_but= (Button) inflate.findViewById(R.id.jcd_release_but);
+        jcd_release_but = (Button) inflate.findViewById(R.id.jcd_release_but);
         jcd_release_but.setOnClickListener(mOnClickListener);
         /**
          * 菜单选项
          */
-        league_menu= (ImageView) inflate.findViewById(R.id.league_menu);
+        league_menu = (ImageView) inflate.findViewById(R.id.league_menu);
         league_menu.setOnClickListener(mOnClickListener);
     }
 
@@ -206,6 +203,7 @@ public class TabLeagueFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
@@ -237,10 +235,10 @@ public class TabLeagueFragment extends BaseFragment {
         System.out.println(System.currentTimeMillis() - startMs + "ms");
     }
 
-    private View.OnClickListener mOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.jcd_release_but:
                     PublishPopWindow popWindow = new PublishPopWindow(getActivity());
                     popWindow.showMoreWindow(v);
@@ -253,10 +251,7 @@ public class TabLeagueFragment extends BaseFragment {
     };
 
 
-
-
-
-    }
+}
 
 
 
