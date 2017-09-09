@@ -1,5 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -26,9 +27,11 @@ public class WordHotFragment extends BaseFragment {
     private String[] mTitles = new String[]{"专题", "热帖", "专栏"};
     private vpTabAdapter mAdapter;
 
+    @SuppressLint("ValidFragment")
     public WordHotFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public WordHotFragment(Context mContext, int resId) {
         super(mContext, resId);
     }

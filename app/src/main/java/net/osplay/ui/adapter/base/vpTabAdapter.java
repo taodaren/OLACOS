@@ -16,6 +16,11 @@ public class vpTabAdapter extends FragmentPagerAdapter {
     private String[] mTitles;
     private List<Fragment> mFragmentList;
 
+    public vpTabAdapter(FragmentManager fm, Context mContext) {
+        super(fm);
+        this.mContext = mContext;
+    }
+
     public vpTabAdapter(Context mContext, FragmentManager fm, String[] mTitles, List<Fragment> mFragmentList) {
         super(fm);
         this.mContext = mContext;

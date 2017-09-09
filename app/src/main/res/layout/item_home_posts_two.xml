@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="3dp"
     app:cardCornerRadius="4dp">
 
     <LinearLayout
@@ -33,13 +33,14 @@
                     android:id="@+id/collect_posts_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="叶秋" />
+                    android:text="叶冬"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/collect_posts_name"
-                    android:text="发布于5小时前"
+                    android:text="发布于8小时前"
                     android:textColor="@color/colorTiShiWenZi"
                     android:textSize="13sp" />
             </RelativeLayout>
@@ -52,50 +53,65 @@
                 android:layout_gravity="center_vertical"
                 android:text="热帖"
                 android:textColor="@color/colorPrimary"
-                android:textSize="17sp" />
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp">
+            android:padding="4dp">
 
             <TextView
                 android:id="@+id/text_title_collect_posts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
+                android:padding="4dp"
                 android:text="入奥世普雷方知二次元世界也有程序员！"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
-            <ImageView
-                android:id="@+id/img_collect_posts"
+            <LinearLayout
+                android:id="@+id/img_collect_goods"
                 android:layout_width="match_parent"
-                android:layout_height="170dp"
-                android:layout_marginTop="5dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/example05" />
+                android:layout_height="130dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/example07" />
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/example09" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_margin="4dp"
                 android:background="@color/colorContentBg" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="来自北京"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="13sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -117,8 +133,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="（5）"
-                            android:textColor="@color/colorTiShiWenZi"
+                            android:layout_marginStart="5dp"
+                            android:text="12"
+                            android:textColor="@color/colorPang"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -136,8 +153,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="（2）"
-                            android:textColor="@color/colorTiShiWenZi"
+                            android:layout_marginStart="5dp"
+                            android:text="345"
+                            android:textColor="@color/colorPang"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -155,8 +173,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="（7）"
-                            android:textColor="@color/colorTiShiWenZi"
+                            android:layout_marginStart="5dp"
+                            android:text="271"
+                            android:textColor="@color/colorPang"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>

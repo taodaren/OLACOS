@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
@@ -23,6 +23,12 @@ import net.osplay.ui.fragment.base.BaseBussFragment;
 public class NewlyCreatedFragment extends BaseBussFragment {
     private RecyclerView newly_recy;
     private NewlyCreatedAdapter nAdapter;
+
+    @SuppressLint("ValidFragment")
+    public NewlyCreatedFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
     public NewlyCreatedFragment(Context mContext, int resId) {
         super(mContext, resId);
     }

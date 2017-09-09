@@ -23,7 +23,7 @@ public class VoteAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.vote_item, parent, false);
-        ViewHolder viewHolder=new ViewHolder(inflate);
+        ViewHolder viewHolder = new ViewHolder(inflate);
         return viewHolder;
     }
 
@@ -37,15 +37,17 @@ public class VoteAdapter extends RecyclerView.Adapter<ViewHolder> {
         return 10;
     }
 }
-class ViewHolder extends RecyclerView.ViewHolder{
+
+class ViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView icon;
 
 
     public ViewHolder(View itemView) {
         super(itemView);
-        icon= (ImageView) itemView.findViewById(R.id.vote_item_img);
+        icon = (ImageView) itemView.findViewById(R.id.vote_item_img);
     }
+
 }
 
 

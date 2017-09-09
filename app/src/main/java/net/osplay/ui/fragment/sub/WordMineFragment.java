@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 
@@ -13,9 +14,11 @@ import net.osplay.ui.fragment.base.BaseFragment;
 
 public class WordMineFragment extends BaseFragment {
 
+    @SuppressLint("ValidFragment")
     public WordMineFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public WordMineFragment(Context mContext, int resId) {
         super(mContext, resId);
     }

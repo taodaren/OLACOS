@@ -11,4 +11,6 @@ public interface I {
     String ADD_TEXT_DATA = "findNewAndBoutiqueGoods";
     //首页 Banner
     String HOME_BANNER = "http://112.124.22.238:8081/course_api/banner/query?type=1";
+    //首页 Detail （暂时使用视频接口）
+    String HOME_DETAIL = "http://api.m.mtime.cn/PageSubArea/TrailerList.api";
 }

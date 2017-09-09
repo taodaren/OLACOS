@@ -1,9 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
-import android.Manifest;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,10 +23,11 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
-import net.osplay.data.bean.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
-import net.osplay.ui.activity.sub.LoginActivity;
+import net.osplay.service.entity.VideoBean;
+import net.osplay.service.entity.VideoMapperBean;
+import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -37,19 +36,21 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
-
 /**
  * 首页模块
  */
 
-public class TabHomeFragment extends BaseFragment implements EasyPermissions.PermissionCallbacks {
+public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
-    private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
+
     private List<HomeBannerBean> bannerBeanList;
+    private List<HomeBannerBean> recommendBeanList;
+    private List<String> tabList;
+    private List<VideoBean> newGoodsList;
+    private List<VideoBean> hotTopicList;
+
     private Gson gson = new Gson();
 
     @Override
@@ -67,52 +68,174 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
     public void initData() {
         super.initData();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);
+
+        //创建一个字符串类型请求，自定义请求方法。
+        Request<String> bannerRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);//Banner 数据
+        Request<String> recommendRequest = NoHttp.createStringRequest(I.HOME_BANNER, RequestMethod.GET);//推荐数据
+        Request<String> newGoodsRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);//最新商品
+        Request<String> hotTopicRequest = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);//热帖
+
+        //获取数据请求并解析
+        getBannerData(requestQueue, bannerRequest);
+        getRecommendData(requestQueue, recommendRequest);
+        getTabData();
+        getNewGoodsData(requestQueue, newGoodsRequest);
+        getHotTopicData(requestQueue, hotTopicRequest);
+    }
+
+    private void getBannerData(final RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e(TAG, "onSucceed: " + json);
+                Log.d(TAG, "onSucceed: bannerRequest====================" + json);
 
                 //数据解析（集合）
                 Type type = new TypeToken<List<HomeBannerBean>>() {
                 }.getType();
                 bannerBeanList = gson.fromJson(json, type);
-
                 initRecyclerView();
-
-                //数据解析(解析对象)
-//                HomeBannerBean bannerBean = gson.fromJson(json, HomeBannerBean.class);
-//                String imgUrl = bannerBean.getImgUrl();
-//                Log.e(TAG, "onSucceed: " + imgUrl);
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
+            }
+        });
 
+    }
+
+    private void getRecommendData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: recommendRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<List<HomeBannerBean>>() {
+                }.getType();
+                recommendBeanList = gson.fromJson(json, type);
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+    }
+
+    private void getTabData() {
+        tabList = new ArrayList<>();
+        tabList.add(getString(R.string.text_new_goods));
+        tabList.add(getString(R.string.text_hot_topic));
+        initRecyclerView();
+    }
+
+    private void getNewGoodsData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: newGoodsRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<VideoMapperBean>() {
+                }.getType();
+                VideoMapperBean bean = gson.fromJson(json, type);
+                List<VideoBean> temp = bean.getTrailers();
+                newGoodsList = new ArrayList<>();
+                for (int i = 10; i < 20; i++) {
+                    newGoodsList.add(temp.get(i));
+                }
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    private void getHotTopicData(final RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: hotTopicRequest====================" + json);
+
+                //数据解析（集合）
+                Type type = new TypeToken<VideoMapperBean>() {
+                }.getType();
+                VideoMapperBean bean = gson.fromJson(json, type);
+                List<VideoBean> temp = bean.getTrailers();
+                hotTopicList = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    hotTopicList.add(temp.get(i));
+                }
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
             }
         });
     }
 
     private void initRecyclerView() {
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
-        mRvHome.setLayoutManager(mLayoutManager);
-        mRvHome.setHasFixedSize(true);
+        if (checkoutData()) {
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            mRvHome.setLayoutManager(mLayoutManager);
+            mRvHome.setHasFixedSize(true);
 
-        List<HomeData> list = new ArrayList<>();
-        list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
-        TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getContext(), list);
-        mRvHome.setAdapter(mHomeAdapter);
+            List<HomeData> list = new ArrayList<>();
+            list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
+            list.add(HomeDataMapper.transformRecommendData(recommendBeanList, TabHomeAdapter.TYPE_CATE, false));
+            list.add(HomeDataMapper.transformTabData(tabList, TabHomeAdapter.TYPE_TABLE, false));
+
+            TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getActivity(), list, newGoodsList, hotTopicList);
+            mRvHome.setAdapter(mHomeAdapter);
+        }
+    }
+
+    private boolean checkoutData() {
+        return bannerBeanList != null
+                && recommendBeanList != null
+                && tabList != null
+                && newGoodsList != null
+                && hotTopicList != null;
     }
 
     /**
@@ -146,32 +269,10 @@ public class TabHomeFragment extends BaseFragment implements EasyPermissions.Per
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
             case R.id.menu_msg:
-//                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getContext(), LoginActivity.class));
+                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, List<String> perms) {
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, List<String> perms) {
-    }
-
-    @AfterPermissionGranted(REQUEST_QR_CODE_PERMISSIONS)
-    private void requestCodeQRCodePermissions() {
-        String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (!EasyPermissions.hasPermissions(getContext(), perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
-        }
     }
 
 }
