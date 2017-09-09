@@ -24,6 +24,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 import net.osplay.service.entity.RecommendBean;
 import net.osplay.ui.activity.sub.MinePageActivity;
+import net.osplay.ui.adapter.LeagueAdapter;
 import net.osplay.ui.adapter.base.BaseRecyclerViewAdapter;
 import net.osplay.ui.adapter.sub.RecommendAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
@@ -39,10 +40,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class NewestFragment extends BaseBussFragment {
 
     private RecyclerView community_recy;
-    private Gson mGson = new Gson();
     private LeagueAdapter adapter;
     private Gson mGson = new Gson();
-    private RecommendAdapter adapter;
     private CircleImageView cir;
 
 
@@ -73,23 +72,7 @@ public class NewestFragment extends BaseBussFragment {
                 Log.e("TAG", json);
                 gsonFormat(json);
                 setOnclick();
-                Log.e("TAG", json);
-                RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
-                List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
-                adapter = new RecommendAdapter(getActivity(), trailers, R.layout.item_league);
-                adapter.setOnItemClickListner(new BaseRecyclerViewAdapter.OnItemClickListner() {
-                    @Override
-                    public void onItemClickListner(View v, int position) {
-                        cir = (CircleImageView) v.findViewById(R.id.league_avatar_img);
-                        cir.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                startActivity(new Intent(getActivity(), MinePageActivity.class));
-                            }
-                        });
-                    }
-                });
-                community_recy.setAdapter(adapter);
+
             }
 
             @Override
