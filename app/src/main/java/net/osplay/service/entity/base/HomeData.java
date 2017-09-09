@@ -1,4 +1,4 @@
-package net.osplay.data.bean;
+package net.osplay.service.entity.base;
 
 /**
  * 封装所有首页数据
