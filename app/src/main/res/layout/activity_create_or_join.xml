@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+
     <include layout="@layout/layout_toolbar" />
 
- <LinearLayout
-     android:layout_width="match_parent"
-     android:layout_height="80dp"
-     android:orientation="horizontal"
-     android:background="@color/white"
-     android:gravity="center_vertical">
-     <Button
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="加入社团"
-         android:layout_weight="1"
-         android:background="@drawable/btn_shape_circle"
-         android:textColor="@color/white"
-         android:layout_marginLeft="10dp"
-         android:layout_marginRight="10dp"/>
-     <Button
-         android:id="@+id/coj_create_but"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="创建社团"
-         android:layout_weight="1"
-         android:background="@drawable/btn_shape_circle"
-         android:textColor="@color/white"
-         android:layout_marginRight="10dp"/>
- </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="1dp">
-    <android.support.design.widget.TabLayout
-        android:id="@+id/coj_tabLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabSelectedTextColor="@color/colorAccent"
-        app:tabTextColor="@color/colorBlack"
-        android:background="@color/white"/>
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <android.support.v4.view.ViewPager
-        android:layout_marginTop="1dp"
-        android:id="@+id/coj_viewPager"
+        <Button
+            android:id="@+id/crj_addcommunity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_circle"
+            android:text="加入社团"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/coj_create_but"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_circle"
+            android:text="创建社团"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_marginTop="1dp"
+        android:orientation="vertical">
 
-    </android.support.v4.view.ViewPager>
-</LinearLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/coj_tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/colorBlack" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/coj_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="1dp"
+            android:background="@color/white">
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
 </LinearLayout>

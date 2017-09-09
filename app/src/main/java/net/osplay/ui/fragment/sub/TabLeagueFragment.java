@@ -1,5 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,11 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
+import android.view.InflateException;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,6 +28,9 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.MainActivity;
@@ -60,6 +69,10 @@ public class TabLeagueFragment extends BaseFragment {
     private Toolbar toolbar;
     private ImageView league_bg;
     private Button jcd_release_but;
+    private ImageView league_menu;
+
+    private PopupMenu popupMenu;
+    private  Menu menu;
 
     @Override
     public View initView() {
@@ -105,6 +118,9 @@ public class TabLeagueFragment extends BaseFragment {
         toolbar= (Toolbar) inflate.findViewById(R.id.toolbar_league);
         league_bg= (ImageView) inflate.findViewById(R.id.league_bg);
 
+        /**
+         * 创建或加入社团成功后才显示的社团主页
+         */
         if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
             appBarLayout.setVisibility(View.VISIBLE);
             toolbar.setVisibility(View.GONE);
@@ -124,13 +140,64 @@ public class TabLeagueFragment extends BaseFragment {
             appBarLayout.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
         }
-
+        /**
+         * menu菜单
+         */
+        popupMenu = new PopupMenu(getContext(), inflate.findViewById(R.id.league_menu));
+        menu = popupMenu.getMenu();
+        addMenu();
+        setOnMenuItemClickListener();
 
         /**
          * 发布
          */
         jcd_release_but= (Button) inflate.findViewById(R.id.jcd_release_but);
         jcd_release_but.setOnClickListener(mOnClickListener);
+        /**
+         * 菜单选项
+         */
+        league_menu= (ImageView) inflate.findViewById(R.id.league_menu);
+        league_menu.setOnClickListener(mOnClickListener);
+    }
+
+    private void addMenu() {
+//        // 通过代码添加菜单项
+        menu.add(Menu.NONE, Menu.FIRST + 0, 0, "成员管理");
+        menu.add(Menu.NONE, Menu.FIRST + 1, 1, "申请管理");
+        menu.add(Menu.NONE, Menu.FIRST + 2, 2, "积分兑换");
+        menu.add(Menu.NONE, Menu.FIRST + 3, 3, "设置");
+        // 通过XML文件添加菜单项
+//        MenuInflater menuInflater = getActivity().getMenuInflater();
+//        menuInflater.inflate(R.menu.popupmenu, menu);
+    }
+
+    private void setOnMenuItemClickListener() {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case Menu.FIRST + 0:
+                        Toast.makeText(getActivity(), "成员管理",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case Menu.FIRST + 1:
+                        Toast.makeText(getActivity(), "dfs",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case Menu.FIRST + 2:
+                        Toast.makeText(getActivity(), "复制",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    case Menu.FIRST + 3:
+                        Toast.makeText(getActivity(), "粘贴",
+                                Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -178,9 +245,18 @@ public class TabLeagueFragment extends BaseFragment {
                     PublishPopWindow popWindow = new PublishPopWindow(getActivity());
                     popWindow.showMoreWindow(v);
                     break;
+                case R.id.league_menu:
+                    popupMenu.show();
+                    break;
             }
         }
     };
-}
+
+
+
+
+
+    }
+
 
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/heat_item">
+    android:id="@+id/newly_item">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -10,29 +10,29 @@
         android:padding="10dp">
 
         <net.osplay.utils.XCRoundRectImageView
-            android:id="@+id/heat_avatar_iv"
+            android:id="@+id/newly_avatar_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/heat" />
+            android:src="@drawable/newly" />
 
         <TextView
-            android:id="@+id/heat_title_tv"
+            android:id="@+id/newly_title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/heat_avatar_iv"
+            android:layout_toRightOf="@id/newly_avatar_iv"
             android:text="cp交友"
             android:textStyle="bold"
             android:textColor="@color/colorBlack"
             android:textSize="15sp"/>
 
         <TextView
-            android:id="@+id/heat_number_tv"
+            android:id="@+id/newly_number_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/heat_title_tv"
+            android:layout_alignTop="@id/newly_title_tv"
             android:layout_marginRight="50dp"
             android:text="46548"
             android:textColor="@color/colorPrimary" />
@@ -40,8 +40,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/heat_title_tv"
-            android:layout_toLeftOf="@id/heat_number_tv"
+            android:layout_alignTop="@id/newly_title_tv"
+            android:layout_toLeftOf="@id/newly_number_tv"
             android:text="热度:"
             android:textSize="13sp"
             android:textColor="@color/bank_FF6C6C6C"/>
@@ -51,19 +51,19 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/heat_avatar_iv"
+            android:layout_toRightOf="@id/newly_avatar_iv"
             android:text="就算是咸鱼 我们也要做最咸的那一条"
             android:textSize="13sp"
             android:textColor="@color/bank_FF6C6C6C"/>
 
         <TextView
-            android:id="@+id/heat_member_tv"
+            android:id="@+id/newly_member_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/heat_avatar_iv"
+            android:layout_alignBottom="@id/newly_avatar_iv"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/heat_avatar_iv"
+            android:layout_toRightOf="@id/newly_avatar_iv"
             android:text="成员："
             android:textSize="10sp"
             android:textColor="@color/bank_FF6C6C6C"/>
@@ -71,17 +71,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/heat_member_tv"
-            android:layout_toRightOf="@id/heat_member_tv"
+            android:layout_alignBottom="@id/newly_member_tv"
+            android:layout_toRightOf="@id/newly_member_tv"
             android:text="465456"
             android:textSize="10sp"
             android:textColor="@color/bank_FF6C6C6C"/>
 
         <TextView
-            android:id="@+id/heat_works_tv"
+            android:id="@+id/newly_works_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/heat_member_tv"
+            android:layout_alignBottom="@id/newly_member_tv"
             android:layout_alignParentRight="true"
             android:text="12341654"
             android:textSize="10sp"
@@ -90,24 +90,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/heat_member_tv"
-            android:layout_toLeftOf="@id/heat_works_tv"
+            android:layout_alignBottom="@id/newly_member_tv"
+            android:layout_toLeftOf="@id/newly_works_tv"
             android:text="作品:"
             android:textSize="10sp"
             android:textColor="@color/bank_FF6C6C6C"/>
-        <LinearLayout
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:orientation="horizontal"
-            android:background="@color/colorRed">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textColor="@color/white"
-            android:padding="5dp"
-            android:textSize="13sp"/>
-        </LinearLayout>
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

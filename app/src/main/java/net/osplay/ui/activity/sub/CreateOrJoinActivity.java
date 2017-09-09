@@ -30,7 +30,7 @@ public class CreateOrJoinActivity extends BaseActivity {
     private List<Fragment> mList=new ArrayList<>();
     private String[] titles = new String[]{"热门排行", "最新创建"};
     private FragmentAdapter fragmentAdapter = null;
-    private Button coj_create_but;
+    private Button coj_create_but,crj_addcommunity_btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,6 @@ public class CreateOrJoinActivity extends BaseActivity {
 
     private void initView() {
         coj_create_but= (Button) findViewById(R.id.coj_create_but);
-
         coj_tabLayout= (TabLayout) findViewById(R.id.coj_tabLayout);
         coj_viewPager= (ViewPager) findViewById(R.id.coj_viewPager);
         coj_tabLayout.post(new Runnable() {
@@ -59,10 +58,13 @@ public class CreateOrJoinActivity extends BaseActivity {
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), CreateOrJoinActivity.this, mList, titles);
         coj_viewPager.setAdapter(fragmentAdapter);
         coj_tabLayout.setupWithViewPager(coj_viewPager);//设置 TabLayout 和 ViewPager 绑定
+        crj_addcommunity_btn= (Button) findViewById(R.id.crj_addcommunity_btn);
+
     }
 
     private void bindEvent() {
         coj_create_but.setOnClickListener(mOnClickListener);
+        crj_addcommunity_btn.setOnClickListener(mOnClickListener);
     }
     private View.OnClickListener mOnClickListener=new View.OnClickListener() {
         @Override
@@ -70,6 +72,9 @@ public class CreateOrJoinActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.coj_create_but:
                     startActivity(new Intent(CreateOrJoinActivity.this,CreateCommunityActivity.class));
+                    break;
+                case R.id.crj_addcommunity_btn:
+                    startActivity(new Intent(CreateOrJoinActivity.this,SelectCommunityActivity.class));
                     break;
             }
         }

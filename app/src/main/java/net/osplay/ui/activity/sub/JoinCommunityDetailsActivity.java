@@ -64,18 +64,18 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
     private void initView() {
         jcd_add_but= (Button) findViewById(R.id.jcd_add_but);
         //设置背景图片虚化
-        jcd_bg= (ImageView) findViewById(R.id.jcd_bg);
-        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.example02);
-        jcd_bg.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-
-                    @Override
-                    public boolean onPreDraw() {
-                        blur(bitmap, jcd_bg);
-                        return true;
-                    }
-                });
+//        jcd_bg= (ImageView) findViewById(R.id.jcd_bg);
+//        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+//                R.drawable.example02);
+//        jcd_bg.getViewTreeObserver().addOnPreDrawListener(
+//                new ViewTreeObserver.OnPreDrawListener() {
+//
+//                    @Override
+//                    public boolean onPreDraw() {
+//                        blur(bitmap, jcd_bg);
+//                        return true;
+//                    }
+//                });
 
         jcd_toolbar= (Toolbar) findViewById(R.id.jcd_toolbar);
         jcd_toolbar.setNavigationIcon(R.drawable.title_back);
@@ -108,8 +108,8 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
     //图片虚化
     private void blur(Bitmap bkg, View view) {
         long startMs = System.currentTimeMillis();
-        float scaleFactor = 8;
-        float radius = 4;
+        float scaleFactor = 4;
+        float radius = 2;
 
         Bitmap overlay = Bitmap.createBitmap(
                 (int) (view.getMeasuredWidth() / scaleFactor),
