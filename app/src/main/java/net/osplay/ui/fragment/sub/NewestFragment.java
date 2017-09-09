@@ -19,14 +19,11 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
-import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 import net.osplay.service.entity.RecommendBean;
 import net.osplay.ui.activity.sub.MinePageActivity;
 import net.osplay.ui.adapter.LeagueAdapter;
-import net.osplay.ui.adapter.base.BaseRecyclerViewAdapter;
-import net.osplay.ui.adapter.sub.RecommendAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 
 import java.util.List;
@@ -71,7 +68,7 @@ public class NewestFragment extends BaseBussFragment {
                 String json = response.get();//得到请求数据
                 Log.e("TAG", json);
                 gsonFormat(json);
-                setOnclick();
+//                setOnclick();
 
             }
 
@@ -87,15 +84,15 @@ public class NewestFragment extends BaseBussFragment {
         });
     }
 
-    private void setOnclick() {
-        SetOnClickListen setOnClickListen = new SetOnClickListen() {
-            @Override
-            public void setOnClick(int position) {
-                startActivity(new Intent(getActivity(), MinePageActivity.class));
-            }
-        };
-        adapter.onClick(setOnClickListen);
-    }
+//    private void setOnclick() {
+//        SetOnClickListen setOnClickListen = new SetOnClickListen() {
+//            @Override
+//            public void setOnClick(int position) {
+//                startActivity(new Intent(getActivity(), MinePageActivity.class));
+//            }
+//        };
+//        adapter.onClick(setOnClickListen);
+//    }
 
     private void gsonFormat(String json) {
         RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);

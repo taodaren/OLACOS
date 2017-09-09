@@ -6,18 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
-import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.LeagueBean;
-
-import java.util.List;
 
 /**
  * Created by Administrator on 2017/9/6.
@@ -28,13 +19,16 @@ import java.util.List;
  */
 public class HeatRankAdapter extends RecyclerView.Adapter<HeatRankViewHolder> {
     private Context mContext;
-    private SetOnClickListen setOnClickListen;
+//    private SetOnClickListen setOnClickListen;
+
     public HeatRankAdapter(Context mContext) {
         this.mContext = mContext;
     }
-    public void onClick(SetOnClickListen setOnClickListen){
-        this.setOnClickListen=setOnClickListen;
-    }
+
+//    public void onClick(SetOnClickListen setOnClickListen) {
+//        this.setOnClickListen = setOnClickListen;
+//    }
+
     @Override
     public HeatRankViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_heat_community, parent, false);
@@ -47,7 +41,7 @@ public class HeatRankAdapter extends RecyclerView.Adapter<HeatRankViewHolder> {
         holder.heat_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setOnClickListen.setOnClick(position);
+//                setOnClickListen.setOnClick(position);
             }
         });
     }
@@ -57,11 +51,13 @@ public class HeatRankAdapter extends RecyclerView.Adapter<HeatRankViewHolder> {
         return 20;
     }
 }
-class HeatRankViewHolder extends RecyclerView.ViewHolder{
+
+class HeatRankViewHolder extends RecyclerView.ViewHolder {
 
     public LinearLayout heat_item;
+
     public HeatRankViewHolder(View itemView) {
         super(itemView);
-        heat_item= (LinearLayout) itemView.findViewById(R.id.heat_item);
+        heat_item = (LinearLayout) itemView.findViewById(R.id.heat_item);
     }
 }
