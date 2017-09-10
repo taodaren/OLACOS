@@ -334,7 +334,7 @@
                         android:text="发送"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:background="@drawable/btn_shape_yellow"/>
+                        android:background="@drawable/btn_shape_cp"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

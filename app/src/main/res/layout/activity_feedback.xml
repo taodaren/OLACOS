@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@drawable/btn_shape_yellow"
+        android:background="@drawable/btn_shape_cp"
         android:text="提交"
         android:textColor="@color/colorWhite" />
 

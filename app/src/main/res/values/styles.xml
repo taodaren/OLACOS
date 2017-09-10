@@ -44,6 +44,6 @@
 
     <!--TabLayout 字体的外观-->
     <style name="TabTextStyle" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">17sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 </resources>

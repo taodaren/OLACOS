@@ -113,7 +113,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/btn_shape_yellow"
+            android:background="@drawable/btn_shape_cp"
             android:text="提交申请"
             android:textColor="@color/white" />
     </LinearLayout>

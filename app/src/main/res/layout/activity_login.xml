@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/btn_shape_yellow"
+                android:background="@drawable/btn_shape_cp"
                 android:padding="10dp"
                 android:text="登录"
                 android:textColor="@color/colorWhite" />

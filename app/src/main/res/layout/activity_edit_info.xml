@@ -77,7 +77,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
-                        android:background="@drawable/btn_shape_yellow"
+                        android:background="@drawable/btn_shape_cp"
                         android:text="添加标签"
                         android:textColor="@color/white" />
                 </RelativeLayout>

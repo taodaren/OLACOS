@@ -79,7 +79,7 @@
                 android:layout_height="35dp"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_shape_yellow"
+                android:background="@drawable/btn_shape_cp"
                 android:text="联系买家"
                 android:textColor="@color/colorWhite" />
 
