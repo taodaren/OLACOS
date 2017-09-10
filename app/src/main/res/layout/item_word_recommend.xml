@@ -35,10 +35,51 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_recommend"
+            android:id="@+id/recycler_recommend_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:padding="8dp" />
+
+        <RelativeLayout
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <LinearLayout
+                android:id="@+id/ll_hyh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    android:text="换一换"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="3dp"
+                    app:srcCompat="@drawable/huan_yi_huan" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_below="@id/ll_hyh"
+                android:layout_centerInParent="true"
+                android:layout_margin="8dp"
+                android:background="@drawable/btn_shape_circle"
+                android:padding="8dp"
+                android:text="    查看更多专区    "
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

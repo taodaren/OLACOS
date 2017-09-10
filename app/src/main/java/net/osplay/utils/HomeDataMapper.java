@@ -55,6 +55,19 @@ public class HomeDataMapper {
         return null;
     }
 
+    public static HomeData transformRecommendWordData(List<VideoBean> beans, int adapterType, boolean isSpan) {
+        HomeData<List<VideoBean>> homeData;
+        if (beans != null && !beans.isEmpty()) {
+            homeData = new HomeData();
+            homeData.setData(beans);
+            homeData.setItemType(adapterType);
+            homeData.setLocal(false);
+            homeData.setSpan(isSpan);
+            return homeData;
+        }
+        return null;
+    }
+
     private static HomeData transformVideoData(VideoBean bean, int adapterType, boolean isSpan) {
         if (bean == null) {
             throw new IllegalArgumentException("Cannot transform a null value");

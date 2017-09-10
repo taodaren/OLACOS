@@ -41,7 +41,7 @@ public class WordMineRecommendAdapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_RECOMMEND_WORD:
-                return new RecommendViewHolder(mInflater.inflate(R.layout.layout_word_recommend_word, parent, false));
+                return new RecommendViewHolder(mInflater.inflate(R.layout.layout_recommend_word, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;

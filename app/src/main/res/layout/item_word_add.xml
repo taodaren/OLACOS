@@ -33,24 +33,11 @@
                 android:textColor="@color/colorTiShiWenZi" />
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_add_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:gravity="center_vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/add_new_word"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/add" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="添加新专区" />
-        </LinearLayout>
+            android:padding="8dp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
