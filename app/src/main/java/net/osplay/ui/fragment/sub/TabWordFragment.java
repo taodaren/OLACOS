@@ -11,9 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.adapter.base.vpTabAdapter;
+import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class TabWordFragment extends BaseFragment {
     private ViewPager mViewPager;
     private List<Fragment> mFragmentList;
     private String[] mTitles = new String[]{"我的", "热区"};
-    private vpTabAdapter mAdapter;
+    private TabViewPagerAdapter mAdapter;
 
     @Override
     public View initView() {
@@ -44,20 +43,15 @@ public class TabWordFragment extends BaseFragment {
     }
 
     private void initTabLayout() {
-        //设置 TabLayout 下划线长度
-        mTabLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                TabUtils.setIndicator(mTabLayout, 30, 30);
-            }
-        });
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[0]), 0, false);
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[1]), 1, true);
     }
 
     private void initViewPager() {
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new WordMineFragment(getActivity(), R.layout.fragment_word_mine));
         mFragmentList.add(new WordHotFragment(getActivity(), R.layout.fragment_word_hot));
-        mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
+        mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }
 

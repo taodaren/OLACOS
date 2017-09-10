@@ -48,9 +48,10 @@
         android:layout_height="?android:attr/actionBarSize"
         android:layout_gravity="center"
         app:layout_scrollFlags="enterAlways"
-        app:tabGravity="center"
+        app:tabGravity="fill"
         app:tabIndicatorColor="@color/colorWhite"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/colorWhite"
+        app:tabTextAppearance="@style/TabTextStyle"
         app:tabTextColor="@color/colorWhite" />
 </android.support.v7.widget.Toolbar>

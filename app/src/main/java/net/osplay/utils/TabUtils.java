@@ -1,8 +1,5 @@
 package net.osplay.utils;
 
-/**
- * Created by acer-PC on 2017/8/30.
- */
 import android.content.res.Resources;
 import android.support.design.widget.TabLayout;
 import android.util.TypedValue;
@@ -12,18 +9,18 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 
 /**
- * 改变tablayout长度的工具类
+ * 改变 TabLayout 长度的工具类
  */
 
 public class TabUtils {
     /**
-     *  @param tabs TabLayout
-     * @param leftDip marginLeft
+     * @param tabs     TabLayout
+     * @param leftDip  marginLeft
      * @param rightDip marginRight
      */
-    public static void setIndicator (TabLayout tabs, int leftDip, int rightDip){
+    public static void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
         Class<?> tabLayout = tabs.getClass();
-        Field tabStrip = null;
+        Field tabStrip;
         try {
             tabStrip = tabLayout.getDeclaredField("mTabStrip");
         } catch (NoSuchFieldException e) {
@@ -32,7 +29,7 @@ public class TabUtils {
         }
 
         tabStrip.setAccessible(true);
-        LinearLayout llTab = null;
+        LinearLayout llTab;
         try {
             llTab = (LinearLayout) tabStrip.get(tabs);
         } catch (IllegalAccessException e) {
@@ -53,4 +50,5 @@ public class TabUtils {
             child.invalidate();
         }
     }
+
 }
