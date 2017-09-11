@@ -17,17 +17,17 @@ import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 还未加入社团的社团活动界面
  */
-public class HottestFragment extends BaseBussFragment {
+public class SocialActivityFragment extends BaseBussFragment {
     private TextView create_tv;
 
     @SuppressLint("ValidFragment")
-    public HottestFragment() {
+    public SocialActivityFragment() {
     }
 
     @SuppressLint("ValidFragment")
-    public HottestFragment(Context mContext, int resId) {
+    public SocialActivityFragment(Context mContext, int resId) {
         super(mContext, resId);
     }
 

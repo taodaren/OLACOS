@@ -92,6 +92,7 @@ public class NewestFragment extends BaseBussFragment {
             @Override
             public void setOnClick(int position) {
                 startActivity(new Intent(getActivity(), MinePageActivity.class));
+                getActivity().finish();
             }
         };
         adapter.onClick(setOnClickListen);

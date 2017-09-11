@@ -134,8 +134,12 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.jcd_add_but://加入社团
                     Toast.makeText(JoinCommunityDetailsActivity.this,"加入成功",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(JoinCommunityDetailsActivity.this,MainActivity.class));
+                    Intent show=new Intent(JoinCommunityDetailsActivity.this,MainActivity.class);
+                    show.putExtra("jgb",1);
+                    startActivity(show);
                     finish();
+//                    startActivity(new Intent(JoinCommunityDetailsActivity.this,MainActivity.class));
+//                    finish();
                     editor.putString("addAnnotated", "addolacos");
                     editor.commit();
                     break;

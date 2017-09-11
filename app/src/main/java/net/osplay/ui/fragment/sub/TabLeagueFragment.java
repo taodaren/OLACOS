@@ -1,9 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,24 +14,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.view.InflateException;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.activity.sub.MainActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.FastBlur;
@@ -55,9 +44,10 @@ public class TabLeagueFragment extends BaseFragment {
     private String[] titles = new String[]{"推荐", "社团活动", "社团作品"};
     private FragmentAdapter fragmentAdapter = null;
     private NewestFragment nFragment;
-    private HottestFragment hFragment;
+    private SocialActivityFragment hFragment;
     private MineFragment mFragment;
     private CommunityFragment cFragment;
+    private CommunityWorksFragment wFragment;
     private String lannotated = "olacos";
     private String cAnnotated;
     private String addlannotated = "addolacos";
@@ -95,10 +85,11 @@ public class TabLeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-        nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);
-        hFragment = new HottestFragment(getActivity(), R.layout.fragment_create_community);
-        mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);
-        cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);
+        nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);//社团推荐
+        hFragment = new SocialActivityFragment(getActivity(), R.layout.fragment_create_community);//社团活动
+        cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);//加入或创建社团之后的社团活动
+        mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);//社团作品
+        wFragment=new CommunityWorksFragment(getActivity(),R.layout.fragment_community_works);//加入或创建社团之后的社团作品
         mList.add(nFragment);
         //如果创建或者加入社团后将不再显示创建或加入社团界面
         if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
@@ -106,7 +97,11 @@ public class TabLeagueFragment extends BaseFragment {
         } else {
             mList.add(hFragment);
         }
-        mList.add(mFragment);
+        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
+            mList.add(wFragment);
+        }else{
+            mList.add(mFragment);
+        }
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -51,8 +50,8 @@ public class CreateOrJoinActivity extends BaseActivity {
                 TabUtils.setIndicator(coj_tabLayout, 25, 25);
             }
         });
-        newlyCreatedFragment=new NewlyCreatedFragment(CreateOrJoinActivity.this,R.layout.fragment_newly_created);
-        heatRankFragment=new HeatRankFragment(CreateOrJoinActivity.this,R.layout.fragment_heat_rank);
+        newlyCreatedFragment=new NewlyCreatedFragment(CreateOrJoinActivity.this,R.layout.fragment_newly_created);//加入或创建中的热门排行
+        heatRankFragment=new HeatRankFragment(CreateOrJoinActivity.this,R.layout.fragment_heat_rank);//加入或创建中的最新创建
         mList.add(heatRankFragment);
         mList.add(newlyCreatedFragment);
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), CreateOrJoinActivity.this, mList, titles);
@@ -70,11 +69,11 @@ public class CreateOrJoinActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-                case R.id.coj_create_but:
+                case R.id.coj_create_but://创建社团
                     startActivity(new Intent(CreateOrJoinActivity.this,CreateCommunityActivity.class));
                     break;
-                case R.id.crj_addcommunity_btn:
-                    startActivity(new Intent(CreateOrJoinActivity.this,SelectCommunityActivity.class));
+                case R.id.crj_addcommunity_btn://加入社团
+                    startActivity(new Intent(CreateOrJoinActivity.this,AllCommunityActivity.class));
                     break;
             }
         }
