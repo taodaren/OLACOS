@@ -22,7 +22,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.service.entity.base.HomeData;
-import net.osplay.ui.adapter.WordMineRecommendAdapter;
+import net.osplay.ui.adapter.WordMineAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 社区 → 我的
+ * 社区：我的分模块
  */
 
 public class WordMineFragment extends BaseFragment {
@@ -41,7 +41,7 @@ public class WordMineFragment extends BaseFragment {
     private RecyclerView mRvWordMine;
 
     private List<VideoBean> mAddWorList;
-    private List<VideoBean> mRecommendWorList;
+    private List<VideoBean> mRecomWordList;
 
     @SuppressLint("ValidFragment")
     public WordMineFragment() {
@@ -71,7 +71,7 @@ public class WordMineFragment extends BaseFragment {
 
         //获取数据请求并解析
         getAddWordData(requestQueue, requestAddWord);
-        getRecommendWordData(requestQueue, requestRecommendWord);
+        getRecomWordData(requestQueue, requestRecommendWord);
     }
 
     private void getAddWordData(RequestQueue requestQueue, Request<String> request) {
@@ -108,7 +108,7 @@ public class WordMineFragment extends BaseFragment {
         });
     }
 
-    private void getRecommendWordData(RequestQueue requestQueue, Request<String> request) {
+    private void getRecomWordData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -124,9 +124,9 @@ public class WordMineFragment extends BaseFragment {
                 }.getType();
                 VideoMapperBean bean = gson.fromJson(json, type);
                 List<VideoBean> temp = bean.getTrailers();
-                mRecommendWorList = new ArrayList<>();
+                mRecomWordList = new ArrayList<>();
                 for (int i = 0; i < 5; i++) {
-                    mRecommendWorList.add(temp.get(i));
+                    mRecomWordList.add(temp.get(i));
                 }
 
                 initRecyclerView();
@@ -143,16 +143,16 @@ public class WordMineFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        if (mRecommendWorList != null) {
+        if (mRecomWordList != null) {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mRvWordMine.setLayoutManager(mLayoutManager);
             mRvWordMine.setHasFixedSize(true);
 
             List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformWordMineData(mRecommendWorList, WordMineRecommendAdapter.TYPE_ADD_WORD, false));
-            list.add(HomeDataMapper.transformWordMineData(mRecommendWorList, WordMineRecommendAdapter.TYPE_RECOMMEND_WORD, false));
+            list.add(HomeDataMapper.transformWordMineData(mRecomWordList, WordMineAdapter.TYPE_ADD_WORD, false));
+            list.add(HomeDataMapper.transformWordMineData(mRecomWordList, WordMineAdapter.TYPE_RECOM_WORD, false));
 
-            WordMineRecommendAdapter adapter = new WordMineRecommendAdapter(getActivity(), list, mAddWorList, mRecommendWorList);
+            WordMineAdapter adapter = new WordMineAdapter(getActivity(), list, mAddWorList, mRecomWordList);
             mRvWordMine.setAdapter(adapter);
         }
     }
