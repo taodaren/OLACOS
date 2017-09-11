@@ -50,7 +50,7 @@ public class HomeTabGoodsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View fragmentView = inflater.inflate(R.layout.fragment_home_tab, container, false);
+        final View fragmentView = inflater.inflate(R.layout.layout_recycler_view, container, false);
         mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.rv_f_home_tab);
         return fragmentView;
     }

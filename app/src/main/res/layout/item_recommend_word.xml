@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_recommend_word"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/recommend_word_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example01" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/recommend_word_avatar"
+            android:padding="3dp">
+
+            <TextView
+                android:id="@+id/recommend_word_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="次元不二"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_recommend_word"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/recommend_word_member"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="成员:9527" />
+
+                <TextView
+                    android:id="@+id/recommend_word_posts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="帖子:89757" />
+
+                <Button
+                    android:id="@+id/recommend_word_add"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_shape_white"
+                    android:text="+ 加入"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/recommend_word_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="不要污，要优雅"
+                android:textColor="@color/colorTiShiWenZi" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorContentBg" />
+</LinearLayout>

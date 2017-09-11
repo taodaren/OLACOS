@@ -29,6 +29,19 @@ public class HomeDataMapper {
         return null;
     }
 
+    public static HomeData transformWordMineData(List<VideoBean> beans, int adapterType, boolean isSpan) {
+        HomeData<List<VideoBean>> homeData;
+        if (beans != null && !beans.isEmpty()) {
+            homeData = new HomeData();
+            homeData.setData(beans);
+            homeData.setItemType(adapterType);
+            homeData.setLocal(false);
+            homeData.setSpan(isSpan);
+            return homeData;
+        }
+        return null;
+    }
+
     public static HomeData transformRecommendData(List<HomeBannerBean> beans, int adapterType, boolean isSpan) {
         HomeData<List<HomeBannerBean>> homeData;
         if (beans != null && !beans.isEmpty()) {

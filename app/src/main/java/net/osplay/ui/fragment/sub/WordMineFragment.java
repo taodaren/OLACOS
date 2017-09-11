@@ -37,8 +37,8 @@ import java.util.List;
 public class WordMineFragment extends BaseFragment {
     private static final String TAG = "WordMineFragment";
 
-    private RecyclerView mRvAddWord, mRvRecommendWord;
     private Gson gson = new Gson();
+    private RecyclerView mRvWordMine;
 
     private List<VideoBean> mAddWorList;
     private List<VideoBean> mRecommendWorList;
@@ -55,8 +55,8 @@ public class WordMineFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_word_mine, null);
-        mRvAddWord = (RecyclerView) inflate.findViewById(R.id.recycler_add_word);
-        mRvRecommendWord = (RecyclerView) inflate.findViewById(R.id.recycler_recommend_word);
+        mRvWordMine = (RecyclerView) inflate.findViewById(R.id.recycler_word_mine);
+
         return inflate;
     }
 
@@ -95,7 +95,7 @@ public class WordMineFragment extends BaseFragment {
                     mAddWorList.add(temp.get(i));
                 }
 
-//                initRecyclerView();
+                initRecyclerView();
             }
 
             @Override
@@ -129,7 +129,7 @@ public class WordMineFragment extends BaseFragment {
                     mRecommendWorList.add(temp.get(i));
                 }
 
-                initRecyclerRecommend();
+                initRecyclerView();
             }
 
             @Override
@@ -142,17 +142,18 @@ public class WordMineFragment extends BaseFragment {
         });
     }
 
-    private void initRecyclerRecommend() {
+    private void initRecyclerView() {
         if (mRecommendWorList != null) {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            mRvRecommendWord.setLayoutManager(mLayoutManager);
-            mRvRecommendWord.setHasFixedSize(true);
+            mRvWordMine.setLayoutManager(mLayoutManager);
+            mRvWordMine.setHasFixedSize(true);
 
             List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformRecommendWordData(mRecommendWorList, WordMineRecommendAdapter.TYPE_RECOMMEND_WORD, false));
+            list.add(HomeDataMapper.transformWordMineData(mRecommendWorList, WordMineRecommendAdapter.TYPE_ADD_WORD, false));
+            list.add(HomeDataMapper.transformWordMineData(mRecommendWorList, WordMineRecommendAdapter.TYPE_RECOMMEND_WORD, false));
 
-            WordMineRecommendAdapter adapter = new WordMineRecommendAdapter(getActivity(), list);
-            mRvRecommendWord.setAdapter(adapter);
+            WordMineRecommendAdapter adapter = new WordMineRecommendAdapter(getActivity(), list, mAddWorList, mRecommendWorList);
+            mRvWordMine.setAdapter(adapter);
         }
     }
 
