@@ -9,31 +9,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/img_secondhand"
+            android:id="@+id/img_hot_topic"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/example01" />
 
         <TextView
-            android:id="@+id/text_title_secondhand"
+            android:id="@+id/text_hot_topic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:lines="2"
-            android:text="【二次元】北京奥世普雷科技有限公司怎么全是帅哥美女"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/text_price_secondhand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="￥1234"
-            android:textColor="@color/colorRed"
-            android:textSize="14sp" />
+            android:lines="1"
+            android:padding="10dp"
+            android:text="COS 社区"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
