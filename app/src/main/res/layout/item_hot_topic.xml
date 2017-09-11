@@ -6,28 +6,31 @@
     android:layout_margin="5dp"
     app:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="130dp"
+        android:layout_gravity="center"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/img_hot_topic"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/example01" />
 
         <TextView
             android:id="@+id/text_hot_topic"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:background="@color/colorTranslucent"
             android:lines="1"
             android:padding="10dp"
             android:text="COS 社区"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

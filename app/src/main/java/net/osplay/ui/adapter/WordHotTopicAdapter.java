@@ -1,5 +1,6 @@
 package net.osplay.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,24 +21,20 @@ import java.util.List;
  */
 
 public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context mContext;
-//    private LayoutInflater mInflater;
+    private Activity mContext;
+    private LayoutInflater mInflater;
 
     private List<WordTopicBean> mTopicBeanList;
 
-    public WordHotTopicAdapter(/*Context mContext,*/ List<WordTopicBean> mTopicBeanList) {
-//        this.mContext = mContext;
-//        this.mInflater = LayoutInflater.from(mContext);
+    public WordHotTopicAdapter(Activity mContext, List<WordTopicBean> mTopicBeanList) {
+        this.mContext = mContext;
+        this.mInflater = LayoutInflater.from(mContext);
         this.mTopicBeanList = mTopicBeanList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mContext == null) {
-            mContext = parent.getContext();
-        }
-        return new TopicViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.layout_word_add, parent, false));
+        return new TopicViewHolder(mInflater.inflate(R.layout.item_hot_topic, parent, false));
     }
 
     @Override
