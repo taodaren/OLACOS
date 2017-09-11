@@ -1,22 +1,16 @@
 package net.osplay.ui.fragment.sub;
 
-import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
-import net.osplay.service.entity.base.HomeData;
-import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.adapter.WordHotTopicAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.HomeDataMapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
