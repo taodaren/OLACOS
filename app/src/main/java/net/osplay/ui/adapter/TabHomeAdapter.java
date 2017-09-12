@@ -218,7 +218,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private static final int FRAGMENT_NEW_GOODS = 0;
         private static final int FRAGMENT_HOT_POSTS = 1;
 
-        private RelativeLayout layout;
+        private LinearLayout layout;
         private TabLayout tabLayout;
         private FrameLayout content;
 
@@ -231,7 +231,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private TableViewHolder(View itemView) {
             super(itemView);
-            layout = (RelativeLayout) itemView.findViewById(R.id.layout_home_table);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout_home_table);
             tabLayout = (TabLayout) itemView.findViewById(R.id.tab_home_table);
             content = (FrameLayout) itemView.findViewById(R.id.tab_home_content);
         }
