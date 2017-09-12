@@ -25,7 +25,7 @@
                 android:id="@+id/collect_goods_avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/word_recommend" />
+                android:src="@drawable/word_add" />
 
             <TextView
                 android:layout_width="wrap_content"
