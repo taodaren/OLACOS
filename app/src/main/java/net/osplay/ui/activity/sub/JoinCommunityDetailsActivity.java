@@ -57,12 +57,12 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         editor=preferences.edit();
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         noBar();
-//        setContentView(R.layout.activity_join_community_details);
+        setContentView(R.layout.activity_join_community_details);
         initView();
         bindEvent();
     }
     private void initView() {
-//        jcd_add_but= (Button) findViewById(R.id.jcd_add_but);
+        jcd_add_but= (Button) findViewById(R.id.jcd_add_but);
         //设置背景图片虚化
 //        jcd_bg= (ImageView) findViewById(R.id.jcd_bg);
 //        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
@@ -77,9 +77,9 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
 //                    }
 //                });
 
-//        jcd_toolbar= (Toolbar) findViewById(R.id.jcd_toolbar);
+        jcd_toolbar= (Toolbar) findViewById(R.id.jcd_toolbar);
         jcd_toolbar.setNavigationIcon(R.drawable.title_back);
-//        jcd_recy= (RecyclerView) findViewById(R.id.jcd_recy);
+        jcd_recy= (RecyclerView) findViewById(R.id.jcd_recy);
         jcd_recy.setLayoutManager(new LinearLayoutManager(JoinCommunityDetailsActivity.this, LinearLayoutManager.VERTICAL, false));
         jAdapter=new JoinCommunityDetailsAdapter(JoinCommunityDetailsActivity.this);
         jcd_recy.setAdapter(jAdapter);
@@ -132,13 +132,17 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()){
-//                case R.id.jcd_add_but://加入社团
-//                    Toast.makeText(JoinCommunityDetailsActivity.this,"加入成功",Toast.LENGTH_SHORT).show();
+                case R.id.jcd_add_but://加入社团
+                    Toast.makeText(JoinCommunityDetailsActivity.this,"加入成功",Toast.LENGTH_SHORT).show();
+                    Intent show=new Intent(JoinCommunityDetailsActivity.this,MainActivity.class);
+                    show.putExtra("jgb",1);
+                    startActivity(show);
+                    finish();
 //                    startActivity(new Intent(JoinCommunityDetailsActivity.this,MainActivity.class));
 //                    finish();
-//                    editor.putString("addAnnotated", "addolacos");
-//                    editor.commit();
-//                    break;
+                    editor.putString("addAnnotated", "addolacos");
+                    editor.commit();
+                    break;
             }
         }
     };

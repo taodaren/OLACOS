@@ -2,7 +2,10 @@ package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,7 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.adapter.base.vpTabAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.utils.TabUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 商品模块
@@ -18,13 +26,39 @@ import net.osplay.ui.fragment.base.BaseFragment;
 
 public class TabGoodsFragment extends BaseFragment {
     private DrawerLayout mDrawerLayout;
-
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private List<Fragment> mFragmentList;
+    private String[] mTitles = new String[]{"二手", "商城"};
+    private vpTabAdapter mAdapter;
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);//注意使用的是 getActivity()
+        mTabLayout = (TabLayout) inflate.findViewById(R.id.tab_layout_toolbar);
+        mViewPager = (ViewPager) inflate.findViewById(R.id.vp_tab_goods);
         initDrawerLayout();
+        initTabLayout();
+        initViewPager();
+        mTabLayout.setupWithViewPager(mViewPager);
         return inflate;
+    }
+
+    private void initTabLayout() {
+        //设置 TabLayout 下划线长度
+        mTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                TabUtils.setIndicator(mTabLayout, 30, 30);
+            }
+        });
+    }
+    private void initViewPager() {
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(new GoodsSecondHandFragment(getActivity(), R.layout.fragment_goods_second_hand));
+        mFragmentList.add(new GoodsMallFragment(getActivity(), R.layout.fragment_goods_mall));
+        mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
+        mViewPager.setAdapter(mAdapter);
     }
 
     /**
@@ -33,7 +67,8 @@ public class TabGoodsFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.VISIBLE, View.GONE, true);
+        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
+
     }
 
     @Override

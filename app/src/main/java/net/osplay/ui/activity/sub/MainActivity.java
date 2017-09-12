@@ -39,10 +39,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private void initView() {
         initBottomNavBar();
         initFabButton();
-
-//        int intExtra = getIntent().getIntExtra("jgb", -1);
+//        int intExtra = getIntent().getIntExtra("jgb",0);
 //        if (intExtra == 1) {
-//            tabLeagueFragment = new TabLeagueFragment();
 //            if (!tabLeagueFragment.isAdded()) {
 //                addFragment(R.id.main_content, tabLeagueFragment);
 //                currentFragment = tabLeagueFragment;
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //        }
         defaultShowHome();
     }
-
     /**
      * 默认显示 TabHomeFragment
      */

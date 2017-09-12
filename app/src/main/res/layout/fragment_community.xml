@@ -1,63 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/community_recycler"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/community_rl">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/community_avatar_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/avatar1" />
-
-        <TextView
-            android:id="@+id/community_nickname_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
-            android:layout_toRightOf="@id/community_avatar_img"
-            android:text="内涵馒头"
-            android:textColor="@color/colorBlack2"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/community_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/community_nickname_tv"
-            android:layout_below="@id/community_nickname_tv"
-            android:layout_marginTop="8dp"
-            android:text="2小时前"
-            android:textSize="13sp" />
-
-        <TextView
-            android:id="@+id/community_community_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:text="三千院風"
-            android:textColor="@color/colorBlack2"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/community_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/community_time_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
-            android:text="一起看漫展可好？"
-            android:textColor="@color/colorBlack2"
-            android:textSize="15sp" />
-
-    </RelativeLayout>
+  </android.support.v7.widget.RecyclerView>
 </LinearLayout>
