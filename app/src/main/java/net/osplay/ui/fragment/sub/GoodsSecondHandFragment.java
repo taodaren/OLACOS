@@ -1,11 +1,11 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -21,7 +21,6 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
-import net.osplay.service.entity.goods.SecondHandMallBean;
 import net.osplay.service.entity.goods.TypeListBean;
 import net.osplay.ui.adapter.sub.goods.SecondHandAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
@@ -34,18 +33,24 @@ import java.util.List;
  */
 public class GoodsSecondHandFragment extends BaseBussFragment {
     private RecyclerView mRecyclerView;
-    private Gson mGson=new Gson();
+    private Gson mGson = new Gson();
     private SecondHandAdapter sAdapter;
     private List<TypeListBean.ResultBean.PageDataBean> page_data;
     private Button goods_select;
     private DrawerLayout dl_left;
 
+    @SuppressLint("ValidFragment")
+    public GoodsSecondHandFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
     public GoodsSecondHandFragment(Context mContext, int resId) {
         super(mContext, resId);
     }
+
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        mRecyclerView= (RecyclerView) view.findViewById(R.id.goods_recy);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.goods_recy);
     }
 
     @Override
@@ -74,7 +79,7 @@ public class GoodsSecondHandFragment extends BaseBussFragment {
                 gsonFormat(json);
                 TypeListBean secondHandMallBean = mGson.fromJson(json, TypeListBean.class);
                 page_data = secondHandMallBean.getResult().getPage_data();
-                sAdapter = new SecondHandAdapter(getActivity(),page_data);
+                sAdapter = new SecondHandAdapter(getActivity(), page_data);
                 mRecyclerView.setAdapter(sAdapter);
             }
 
@@ -92,8 +97,6 @@ public class GoodsSecondHandFragment extends BaseBussFragment {
     private void gsonFormat(String json) {
 
     }
-
-
 
 
 }

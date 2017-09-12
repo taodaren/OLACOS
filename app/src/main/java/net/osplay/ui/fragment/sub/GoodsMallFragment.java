@@ -1,17 +1,13 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.drm.ProcessedData;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -22,9 +18,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.ResultBeanData;
-import net.osplay.service.entity.goods.TypeListBean;
 import net.osplay.ui.adapter.sub.MallAdapter;
-import net.osplay.ui.adapter.sub.goods.SecondHandAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.utils.Constants;
 
@@ -33,17 +27,22 @@ import net.osplay.utils.Constants;
  */
 public class GoodsMallFragment extends BaseBussFragment {
     private RecyclerView rv_mall;
-    private Gson mGson=new Gson();
-    private  ResultBeanData.ResultBean resultBean;
+    private Gson mGson = new Gson();
+    private ResultBeanData.ResultBean resultBean;
     private MallAdapter adapter;
 
+    @SuppressLint("ValidFragment")
+    public GoodsMallFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
     public GoodsMallFragment(Context mContext, int resId) {
         super(mContext, resId);
     }
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        rv_mall= (RecyclerView) view.findViewById(R.id.rv_mall);
+        rv_mall = (RecyclerView) view.findViewById(R.id.rv_mall);
     }
 
     @Override
@@ -84,11 +83,11 @@ public class GoodsMallFragment extends BaseBussFragment {
 
     private void processedData(String json) {
         ResultBeanData resultBeanData = mGson.fromJson(json, ResultBeanData.class);
-        resultBean= resultBeanData.getResult();
-        if(resultBean != null){//有数据
-            adapter=new MallAdapter(getActivity(),resultBean);
+        resultBean = resultBeanData.getResult();
+        if (resultBean != null) {//有数据
+            adapter = new MallAdapter(getActivity(), resultBean);
             rv_mall.setAdapter(adapter);
-        }else{
+        } else {
 
         }
     }
