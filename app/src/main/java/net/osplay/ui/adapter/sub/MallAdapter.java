@@ -4,8 +4,12 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.youth.banner.Banner;
+
+import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.ResultBeanData;
 
 /**
@@ -43,6 +47,9 @@ public class MallAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType==BANNER){
+            return new BannerViewHolder(mContext,mLayoutInflater.inflate(R.layout.banner_viewpager,null));
+        }
         return null;
     }
 
@@ -50,6 +57,15 @@ public class MallAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
+    }
+    class BannerViewHolder extends RecyclerView.ViewHolder{
+        private Context mContext;
+        private Banner banner;
+        public BannerViewHolder(Context mContext, View itemView) {
+            super(itemView);
+            this.mContext=mContext;
+            this.banner= (Banner) itemView.findViewById(R.id.banner);
+        }
     }
 
     //得到类型

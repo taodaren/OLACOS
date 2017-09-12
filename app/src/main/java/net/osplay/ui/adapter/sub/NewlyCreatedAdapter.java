@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 
 /**
@@ -14,10 +15,10 @@ import net.osplay.olacos.R;
  */
 
 public class NewlyCreatedAdapter extends RecyclerView.Adapter<NewlyViewHolder> {
-//    private SetOnClickListen setOnClickListen;
-//    public void onClick(SetOnClickListen setOnClickListen){
-//        this.setOnClickListen=setOnClickListen;
-//    }
+    private SetOnClickListen setOnClickListen;
+    public void onClick(SetOnClickListen setOnClickListen){
+        this.setOnClickListen=setOnClickListen;
+    }
     private Context mContext;
     public NewlyCreatedAdapter(Context mContext) {
         this.mContext = mContext;
@@ -35,7 +36,7 @@ public class NewlyCreatedAdapter extends RecyclerView.Adapter<NewlyViewHolder> {
         holder.newly_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                setOnClickListen.setOnClick(position);
+                setOnClickListen.setOnClick(position);
             }
         });
     }
