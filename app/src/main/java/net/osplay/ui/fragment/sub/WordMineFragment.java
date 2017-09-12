@@ -143,13 +143,13 @@ public class WordMineFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        if (mRecomWordList != null) {
+        if (mAddWorList != null && mRecomWordList != null) {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mRvWordMine.setLayoutManager(mLayoutManager);
             mRvWordMine.setHasFixedSize(true);
 
             List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformWordMineData(mRecomWordList, WordMineAdapter.TYPE_ADD_WORD, false));
+            list.add(HomeDataMapper.transformWordMineData(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
             list.add(HomeDataMapper.transformWordMineData(mRecomWordList, WordMineAdapter.TYPE_RECOM_WORD, false));
 
             WordMineAdapter adapter = new WordMineAdapter(getActivity(), list, mAddWorList, mRecomWordList);

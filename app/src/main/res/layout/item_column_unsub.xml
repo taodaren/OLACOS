@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_column_unsub"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/colorContentBg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_column_unsub"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example08" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:padding="3dp">
+
+            <Button
+                android:id="@+id/btn_column_unsub"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_shape_white"
+                android:text="订阅"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/text_title_column_unsub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="酒醇茶香"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <TextView
+                    android:id="@+id/text_type_column_unsub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="德邦情报局" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/text_info_column_unsub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:lines="1"
+                android:text="万丈红尘三杯酒，千秋大业一壶茶"
+                android:textColor="@color/colorTiShiWenZi"
+                android:textSize="13sp" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
