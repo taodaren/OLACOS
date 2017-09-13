@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -75,9 +74,6 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     mContext.startActivity(new Intent(mContext, DetailsTopicActivity.class));
-                    int position = getAdapterPosition();
-                    WordTopicBean bean = mTopicBeanList.get(position);
-                    Toast.makeText(mContext, "点击" + bean.getName() + "布局", Toast.LENGTH_SHORT).show();
                 }
             });
         }
