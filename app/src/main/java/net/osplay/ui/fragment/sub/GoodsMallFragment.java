@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -87,6 +88,7 @@ public class GoodsMallFragment extends BaseBussFragment {
         if (resultBean != null) {//有数据
             adapter = new MallAdapter(getActivity(), resultBean);
             rv_mall.setAdapter(adapter);
+            rv_mall.setLayoutManager(new GridLayoutManager(getActivity(),1));
         } else {
 
         }

@@ -57,4 +57,5 @@ dependencies {
     compile 'com.wenwenwen888:searchbox:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'com.alibaba:fastjson:1.1.63.android'
+    compile 'com.zhy:magic-viewpager:1.0.1'//viewpager的动画效果
 }
