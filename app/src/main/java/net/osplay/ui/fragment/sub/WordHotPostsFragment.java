@@ -1,6 +1,8 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +43,15 @@ public class WordHotPostsFragment extends BaseFragment {
 
     private Gson gson = new Gson();
     private List<VideoBean> mHotPostsList;
+
+    @SuppressLint("ValidFragment")
+    public WordHotPostsFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public WordHotPostsFragment(Context context, int resId) {
+        super(context, resId);
+    }
 
     @Override
     public View initView() {

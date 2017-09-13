@@ -1,5 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,6 +27,15 @@ public class WordHotTopicFragment extends BaseFragment {
 
     private WordTopicBean[] topicBeen;
     private List<WordTopicBean> topicList;
+
+    @SuppressLint("ValidFragment")
+    public WordHotTopicFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public WordHotTopicFragment(Context context, int resId) {
+        super(context, resId);
+    }
 
     @Override
     public View initView() {

@@ -48,7 +48,7 @@ public class WordColumnAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.mUnSubList = new ArrayList<>();
         this.mDataList.addAll(mDataList);
         this.mSubList.addAll(mSubList);
-        this.mSubList.addAll(mUnSubList);
+        this.mUnSubList.addAll(mUnSubList);
     }
 
     @Override
