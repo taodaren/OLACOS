@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,13 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
+import net.osplay.ui.activity.sub.DetailsColumnActivity;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,17 +83,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             outView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    VideoBean videoBean = mHotPostsList.get(position);
-                    Toast.makeText(mContext, "点击" + videoBean.getMovieName() + "布局", Toast.LENGTH_SHORT).show();
-                }
-            });
-            imgAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    VideoBean videoBean = mHotPostsList.get(position);
-                    Toast.makeText(mContext, "跳转到" + videoBean.getMovieName() + "个人界面", Toast.LENGTH_SHORT).show();
+                    mContext.startActivity(new Intent(mContext, DetailsPostsActivity.class));
                 }
             });
         }
