@@ -9,7 +9,7 @@ public class Constants {
     //运行到自己的真实手机上：
     //1.装一个共享wifi的软件-猎豹wifi-把本地电脑分享出一个wifi
     //2.tomcat是开启的
-    //3.ip地址修改成wifi的ip地址
+    //3.ip地址修改成wifi的ip地址z
     //4.手机一定要连接电脑分享的wifi
 //    public static final String BASE = "http://192.168.191.1:8080";
 
