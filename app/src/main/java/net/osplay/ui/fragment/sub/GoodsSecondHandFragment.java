@@ -79,7 +79,7 @@ public class GoodsSecondHandFragment extends BaseBussFragment {
                 gsonFormat(json);
                 TypeListBean secondHandMallBean = mGson.fromJson(json, TypeListBean.class);
                 page_data = secondHandMallBean.getResult().getPage_data();
-                sAdapter = new SecondHandAdapter(getActivity(), page_data);
+                //sAdapter = new SecondHandAdapter(getActivity(), page_data);
                 mRecyclerView.setAdapter(sAdapter);
             }
 

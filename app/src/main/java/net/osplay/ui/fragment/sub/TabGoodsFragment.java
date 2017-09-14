@@ -1,95 +1,204 @@
 package net.osplay.ui.fragment.sub;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+
+import com.google.gson.Gson;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.adapter.base.vpTabAdapter;
-import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.TabUtils;
 
-import java.util.ArrayList;
+import net.osplay.service.entity.goods.ResultBeanData;
+import net.osplay.service.entity.goods.TypeListBean;
+import net.osplay.ui.adapter.sub.MallAdapter;
+import net.osplay.ui.adapter.sub.goods.SecondHandAdapter;
+import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.utils.Constants;
+
 import java.util.List;
+
 
 /**
  * 商品模块
  */
 
 public class TabGoodsFragment extends BaseFragment {
-    private DrawerLayout mDrawerLayout;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-    private List<Fragment> mFragmentList;
-    private String[] mTitles = new String[]{"二手", "商城"};
-    private vpTabAdapter mAdapter;
+
+    //------公共属性--------------
+    private FrameLayout mFlCardBack;
+    private FrameLayout mFlContainer;
+    private FrameLayout mFlCardFront;
+    private AnimatorSet mRightOutSet; // 右出动画
+    private AnimatorSet mLeftInSet; // 左入动画
+    private Button btn;
+    private boolean mIsShowBack;
+    //------商城属性---------------
+    private RecyclerView rv_mall;
+    private Gson mGson = new Gson();
+    private ResultBeanData.ResultBean resultBean;
+    private MallAdapter adapter;
+
+    //------二手属性----------------
+    private RecyclerView mRecyclerView;
+    private SecondHandAdapter sAdapter;
+    private List<TypeListBean.ResultBean.PageDataBean> page_data;
+
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);//注意使用的是 getActivity()
-        mTabLayout = (TabLayout) inflate.findViewById(R.id.tab_layout_toolbar);
-        mViewPager = (ViewPager) inflate.findViewById(R.id.vp_tab_goods);
-        initDrawerLayout();
-        initTabLayout();
-        initViewPager();
-        mTabLayout.setupWithViewPager(mViewPager);
+        overAll(inflate);
+        initMall(inflate);
+        initHandMall(inflate);
         return inflate;
     }
 
-    private void initTabLayout() {
-        //设置 TabLayout 下划线长度
-        mTabLayout.post(new Runnable() {
+    private void initHandMall(View inflate) {
+        mRecyclerView = (RecyclerView) inflate.findViewById(R.id.lalagoods_recy);
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        getJsonData();
+    }
+    private void getJsonData() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        final Request<String> request = NoHttp.createStringRequest(Constants.COSPLAY_STORE, RequestMethod.GET);//服饰数据
+        requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
-            public void run() {
-                TabUtils.setIndicator(mTabLayout, 30, 30);
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.e("AAA", json);
+                TypeListBean secondHandMallBean = mGson.fromJson(json, TypeListBean.class);
+                page_data = secondHandMallBean.getResult().getPage_data();
+                sAdapter = new SecondHandAdapter(getActivity(), page_data);
+                mRecyclerView.setAdapter(sAdapter);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+
             }
         });
     }
-    private void initViewPager() {
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new GoodsSecondHandFragment(getActivity(), R.layout.fragment_goods_second_hand));
-        mFragmentList.add(new GoodsMallFragment(getActivity(), R.layout.fragment_goods_mall));
-        mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
-        mViewPager.setAdapter(mAdapter);
+
+
+
+    private void initMall(View inflate) {
+        rv_mall = (RecyclerView) inflate.findViewById(R.id.rv_mall);
+        getDataFromNet();
+    }
+    private void getDataFromNet() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        final Request<String> request = NoHttp.createStringRequest(Constants.HOME_URL, RequestMethod.GET);//服饰数据
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.e("TAG",json);
+                processedData(json);//解析数据
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
     }
 
-    /**
-     * 在 onActivityCreated 方法中初始化 Toolbar
-     */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
+    private void processedData(String json) {
+        ResultBeanData resultBeanData = mGson.fromJson(json, ResultBeanData.class);
+        resultBean = resultBeanData.getResult();
+        if (resultBean != null) {//有数据
+            adapter = new MallAdapter(getActivity(), resultBean);
+            rv_mall.setAdapter(adapter);
+            rv_mall.setLayoutManager(new GridLayoutManager(getActivity(),1));
+        } else {
 
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //显示菜单
-        inflater.inflate(R.menu.menu_toolbar, menu);
-        //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_set).setVisible(false);
-        menu.findItem(R.id.menu_register).setVisible(false);
-        menu.findItem(R.id.menu_code).setVisible(false);
-        menu.findItem(R.id.menu_msg).setVisible(false);
-        menu.findItem(R.id.menu_category).setVisible(false);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
         }
-        return true;
     }
+
+
+    private void overAll(View inflate) {
+        mFlCardBack = (FrameLayout)inflate.findViewById(R.id.main_fl_card_back);
+        mFlCardFront = (FrameLayout)inflate.findViewById(R.id.main_fl_card_front);
+        mFlContainer = (FrameLayout) inflate.findViewById(R.id.main_fl_container);
+        btn= (Button) inflate.findViewById(R.id.onclickbtn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 正面朝上
+                if (!mIsShowBack) {
+                    mRightOutSet.setTarget(mFlCardFront);
+                    mLeftInSet.setTarget(mFlCardBack);
+                    mRightOutSet.start();
+                    mLeftInSet.start();
+                    mIsShowBack = true;
+                } else { // 背面朝上
+                    mRightOutSet.setTarget(mFlCardBack);
+                    mLeftInSet.setTarget(mFlCardFront);
+                    mRightOutSet.start();
+                    mLeftInSet.start();
+                    mIsShowBack = false;
+                }
+            }
+        });
+        setAnimators();
+        setCameraDistance(); // 设置镜头距离
+    }
+    private void setAnimators() {
+        mRightOutSet = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.anim_out);
+        mLeftInSet = (AnimatorSet) AnimatorInflater.loadAnimator(getContext(), R.animator.anim_in);
+
+        // 设置点击事件
+        mRightOutSet.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                btn.setClickable(false);
+            }
+        });
+        mLeftInSet.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                btn.setClickable(true);
+            }
+        });
+    }
+    // 改变视角距离, 贴近屏幕
+    private void setCameraDistance() {
+        int distance = 16000;
+        float scale = getResources().getDisplayMetrics().density * distance;
+        mFlCardFront.setCameraDistance(scale);
+        mFlCardBack.setCameraDistance(scale);
+    }
+
 
 }
