@@ -1,6 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,10 +20,8 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
-import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.HomeDataMapper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,11 +35,8 @@ public class WordHotPostsFragment extends BaseFragment {
     private static final String TAG = "WordHotPostsFragment";
 
     private RecyclerView mRvHotPosts;
-    private LinearLayoutManager mLayoutManager;
-    private WordHotPostsAdapter mAdapter;
-
-    private Gson gson = new Gson();
     private List<VideoBean> mHotPostsList;
+    private Gson gson = new Gson();
 
     @SuppressLint("ValidFragment")
     public WordHotPostsFragment() {
@@ -111,10 +105,10 @@ public class WordHotPostsFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (mHotPostsList != null) {
-            mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            WordHotPostsAdapter mAdapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
             mRvHotPosts.setLayoutManager(mLayoutManager);
             mRvHotPosts.setHasFixedSize(true);
-            mAdapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
             mRvHotPosts.setAdapter(mAdapter);
         }
     }
