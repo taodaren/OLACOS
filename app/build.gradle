@@ -56,5 +56,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.wenwenwen888:searchbox:1.0.0'
     compile 'com.alibaba:fastjson:1.1.63.android'
+    compile 'com.makeramen:roundedimageview:2.3.0'
     testCompile 'junit:junit:4.12'
 }
