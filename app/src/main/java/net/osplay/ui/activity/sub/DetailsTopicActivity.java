@@ -14,7 +14,7 @@ import android.widget.Toast;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
-import net.osplay.ui.fragment.sub.WordHotPostsFragment;
+import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,10 +75,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_word_hot_posts));
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }

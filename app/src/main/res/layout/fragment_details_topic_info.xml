@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.osplay.ui.fragment.sub.DetailsTopicInfoFragment">
+
+    <RadioGroup
+        android:id="@+id/rg_topic_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_all_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="true"
+            android:padding="10dp"
+            android:text="全部"
+            android:textColor="@color/colorGray" />
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorTranslucent" />
+
+        <RadioButton
+            android:id="@+id/rb_fine_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="false"
+            android:padding="10dp"
+            android:text="精品"
+            android:textColor="@color/colorGray" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:id="@+id/rb_city_topic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:checked="false"
+            android:drawableEnd="@drawable/same_city"
+            android:padding="10dp"
+            android:text="同城"
+            android:textColor="@color/colorGray" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/v_line_topic"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/rg_topic_type"
+        android:background="@color/colorTranslucent" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container_topic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/v_line_topic" />
+</RelativeLayout>
