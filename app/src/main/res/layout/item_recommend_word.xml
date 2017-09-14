@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_recommend_word"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,20 +8,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:padding="5dp">
+        android:layout_height="100dp"
+        android:padding="3dp">
 
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/recommend_word_avatar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/example01" />
+            android:src="@drawable/example01"
+            app:riv_corner_radius="5dp"
+            app:riv_mutate_background="true" />
 
         <RelativeLayout
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="80dp"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/recommend_word_avatar"
             android:padding="3dp">

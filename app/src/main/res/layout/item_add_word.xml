@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_add_word"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -6,12 +7,14 @@
     android:background="@color/colorWhite"
     android:gravity="center_vertical">
 
-    <ImageView
+    <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/add_word_avatar"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/add" />
+        android:src="@drawable/add"
+        app:riv_corner_radius="5dp"
+        app:riv_mutate_background="true" />
 
     <TextView
         android:id="@+id/add_word_type"

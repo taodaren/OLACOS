@@ -39,8 +39,7 @@
             android:id="@+id/recycler_recommend_word"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:padding="5dp" />
+            android:background="@color/colorWhite" />
 
         <RelativeLayout
             android:layout_width="match_parent"
