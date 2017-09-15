@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
+import net.osplay.ui.activity.sub.DouPictureActivity;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = mInflater.inflate(R.layout.item_hot_topic, parent, false);
         TopicViewHolder holder = new TopicViewHolder(inflate);
-        holder.setClickListener();
+        holder.setClickListener(viewType);
         return holder;
     }
 
@@ -49,6 +50,11 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemCount() {
         return mTopicBeanList == null ? 0 : mTopicBeanList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mTopicBeanList.size() - 1 == position ? 1 : 0;
     }
 
     private class TopicViewHolder extends RecyclerView.ViewHolder {
@@ -69,13 +75,22 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             textTopic.setText(topicBean.getName());
         }
 
-        public void setClickListener() {
+        public void setClickListener(final int viewType) {
             outView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, DetailsTopicActivity.class));
+                    switch (viewType) {
+                        case 0:
+                            mContext.startActivity(new Intent(mContext, DetailsTopicActivity.class));
+                            break;
+                        case 1:
+                            mContext.startActivity(new Intent(mContext, DouPictureActivity.class));
+                            break;
+                        default:
+                    }
                 }
             });
+
         }
     }
 
