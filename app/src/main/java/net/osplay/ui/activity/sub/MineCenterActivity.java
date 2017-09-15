@@ -98,7 +98,7 @@ public class MineCenterActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_avatar://头像
-                startActivity(new Intent(MineCenterActivity.this, MinePageActivity.class));
+                startActivity(new Intent(MineCenterActivity.this, MinePageSelfActivity.class));
                 break;
             case R.id.mine_collect://收藏
                 startActivity(new Intent(MineCenterActivity.this, MineCollectActivity.class));

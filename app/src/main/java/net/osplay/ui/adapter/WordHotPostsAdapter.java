@@ -15,8 +15,8 @@ import com.bumptech.glide.Glide;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
-import net.osplay.ui.activity.sub.DetailsColumnActivity;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
+import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +84,13 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     mContext.startActivity(new Intent(mContext, DetailsPostsActivity.class));
+                }
+            });
+
+            imgAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mContext.startActivity(new Intent(mContext, MinePageOtherActivity.class));
                 }
             });
         }

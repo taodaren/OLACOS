@@ -20,6 +20,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.activity.sub.DetailsColumnActivity;
+import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -171,6 +172,13 @@ public class WordColumnAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             mContext.startActivity(new Intent(mContext, DetailsColumnActivity.class));
                         }
                     });
+
+                    imgAvatar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mContext.startActivity(new Intent(mContext, MinePageOtherActivity.class));
+                        }
+                    });
                 }
             }
         }
@@ -256,6 +264,13 @@ public class WordColumnAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         @Override
                         public void onClick(View v) {
                             mContext.startActivity(new Intent(mContext, DetailsColumnActivity.class));
+                        }
+                    });
+
+                    imgAvatar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mContext.startActivity(new Intent(mContext, MinePageOtherActivity.class));
                         }
                     });
                 }

@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
@@ -50,6 +51,7 @@ public class DetailsColumnActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initView() {
+        findViewById(R.id.img_column_details_avatar).setOnClickListener(this);
         findViewById(R.id.btn_column_details_subscribe).setOnClickListener(this);
         mRvDtlColumn = (RecyclerView) findViewById(R.id.recycler_hot_column_details);
         initData();
@@ -142,6 +144,9 @@ public class DetailsColumnActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.btn_column_details_subscribe://订阅
                 Toast.makeText(this, "btn_column_details_subscribe", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.img_column_details_avatar:
+                startActivity(new Intent(this, MinePageOtherActivity.class));
                 break;
         }
     }

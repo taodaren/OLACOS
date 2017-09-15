@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -57,6 +58,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
         findViewById(R.id.btn_topic_attention).setOnClickListener(this);
+        findViewById(R.id.topic_page_avatar).setOnClickListener(this);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
@@ -101,6 +103,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_topic_attention://关注
                 Toast.makeText(this, "btn_topic_attention", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.topic_page_avatar:
+                startActivity(new Intent(this, MinePageOtherActivity.class));
                 break;
         }
     }

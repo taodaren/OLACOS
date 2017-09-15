@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_avatar:
-                startActivity(new Intent(this, MinePageActivity.class));
+                startActivity(new Intent(this, MinePageSelfActivity.class));
                 break;
             case R.id.nav_code:
                 startActivity(new Intent(this, QRCodeActivity.class));

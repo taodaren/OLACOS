@@ -82,7 +82,7 @@ public class HomeTabGoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private void bindData() {
             Glide.with(MyApplication.getContext()).load(bean.getCoverImg()).into(imgAvatar);
-            Glide.with(MyApplication.getContext()).load(bean.getCoverImg()).into(imgOne);
+//            Glide.with(MyApplication.getContext()).load(bean.getCoverImg()).into(imgOne);
             Glide.with(MyApplication.getContext()).load(bean.getCoverImg()).into(imgTwo);
             String strVideoLength = String.valueOf(bean.getVideoLength());
             String strMovieId = String.valueOf(bean.getMovieId());
