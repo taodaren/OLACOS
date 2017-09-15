@@ -1,10 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,14 +19,10 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
-import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.goods.ResultBeanData;
 import net.osplay.ui.adapter.sub.MallAdapter;
-import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,16 +38,16 @@ public class GoodsMallFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        inflate= View.inflate(getContext(), R.layout.fragment_goods_mall, null);
+        inflate = View.inflate(getContext(), R.layout.fragment_goods_mall, null);
         rv_mall = (RecyclerView) inflate.findViewById(R.id.rv_mall);
-        ib_top= (ImageButton) inflate.findViewById(R.id.ib_top);
+        ib_top = (ImageButton) inflate.findViewById(R.id.ib_top);
         ib_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
                         .addToBackStack(null)
-                        .setCustomAnimations(R.anim.push_right_in,R.anim.push_right_out)
+                        .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
                         .replace(R.id.mall_container, new GoodsSecondHandFragment())
                         .commit();
             }
@@ -64,7 +56,6 @@ public class GoodsMallFragment extends Fragment {
 
         return inflate;
     }
-
 
     private void getDataFromNet() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
@@ -98,7 +89,7 @@ public class GoodsMallFragment extends Fragment {
         if (resultBean != null) {//有数据
             adapter = new MallAdapter(getActivity(), resultBean);
             rv_mall.setAdapter(adapter);
-            rv_mall.setLayoutManager(new GridLayoutManager(getActivity(),1));
+            rv_mall.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         } else {
 
         }

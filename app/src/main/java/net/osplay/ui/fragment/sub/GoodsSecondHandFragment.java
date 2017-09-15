@@ -51,14 +51,14 @@ public class GoodsSecondHandFragment extends Fragment {
         View inflate = View.inflate(getContext(), R.layout.fragment_goods_second_hand, null);
         mRecyclerView = (RecyclerView) inflate.findViewById(R.id.goods_recy);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        ib_top1= (ImageButton) inflate.findViewById(R.id.ib_top1);
+        ib_top1 = (ImageButton) inflate.findViewById(R.id.ib_top1);
         ib_top1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager()
                         .beginTransaction()
                         .addToBackStack(null)
-                        .setCustomAnimations(R.anim.push_left_in,R.anim.push_left_out)
+                        .setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out)
                         .replace(R.id.mall_container, new GoodsMallFragment())
                         .commit();
             }
@@ -66,6 +66,7 @@ public class GoodsSecondHandFragment extends Fragment {
         getJsonData();
         return inflate;
     }
+
     private void getJsonData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         final Request<String> request = NoHttp.createStringRequest(Constants.COSPLAY_STORE, RequestMethod.GET);//服饰数据
@@ -94,7 +95,6 @@ public class GoodsSecondHandFragment extends Fragment {
             }
         });
     }
-
 
 
 }
