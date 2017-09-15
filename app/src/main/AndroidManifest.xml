@@ -71,6 +71,9 @@
             android:name="net.osplay.ui.activity.sub.MinePageSelfActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity
+            android:name="net.osplay.ui.activity.sub.MinePageOtherActivity"
+            android:theme="@style/transparentStatusTheme" />
+        <activity
             android:name="net.osplay.ui.activity.sub.ReturnGoodsActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="net.osplay.ui.activity.sub.EditInfoActivity" />
@@ -100,7 +103,5 @@
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsPostsActivity"
             android:theme="@style/transparentStatusTheme" />
-        <activity android:name="net.osplay.ui.activity.sub.MinePageOtherActivity"></activity>
     </application>
-
 </manifest>
