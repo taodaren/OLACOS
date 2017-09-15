@@ -2,6 +2,7 @@ package net.osplay.utils;
 
 import android.util.SparseArray;
 
+import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.service.entity.HomeBannerBean;
 import net.osplay.service.entity.VideoBean;
@@ -28,7 +29,18 @@ public class HomeDataMapper {
         }
         return null;
     }
-
+    public static HomeData transformHomeTestData(List<ImgTvBean> beans, int adapterType, boolean isSpan) {
+        HomeData<List<ImgTvBean>> homeData;
+        if (beans != null && !beans.isEmpty()) {
+            homeData = new HomeData();
+            homeData.setData(beans);
+            homeData.setItemType(adapterType);
+            homeData.setLocal(false);
+            homeData.setSpan(isSpan);
+            return homeData;
+        }
+        return null;
+    }
     public static HomeData transformWordMineData(List<VideoBean> beans, int adapterType, boolean isSpan) {
         HomeData<List<VideoBean>> homeData;
         if (beans != null && !beans.isEmpty()) {

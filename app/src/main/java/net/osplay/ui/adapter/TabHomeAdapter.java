@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -23,6 +24,7 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
 import net.osplay.app.MyApplication;
+import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
@@ -81,10 +83,16 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (mDataList.get(position).getItemType()) {
             case TYPE_BANNER:
-                ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
+                //模拟数据
+                ((BannerViewHolder) holder).bindData((List<ImgTvBean>) mDataList.get(position).getData());
+                //网络数据
+//                ((BannerViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
                 break;
             case TYPE_CATE:
-                ((CateViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
+                //模拟数据
+                ((CateViewHolder) holder).bindData((List<ImgTvBean>) mDataList.get(position).getData());
+                //网络数据
+//                ((CateViewHolder) holder).bindData((List<HomeBannerBean>) mDataList.get(position).getData());
                 break;
             case TYPE_TABLE:
                 ((TableViewHolder) holder).bindData((List<String>) mDataList.get(position).getData(), newGoodsList, hotTopicList);
@@ -112,17 +120,17 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             banner = (Banner) itemView.findViewById(R.id.banner_home);
         }
 
-        private void bindData(List<HomeBannerBean> data) {
+        private void bindData(List<ImgTvBean> data) {
             if (data != null && !data.isEmpty()) {
-                List<String> images = new ArrayList<>();
-                for (HomeBannerBean bean : data) {
-                    images.add(bean.getImgUrl());
+                List<Integer> images = new ArrayList<>();
+                for (ImgTvBean bean : data) {
+                    images.add(bean.getImgPicture());
                 }
                 bindBanner(images);
             }
         }
 
-        private void bindBanner(List<String> images) {
+        private void bindBanner(List<Integer> images) {
 //            banner.setBannerTitles(titles);//设置标题集合（当 banner 样式有显示 title 时）
             banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);//设置 banner 样式
             banner.setImageLoader(new GlideImageLoader());//设置图片加载器
@@ -138,7 +146,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static class CateViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView rvHomeCate;
         private RecyclerView.LayoutManager layoutManager;
-        private List<HomeBannerBean> datas;
+        private List<ImgTvBean> datas;
         private HomeCateAdapter adapter;
 
         private CateViewHolder(View itemView) {
@@ -146,7 +154,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             rvHomeCate = (RecyclerView) itemView.findViewById(R.id.recycler_home_cate);
         }
 
-        private void bindData(List<HomeBannerBean> beanList) {
+        private void bindData(List<ImgTvBean> beanList) {
             if (beanList != null && !beanList.isEmpty()) {
                 datas = new ArrayList<>();
                 datas.addAll(beanList);
@@ -163,9 +171,9 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         private class HomeCateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private LayoutInflater inflater;
-            private List<HomeBannerBean> datas;
+            private List<ImgTvBean> datas;
 
-            private HomeCateAdapter(List<HomeBannerBean> datas) {
+            private HomeCateAdapter(List<ImgTvBean> datas) {
                 inflater = LayoutInflater.from(MyApplication.getContext());
                 this.datas = new ArrayList<>();
                 this.datas.addAll(datas);
@@ -190,7 +198,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout layout;
                 ImageView imgHomeCate;
                 TextView tvHomeCate;
-                HomeBannerBean cateItemBean;
+                ImgTvBean cateItemBean;
 
                 private CateItemViewHolder(View itemView) {
                     super(itemView);
@@ -199,11 +207,11 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     tvHomeCate = (TextView) itemView.findViewById(R.id.text_card_view);
                 }
 
-                private void bindData(HomeBannerBean itemBean) {
+                private void bindData(ImgTvBean itemBean) {
                     cateItemBean = itemBean;
                     if (itemBean != null) {//如果有网络数据，加载网络数据
-                        Glide.with(MyApplication.getContext()).load(cateItemBean.getImgUrl()).into(imgHomeCate);
-                        tvHomeCate.setText(cateItemBean.getName());
+                        Glide.with(MyApplication.getContext()).load(cateItemBean.getImgPicture()).into(imgHomeCate);
+                        tvHomeCate.setText(cateItemBean.getTvText());
                     } else {//否则，加载本地数据
                         Glide.with(MyApplication.getContext()).load(R.mipmap.ic_launcher_round).into(imgHomeCate);
                     }
