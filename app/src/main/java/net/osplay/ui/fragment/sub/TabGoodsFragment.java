@@ -19,11 +19,11 @@ public class TabGoodsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
-                getFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .replace(R.id.mall_container, new GoodsMallFragment())
-                        .commit();
+        getFragmentManager()
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.mall_container, new GoodsMallFragment())
+                .commit();
         return view;
     }
 
