@@ -214,6 +214,11 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+
+    // TODO: 2017/9/15
+
+
+
     private class TableViewHolder extends RecyclerView.ViewHolder {
         private static final int FRAGMENT_NEW_GOODS = 0;
         private static final int FRAGMENT_HOT_POSTS = 1;
@@ -243,7 +248,6 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.hotPostsList.addAll(hotPostsList);
 
             createFragment();
-
             tabLayout.addTab(tabLayout.newTab().setText(beanList.get(0)), true);//设置默认选中
             tabLayout.addTab(tabLayout.newTab().setText(beanList.get(1)));
 

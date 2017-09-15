@@ -4,10 +4,15 @@ package net.osplay.ui.fragment.sub;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -18,43 +23,48 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
+import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.goods.ResultBeanData;
 import net.osplay.ui.adapter.sub.MallAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GoodsMallFragment extends BaseBussFragment {
+public class GoodsMallFragment extends Fragment {
     private RecyclerView rv_mall;
     private Gson mGson = new Gson();
     private ResultBeanData.ResultBean resultBean;
     private MallAdapter adapter;
+    private View inflate;
+    private ImageButton ib_top;
 
-    @SuppressLint("ValidFragment")
-    public GoodsMallFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public GoodsMallFragment(Context mContext, int resId) {
-        super(mContext, resId);
-    }
-
+    @Nullable
     @Override
-    protected void initView(View view, Bundle savedInstanceState) {
-        rv_mall = (RecyclerView) view.findViewById(R.id.rv_mall);
-    }
-
-    @Override
-    protected void bindEvent() {
-
-    }
-
-    @Override
-    protected void initData() {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        inflate= View.inflate(getContext(), R.layout.fragment_goods_mall, null);
+        rv_mall = (RecyclerView) inflate.findViewById(R.id.rv_mall);
+        ib_top= (ImageButton) inflate.findViewById(R.id.ib_top);
+        ib_top.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .setCustomAnimations(R.anim.push_right_in,R.anim.push_right_out)
+                        .replace(R.id.mall_container, new GoodsSecondHandFragment())
+                        .commit();
+            }
+        });
         getDataFromNet();
+
+        return inflate;
     }
+
 
     private void getDataFromNet() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();

@@ -23,7 +23,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar mNavigationBar;
-    private BaseFragment currentFragment;
+    private Fragment currentFragment;
     private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         } else {
             transaction.hide(currentFragment).show(fragment).commit();
         }
-        currentFragment = (BaseFragment) fragment;
+        currentFragment =  fragment;
     }
 
     /**

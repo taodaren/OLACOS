@@ -3,7 +3,7 @@ package net.osplay.utils;
 public class Constants {
 //    public static final String BASE = "http://192.168.51.104:8080";
     //系统默认的模拟器就用这个ip
-    public static final String BASE = "http://192.168.0.166:8080";
+    public static final String BASE = "http://192.168.0.168:8080";
     //使用第三方模拟器--当前电脑的ip地址
 //    public static final String BASE = "http://192.168.51.104:8080";
     //运行到自己的真实手机上：

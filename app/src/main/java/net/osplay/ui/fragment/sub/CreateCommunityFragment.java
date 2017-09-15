@@ -3,14 +3,20 @@ package net.osplay.ui.fragment.sub;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 
 import net.osplay.olacos.R;
+import net.osplay.service.entity.VideoBean;
 import net.osplay.ui.activity.sub.CreateOrJoinActivity;
 import net.osplay.ui.activity.sub.DouPictureVoteActivity;
 import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.fragment.base.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by acer-PC on 2017/8/31.
@@ -18,6 +24,7 @@ import net.osplay.ui.fragment.base.BaseFragment;
  */
 
 public class CreateCommunityFragment extends BaseFragment {
+
 
     @Override
     public View initView() {

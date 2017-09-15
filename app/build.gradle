@@ -28,6 +28,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'io.reactivex:rxandroid:1.2.1'
     testCompile 'junit:junit:4.12'
+    //viewpager的动画效果
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -55,7 +56,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:5.1.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.wenwenwen888:searchbox:1.0.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.alibaba:fastjson:1.1.63.android'
-    compile 'com.zhy:magic-viewpager:1.0.1'//viewpager的动画效果
+    compile 'com.zhy:magic-viewpager:1.0.1'
+    testCompile 'junit:junit:4.12'
 }
