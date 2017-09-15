@@ -11,11 +11,14 @@
         android:gravity="center_vertical">
 
         <ImageView
+            android:id="@+id/img_hot_posts_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher_round" />
+            android:padding="3dp"
+            android:src="@drawable/hot_posts_cos" />
 
         <TextView
+            android:id="@+id/tv_hot_posts_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
@@ -28,11 +31,14 @@
             android:layout_weight="1" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/shape_yuan_trans"
+            android:id="@+id/btn_hot_posts_click"
+            android:layout_width="70dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/shape_yuan"
             android:text="点我瞧瞧"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -46,12 +52,14 @@
         android:gravity="center_vertical">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/btn_shape_white"
+            android:id="@+id/btn_hot_posts_more"
+            android:layout_width="80dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_shape_transparent"
             android:text="更多动漫"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp" />
 
         <View
             android:layout_width="0dp"
@@ -61,11 +69,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5条新动态，点击刷新！" />
+            android:text="5条新动态，点击刷新！"
+            android:textColor="@color/colorBlack2"
+            android:textSize="10sp" />
 
         <ImageView
+            android:id="@+id/img_hot_posts_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
             android:padding="5dp"
             android:src="@drawable/huan_yi_huan" />
     </LinearLayout>

@@ -85,7 +85,7 @@ public class WordHotPostsFragment extends BaseFragment {
                 VideoMapperBean bean = gson.fromJson(json, type);
                 List<VideoBean> temp = bean.getTrailers();
                 mHotPostsList = new ArrayList<>();
-                for (int i = 0; i < 50; i++) {
+                for (int i = 0; i < 4; i++) {
                     mHotPostsList.add(temp.get(i));
                 }
 
@@ -107,7 +107,6 @@ public class WordHotPostsFragment extends BaseFragment {
     private void initRecyclerView() {
         if (mHotPostsList != null) {
             GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
-//            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
             mRvHotPosts.setLayoutManager(layoutManager);
             mRvHotPosts.setHasFixedSize(true);

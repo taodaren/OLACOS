@@ -15,7 +15,6 @@ import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
-import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         public void bindData(VideoBean videoBean) {
             Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgBg);
-            tvTitle.setText(videoBean.getVideoTitle().substring(0, 3));
+            tvTitle.setText(videoBean.getVideoTitle());
         }
 
         private void setClickListener() {
@@ -79,13 +78,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     mContext.startActivity(new Intent(mContext, DetailsPostsActivity.class));
-                }
-            });
-
-            imgBg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mContext.startActivity(new Intent(mContext, MinePageOtherActivity.class));
                 }
             });
         }
