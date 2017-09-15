@@ -1,5 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -33,27 +36,13 @@ public class GoodsMallFragment extends Fragment {
     private ResultBeanData.ResultBean resultBean;
     private MallAdapter adapter;
     private View inflate;
-    private ImageButton ib_top;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         inflate = View.inflate(getContext(), R.layout.fragment_goods_mall, null);
         rv_mall = (RecyclerView) inflate.findViewById(R.id.rv_mall);
-        ib_top = (ImageButton) inflate.findViewById(R.id.ib_top);
-        ib_top.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
-                        .replace(R.id.mall_container, new GoodsSecondHandFragment())
-                        .commit();
-            }
-        });
         getDataFromNet();
-
         return inflate;
     }
 

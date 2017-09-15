@@ -12,7 +12,7 @@
         android:layout_height="match_parent" />
 
     <ImageButton
-        android:id="@+id/ib_top"
+        android:id="@+id/ib_top0"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

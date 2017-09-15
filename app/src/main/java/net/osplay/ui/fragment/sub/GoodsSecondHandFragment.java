@@ -6,16 +6,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -23,11 +19,9 @@ import com.yanzhenjie.nohttp.rest.OnResponseListener;
 import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
-
 import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.TypeListBean;
 import net.osplay.ui.adapter.sub.goods.SecondHandAdapter;
-import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.utils.Constants;
 
 import java.util.List;
@@ -40,10 +34,6 @@ public class GoodsSecondHandFragment extends Fragment {
     private Gson mGson = new Gson();
     private SecondHandAdapter sAdapter;
     private List<TypeListBean.ResultBean.PageDataBean> page_data;
-    private Button goods_select;
-    private DrawerLayout dl_left;
-    private ImageButton ib_top1;
-
 
     @Nullable
     @Override
@@ -51,18 +41,6 @@ public class GoodsSecondHandFragment extends Fragment {
         View inflate = View.inflate(getContext(), R.layout.fragment_goods_second_hand, null);
         mRecyclerView = (RecyclerView) inflate.findViewById(R.id.goods_recy);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        ib_top1 = (ImageButton) inflate.findViewById(R.id.ib_top1);
-        ib_top1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager()
-                        .beginTransaction()
-                        .addToBackStack(null)
-                        .setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out)
-                        .replace(R.id.mall_container, new GoodsMallFragment())
-                        .commit();
-            }
-        });
         getJsonData();
         return inflate;
     }
