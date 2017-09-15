@@ -2,6 +2,7 @@ package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,10 +64,10 @@ public class WordHotPostsFragment extends BaseFragment {
         Request<String> requestHotPosts = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
 
         //获取数据请求并解析
-        getAddWordData(requestQueue, requestHotPosts);
+        getHotPostsData(requestQueue, requestHotPosts);
     }
 
-    private void getAddWordData(RequestQueue requestQueue, Request<String> request) {
+    private void getHotPostsData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -105,11 +106,12 @@ public class WordHotPostsFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (mHotPostsList != null) {
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            WordHotPostsAdapter mAdapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
-            mRvHotPosts.setLayoutManager(mLayoutManager);
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+//            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
+            mRvHotPosts.setLayoutManager(layoutManager);
             mRvHotPosts.setHasFixedSize(true);
-            mRvHotPosts.setAdapter(mAdapter);
+            mRvHotPosts.setAdapter(adapter);
         }
     }
 
