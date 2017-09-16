@@ -2,94 +2,60 @@ package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.ViewGroup;
 import net.osplay.olacos.R;
-import net.osplay.ui.adapter.base.vpTabAdapter;
-import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.TabUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 商品模块
  */
-
-public class TabGoodsFragment extends BaseFragment {
-    private DrawerLayout mDrawerLayout;
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-    private List<Fragment> mFragmentList;
-    private String[] mTitles = new String[]{"二手", "商城"};
-    private vpTabAdapter mAdapter;
+public class TabGoodsFragment extends Fragment {
+    private View view;
+    private ViewPager viewPager;
+    int flag = 0;//定义标记变量
+    private FloatingActionButton qiehuan;
+    @Nullable
     @Override
-    public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);//注意使用的是 getActivity()
-        mTabLayout = (TabLayout) inflate.findViewById(R.id.tab_layout_toolbar);
-        mViewPager = (ViewPager) inflate.findViewById(R.id.vp_tab_goods);
-        initDrawerLayout();
-        initTabLayout();
-        initViewPager();
-        mTabLayout.setupWithViewPager(mViewPager);
-        return inflate;
-    }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        qiehuan= (FloatingActionButton) view.findViewById(R.id.qiehuan);
+        viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
 
-    private void initTabLayout() {
-        //设置 TabLayout 下划线长度
-        mTabLayout.post(new Runnable() {
             @Override
-            public void run() {
-                TabUtils.setIndicator(mTabLayout, 30, 30);
+            public int getCount() {
+                return 2;
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return new GoodsMallFragment();
+                    case 1:
+                        return new GoodsSecondHandFragment();
+
+                }
+                return new GoodsMallFragment();
+            }
+
+        });
+        qiehuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flag==0){
+                    viewPager.setCurrentItem(1);
+                }else if(flag==1){
+                    viewPager.setCurrentItem(0);
+                }
+                flag=(flag+1)%2;//其余得到循环执行上面3个不同的功能
             }
         });
+        return view;
     }
-    private void initViewPager() {
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new GoodsSecondHandFragment(getActivity(), R.layout.fragment_goods_second_hand));
-        mFragmentList.add(new GoodsMallFragment(getActivity(), R.layout.fragment_goods_mall));
-        mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
-        mViewPager.setAdapter(mAdapter);
-    }
-
-    /**
-     * 在 onActivityCreated 方法中初始化 Toolbar
-     */
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.GONE, View.GONE, true);
-
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //显示菜单
-        inflater.inflate(R.menu.menu_toolbar, menu);
-        //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_set).setVisible(false);
-        menu.findItem(R.id.menu_register).setVisible(false);
-        menu.findItem(R.id.menu_code).setVisible(false);
-        menu.findItem(R.id.menu_msg).setVisible(false);
-        menu.findItem(R.id.menu_category).setVisible(false);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
-        }
-        return true;
-    }
-
 }

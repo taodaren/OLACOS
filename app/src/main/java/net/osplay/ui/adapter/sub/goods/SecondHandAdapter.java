@@ -40,8 +40,11 @@ public class SecondHandAdapter extends RecyclerView.Adapter<SecondHandViewHolder
 
     @Override
     public void onBindViewHolder(SecondHandViewHolder holder, int position) {
+        Log.e("JGB",page_data.toString());
         Picasso.with(context).load(Constants.BASE_URl_IMAGE+page_data.get(position).getFigure()).into(holder.img_mall_secondhand);
         holder.text_title_mall_secondhand.setText(page_data.get(position).getName());
+        String name = page_data.get(0).getName();
+        Log.e("TAG",name);
     }
 
     @Override

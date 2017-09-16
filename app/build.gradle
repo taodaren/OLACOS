@@ -57,5 +57,6 @@ dependencies {
     compile 'com.wenwenwen888:searchbox:1.0.0'
     compile 'com.alibaba:fastjson:1.1.63.android'
     compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.zhy:magic-viewpager:1.0.1'
     testCompile 'junit:junit:4.12'
 }

@@ -12,7 +12,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import net.osplay.olacos.R;
-import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.ui.fragment.sub.TabGoodsFragment;
 import net.osplay.ui.fragment.sub.TabHomeFragment;
 import net.osplay.ui.fragment.sub.TabLeagueFragment;
@@ -23,7 +22,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private BottomNavigationBar mNavigationBar;
-    private BaseFragment currentFragment;
+    private Fragment currentFragment;
     private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 //        }
         defaultShowHome();
     }
+
     /**
      * 默认显示 TabHomeFragment
      */
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         } else {
             transaction.hide(currentFragment).show(fragment).commit();
         }
-        currentFragment = (BaseFragment) fragment;
+        currentFragment = fragment;
     }
 
     /**
@@ -203,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
             return;
+        } else {
+            finish();
         }
         super.onBackPressed();
     }
