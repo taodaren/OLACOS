@@ -73,8 +73,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new WordHotPostsFragment(this, R.layout.layout_word_hot_posts));
+        mFragmentList.add(new WordHotPostsFragment(this, R.layout.layout_word_hot_posts));
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }

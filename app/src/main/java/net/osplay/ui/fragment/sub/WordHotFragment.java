@@ -9,8 +9,6 @@ import android.view.View;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
-import net.osplay.ui.adapter.base.FragmentAdapter;
-import net.osplay.ui.adapter.base.vpTabAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
 
@@ -62,7 +60,7 @@ public class WordHotFragment extends BaseFragment {
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
         mFragmentList.add(new WordHotTopicFragment(getContext(), R.layout.fragment_word_hot_topic));
-        mFragmentList.add(new WordHotPostsFragment(getContext(), R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new WordHotPostsFragment(getContext(), R.layout.layout_word_hot_posts));
         mFragmentList.add(new WordHotColumnFragment(getContext(), R.layout.fragment_word_hot_column));
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);

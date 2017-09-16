@@ -2,7 +2,6 @@ package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,8 +49,8 @@ public class WordHotPostsFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_word_hot_posts, null);
-        mRvHotPosts = (RecyclerView) inflate.findViewById(R.id.recycler_hot_posts);
+        View inflate = View.inflate(getContext(), R.layout.layout_recycler_view, null);
+        mRvHotPosts = (RecyclerView) inflate.findViewById(R.id.rv_f_home_tab);
         return inflate;
     }
 
@@ -85,7 +84,7 @@ public class WordHotPostsFragment extends BaseFragment {
                 VideoMapperBean bean = gson.fromJson(json, type);
                 List<VideoBean> temp = bean.getTrailers();
                 mHotPostsList = new ArrayList<>();
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 8; i++) {
                     mHotPostsList.add(temp.get(i));
                 }
 
@@ -106,7 +105,7 @@ public class WordHotPostsFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (mHotPostsList != null) {
-            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
             mRvHotPosts.setLayoutManager(layoutManager);
             mRvHotPosts.setHasFixedSize(true);

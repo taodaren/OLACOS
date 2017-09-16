@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="1dp"
+    android:background="@color/colorWhite"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/layout_hot_posts_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -12,8 +15,8 @@
 
         <ImageView
             android:id="@+id/img_hot_posts_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:padding="3dp"
             android:src="@drawable/hot_posts_cos" />
 
@@ -23,7 +26,8 @@
             android:layout_height="wrap_content"
             android:padding="3dp"
             android:text="帖分区"
-            android:textSize="18sp" />
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
 
         <View
             android:layout_width="0dp"
@@ -49,7 +53,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:padding="5dp">
 
         <Button
             android:id="@+id/btn_hot_posts_more"
@@ -67,6 +72,7 @@
             android:layout_weight="1" />
 
         <TextView
+            android:id="@+id/tv_posts_refresh_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5条新动态，点击刷新！"
