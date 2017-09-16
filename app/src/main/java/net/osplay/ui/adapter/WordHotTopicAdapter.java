@@ -13,8 +13,8 @@ import com.bumptech.glide.Glide;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
+import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
-import net.osplay.ui.activity.sub.DouPictureActivity;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             mContext.startActivity(new Intent(mContext, DetailsTopicActivity.class));
                             break;
                         case 1:
-                            mContext.startActivity(new Intent(mContext, DouPictureActivity.class));
+                            mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));
                             break;
                         default:
                     }
