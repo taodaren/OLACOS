@@ -187,15 +187,16 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             private class PostsInfoHolder extends RecyclerView.ViewHolder {
                 private View outView;
                 private ImageView imgShow;
-                private TextView tvTitle, tvMember, tvPosts;
+                private TextView tvInfo, tvType, tvNick, tvComment;
 
                 private PostsInfoHolder(View view) {
                     super(view);
                     outView = view;
-                    imgShow = (ImageView) view.findViewById(R.id.img_hot_posts);
-                    tvTitle = (TextView) view.findViewById(R.id.tv_hot_posts_title);
-                    tvMember = (TextView) view.findViewById(R.id.tv_member_hot_posts);
-                    tvPosts = (TextView) view.findViewById(R.id.tv_posts_hot_posts);
+                    imgShow = (ImageView) view.findViewById(R.id.img_hot_posts_bg);
+                    tvInfo = (TextView) view.findViewById(R.id.tv_hot_posts_info);
+                    tvType = (TextView) view.findViewById(R.id.tv_hot_posts_type);
+                    tvNick = (TextView) view.findViewById(R.id.tv_hot_posts_nick);
+                    tvComment = (TextView) view.findViewById(R.id.tv_hot_posts_comment);
                 }
 
                 public void setClickListener() {
@@ -209,7 +210,8 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 public void bindData(VideoBean videoBean) {
                     Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgShow);
-                    tvTitle.setText(videoBean.getVideoTitle());
+                    tvInfo.setText(videoBean.getSummary() + videoBean.getSummary());
+//                    tvComment.setText(videoBean.getVideoLength());
                 }
             }
         }

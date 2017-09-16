@@ -13,7 +13,7 @@
         android:padding="8dp">
 
         <ImageView
-            android:id="@+id/img_hot_posts"
+            android:id="@+id/img_hot_posts_bg"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
