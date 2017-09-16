@@ -7,11 +7,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_avatar"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerInParent="true"
         android:onClick="onClick"
-        android:src="@drawable/avatar" />
+        android:src="@drawable/avatar_boy" />
 
     <TextView
         android:id="@+id/nav_account"
@@ -22,7 +22,7 @@
         android:padding="10dp"
         android:text="olacos"
         android:textColor="@color/colorWhite"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/nav_code"

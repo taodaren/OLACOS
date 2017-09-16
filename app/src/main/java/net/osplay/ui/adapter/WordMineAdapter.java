@@ -2,6 +2,7 @@ package net.osplay.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -21,6 +22,7 @@ import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.base.HomeData;
+import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,9 +180,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     imgAvatar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int position = getAdapterPosition();
-                            VideoBean videoBean = datas.get(position);
-                            Toast.makeText(context, "跳转到" + videoBean.getMovieName() + "个人界面", Toast.LENGTH_SHORT).show();
+                            context.startActivity(new Intent(context, MinePageOtherActivity.class));
                         }
                     });
                 }
@@ -284,9 +284,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     imgAvatar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            int position = getAdapterPosition();
-                            VideoBean videoBean = datas.get(position);
-                            Toast.makeText(context, "跳转到" + videoBean.getMovieName() + "个人界面", Toast.LENGTH_SHORT).show();
+                            context.startActivity(new Intent(context, MinePageOtherActivity.class));
                         }
                     });
                 }

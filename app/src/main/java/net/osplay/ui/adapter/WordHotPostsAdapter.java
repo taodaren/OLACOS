@@ -1,20 +1,20 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.CardView;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        PostsViewHolder holder = new PostsViewHolder(mInflater.inflate(R.layout.item_hot_posts, parent, false));
+        PostsViewHolder holder = new PostsViewHolder(mInflater.inflate(R.layout.item_word_hot_posts, parent, false));
         holder.setClickListener();
         return holder;
     }
@@ -56,42 +56,28 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private class PostsViewHolder extends RecyclerView.ViewHolder {
         private View outView;//保存子项最外层布局的实例
-        private CardView layout;
-        private ImageView imgAvatar;
-        private TextView tvTitle, tvNum, tvInfo, tvMember, tvPosts;
+        private ImageView imgBg;
+        private TextView tvTitle, tvMember, tvPosts;
 
         private PostsViewHolder(View inflate) {
             super(inflate);
             outView = inflate;
-            layout = (CardView) inflate.findViewById(R.id.card_hot_posts);
-            imgAvatar = (ImageView) inflate.findViewById(R.id.img_hot_posts);
-            tvTitle = (TextView) inflate.findViewById(R.id.text_title_hot_posts);
-            tvNum = (TextView) inflate.findViewById(R.id.text_num_hot_posts);
-            tvInfo = (TextView) inflate.findViewById(R.id.text_info_hot_posts);
-            tvMember = (TextView) inflate.findViewById(R.id.text_member_hot_posts);
-            tvPosts = (TextView) inflate.findViewById(R.id.text_posts_hot_posts);
+            imgBg = (ImageView) inflate.findViewById(R.id.img_hot_posts);
+            tvTitle = (TextView) inflate.findViewById(R.id.tv_hot_posts_title);
+            tvMember = (TextView) inflate.findViewById(R.id.tv_member_hot_posts);
+            tvPosts = (TextView) inflate.findViewById(R.id.tv_posts_hot_posts);
         }
 
         public void bindData(VideoBean videoBean) {
-            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgAvatar);
-            tvTitle.setText(videoBean.getVideoTitle().substring(0, 3));
+            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgBg);
+            tvTitle.setText(videoBean.getVideoTitle());
         }
 
         private void setClickListener() {
             outView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    VideoBean videoBean = mHotPostsList.get(position);
-                    Toast.makeText(mContext, "点击" + videoBean.getMovieName() + "布局", Toast.LENGTH_SHORT).show();
-                }
-            });
-            imgAvatar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    VideoBean videoBean = mHotPostsList.get(position);
-                    Toast.makeText(mContext, "跳转到" + videoBean.getMovieName() + "个人界面", Toast.LENGTH_SHORT).show();
+                    mContext.startActivity(new Intent(mContext, DetailsPostsActivity.class));
                 }
             });
         }

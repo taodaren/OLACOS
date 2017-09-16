@@ -24,7 +24,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <!-- activity有EditText时禁止自动弹出软键盘 -->
         <!-- 声明Activity时加上：android:windowSoftInputMode="stateHidden" -->
         <!-- 解决软键盘将布局顶起方法：android:windowSoftInputMode="adjustPan|stateHidden" -->
@@ -68,7 +67,10 @@
         <activity android:name="net.osplay.ui.activity.sub.FeedbackActivity" />
         <activity android:name="net.osplay.ui.activity.sub.OrderActivity" />
         <activity
-            android:name="net.osplay.ui.activity.sub.MinePageActivity"
+            android:name="net.osplay.ui.activity.sub.MinePageSelfActivity"
+            android:theme="@style/transparentStatusTheme" />
+        <activity
+            android:name="net.osplay.ui.activity.sub.MinePageOtherActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity
             android:name="net.osplay.ui.activity.sub.ReturnGoodsActivity"
@@ -91,6 +93,15 @@
         <activity android:name="net.osplay.ui.activity.sub.CreateOrJoinActivity" />
         <activity android:name="net.osplay.ui.activity.sub.JoinCommunityDetailsActivity" />
         <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" />
+        <activity
+            android:name="net.osplay.ui.activity.sub.DetailsTopicActivity"
+            android:theme="@style/transparentStatusTheme" />
+        <activity
+            android:name="net.osplay.ui.activity.sub.DetailsColumnActivity"
+            android:theme="@style/transparentStatusTheme" />
+        <activity
+            android:name="net.osplay.ui.activity.sub.DetailsPostsActivity"
+            android:theme="@style/transparentStatusTheme" />
         <activity android:name="net.osplay.ui.activity.sub.MallInfoActivity"></activity>
     </application>
 

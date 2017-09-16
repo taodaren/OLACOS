@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.adapter.base.vpTabAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
@@ -23,9 +24,7 @@ import java.util.List;
 public class WordHotFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private List<Fragment> mFragmentList;
     private String[] mTitles = new String[]{"专题", "热帖", "专栏"};
-    private vpTabAdapter mAdapter;
 
     @SuppressLint("ValidFragment")
     public WordHotFragment() {
@@ -55,14 +54,17 @@ public class WordHotFragment extends BaseFragment {
                 TabUtils.setIndicator(mTabLayout, 25, 25);
             }
         });
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[0]));
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[1]), true);
+        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[2]));
     }
 
     private void setViewPager() {
-        mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotTopicFragment());
-        mFragmentList.add(new WordHotPostsFragment());
-        mFragmentList.add(new WordHotColumnFragment());
-        mAdapter = new vpTabAdapter(mContext, getChildFragmentManager(), mTitles, mFragmentList);
+        List<Fragment> mFragmentList = new ArrayList<>();
+        mFragmentList.add(new WordHotTopicFragment(getContext(), R.layout.fragment_word_hot_topic));
+        mFragmentList.add(new WordHotPostsFragment(getContext(), R.layout.fragment_word_hot_posts));
+        mFragmentList.add(new WordHotColumnFragment(getContext(), R.layout.fragment_word_hot_column));
+        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }
 

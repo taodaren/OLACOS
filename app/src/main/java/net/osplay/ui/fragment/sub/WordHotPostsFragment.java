@@ -1,6 +1,8 @@
 package net.osplay.ui.fragment.sub;
 
-
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,10 +21,8 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
-import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.HomeDataMapper;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -36,11 +36,17 @@ public class WordHotPostsFragment extends BaseFragment {
     private static final String TAG = "WordHotPostsFragment";
 
     private RecyclerView mRvHotPosts;
-    private LinearLayoutManager mLayoutManager;
-    private WordHotPostsAdapter mAdapter;
-
-    private Gson gson = new Gson();
     private List<VideoBean> mHotPostsList;
+    private Gson gson = new Gson();
+
+    @SuppressLint("ValidFragment")
+    public WordHotPostsFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public WordHotPostsFragment(Context context, int resId) {
+        super(context, resId);
+    }
 
     @Override
     public View initView() {
@@ -58,10 +64,10 @@ public class WordHotPostsFragment extends BaseFragment {
         Request<String> requestHotPosts = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
 
         //获取数据请求并解析
-        getAddWordData(requestQueue, requestHotPosts);
+        getHotPostsData(requestQueue, requestHotPosts);
     }
 
-    private void getAddWordData(RequestQueue requestQueue, Request<String> request) {
+    private void getHotPostsData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -79,7 +85,7 @@ public class WordHotPostsFragment extends BaseFragment {
                 VideoMapperBean bean = gson.fromJson(json, type);
                 List<VideoBean> temp = bean.getTrailers();
                 mHotPostsList = new ArrayList<>();
-                for (int i = 0; i < 50; i++) {
+                for (int i = 0; i < 4; i++) {
                     mHotPostsList.add(temp.get(i));
                 }
 
@@ -100,11 +106,11 @@ public class WordHotPostsFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (mHotPostsList != null) {
-            mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            mRvHotPosts.setLayoutManager(mLayoutManager);
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
+            mRvHotPosts.setLayoutManager(layoutManager);
             mRvHotPosts.setHasFixedSize(true);
-            mAdapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
-            mRvHotPosts.setAdapter(mAdapter);
+            mRvHotPosts.setAdapter(adapter);
         }
     }
 

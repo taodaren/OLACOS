@@ -23,10 +23,8 @@ import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
 import net.osplay.service.entity.RecommendBean;
-import net.osplay.ui.activity.sub.MinePageActivity;
+import net.osplay.ui.activity.sub.MinePageSelfActivity;
 import net.osplay.ui.adapter.LeagueAdapter;
-import net.osplay.ui.adapter.base.BaseRecyclerViewAdapter;
-import net.osplay.ui.adapter.sub.RecommendAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 
 import java.util.List;
@@ -91,7 +89,7 @@ public class NewestFragment extends BaseBussFragment {
         SetOnClickListen setOnClickListen = new SetOnClickListen() {
             @Override
             public void setOnClick(int position) {
-                startActivity(new Intent(getActivity(), MinePageActivity.class));
+                startActivity(new Intent(getActivity(), MinePageSelfActivity.class));
                 getActivity().finish();
             }
         };

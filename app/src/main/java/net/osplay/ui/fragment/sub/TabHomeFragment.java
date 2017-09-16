@@ -25,6 +25,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.HomeBannerBean;
+import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.service.entity.base.HomeData;
@@ -50,6 +51,9 @@ public class TabHomeFragment extends BaseFragment {
     private List<String> tabList;
     private List<VideoBean> newGoodsList;
     private List<VideoBean> hotTopicList;
+
+    //模拟数据
+    private List<ImgTvBean> egDatas;
 
     private Gson gson = new Gson();
 
@@ -81,6 +85,9 @@ public class TabHomeFragment extends BaseFragment {
         getTabData();
         getNewGoodsData(requestQueue, newGoodsRequest);
         getHotTopicData(requestQueue, hotTopicRequest);
+
+        //模拟数据
+        getDatas();
     }
 
     private void getBannerData(final RequestQueue requestQueue, Request<String> request) {
@@ -145,6 +152,23 @@ public class TabHomeFragment extends BaseFragment {
         tabList = new ArrayList<>();
         tabList.add(getString(R.string.text_new_goods));
         tabList.add(getString(R.string.text_hot_topic));
+        initRecyclerView();
+    }
+
+    private void getDatas() {
+        egDatas = new ArrayList<>();
+        egDatas.add(new ImgTvBean(R.drawable.example07,"咨询"));
+        egDatas.add(new ImgTvBean(R.drawable.example11,"特卖"));
+        egDatas.add(new ImgTvBean(R.drawable.example10,"商品"));
+        egDatas.add(new ImgTvBean(R.drawable.example09,"二手"));
+        egDatas.add(new ImgTvBean(R.drawable.example08,"咨询"));
+        egDatas.add(new ImgTvBean(R.drawable.example12,"特卖"));
+        egDatas.add(new ImgTvBean(R.drawable.example06,"商品"));
+        egDatas.add(new ImgTvBean(R.drawable.example05,"二手"));
+        egDatas.add(new ImgTvBean(R.drawable.example04,"咨询"));
+        egDatas.add(new ImgTvBean(R.drawable.example03,"特卖"));
+        egDatas.add(new ImgTvBean(R.drawable.example02,"商品"));
+        egDatas.add(new ImgTvBean(R.drawable.example01,"二手"));
         initRecyclerView();
     }
 
@@ -221,8 +245,12 @@ public class TabHomeFragment extends BaseFragment {
             mRvHome.setHasFixedSize(true);
 
             List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
-            list.add(HomeDataMapper.transformRecommendData(recommendBeanList, TabHomeAdapter.TYPE_CATE, false));
+            //模拟数据
+            list.add(HomeDataMapper.transformHomeTestData(egDatas, TabHomeAdapter.TYPE_BANNER, false));
+            list.add(HomeDataMapper.transformHomeTestData(egDatas, TabHomeAdapter.TYPE_CATE, false));
+            //网络数据
+//            list.add(HomeDataMapper.transformBannerData(bannerBeanList, TabHomeAdapter.TYPE_BANNER, false));
+//            list.add(HomeDataMapper.transformRecommendData(recommendBeanList, TabHomeAdapter.TYPE_CATE, false));
             list.add(HomeDataMapper.transformTabData(tabList, TabHomeAdapter.TYPE_TABLE, false));
 
             TabHomeAdapter mHomeAdapter = new TabHomeAdapter(getActivity(), list, newGoodsList, hotTopicList);

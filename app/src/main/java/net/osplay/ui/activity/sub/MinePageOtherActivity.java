@@ -19,24 +19,24 @@ import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
 import net.osplay.ui.fragment.sub.MinePageWordFragment;
 
 /**
- * 个人主页
+ * 个人主页（他人）
  */
 
-public class MinePageActivity extends BaseActivity implements View.OnClickListener {
+public class MinePageOtherActivity extends BaseActivity implements View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine_page);
+        setContentView(R.layout.activity_mine_page_other);
         setToolbar();
         initView();
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_mine_page_center);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_page);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_mine_page_other);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_mine_page_other);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -52,16 +52,15 @@ public class MinePageActivity extends BaseActivity implements View.OnClickListen
 
     private void initView() {
         setTabLayout();
-        findViewById(R.id.btn_page_edit).setOnClickListener(this);
-        findViewById(R.id.btn_dou_picture).setOnClickListener(this);
+        findViewById(R.id.btn_mine_page_other_dou_picture).setOnClickListener(this);
     }
 
     /**
      * 设置 TabLayout
      */
     private void setTabLayout() {
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout_page);
-        viewPager = (ViewPager) findViewById(R.id.vp_page);
+        tabLayout = (TabLayout) findViewById(R.id.tl_mine_page_other);
+        viewPager = (ViewPager) findViewById(R.id.vp_mine_page_other);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             String[] itemName = {"商品", "动态", "社区"};
 
@@ -107,41 +106,9 @@ public class MinePageActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_page_edit://编辑资料
-                startActivity(new Intent(MinePageActivity.this, EditInfoActivity.class));
-                break;
-            case R.id.btn_dou_picture://斗图
-                startActivity(new Intent(MinePageActivity.this, DouPictureActivity.class));
+            case R.id.btn_mine_page_other_dou_picture://斗图
+                startActivity(new Intent(MinePageOtherActivity.this, DouPictureActivity.class));
                 break;
         }
     }
-
-//    public class MyTabAdapter extends FragmentPagerAdapter {
-//        private List<Fragment> fragments;
-//        private List<String> titles;
-//
-//        public MyTabAdapter(FragmentManager fm) {
-//            super(fm);
-//            fragments = new ArrayList<>();
-//            fragments.addAll(fragments);
-//            titles = new ArrayList<>();
-//            titles.addAll(titles);
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//            return fragments.get(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return fragments == null ? 0 : fragments.size();
-//        }
-//
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return titles.get(position);
-//        }
-//    }
-
 }

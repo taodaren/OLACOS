@@ -1,5 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +13,7 @@ import net.osplay.ui.adapter.WordHotTopicAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,11 +23,16 @@ import java.util.List;
 public class WordHotTopicFragment extends BaseFragment {
     private static final String TAG = "WordHotTopicFragment";
     private RecyclerView mRvTopic;
-    private GridLayoutManager mLayoutManager;
-    private WordHotTopicAdapter mAdapter;
-
-    private WordTopicBean[] topicBeen;
     private List<WordTopicBean> topicList;
+
+    @SuppressLint("ValidFragment")
+    public WordHotTopicFragment() {
+    }
+
+    @SuppressLint("ValidFragment")
+    public WordHotTopicFragment(Context context, int resId) {
+        super(context, resId);
+    }
 
     @Override
     public View initView() {
@@ -36,7 +44,7 @@ public class WordHotTopicFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        topicBeen = new WordTopicBean[]{
+        WordTopicBean[] topicBeen = new WordTopicBean[]{
                 new WordTopicBean("COS专区", R.drawable.example01),
                 new WordTopicBean("服装", R.drawable.example02),
                 new WordTopicBean("模玩", R.drawable.example03),
@@ -45,21 +53,20 @@ public class WordHotTopicFragment extends BaseFragment {
                 new WordTopicBean("影视", R.drawable.example06),
                 new WordTopicBean("同人", R.drawable.example08),
                 new WordTopicBean("周边", R.drawable.example09),
+                new WordTopicBean("斗图", R.drawable.example12)
         };
         topicList = new ArrayList<>();
-        for (WordTopicBean aTopicBeen : topicBeen) {
-            topicList.add(aTopicBeen);
-        }
+        Collections.addAll(topicList, topicBeen);
         initRecyclerView();
     }
 
     private void initRecyclerView() {
         if (topicList != null) {
-            mLayoutManager = new GridLayoutManager(getContext(), 2);
+            GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
             mRvTopic.setLayoutManager(mLayoutManager);
             mRvTopic.setHasFixedSize(true);
 
-            mAdapter = new WordHotTopicAdapter(getActivity(), topicList);
+            WordHotTopicAdapter mAdapter = new WordHotTopicAdapter(getActivity(), topicList);
             Log.d(TAG, "initView: topicList======================" + topicList);
             mRvTopic.setAdapter(mAdapter);
         }
