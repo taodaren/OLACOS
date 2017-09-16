@@ -24,6 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- activity有EditText时禁止自动弹出软键盘 -->
         <!-- 声明Activity时加上：android:windowSoftInputMode="stateHidden" -->
         <!-- 解决软键盘将布局顶起方法：android:windowSoftInputMode="adjustPan|stateHidden" -->
@@ -89,7 +90,8 @@
         <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity" />
         <activity android:name="net.osplay.ui.activity.sub.CreateOrJoinActivity" />
         <activity android:name="net.osplay.ui.activity.sub.JoinCommunityDetailsActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MallInfoActivity"></activity>
     </application>
 
 </manifest>

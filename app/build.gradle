@@ -26,9 +26,9 @@ dependencies {
     })
     //compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     testCompile 'junit:junit:4.12'
+    //viewpager的动画效果
     compile 'io.reactivex:rxandroid:1.2.1'
     testCompile 'junit:junit:4.12'
-    //viewpager的动画效果
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -53,10 +53,13 @@ dependencies {
     compile 'com.yanzhenjie.nohttp:nohttp:1.1.1'
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
     compile 'com.youth.banner:banner:1.4.9'
-    compile 'com.jakewharton:butterknife:5.1.1'
+   // compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.wenwenwen888:searchbox:1.0.0'
     compile 'com.alibaba:fastjson:1.1.63.android'
     compile 'com.zhy:magic-viewpager:1.0.1'
     testCompile 'junit:junit:4.12'
+    compile project(':library')
+    compile 'com.joanzapata.android:base-adapter-helper:1.1.11'
 }
