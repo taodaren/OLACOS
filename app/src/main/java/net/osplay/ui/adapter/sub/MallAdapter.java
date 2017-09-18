@@ -33,6 +33,7 @@ import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.ResultBeanData;
+import net.osplay.ui.activity.sub.MallInfoActivity;
 import net.osplay.ui.adapter.sub.goods.ChannelAdapter;
 import net.osplay.ui.adapter.sub.goods.HotGridAdapter;
 import net.osplay.ui.adapter.sub.goods.RecommendGridAdapter;
@@ -129,6 +130,7 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    startMallInfo();
                 }
             });
         }
@@ -150,6 +152,7 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    startMallInfo();
                 }
             });
         }
@@ -198,6 +201,7 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void setOnClick(int position) {
                 Toast.makeText(mContext,"position"+position,Toast.LENGTH_SHORT).show();
+                    startMallInfo();
                 }
             };
             adapter.onClick(setOnClickListen);
@@ -314,10 +318,16 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void OnBannerClick(int position) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
+                    startMallInfo();
                 }
             });
             banner.start();
         }
+    }
+
+    private void startMallInfo() {
+        Intent intent=new Intent(mContext, MallInfoActivity.class);
+        mContext.startActivity(intent);
     }
 
     //得到不同的条目类型

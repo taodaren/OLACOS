@@ -106,5 +106,6 @@
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsDouPictureActivity"
             android:theme="@style/transparentStatusTheme" />
+        <activity android:name="net.osplay.ui.activity.sub.MallInfoActivity" />
     </application>
 </manifest>
