@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +22,6 @@ import net.osplay.utils.PublishPopWindow;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
-    private BottomNavigationBar mNavigationBar;
     private Fragment currentFragment;
     private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
@@ -38,13 +38,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private void initView() {
         initBottomNavBar();
         initFabButton();
-//        int intExtra = getIntent().getIntExtra("jgb",0);
-//        if (intExtra == 1) {
-//            if (!tabLeagueFragment.isAdded()) {
-//                addFragment(R.id.main_content, tabLeagueFragment);
-//                currentFragment = tabLeagueFragment;
-//            }
-//        }
         defaultShowHome();
     }
 
@@ -63,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 设置底部导航
      */
     private void initBottomNavBar() {
-        mNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_nav_bar);
+        BottomNavigationBar mNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_nav_bar);
 
         //进行必要的设置
         mNavigationBar.setBarBackgroundColor(R.color.colorPrimary);//设置模块名背景色
@@ -124,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      *
      * @param fragment 待切换碎片
      */
+    @SuppressLint("CommitTransaction")
     private void replaceFragment(Fragment fragment) {
         addOrShowFragment(getSupportFragmentManager().beginTransaction(), fragment);
     }

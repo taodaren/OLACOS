@@ -7,11 +7,6 @@
         android:title="扫一扫"
         app:showAsAction="always" />
     <item
-        android:id="@+id/menu_msg"
-        android:icon="@drawable/menu_msg"
-        android:title="消息"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/menu_category"
         android:icon="@drawable/menu_category"
         android:title="筛选"
@@ -25,5 +20,15 @@
         android:id="@+id/menu_set"
         android:icon="@drawable/menu_set"
         android:title="设置"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/menu_search"
+        android:title="搜索"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_msg"
+        android:icon="@drawable/menu_msg"
+        android:title="消息"
         app:showAsAction="always" />
 </menu>
