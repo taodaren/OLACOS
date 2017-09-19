@@ -29,6 +29,7 @@ import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.goods.GoodsBean;
 import net.osplay.service.entity.goods.ResultBeanData;
 import net.osplay.ui.activity.sub.MallInfoActivity;
 import net.osplay.utils.Constants;
@@ -51,6 +52,7 @@ public class MallAdapter extends RecyclerView.Adapter {
     public static final int SECKILL = 3;//秒杀
     public static final int RECOMMEND = 4;//推荐
     public static final int HOT = 5;//热卖
+    private static final String GOODS_BEAN ="goodsBean" ;
     private Context mContext;
     private ResultBeanData.ResultBean resultBean;
     private LayoutInflater mLayoutInflater;//初始化布局
@@ -116,14 +118,22 @@ public class MallAdapter extends RecyclerView.Adapter {
             this.mContextr=mContext;
             gv_hot= (GridView) itemView.findViewById(R.id.gv_hot);
         }
-        public void setData(List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
+        public void setData(final List<ResultBeanData.ResultBean.HotInfoBean> hot_info) {
             hAdapter=new HotGridAdapter(mContextr,hot_info);
             gv_hot.setAdapter(hAdapter);
             gv_hot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
-                    startMallInfo();
+                    //热卖商品信息类
+                    ResultBeanData.ResultBean.HotInfoBean hotInfoBean = hot_info.get(position);
+                    //商品信息类
+                    GoodsBean goodsBean=new GoodsBean();
+                    goodsBean.setCover_price(hotInfoBean.getCover_price());
+                    goodsBean.setFigure(hotInfoBean.getFigure());
+                    goodsBean.setName(hotInfoBean.getName());
+                    goodsBean.setProduct_id(hotInfoBean.getProduct_id());
+                    startMallInfo(goodsBean);
                 }
             });
         }
@@ -138,14 +148,20 @@ public class MallAdapter extends RecyclerView.Adapter {
             this.mContext=mContext;
             gv_recommend= (GridView) itemView.findViewById(R.id.gv_recommend);
         }
-        public void setData(List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
+        public void setData(final List<ResultBeanData.ResultBean.RecommendInfoBean> recommend_info) {
             rAdapter=new RecommendGridAdapter(mContext,recommend_info);
             gv_recommend.setAdapter(rAdapter);
             gv_recommend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
-                    startMallInfo();
+                    ResultBeanData.ResultBean.RecommendInfoBean recommendInfoBean = recommend_info.get(position);
+                    GoodsBean goodsBean=new GoodsBean();
+                    goodsBean.setCover_price(recommendInfoBean.getCover_price());
+                    goodsBean.setFigure(recommendInfoBean.getFigure());
+                    goodsBean.setName(recommendInfoBean.getName());
+                    goodsBean.setProduct_id(recommendInfoBean.getProduct_id());
+                    startMallInfo(goodsBean);
                 }
             });
         }
@@ -182,9 +198,9 @@ public class MallAdapter extends RecyclerView.Adapter {
             tv_more_seckill= (TextView) itemView.findViewById(R.id.tv_time_seckill);
             rv_seckill= (RecyclerView) itemView.findViewById(R.id.rv_seckill);
         }
-        public void setData(ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
+        public void setData(final ResultBeanData.ResultBean.SeckillInfoBean seckill_info) {
             //集合数据
-            List<ResultBeanData.ResultBean.SeckillInfoBean.ListBean> list = seckill_info.getList();
+            final List<ResultBeanData.ResultBean.SeckillInfoBean.ListBean> list = seckill_info.getList();
             //设置recyclerview
             adapter=new SeckillAdapter(mContext,list);
             rv_seckill.setAdapter(adapter);
@@ -194,7 +210,13 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void setOnClick(int position) {
                 Toast.makeText(mContext,"position"+position,Toast.LENGTH_SHORT).show();
-                    startMallInfo();
+                    ResultBeanData.ResultBean.SeckillInfoBean.ListBean listBean = list.get(position);
+                    GoodsBean goodsBean=new GoodsBean();
+                    goodsBean.setCover_price(listBean.getCover_price());
+                    goodsBean.setFigure(listBean.getFigure());
+                    goodsBean.setName(listBean.getName());
+                    goodsBean.setProduct_id(listBean.getProduct_id());
+                    startMallInfo(goodsBean);
                 }
             };
             adapter.onClick(setOnClickListen);
@@ -311,15 +333,18 @@ public class MallAdapter extends RecyclerView.Adapter {
                 @Override
                 public void OnBannerClick(int position) {
                     Toast.makeText(mContext, "position==" + position, Toast.LENGTH_SHORT).show();
-                    startMallInfo();
+
+                    //startMallInfo(goodsBean);
                 }
             });
             banner.start();
         }
     }
 
-    private void startMallInfo() {
+    //跳转至商品详情界面携带内容实体类
+    private void startMallInfo(GoodsBean goodsBean) {
         Intent intent=new Intent(mContext, MallInfoActivity.class);
+        intent.putExtra(GOODS_BEAN,goodsBean);
         mContext.startActivity(intent);
     }
 

@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hankkin.library.GradationScrollView;
 import com.hankkin.library.MyImageLoader;
 import com.hankkin.library.NoScrollListView;
@@ -21,7 +23,11 @@ import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 
 import net.osplay.olacos.R;
+import net.osplay.service.entity.goods.GoodsBean;
+import net.osplay.ui.adapter.sub.goods.MallAdapter;
+import net.osplay.utils.Constants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +60,9 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
 
     private int height;
     private int width;
+
+    private GoodsBean goodsBean;
+    private TextView mall_name,mall_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,18 +73,30 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
         LinearLayout.LayoutParams params1 = (LinearLayout.LayoutParams) llOffset.getLayoutParams();
         params1.setMargins(0,-StatusBarUtil.getStatusBarHeight(this)/4,0,0);
         llOffset.setLayoutParams(params1);
-
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) iv.getLayoutParams();
+        //图片显示的高度
         params.height = getScreenHeight(this)*2/4;
         iv.setLayoutParams(params);
-
         container = new ScrollViewContainer(getApplicationContext());
-
-
         initImgDatas();
-
         initListeners();
 
+
+        mall_name= (TextView) findViewById(R.id.mall_name);
+        mall_price= (TextView) findViewById(R.id.mall_price);
+        //得到商品详情对象 接收商品详情数据 goodsBean为详情的实体类
+        goodsBean= (GoodsBean) getIntent().getSerializableExtra("goodsBean");
+        if(goodsBean!=null){
+            setDataForView(goodsBean);
+        }
+    }
+
+    //设置数据
+    private void setDataForView(GoodsBean goodsBean) {
+        //设置商品图片
+        Glide.with(this).load(Constants.BASE_URl_IMAGE+goodsBean.getFigure()).into(iv);
+        mall_name.setText(goodsBean.getName());
+        mall_price.setText(goodsBean.getCover_price());
     }
 
     public  int getScreenHeight(Context context) {
@@ -85,7 +106,6 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
-
     public static int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -93,10 +113,7 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
-
-
-
-    // TODO: 16/8/21 模拟图片假数据
+    // 商品图文详情的展示 直接传入网址就可以
     private void initImgDatas(){
         width = getScreenWidth(getApplicationContext());
         imgsUrl = new ArrayList<>();
@@ -118,7 +135,6 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
     }
 
     private void initListeners() {
-
         ViewTreeObserver vto = iv.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -131,18 +147,9 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
             }
         });
     }
-
-    /**
-     * 滑动监听
-     * @param scrollView
-     * @param x
-     * @param y
-     * @param oldx
-     * @param oldy
-     */
+    //滑动监听
     @Override
-    public void onScrollChanged(GradationScrollView scrollView, int x, int y,
-                                int oldx, int oldy) {
+    public void onScrollChanged(GradationScrollView scrollView, int x, int y, int oldx, int oldy) {
         // TODO Auto-generated method stub
         if (y <= 0) {   //设置标题的背景颜色
             llTitle.setBackgroundColor(Color.argb((int) 0, 255,255,255));

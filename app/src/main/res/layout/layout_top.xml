@@ -27,6 +27,7 @@
             android:padding="@dimen/spacing_smaller">
 
             <TextView
+                android:id="@+id/mall_name"
                 style="@style/blackTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
                 android:layout_marginTop="@dimen/spacing_tinyer">
 
                 <TextView
+                    android:id="@+id/mall_price"
                     style="@style/colorPrimaryTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
