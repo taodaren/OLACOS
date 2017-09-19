@@ -1,4 +1,4 @@
-package net.osplay.ui.adapter.sub;
+package net.osplay.ui.adapter.sub.goods;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,18 +25,12 @@ import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
-import com.zhy.magicviewpager.transformer.AlphaPageTransformer;
-import com.zhy.magicviewpager.transformer.RotateDownPageTransformer;
 import com.zhy.magicviewpager.transformer.ScaleInTransformer;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.ResultBeanData;
 import net.osplay.ui.activity.sub.MallInfoActivity;
-import net.osplay.ui.adapter.sub.goods.ChannelAdapter;
-import net.osplay.ui.adapter.sub.goods.HotGridAdapter;
-import net.osplay.ui.adapter.sub.goods.RecommendGridAdapter;
-import net.osplay.ui.adapter.sub.goods.SeckillAdapter;
 import net.osplay.utils.Constants;
 
 import java.text.SimpleDateFormat;

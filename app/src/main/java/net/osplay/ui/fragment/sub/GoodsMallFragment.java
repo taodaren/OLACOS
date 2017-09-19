@@ -1,7 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -23,7 +19,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.goods.ResultBeanData;
-import net.osplay.ui.adapter.sub.MallAdapter;
+import net.osplay.ui.adapter.sub.goods.MallAdapter;
 import net.osplay.utils.Constants;
 
 

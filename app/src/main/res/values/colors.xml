@@ -35,4 +35,6 @@
     <color name="grey_line_bg">#E4E4E4</color>
     <color name="deep_transparent">#bb000000</color>
     <color name="grey_normal_bg">#EEEEEE</color>
+    <color name="colorTextNormal">#292929</color>
+    <color name="colorTextGary">#999999</color>
 </resources>
