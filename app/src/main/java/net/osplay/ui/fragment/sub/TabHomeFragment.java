@@ -271,7 +271,7 @@ public class TabHomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.GONE, true);
+        setToolbar(R.id.toolbar_home, R.string.home_name, View.VISIBLE, View.GONE, true);
         requestCodeQRCodePermissions();
     }
 
