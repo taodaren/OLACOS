@@ -2,6 +2,7 @@ package net.osplay.ui.activity.sub;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,8 @@ import java.util.Calendar;
 public class PublishActivityActivity extends BaseActivity {
 
     private RadioButton rbtn_notice,rbtn_activity,rbtn_works;
-    private LinearLayout layout_visibility;
+    private LinearLayout activity_layout,works_layout,notification_layout;
+
     private EditText notice_ed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +44,16 @@ public class PublishActivityActivity extends BaseActivity {
 
 
     private void initView() {
-        rbtn_notice= (RadioButton) findViewById(R.id.rbtn_notice);
-        layout_visibility= (LinearLayout) findViewById(R.id.layout_visibility);
         rbtn_activity= (RadioButton) findViewById(R.id.rbtn_activity);
         rbtn_works= (RadioButton) findViewById(R.id.rbtn_works);
+        rbtn_notice= (RadioButton) findViewById(R.id.rbtn_notice);
+
+
+
+        activity_layout= (LinearLayout) findViewById(R.id.activity_layout);
+        works_layout= (LinearLayout) findViewById(R.id.works_layout);
+        notification_layout= (LinearLayout) findViewById(R.id.notification_layout);
+
         notice_ed= (EditText) findViewById(R.id.notice_ed);
     }
 
@@ -113,22 +121,25 @@ public class PublishActivityActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.rbtn_activity:
-                    layout_visibility.setVisibility(View.VISIBLE);
-                    notice_ed.setVisibility(View.GONE);
+                    activity_layout.setVisibility(View.VISIBLE);
+                    works_layout.setVisibility(View.GONE);
+                    notification_layout.setVisibility(View.GONE);
                     //阻止键盘弹出
                     InputMethodManager imm1 = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm1.hideSoftInputFromWindow(notice_ed.getWindowToken(),0);
                     break;
                 case R.id.rbtn_works:
-                    layout_visibility.setVisibility(View.VISIBLE);
-                    notice_ed.setVisibility(View.GONE);
+                    works_layout.setVisibility(View.VISIBLE);
+                    activity_layout.setVisibility(View.GONE);
+                    notification_layout.setVisibility(View.GONE);
                     //阻止键盘弹出
                     InputMethodManager imm2 = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                     imm2.hideSoftInputFromWindow(notice_ed.getWindowToken(),0);
                     break;
                 case R.id.rbtn_notice:
-                    layout_visibility.setVisibility(View.GONE);
-                    notice_ed.setVisibility(View.VISIBLE);
+                    notification_layout.setVisibility(View.VISIBLE);
+                    activity_layout.setVisibility(View.GONE);
+                    works_layout.setVisibility(View.GONE);
                     //弹出键盘
                     ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
                     notice_ed.requestFocus();
