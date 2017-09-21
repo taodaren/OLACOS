@@ -90,6 +90,7 @@
                 </RelativeLayout>
 
                 <Button
+                    android:id="@+id/btn_details_posts_unattention"
                     android:layout_width="80dp"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
@@ -99,6 +100,19 @@
                     android:padding="5dp"
                     android:text="关注"
                     android:textColor="@color/colorWhite" />
+
+                <Button
+                    android:id="@+id/btn_details_posts_attention"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/shape_yuan_trans"
+                    android:padding="5dp"
+                    android:text="已关注"
+                    android:textColor="@color/colorWhite"
+                    android:visibility="gone" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -172,60 +186,74 @@
     </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_details_posts_show"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="1dp"
         android:background="@color/colorTrans1000"
         android:gravity="center_vertical"
-        android:padding="8dp">
+        android:padding="5dp">
 
         <TextView
+            android:id="@+id/tv_details_posts_switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape_default"
-            android:padding="8dp"
-            android:text="我来说点啥捏……" />
+            android:padding="10dp"
+            android:text="我来说点啥捏……"
+            android:textSize="13sp" />
 
         <ImageView
+            android:id="@+id/img_details_posts_sugar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_candy" />
+            android:padding="10dp"
+            android:src="@drawable/ic_sugar_unselected" />
 
         <ImageView
+            android:id="@+id/img_details_posts_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_keep" />
+            android:padding="10dp"
+            android:src="@drawable/ic_collect_unselected" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/ll_details_posts_hide"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="1dp"
         android:background="@color/colorTrans1000"
         android:gravity="center_vertical"
-        android:padding="8dp">
+        android:padding="5dp"
+        android:visibility="gone">
 
-        <TextView
+        <EditText
+            android:id="@+id/tv_details_posts_ed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape_default"
-            android:padding="8dp"
-            android:text="我来说点啥捏……" />
+            android:hint="我来说点啥捏……"
+            android:padding="10dp"
+            android:textSize="13sp" />
 
         <ImageView
+            android:id="@+id/img_details_posts_expression"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:src="@drawable/ic_laugh" />
 
         <Button
-            android:text="发送"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_details_posts_send"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:background="@drawable/shape_yuan"
             android:padding="8dp"
-            android:src="@drawable/ic_keep" />
+            android:src="@drawable/ic_collect_selected"
+            android:text="发送"
+            android:textColor="@color/colorWhite" />
     </LinearLayout>
 </LinearLayout>
