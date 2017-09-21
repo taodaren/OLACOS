@@ -1,138 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorContentBg"
     android:clickable="true"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <!-- 标题部分 -->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar_posts_details"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_posts_details"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light" />
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar_posts_details"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/example10"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:contentScrim="@color/colorTranslucent"
-            app:layout_scrollFlags="scroll|enterAlways">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorTranslucent"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_details_posts_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="5dp"
+            android:src="@drawable/avatar_girl" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/posts_details_avatar"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_margin="15dp"
-                    android:src="@drawable/avatar_boy" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_toEndOf="@id/img_details_posts_avatar"
+            android:padding="5dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="15dp"
-                    android:layout_toEndOf="@id/posts_details_avatar"
-                    android:orientation="vertical">
+                    android:text="昵称"
+                    android:textColor="@color/colorBlack2"
+                    android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/posts_details_nick"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="奥世学园"
-                        android:textColor="@color/colorWhite"
-                        android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/shape_mine_bg"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:text="楼主"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginTop="5dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
 
-                        <TextView
-                            android:id="@+id/tv_hot_posts_details_member"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="成员：76240"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="45秒前"
+                    android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/tv_hot_posts_details_posts"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@id/tv_hot_posts_details_member"
-                            android:text="帖子：1015031"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="来自 COS专区"
+                    android:textColor="@color/colorPrimaryDark" />
+            </LinearLayout>
+        </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/shape_yuan"
+            android:padding="5dp"
+            android:text="关注"
+            android:textColor="@color/colorWhite" />
+    </RelativeLayout>
 
-                        <Button
-                            android:id="@+id/btn_hot_posts_details_num"
-                            android:layout_width="100dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/shape_yuan_trans"
-                            android:text="No.9999+"
-                            android:textSize="14sp" />
-
-                        <Button
-                            android:id="@+id/btn_hot_posts_details_add"
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/shape_yuan"
-                            android:text="+ 加入"
-                            android:textSize="14sp" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_posts_details"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <!-- 内容部分 -->
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout_posts_details"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:tabMode="fixed" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_posts_details"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+    </RelativeLayout>
+</LinearLayout>
