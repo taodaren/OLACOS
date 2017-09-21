@@ -26,10 +26,6 @@ import java.util.List;
  */
 
 public class DetailsPostsActivity extends BaseActivity implements View.OnClickListener {
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
-
-    private String[] mTitles = new String[]{"全部", "原创"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +35,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView() {
-        findViewById(R.id.posts_details_avatar).setOnClickListener(this);
-        findViewById(R.id.btn_hot_posts_details_add).setOnClickListener(this);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout_posts_details);
-        mViewPager = (ViewPager) findViewById(R.id.vp_posts_details);
-
         setToolbar();
-        setTabLayout();
-        setViewPager();
-        mTabLayout.setupWithViewPager(mViewPager);
     }
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_posts_details);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_posts_details);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -63,21 +50,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             //设置侧滑导航按钮图标
             actionBar.setHomeAsUpIndicator(R.drawable.title_back);
         }
-        //隐藏 CollapsingToolbarLayout 标题
-        collapsingToolbar.setTitleEnabled(false);
-    }
-
-    private void setTabLayout() {
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[0]));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[1]));
-    }
-
-    private void setViewPager() {
-        List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new DetailsPostsAllFragment(this, R.layout.layout_word_hot_posts));
-        mFragmentList.add(new DetailsPostsAllFragment(this, R.layout.layout_word_hot_posts));
-        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, mTitles);
-        mViewPager.setAdapter(mAdapter);
     }
 
     @Override
@@ -92,13 +64,5 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_hot_posts_details_add://加入
-                Toast.makeText(this, "btn_hot_posts_details_add", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.posts_details_avatar:
-                startActivity(new Intent(this, MinePageOtherActivity.class));
-                break;
-        }
     }
 }
