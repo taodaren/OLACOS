@@ -55,7 +55,7 @@
                 android:text="摄影"
                 android:textColor="@color/colorPrimaryDark" />
 
-            <TextView
+<!--            <TextView
                 android:id="@+id/tv_hot_posts_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_toEndOf="@id/tv_hot_posts_type"
                 android:text="osplay"
                 android:textColor="@color/colorBlack2"
-                android:textSize="13sp" />
+                android:textSize="13sp" />-->
 
             <TextView
                 android:id="@+id/tv_hot_posts_comment"

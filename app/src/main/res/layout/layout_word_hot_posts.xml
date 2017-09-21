@@ -34,7 +34,7 @@
             android:layout_height="1dp"
             android:layout_weight="1" />
 
-        <Button
+<!--        <Button
             android:id="@+id/btn_hot_posts_click"
             android:layout_width="70dp"
             android:layout_height="26dp"
@@ -42,7 +42,7 @@
             android:background="@drawable/shape_yuan"
             android:text="点我瞧瞧"
             android:textColor="@color/colorWhite"
-            android:textSize="12sp" />
+            android:textSize="12sp" />-->
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -56,7 +56,7 @@
         android:gravity="center_vertical"
         android:padding="5dp">
 
-        <Button
+<!--        <Button
             android:id="@+id/btn_hot_posts_more"
             android:layout_width="80dp"
             android:layout_height="26dp"
@@ -64,7 +64,7 @@
             android:background="@drawable/btn_shape_transparent"
             android:text="更多动漫"
             android:textColor="@color/colorPrimary"
-            android:textSize="12sp" />
+            android:textSize="12sp" />-->
 
         <View
             android:layout_width="0dp"
