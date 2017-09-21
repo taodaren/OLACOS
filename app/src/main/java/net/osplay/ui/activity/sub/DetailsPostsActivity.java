@@ -15,6 +15,7 @@ import android.widget.Toast;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
+import net.osplay.ui.fragment.sub.DetailsPostsAllFragment;
 import net.osplay.ui.fragment.sub.WordHotPostsFragment;
 
 import java.util.ArrayList;
@@ -73,8 +74,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.layout_word_hot_posts));
-        mFragmentList.add(new WordHotPostsFragment(this, R.layout.layout_word_hot_posts));
+        mFragmentList.add(new DetailsPostsAllFragment(this, R.layout.layout_word_hot_posts));
+        mFragmentList.add(new DetailsPostsAllFragment(this, R.layout.layout_word_hot_posts));
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }
