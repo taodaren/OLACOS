@@ -140,8 +140,6 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                             });
                         }
                     });
-
-
             //关闭 popwindow 窗口
             if (child.getId() == R.id.commodity_window) {//R.id.video_window 不一定是最后遍历到子试图，这里不是很重要，主要看效果
                 Observable.timer((layout.getChildCount() - i) * 30 + 80, TimeUnit.MILLISECONDS)
@@ -155,9 +153,7 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                         });
             }
         }
-
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -182,5 +178,4 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
                 break;
         }
     }
-
 }
