@@ -19,7 +19,8 @@ import net.osplay.ui.activity.base.BaseActivity;
 public class DetailsPostsActivity extends BaseActivity implements View.OnClickListener {
     private LinearLayout mllShow, mllHide;
     private ImageView mImgSugar, mImgCollect;
-    private Button mBtnAttention, mBtnUnAttention;
+    private Button mBtnAttention;
+    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mImgSugar = (ImageView) findViewById(R.id.img_details_posts_sugar);
         mImgCollect = (ImageView) findViewById(R.id.img_details_posts_collect);
         mBtnAttention = (Button) findViewById(R.id.btn_details_posts_attention);
-        mBtnUnAttention = (Button) findViewById(R.id.btn_details_posts_unattention);
         mImgSugar.setOnClickListener(this);
         mImgCollect.setOnClickListener(this);
         mBtnAttention.setOnClickListener(this);
-        mBtnUnAttention.setOnClickListener(this);
         findViewById(R.id.tv_details_posts_switch).setOnClickListener(this);
         findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
         findViewById(R.id.btn_details_posts_send).setOnClickListener(this);
@@ -73,27 +72,41 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_details_posts_unattention://关注
-                mBtnUnAttention.setVisibility(View.GONE);
-                mBtnAttention.setVisibility(View.VISIBLE);
-                break;
-            case R.id.btn_details_posts_attention://已关注
-                mBtnAttention.setVisibility(View.GONE);
-                mBtnUnAttention.setVisibility(View.VISIBLE);
+            case R.id.btn_details_posts_attention://关注
+                if (flag == 0) {
+                    mBtnAttention.setText("已关注");
+                    mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                } else if (flag == 1) {
+                    mBtnAttention.setText("关注");
+                    mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                }
+                flag = (flag + 1) % 2;
                 break;
             case R.id.tv_details_posts_switch://切换
                 mllShow.setVisibility(View.GONE);
                 mllHide.setVisibility(View.VISIBLE);
                 break;
             case R.id.img_details_posts_sugar://糖果
-                mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                if (flag == 0) {
+                    mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                } else if (flag == 1) {
+                    mImgSugar.setImageResource(R.drawable.ic_sugar_unselected);
+                }
+                flag = (flag + 1) % 2;
                 break;
             case R.id.img_details_posts_collect://收藏
-                mImgCollect.setImageResource(R.drawable.ic_collect_selected);
+                if (flag == 0) {
+                    mImgCollect.setImageResource(R.drawable.ic_collect_selected);
+                } else if (flag == 1) {
+                    mImgCollect.setImageResource(R.drawable.ic_collect_unselected);
+                }
+                flag = (flag + 1) % 2;
                 break;
             case R.id.img_details_posts_expression://表情
                 break;
             case R.id.btn_details_posts_send://发送
+                break;
+            default:
                 break;
         }
     }

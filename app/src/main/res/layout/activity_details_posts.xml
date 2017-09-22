@@ -90,7 +90,7 @@
                 </RelativeLayout>
 
                 <Button
-                    android:id="@+id/btn_details_posts_unattention"
+                    android:id="@+id/btn_details_posts_attention"
                     android:layout_width="80dp"
                     android:layout_height="35dp"
                     android:layout_alignParentEnd="true"
@@ -100,19 +100,6 @@
                     android:padding="5dp"
                     android:text="关注"
                     android:textColor="@color/colorWhite" />
-
-                <Button
-                    android:id="@+id/btn_details_posts_attention"
-                    android:layout_width="80dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="15dp"
-                    android:background="@drawable/shape_yuan_trans"
-                    android:padding="5dp"
-                    android:text="已关注"
-                    android:textColor="@color/colorWhite"
-                    android:visibility="gone" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
