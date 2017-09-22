@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -23,7 +22,6 @@ import net.osplay.service.entity.MeiZiBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.MessageAdapter;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -45,7 +43,7 @@ public class MessageActivity extends BaseActivity {
 
     private void initData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> msgRequest = NoHttp.createStringRequest(I.MSG_FULI, RequestMethod.GET);//Banner 数据
+        Request<String> msgRequest = NoHttp.createStringRequest(I.MSG_FULI, RequestMethod.GET);
         getMsgItemData(requestQueue, msgRequest);
     }
 
@@ -62,8 +60,6 @@ public class MessageActivity extends BaseActivity {
                 Log.d(TAG, "onSucceed: msgRequest====================" + json);
 
                 //数据解析（集合）
-//                Type type = new TypeToken<List<MeiZiBean>>() {
-//                }.getType();
                 MeiZiBean bean = gson.fromJson(json, MeiZiBean.class);
                 List<MeiZiBean.ResultsBean> results = bean.getResults();
                 Log.d(TAG, "onSucceed: results====================" + results);
