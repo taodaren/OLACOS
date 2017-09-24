@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -14,11 +15,13 @@ import java.util.List;
 public class TabViewPagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private String[] mTitles;
+    private FragmentManager mManager;
     private List<Fragment> mFragmentList;
 
     public TabViewPagerAdapter(FragmentManager fm, Context mContext, List<Fragment> mFragmentList, String[] mTitles) {
         super(fm);
         this.mContext = mContext;
+        this.mManager = fm;
         this.mFragmentList = mFragmentList;
         this.mTitles = mTitles;
     }
@@ -31,6 +34,19 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return mFragmentList.size();
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        mManager.beginTransaction().show(fragment).commitAllowingStateLoss();
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        Fragment fragment = getItem(position);
+        mManager.beginTransaction().hide(fragment).commitAllowingStateLoss();
     }
 
     @Override

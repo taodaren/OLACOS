@@ -50,7 +50,7 @@ public class WordHotPostsFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.layout_recycler_view, null);
-        mRvHotPosts = (RecyclerView) inflate.findViewById(R.id.rv_f_home_tab);
+        mRvHotPosts = (RecyclerView) inflate.findViewById(R.id.rv_layout_public);
         return inflate;
     }
 

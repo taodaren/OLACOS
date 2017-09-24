@@ -1,5 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
@@ -29,6 +30,8 @@ import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.service.entity.base.HomeData;
+import net.osplay.ui.activity.sub.MessageActivity;
+import net.osplay.ui.activity.sub.SearchActivity;
 import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -51,9 +54,7 @@ public class TabHomeFragment extends BaseFragment {
     private List<String> tabList;
     private List<VideoBean> newGoodsList;
     private List<VideoBean> hotTopicList;
-
-    //模拟数据
-    private List<ImgTvBean> egDatas;
+    private List<ImgTvBean> egDatas;//模拟数据
 
     private Gson gson = new Gson();
 
@@ -270,7 +271,7 @@ public class TabHomeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_home, R.string.home_name, View.GONE, View.VISIBLE, true);
+        setToolbar(R.id.toolbar_home, R.string.home_name, View.VISIBLE, View.GONE, true);
         requestCodeQRCodePermissions();
     }
 
@@ -279,8 +280,9 @@ public class TabHomeFragment extends BaseFragment {
         //显示菜单
         inflater.inflate(R.menu.menu_toolbar, menu);
         //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_code).setVisible(false);
         menu.findItem(R.id.menu_msg).setVisible(true);
+        menu.findItem(R.id.menu_search).setVisible(false);
+        menu.findItem(R.id.menu_code).setVisible(false);
         menu.findItem(R.id.menu_category).setVisible(false);
         menu.findItem(R.id.menu_register).setVisible(false);
         menu.findItem(R.id.menu_set).setVisible(false);
@@ -294,8 +296,11 @@ public class TabHomeFragment extends BaseFragment {
                 //展示滑动菜单
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
+//            case R.id.menu_search:
+//                startActivity(new Intent(getContext(), SearchActivity.class));
+//                break;
             case R.id.menu_msg:
-                Toast.makeText(mContext, "menu_msg", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), MessageActivity.class));
                 break;
         }
         return true;

@@ -25,20 +25,11 @@
             android:src="@drawable/example08" />
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
+            android:layout_weight="1"
             android:padding="3dp">
-
-            <Button
-                android:id="@+id/btn_column_unsub"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:layout_margin="3dp"
-                android:background="@drawable/btn_shape_white"
-                android:text="订阅"
-                android:textColor="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/text_title_column_unsub"
@@ -50,15 +41,24 @@
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true">
 
                 <TextView
                     android:id="@+id/text_type_column_unsub"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="作者笔名" />
+
+                <TextView
+                    android:id="@+id/text_num_column_unsub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="德邦情报局" />
+                    android:layout_marginEnd="10dp"
+                    android:text="15W人已订阅"
+                    android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
 
             <TextView
@@ -72,5 +72,15 @@
                 android:textColor="@color/colorTiShiWenZi"
                 android:textSize="13sp" />
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_column_unsub"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="3dp"
+            android:background="@drawable/btn_shape_white"
+            android:text="订阅"
+            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 </LinearLayout>

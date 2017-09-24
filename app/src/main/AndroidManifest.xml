@@ -101,13 +101,13 @@
             android:name="net.osplay.ui.activity.sub.DetailsColumnActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity
-            android:name="net.osplay.ui.activity.sub.DetailsPostsActivity"
-            android:theme="@style/transparentStatusTheme" />
+            android:name="net.osplay.ui.activity.sub.DetailsPostsActivity" />
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsDouPictureActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity android:name="net.osplay.ui.activity.sub.MallInfoActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.LeagueIMActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.sub.LeagueIMActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.SearchActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.MessageActivity" />
     </application>
-
 </manifest>

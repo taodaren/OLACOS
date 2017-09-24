@@ -12,15 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.VideoBean;
+import net.osplay.service.entity.WordAddBean;
+import net.osplay.service.entity.WordRecoBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
@@ -40,20 +41,20 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater mInflater;
 
     private List<HomeData> mDataList;
-    private List<VideoBean> mAddWordList;
-    private List<VideoBean> mRecomList;
+    private List<WordAddBean> mAddWordList;
+    private List<WordRecoBean> mRecoWordList;
 
-    public WordMineAdapter(Activity context, List<HomeData> data, List<VideoBean> addWordList, List<VideoBean> recommendList) {
+    public WordMineAdapter(Activity context, List<HomeData> data, List<WordAddBean> addWordList, List<WordRecoBean> recoList) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
 
         this.mDataList = new ArrayList<>();
         this.mAddWordList = new ArrayList<>();
-        this.mRecomList = new ArrayList<>();
+        this.mRecoWordList = new ArrayList<>();
 
         this.mDataList.addAll(data);
         this.mAddWordList.addAll(addWordList);
-        this.mRecomList.addAll(recommendList);
+        this.mRecoWordList.addAll(recoList);
     }
 
     @Override
@@ -62,7 +63,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_ADD_WORD:
                 return new AddViewHolder(mInflater.inflate(R.layout.layout_word_add, parent, false));
             case TYPE_RECOM_WORD:
-                return new RecomViewHolder(mInflater.inflate(R.layout.layout_word_recommend, parent, false));
+                return new RecoViewHolder(mInflater.inflate(R.layout.layout_word_recommend, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;
@@ -73,10 +74,10 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (mDataList.get(position).getItemType()) {
             case TYPE_ADD_WORD:
-                ((AddViewHolder) holder).bindData((List<VideoBean>) mDataList.get(position).getData());
+                ((AddViewHolder) holder).bindData((List<WordAddBean>) mDataList.get(position).getData());
                 break;
             case TYPE_RECOM_WORD:
-                ((RecomViewHolder) holder).bindData((List<VideoBean>) mDataList.get(position).getData());
+                ((RecoViewHolder) holder).bindData((List<WordRecoBean>) mDataList.get(position).getData());
                 break;
         }
     }
@@ -95,7 +96,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static class AddViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView rvAddWord;
-        private List<VideoBean> addWordList;
+        private List<WordAddBean> addWordList;
         private StaggeredGridLayoutManager layoutManager;
         private MineAddAdapter adapter;
 
@@ -104,7 +105,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             rvAddWord = (RecyclerView) itemView.findViewById(R.id.recycler_add_word);
         }
 
-        private void bindData(List<VideoBean> beanList) {
+        private void bindData(List<WordAddBean> beanList) {
             if (beanList != null && !beanList.isEmpty()) {
                 this.addWordList = new ArrayList<>();
                 this.addWordList.addAll(beanList);
@@ -122,9 +123,9 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private class MineAddAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private Context context;
             private LayoutInflater inflater;
-            private List<VideoBean> datas;
+            private List<WordAddBean> datas;
 
-            private MineAddAdapter(Context context, List<VideoBean> datas) {
+            private MineAddAdapter(Context context, List<WordAddBean> datas) {
                 this.context = context;
                 this.inflater = LayoutInflater.from(MyApplication.getContext());
                 this.datas = new ArrayList<>();
@@ -151,21 +152,20 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             private class AddItemViewHolder extends RecyclerView.ViewHolder {
                 private View outView;//保存子项最外层布局的实例
-                private LinearLayout layout;
                 private ImageView imgAvatar;
                 private TextView textNick;
 
                 private AddItemViewHolder(View itemView) {
                     super(itemView);
                     outView = itemView;
-                    layout = (LinearLayout) itemView.findViewById(R.id.layout_add_word);
                     imgAvatar = (ImageView) itemView.findViewById(R.id.add_word_avatar);
                     textNick = (TextView) itemView.findViewById(R.id.add_word_type);
                 }
 
-                private void bindData(VideoBean videoBean) {
-                    Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgAvatar);
-                    textNick.setText(videoBean.getVideoTitle().substring(0, 3));
+                private void bindData(WordAddBean addBean) {
+                    Glide.with(MyApplication.getContext()).load(I.BASE_URL + addBean.getPART_PATH()).into(imgAvatar);
+                    Log.d(TAG, "AddItemViewHolder bindData: " + imgAvatar);
+                    textNick.setText(addBean.getPART());
                 }
 
                 private void setClickListener() {
@@ -173,8 +173,8 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         @Override
                         public void onClick(View v) {
                             int position = getAdapterPosition();
-                            VideoBean videoBean = datas.get(position);
-                            Toast.makeText(context, "点击" + videoBean.getMovieName() + "布局", Toast.LENGTH_SHORT).show();
+                            WordAddBean addBean = datas.get(position);
+                            Toast.makeText(context, "点击" + addBean.getNOTES() + "布局", Toast.LENGTH_SHORT).show();
                         }
                     });
                     imgAvatar.setOnClickListener(new View.OnClickListener() {
@@ -189,21 +189,21 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
-    private static class RecomViewHolder extends RecyclerView.ViewHolder {
+    private static class RecoViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView rvRecomWord;
-        private List<VideoBean> recomWordList;
+        private List<WordRecoBean> recoWordList;
         private RecyclerView.LayoutManager layoutManager;
-        private MineRecomAdapter adapter;
+        private MineRecoAdapter adapter;
 
-        private RecomViewHolder(View itemView) {
+        private RecoViewHolder(View itemView) {
             super(itemView);
             rvRecomWord = (RecyclerView) itemView.findViewById(R.id.recycler_recommend_word);
         }
 
-        private void bindData(List<VideoBean> beanList) {
+        private void bindData(List<WordRecoBean> beanList) {
             if (beanList != null && !beanList.isEmpty()) {
-                this.recomWordList = new ArrayList<>();
-                this.recomWordList.addAll(beanList);
+                this.recoWordList = new ArrayList<>();
+                this.recoWordList.addAll(beanList);
                 bindRecommend();
             }
         }
@@ -211,16 +211,16 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private void bindRecommend() {
             layoutManager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
             rvRecomWord.setLayoutManager(layoutManager);
-            adapter = new MineRecomAdapter(MyApplication.getContext(), recomWordList);
+            adapter = new MineRecoAdapter(MyApplication.getContext(), recoWordList);
             rvRecomWord.setAdapter(adapter);
         }
 
-        private class MineRecomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+        private class MineRecoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private Context context;
             private LayoutInflater inflater;
-            private List<VideoBean> datas;
+            private List<WordRecoBean> datas;
 
-            private MineRecomAdapter(Context context, List<VideoBean> datas) {
+            private MineRecoAdapter(Context context, List<WordRecoBean> datas) {
                 this.context = context;
                 this.inflater = LayoutInflater.from(MyApplication.getContext());
                 this.datas = new ArrayList<>();
@@ -247,7 +247,6 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             private class RecomItemViewHolder extends RecyclerView.ViewHolder {
                 private View outView;//保存子项最外层布局的实例
-                private LinearLayout layout;
                 private ImageView imgAvatar;
                 private Button btnAdd;
                 private TextView textNick, textMember, textPosts, textInfo;
@@ -255,7 +254,6 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 private RecomItemViewHolder(View itemView) {
                     super(itemView);
                     outView = itemView;
-                    layout = (LinearLayout) itemView.findViewById(R.id.layout_recommend_word);
                     imgAvatar = (ImageView) itemView.findViewById(R.id.recommend_word_avatar);
                     btnAdd = (Button) itemView.findViewById(R.id.recommend_word_add);
                     textNick = (TextView) itemView.findViewById(R.id.recommend_word_type);
@@ -264,12 +262,12 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     textInfo = (TextView) itemView.findViewById(R.id.recommend_word_info);
                 }
 
-                private void bindData(VideoBean videoBean) {
-                    Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgAvatar);
-                    textNick.setText(videoBean.getVideoTitle().substring(0, 2));
-                    textMember.setText("成员:" + videoBean.getId());
-                    textPosts.setText("帖子:" + videoBean.getMovieId());
-                    textInfo.setText(videoBean.getSummary());
+                private void bindData(WordRecoBean recomBean) {
+                    Glide.with(MyApplication.getContext()).load(I.BASE_URL + recomBean.getPART_PATH()).into(imgAvatar);
+                    textNick.setText(recomBean.getPART());
+                    textMember.setText("成员:" + recomBean.getMEMBER_COUNT());
+                    textPosts.setText("帖子:" + recomBean.getTOPICK_COUNT());
+                    textInfo.setText(recomBean.getNOTES());
                 }
 
                 private void setClickListener() {
@@ -277,8 +275,8 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         @Override
                         public void onClick(View v) {
                             int position = getAdapterPosition();
-                            VideoBean videoBean = datas.get(position);
-                            Toast.makeText(context, "点击" + videoBean.getMovieName() + "布局", Toast.LENGTH_SHORT).show();
+                            WordRecoBean recomBean = datas.get(position);
+                            Toast.makeText(context, "点击" + recomBean.getPART() + "布局", Toast.LENGTH_SHORT).show();
                         }
                     });
                     imgAvatar.setOnClickListener(new View.OnClickListener() {

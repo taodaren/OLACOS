@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,7 +64,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private PostsInfoAdapter adapter;
 
         private LinearLayout layout;
-        private Button btnClick, btnMore;
+        //        private Button btnClick, btnMore;
         private ImageView imgHead, imgRefresh;
         private TextView tvHead, tvNumber;
 
@@ -73,8 +72,8 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(inflate);
             layout = (LinearLayout) inflate.findViewById(R.id.layout_hot_posts_title);
             recyclerPosts = (RecyclerView) inflate.findViewById(R.id.recycler_hot_posts);
-            btnClick = (Button) inflate.findViewById(R.id.btn_hot_posts_click);
-            btnMore = (Button) inflate.findViewById(R.id.btn_hot_posts_more);
+//            btnClick = (Button) inflate.findViewById(R.id.btn_hot_posts_click);
+//            btnMore = (Button) inflate.findViewById(R.id.btn_hot_posts_more);
             imgRefresh = (ImageView) inflate.findViewById(R.id.img_hot_posts_refresh);
             imgHead = (ImageView) inflate.findViewById(R.id.img_hot_posts_head);
             tvHead = (TextView) inflate.findViewById(R.id.tv_hot_posts_head);
@@ -126,24 +125,10 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void setClickListener() {
-            btnClick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "跳转到未知界面，开发中...", Toast.LENGTH_SHORT).show();
-                }
-            });
-
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(mContext, "跳转到未知界面，开发中...", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            btnMore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "跳转到更多界面，开发中...", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -153,6 +138,19 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Toast.makeText(mContext, "刷新数据，动态数亦随之变化", Toast.LENGTH_SHORT).show();
                 }
             });
+
+//            btnMore.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(mContext, "跳转到更多界面，开发中...", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            btnClick.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(mContext, "跳转到未知界面，开发中...", Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
 
         private class PostsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -195,7 +193,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     imgShow = (ImageView) view.findViewById(R.id.img_hot_posts_bg);
                     tvInfo = (TextView) view.findViewById(R.id.tv_hot_posts_info);
                     tvType = (TextView) view.findViewById(R.id.tv_hot_posts_type);
-                    tvNick = (TextView) view.findViewById(R.id.tv_hot_posts_nick);
+//                    tvNick = (TextView) view.findViewById(R.id.tv_hot_posts_nick);
                     tvComment = (TextView) view.findViewById(R.id.tv_hot_posts_comment);
                 }
 

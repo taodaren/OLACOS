@@ -22,7 +22,7 @@ import java.util.List;
 public class WordHotFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private String[] mTitles = new String[]{"专题", "热帖", "专栏"};
+    private String[] mTitles = new String[]{"专区", "热帖", "专栏"};
 
     @SuppressLint("ValidFragment")
     public WordHotFragment() {
