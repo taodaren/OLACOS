@@ -107,5 +107,7 @@
             android:name="net.osplay.ui.activity.sub.DetailsDouPictureActivity"
             android:theme="@style/transparentStatusTheme" />
         <activity android:name="net.osplay.ui.activity.sub.MallInfoActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.LeagueIMActivity"></activity>
     </application>
+
 </manifest>

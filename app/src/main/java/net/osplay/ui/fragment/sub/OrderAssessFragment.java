@@ -3,7 +3,6 @@ package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,7 +10,6 @@ import android.view.View;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.adapter.base.FragmentAdapter;
-import net.osplay.ui.fragment.base.BaseBussFragment;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
 

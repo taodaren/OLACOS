@@ -1,5 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -23,10 +24,10 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.activity.sub.LeagueIMActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.FastBlur;
-import net.osplay.utils.PublishPopWindow;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
@@ -234,9 +235,8 @@ public class TabLeagueFragment extends BaseFragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.jcd_release_but:
-                    PublishPopWindow popWindow = new PublishPopWindow(getActivity());
-                    popWindow.showMoreWindow(v);
+                case R.id.jcd_release_but://社团管理按钮
+                    startActivity(new Intent(getContext(), LeagueIMActivity.class));
                     break;
                 case R.id.league_menu:
                     popupMenu.show();

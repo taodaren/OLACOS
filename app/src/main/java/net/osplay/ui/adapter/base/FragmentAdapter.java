@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import net.osplay.ui.activity.sub.LeagueIMActivity;
+
 import java.util.List;
 
 /**
@@ -32,6 +34,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         this.mFragmentList = fragmentList;
         this.mTitles = titles;
     }
+
 
     @Override
     public Fragment getItem(int position) {
