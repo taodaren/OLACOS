@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 社区：热区 → 专题
+ * 社区：热区 → 专区
  */
 
 public class WordHotTopicFragment extends BaseFragment {

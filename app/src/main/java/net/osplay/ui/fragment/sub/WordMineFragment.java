@@ -84,7 +84,7 @@ public class WordMineFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: 加入的社区====================" + json);
+                Log.d(TAG, "onSucceed: 加入的社区数据请求====================" + json);
 
                 //数据解析（集合）
                 Type type = new TypeToken<List<WordAddBean>>() {
@@ -114,7 +114,7 @@ public class WordMineFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: 推荐的社区====================" + json);
+                Log.d(TAG, "onSucceed: 推荐的社区数据请求====================" + json);
 
                 //数据解析（集合）
                 Type type = new TypeToken<List<WordRecoBean>>() {
@@ -136,8 +136,8 @@ public class WordMineFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        Log.d(TAG, "WordMineFragment-=-=-=-=-=-=-=-=-=-=-=-" + mAddWorList);
-        Log.d(TAG, "WordMineFragment-=-=-=-=-=-=-=-=-=-=-=-" + mRecoWordList);
+        Log.d(TAG, "加入的专区===============================" + mAddWorList);
+        Log.d(TAG, "推荐的专区===============================" + mRecoWordList);
         if (mRecoWordList != null && mAddWorList != null) {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mRvWordMine.setLayoutManager(mLayoutManager);
