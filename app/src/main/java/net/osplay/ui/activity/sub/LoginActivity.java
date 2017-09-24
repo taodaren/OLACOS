@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
-import net.osplay.utils.Verification;
+import net.osplay.utils.VerificationUtil;
 
 import static net.osplay.olacos.R.id.text_wei_xin;
 
@@ -40,7 +40,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         setToolbar("登录", View.VISIBLE);
         initView();
-        check();
         bindEvent();
 
     }
@@ -119,7 +118,7 @@ public class LoginActivity extends BaseActivity {
     public void login(){//点击登陆监听时的验证
         account = editAccount.getText().toString();
         password = editPassword.getText().toString();
-        if(account.isEmpty() || !(account.length() == 11) || !(Verification.isMobileNO(account))){
+        if(VerificationUtil.isValidContent(account)){
             editAccount.setError("请输入一个有效的手机号");
         }else if(password.isEmpty() || password.length() < 4 || password.length() > 10){
             editPassword.setError("4到10个字母、数字或字符");
@@ -133,7 +132,6 @@ public class LoginActivity extends BaseActivity {
             new android.os.Handler().postDelayed(
                     new Runnable() {
                         public void run() {
-                           // startActivity(new Intent(LoginActivity.this,CreateCommunityActivity.class));
                             startActivity(new Intent(LoginActivity.this,CreateOrJoinActivity.class));
                             finish();
                             ed.putString("Username",account);
@@ -142,111 +140,6 @@ public class LoginActivity extends BaseActivity {
                             pd.dismiss();
                         }
                     }, 3000);
-        }
-    }
-
-
-    //只有点击复选框的监听时才会存储信息   如果在文本框中在添加信息 不点击的话 将不会保存
-    void check(){
-        sp=getSharedPreferences("user",Context.MODE_PRIVATE);
-        ed=sp.edit();
-        cb_gtlogin_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cb_gtlogin_login.isChecked()){
-                    ed.putString("name",account);
-                    ed.putString("password",password);
-                    ed.putBoolean("jizhu",true);
-                    ed.putBoolean("denglu",true);
-                    ed.commit();
-                }else{
-                    ed.putBoolean("denglu", false);
-                    cb_remember_login.setChecked(false);
-                    ed.commit();
-                }
-            }
-        });
-
-        cb_remember_login.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cb_remember_login.isChecked()){
-                    ed.putString("name",account);
-                    ed.putString("password",password);
-                    ed.putBoolean("jizhu",true);
-                    ed.commit();
-                }else{
-                    ed.putBoolean("jizhu", false);
-                    ed.commit();
-                }
-            }
-        });
-        if(sp.getBoolean("denglu",false)){
-            String names=sp.getString("name", "");
-            String pass=sp.getString("password", "");
-            editAccount.setText(names);
-            editPassword.setText(pass);
-            cb_gtlogin_login.setChecked(true);
-            cb_remember_login.setChecked(true);
-//				Toast.makeText(LoginActivity.this, "正在登录中", 0).show();
-
-            final ProgressDialog pd=new ProgressDialog(LoginActivity.this);
-            pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pd.show();
-            new Thread(new Runnable() {
-                public void run() {
-                    int count=20;
-                    pd.setMax(count);
-                    for(int i=0;i<20;i++){
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        pd.setProgress(pd.getProgress()+1);
-                    }
-                    pd.dismiss();
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    finish();
-
-
-                }
-
-            }).start();
-        }else if(sp.getBoolean("jizhu",false)){
-            String names=sp.getString("name", "");
-            String pass=sp.getString("password", "");
-            editAccount.setText(names);
-            editPassword.setText(pass);
-            cb_remember_login.setChecked(true);
-        }
-    }
-
-
-
-    //当退出当前程序时 判断复选框的状态 只要是勾选就执行 勾选中的功能
-    protected void onStop() {
-        super.onStop();
-        if(cb_gtlogin_login.isChecked()){
-            ed.putString("name",account);
-            ed.putString("password",password);
-            ed.putBoolean("jizhu",true);
-            ed.putBoolean("denglu",true);
-            ed.commit();
-        }else{
-            ed.putBoolean("denglu", false);
-
-            ed.commit();
-        }
-        if(cb_remember_login.isChecked()){
-            ed.putString("name",account);
-            ed.putString("password",password);
-            ed.putBoolean("jizhu",true);
-            ed.commit();
-        }else{
-            ed.putBoolean("jizhu", false);
-            ed.commit();
         }
     }
 }
