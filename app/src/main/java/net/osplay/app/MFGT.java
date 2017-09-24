@@ -17,16 +17,15 @@ public class MFGT {
     /**
      * 判断用户是否已经登录
      */
-    public static void isLogin(Activity activity, Class<?> clz) {
+    public static void isLogin(Activity activity, Class<?> clz, String strLogin) {
+
         //查看本地是否有用户的登录信息
         SharedPreferences sp = activity.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         String name = sp.getString("name", "");
 
-        if (TextUtils.isEmpty(name)) {
-            //本地没有保存过用户信息
-            activity.startActivity(new Intent(activity, LoginActivity.class));
+        if (TextUtils.isEmpty(name)) {//本地没有保存过用户信息
+            activity.startActivity(new Intent(activity, LoginActivity.class).putExtra("loginId",strLogin));
         } else {
-            //已经登录过，则直接加载用户的信息并显示
             activity.startActivity(new Intent(activity, clz));
         }
     }
