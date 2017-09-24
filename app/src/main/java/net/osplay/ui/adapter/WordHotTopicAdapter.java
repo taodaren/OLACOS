@@ -81,12 +81,13 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     switch (viewType) {
                         case 0:
-                            MFGT.isLogin(mContext, DetailsTopicActivity.class);
+                            MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;
                         case 1:
-                            MFGT.isLogin(mContext, DetailsDouPictureActivity.class);
+                            MFGT.isLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
                             break;
                         default:
+                            break;
                     }
                 }
             });
