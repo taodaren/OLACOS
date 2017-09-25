@@ -26,6 +26,9 @@ public class TabViewPagerAdapter extends FragmentPagerAdapter {
         this.mTitles = mTitles;
     }
 
+
+
+
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);

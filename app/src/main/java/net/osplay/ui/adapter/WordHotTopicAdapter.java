@@ -1,7 +1,13 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +21,10 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
+import net.osplay.ui.activity.sub.LoginActivity;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -81,7 +90,22 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 public void onClick(View v) {
                     switch (viewType) {
                         case 0:
-                            MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
+                            //查看本地是否有用户的登录信息
+                            SharedPreferences sp = mContext.getSharedPreferences("user_info", Context.MODE_PRIVATE);
+                            String name = sp.getString("name", "");
+
+                            if (TextUtils.isEmpty(name)) {//本地没有保存过用户信息
+                                Intent intent=new Intent(mContext,LoginActivity.class);
+                                intent.putExtra("loginId","loginTopic");
+                                mContext.startActivity(intent);
+                            } else {
+                                int position = getAdapterPosition();
+                                Log.d("TAG", "onClick: "+position);
+                                Intent intent=new Intent(mContext,DetailsTopicActivity.class);
+                                intent.putExtra("partId",position+1+"");
+                                mContext.startActivity(intent);
+                            }
+                           //MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;
                         case 1:
                             MFGT.isLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
