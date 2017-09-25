@@ -88,7 +88,8 @@ public class RegisterActivity extends BaseActivity {
 
 
     public void getData() {
-        Request<String> request = NoHttp.createStringRequest(I.REGISTER, RequestMethod.POST);
+        //解析手机号是否注册
+        Request<String> request = NoHttp.createStringRequest(I.IS_REGISTER, RequestMethod.POST);
         request.add("phone","17600396592");
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -98,8 +99,13 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onSucceed(int what, Response<String> response) {
-                String loginJson = response.get();
-                Log.e("ABC","----------------"+loginJson);
+                String isRegister = response.get();
+                if(isRegister!=null){
+                   formatIsRegisterJson(isRegister);
+                }else{
+                    return;
+                }
+
             }
 
             @Override
@@ -113,4 +119,10 @@ public class RegisterActivity extends BaseActivity {
             }
         });
     }
+
+    //解析当前手机号是否注册过
+    private void formatIsRegisterJson(String isRegister) {
+
+    }
+
 }
