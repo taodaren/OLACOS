@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -27,6 +28,7 @@ import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
+import net.osplay.ui.fragment.sub.TopicInfoAllFragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -39,6 +41,9 @@ import java.util.List;
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager mViewPager;
     private Gson gson = new Gson();
+    private TabLayout tabLayout;
+    private DetailsTopicInfoFragment dFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_details_topic);
         initData();
         initView();
+
     }
 
     private void initView() {
@@ -53,7 +59,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.btn_topic_attention).setOnClickListener(this);
         findViewById(R.id.topic_page_avatar).setOnClickListener(this);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
         setToolbar();
@@ -99,17 +105,40 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void setViewPager(List<WordTopicTitleBean> titleBeanList) {
+    private void setViewPager(final List<WordTopicTitleBean> titleBeanList) {
         //设置标题个数和值以及 fragment 的对应个数
         String[] arr = new String[titleBeanList.size()];
+
         for (int i = 0; i < titleBeanList.size(); i++) {
             arr[i] = titleBeanList.get(i).getPART();
         }
 
         List<Fragment> mFragmentList = new ArrayList<>();
         for (int i = 0; i < titleBeanList.size(); i++) {
-            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
+            dFragment=new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts);
+            mFragmentList.add(dFragment);
         }
+
+        //viewpager的滑动监听
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int arg0) {//当前界面0
+                String id = titleBeanList.get(arg0).getID();
+                Toast.makeText(DetailsTopicActivity.this, id, Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, arr);
         mViewPager.setAdapter(mAdapter);
     }

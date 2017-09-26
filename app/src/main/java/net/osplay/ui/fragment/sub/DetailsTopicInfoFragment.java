@@ -2,8 +2,10 @@ package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -33,15 +35,12 @@ public class DetailsTopicInfoFragment extends BaseFragment implements View.OnCli
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_details_topic_info, null);
-
         mrbAll = (RadioButton) inflate.findViewById(R.id.rb_all_topic);
         mrbFine = (RadioButton) inflate.findViewById(R.id.rb_fine_topic);
         mrbCity = (RadioButton) inflate.findViewById(R.id.rb_city_topic);
-
         mrbAll.setOnClickListener(this);
         mrbFine.setOnClickListener(this);
         mrbCity.setOnClickListener(this);
-
         initFragment();
         initRadioButton();
         showFragment();
