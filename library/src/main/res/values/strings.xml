@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">Library</string>
-    <string name="text_all">全部</string>
-    <string name="text_top_great">精品</string>
-    <string name="text_same_city">同城</string>
 </resources>
