@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.fragment.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopicInfoCityFragment extends Fragment {
+public class TopicInfoCityFragment extends BaseFragment {
 
 
     public TopicInfoCityFragment() {
@@ -21,10 +22,8 @@ public class TopicInfoCityFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_topic_info_city, container, false);
+    public View initView() {
+        View inflate = View.inflate(getContext(), R.layout.fragment_topic_info_city, null);
+        return inflate;
     }
-
 }

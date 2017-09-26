@@ -79,7 +79,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         setToolbar();
         tabLayout.setupWithViewPager(mViewPager);
-        AppHelper.getInstance().setLogined(false);
         changeViewByState();
     }
 
