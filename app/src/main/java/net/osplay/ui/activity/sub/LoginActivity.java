@@ -43,7 +43,6 @@ public class LoginActivity extends BaseActivity {
     private Gson gson = new Gson();
     private UserLodinBean userLodinBean;
     private String ok;//登录成功与否判断
-    private List<UserLodinBean.MemberBean> member;
 
 
     @Override
@@ -110,9 +109,6 @@ public class LoginActivity extends BaseActivity {
     private void formatJson(String json) {
         userLodinBean = gson.fromJson(json, UserLodinBean.class);
         ok = userLodinBean.getOk();
-//        List<UserLodinBean.MemberBean> member = userLodinBean.getMember();
-//        String id = member.get(1).getID();
-//        Toast.makeText(LoginActivity.this,id,Toast.LENGTH_SHORT).show();
         login();
     }
 
