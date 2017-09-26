@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
@@ -65,6 +66,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private View outView;//保存子项最外层布局的实例
         private ImageView imgTopic;
         private TextView textTopic;
+        private WordTopicBean topicBean;
 
         private TopicViewHolder(View itemView) {
             super(itemView);
@@ -74,7 +76,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void bindData(int position) {
-            WordTopicBean topicBean = mTopicBeanList.get(position);
+            topicBean = mTopicBeanList.get(position);
             Glide.with(mContext).load(topicBean.getImgId()).into(imgTopic);
             textTopic.setText(topicBean.getName());
         }
@@ -88,6 +90,8 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             int position = getAdapterPosition();
                             Intent intent = new Intent(mContext, DetailsTopicActivity.class);
                             intent.putExtra("partId", position + 1 + "");
+                            intent.putExtra(I.Img.IMG_KEY, topicBean.getImgId());
+                            intent.putExtra(I.Type.TYPE_NAME, topicBean.getName());
                             mContext.startActivity(intent);
                             //MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;

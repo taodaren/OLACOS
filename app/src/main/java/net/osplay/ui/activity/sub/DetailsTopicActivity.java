@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -22,23 +24,35 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
-import net.osplay.ui.fragment.sub.TopicInfoAllFragment;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 专题某一分区详情
  */
 
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
+    @BindView(R.id.topic_details_nick)
+    TextView topicDetailsNick;
+    @BindView(R.id.tv_topic_details_level)
+    TextView tvTopicDetailsLevel;
+    @BindView(R.id.pb_topic_details_level)
+    ProgressBar pbTopicDetailsLevel;
+    @BindView(R.id.topic_page_avatar)
+    CircleImageView topicPageAvatar;
     private ViewPager mViewPager;
     private Gson gson = new Gson();
     private TabLayout tabLayout;
@@ -49,6 +63,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_topic);
+        ButterKnife.bind(this);
         initData();
         initView();
 
@@ -64,6 +79,23 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         setToolbar();
         tabLayout.setupWithViewPager(mViewPager);
+        AppHelper.getInstance().setLogined(false);
+        changeViewByState();
+    }
+
+    private void changeViewByState() {
+        // 未登录状态显示专区图片和信息
+        if (!AppHelper.getInstance().isLogined()) {
+            tvTopicDetailsLevel.setVisibility(View.GONE);
+            pbTopicDetailsLevel.setVisibility(View.GONE);
+            Intent intent = getIntent();
+            if (intent != null) {
+                String title = intent.getStringExtra(I.Type.TYPE_NAME);
+                topicDetailsNick.setText(title);
+                int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);
+                Glide.with(DetailsTopicActivity.this).load(imgId).into(topicPageAvatar);
+            }
+        }
     }
 
     private void initData() {
@@ -115,12 +147,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         List<Fragment> mFragmentList = new ArrayList<>();
         for (int i = 0; i < titleBeanList.size(); i++) {
-            dFragment=new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts);
+            dFragment = new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts);
             mFragmentList.add(dFragment);
         }
 
         //viewpager的滑动监听
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {//当前界面0

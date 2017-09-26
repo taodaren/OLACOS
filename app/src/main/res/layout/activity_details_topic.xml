@@ -58,6 +58,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_topic_details_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/topic_details_nick"
@@ -67,6 +68,7 @@
                         android:textSize="15sp" />
 
                     <ProgressBar
+                        android:id="@+id/pb_topic_details_level"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

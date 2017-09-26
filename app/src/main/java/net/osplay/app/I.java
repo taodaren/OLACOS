@@ -81,4 +81,12 @@ public interface I {
         String PASS_WORD = "account_pwd";
         String TOKEN = "account_token";
     }
+
+    interface Img {
+        String IMG_KEY = "img_key";
+    }
+
+    interface Type {
+        String TYPE_NAME = "type_name";
+    }
 }

@@ -17,12 +17,16 @@ import com.bumptech.glide.Glide;
 import com.hankkin.library.GradationScrollView;
 import com.hankkin.library.MyImageLoader;
 import com.hankkin.library.NoScrollListView;
+
+
 import com.hankkin.library.ScrollViewContainer;
 import com.hankkin.library.StatusBarUtil;
 import com.joanzapata.android.BaseAdapterHelper;
 import com.joanzapata.android.QuickAdapter;
 
 import net.osplay.olacos.R;
+
+
 import net.osplay.service.entity.goods.GoodsBean;
 import net.osplay.ui.adapter.sub.goods.MallAdapter;
 import net.osplay.utils.Constants;
@@ -31,29 +35,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 
 public class MallInfoActivity extends AppCompatActivity implements GradationScrollView.ScrollViewListener{
-    @Bind(R.id.scrollview)
+    @BindView(R.id.scrollview)
     GradationScrollView scrollView;
-    @Bind(R.id.iv_good_detai_img)
+    @BindView(R.id.iv_good_detai_img)
     ImageView iv;
-    @Bind(R.id.ll_good_detail)
+    @BindView(R.id.ll_good_detail)
     RelativeLayout llTitle;
-    @Bind(R.id.ll_offset)
+    @BindView(R.id.ll_offset)
     LinearLayout llOffset;
-    @Bind(R.id.iv_good_detai_collect_select)
+    @BindView(R.id.iv_good_detai_collect_select)
     ImageView ivCollectSelect;//收藏选中
-    @Bind(R.id.iv_good_detai_collect_unselect)
+    @BindView(R.id.iv_good_detai_collect_unselect)
     ImageView ivCollectUnSelect;//收藏未选中
-    @Bind(R.id.sv_container)
+    @BindView(R.id.sv_container)
     ScrollViewContainer container;
-    @Bind(R.id.tv_good_detail_title_good)
+    @BindView(R.id.tv_good_detail_title_good)
     TextView tvGoodTitle;
-    @Bind(R.id.nlv_good_detial_imgs)
+    @BindView(R.id.nlv_good_detial_imgs)
     NoScrollListView nlvImgs;//图片详情
     private QuickAdapter<String> imgAdapter;
     private List<String> imgsUrl;
