@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -37,7 +38,9 @@ import java.util.List;
  */
 
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "DetailsTopicActivity";
     private ViewPager mViewPager;
+    private List<WordTopicTitleBean> titleBeanList;
     private Gson gson = new Gson();
 
     @Override
@@ -79,14 +82,19 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: 专区分区标题数据请求====================" + json);
+
+                //数据解析（集合）
                 if (json != null) {
                     Type type = new TypeToken<List<WordTopicTitleBean>>() {
                     }.getType();
-                    List<WordTopicTitleBean> titleBeanList = gson.fromJson(json, type);
-                    setViewPager(titleBeanList);
+                    titleBeanList = gson.fromJson(json, type);
+                    Log.d(TAG, "onSucceed: 专区分区标题解析结果====================" + titleBeanList);
                 } else {//为了不崩溃
                     return;
                 }
+
+                setViewPager(titleBeanList);
             }
 
             @Override
