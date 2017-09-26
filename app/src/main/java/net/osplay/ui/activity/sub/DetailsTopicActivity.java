@@ -12,11 +12,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
+
+import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +37,81 @@ import java.util.List;
  */
 
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
-    private TabLayout mTabLayout;
     private ViewPager mViewPager;
-
-    private String[] mTitles = new String[]{"道具", "摄影", "化妆", "COS正片"};
+    private Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_topic);
-
+        initData();
         initView();
+    }
+
+    private void initView() {
+        findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
+        findViewById(R.id.btn_topic_attention).setOnClickListener(this);
+        findViewById(R.id.topic_page_avatar).setOnClickListener(this);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
+        mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
+
+        setToolbar();
+        tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    private void initData() {
+        String partId = getIntent().getStringExtra("partId");//获取大区 id
+
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
+        topicRequest.add("partId", partId);
+
+        getDetailsTopicData(requestQueue, topicRequest);//帖子内容
+    }
+
+    private void getDetailsTopicData(RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                if (json != null) {
+                    Type type = new TypeToken<List<WordTopicTitleBean>>() {
+                    }.getType();
+                    List<WordTopicTitleBean> titleBeanList = gson.fromJson(json, type);
+                    setViewPager(titleBeanList);
+                } else {//为了不崩溃
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    private void setViewPager(List<WordTopicTitleBean> titleBeanList) {
+        //设置标题个数和值以及 fragment 的对应个数
+        String[] arr = new String[titleBeanList.size()];
+        for (int i = 0; i < titleBeanList.size(); i++) {
+            arr[i] = titleBeanList.get(i).getPART();
+        }
+
+        List<Fragment> mFragmentList = new ArrayList<>();
+        for (int i = 0; i < titleBeanList.size(); i++) {
+            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
+        }
+        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, arr);
+        mViewPager.setAdapter(mAdapter);
     }
 
     private void setToolbar() {
@@ -53,36 +129,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         }
         //隐藏 CollapsingToolbarLayout 标题
         collapsingToolbar.setTitleEnabled(false);
-    }
-
-    private void initView() {
-        findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
-        findViewById(R.id.btn_topic_attention).setOnClickListener(this);
-        findViewById(R.id.topic_page_avatar).setOnClickListener(this);
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
-        mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
-
-        setToolbar();
-        setTabLayout();
-        setViewPager();
-        mTabLayout.setupWithViewPager(mViewPager);
-    }
-
-    private void setTabLayout() {
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[0]));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[1]));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[2]));
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[3]));
-    }
-
-    private void setViewPager() {
-        List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
-        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
-        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
-        mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
-        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, mTitles);
-        mViewPager.setAdapter(mAdapter);
     }
 
     @Override

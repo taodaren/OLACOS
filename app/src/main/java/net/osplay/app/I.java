@@ -8,12 +8,11 @@ public interface I {
     //////////////////// 正式接口 ////////////////////
 
     // TODO: 2017/9/24 基础 url
-    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器
-    //String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-    //String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
-     //String BASE_URL = "http://192.168.1.4:8080/qda";//本地（陶）
-    // TODO: 2017/9/24 注册登录
+//    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器
+    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
+//    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
 
+    // TODO: 2017/9/24 注册登录
     //注册
     String REGISTER = BASE_URL + "/memberMobile/memberSave.do";
     //登录
@@ -30,7 +29,7 @@ public interface I {
     String RECOM_WORD = BASE_URL + "/partMobile/recommend.do";
     //专区
     String AREA = BASE_URL + "/partMobile/all.do";
-    //请求专区
+    //专区子分区
     String AREA_SUB = BASE_URL + "/partMobile/twoPart.do";
     //帖子列表
     String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";
