@@ -5,10 +5,8 @@ import android.content.Context;
 import net.osplay.utils.Constants;
 import net.osplay.utils.SharedPfUtil;
 
-
 /**
- * Created by xns on 2017/7/4.
- * App数据读取
+ * App 数据读取
  */
 
 public class AppModel {

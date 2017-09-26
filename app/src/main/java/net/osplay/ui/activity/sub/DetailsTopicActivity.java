@@ -58,7 +58,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private TabLayout tabLayout;
     private DetailsTopicInfoFragment dFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +65,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         ButterKnife.bind(this);
         initData();
         initView();
-
     }
 
     private void initView() {
+        setToolbar();
         findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
         findViewById(R.id.btn_topic_attention).setOnClickListener(this);
         findViewById(R.id.topic_page_avatar).setOnClickListener(this);
@@ -77,7 +76,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
-        setToolbar();
         tabLayout.setupWithViewPager(mViewPager);
         changeViewByState();
     }

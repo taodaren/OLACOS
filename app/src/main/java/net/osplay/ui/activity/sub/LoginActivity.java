@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,7 +20,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.UserLodinBean;
+import net.osplay.service.entity.UserLoginBean;
 import net.osplay.ui.activity.base.BaseActivity;
 
 /**
@@ -29,11 +28,9 @@ import net.osplay.ui.activity.base.BaseActivity;
  */
 
 public class LoginActivity extends BaseActivity {
-    private Button btnLogin;
     private EditText editAccount, editPassword;
     private Gson gson = new Gson();
-    private UserLodinBean userLodinBean;
-    private String ok;//登录成功与否判断
+    private String isLoginOk;//登录成功与否判断
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,10 +42,9 @@ public class LoginActivity extends BaseActivity {
     private void initView() {
         setToolbar("登录", View.VISIBLE);
 
-        btnLogin = (Button) findViewById(R.id.btn_login);
         editAccount = (EditText) findViewById(R.id.edit_account_login);
         editPassword = (EditText) findViewById(R.id.edit_password_login);
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(editAccount.getText().toString())) {
@@ -75,13 +71,15 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG", json);
+                Log.e("TAG", "登录 json 数据请求成功：" + json);
                 if (json != null) {
-                    formatJson(json);
+                    UserLoginBean userLoginBean = gson.fromJson(json, UserLoginBean.class);
+                    isLoginOk = userLoginBean.getOk();
                 } else {
                     return;
                 }
 
+                login();
             }
 
             @Override
@@ -96,31 +94,27 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void formatJson(String json) {
-        userLodinBean = gson.fromJson(json, UserLodinBean.class);
-        ok = userLodinBean.getOk();
-        login();
-    }
-
     public void login() {
-        if (ok.equals("false1")) {
-            Toast.makeText(LoginActivity.this, "账号不存在", Toast.LENGTH_SHORT).show();
-        } else if (ok.equals("false2")) {
-            Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
-        } else {
-            // Save user info by sharedPf
-            AppHelper.getInstance().setCurrentUserName(editAccount.getText().toString().trim());
-            AppHelper.getInstance().setCurrentPW(editPassword.getText().toString().trim());
-            // Set login state
-            AppHelper.getInstance().setLogined(true);
+        switch (isLoginOk) {
+            case "false1":
+                Toast.makeText(LoginActivity.this, "账号不存在", Toast.LENGTH_SHORT).show();
+                break;
+            case "false2":
+                Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                //通过 sharedPf 保存用户信息
+                AppHelper.getInstance().setCurrentUserName(editAccount.getText().toString().trim());
+                AppHelper.getInstance().setCurrentPW(editPassword.getText().toString().trim());
+                //设置登录状态
+                AppHelper.getInstance().setLogined(true);
 
-//            saveUser(editAccount.getText().toString(), editPassword.getText().toString());
-            String loginId = getIntent().getStringExtra("loginId");
-            switch (loginId) {
+                String loginId = getIntent().getStringExtra("loginId");
+                switch (loginId) {
 //                case "loginTopic"://八大专区
 //                    Intent intent = new Intent(LoginActivity.this,
 //                            DetailsTopicActivity.class);
-//                    List<UserLodinBean.MemberBean> member = userLodinBean.getMember();
+//                    List<UserLoginBean.MemberBean> member = userLoginBean.getMember();
 //                    String id = member.get(1).getID();
 //                    intent.putExtra("memberId", id);
 //                    startActivity(intent);
@@ -131,17 +125,18 @@ public class LoginActivity extends BaseActivity {
 //                            DetailsDouPictureActivity.class));
 //                    finish();
 //                    break;
-                case "loginCOJ"://社团活动
-                    startActivity(new Intent(LoginActivity.this,
-                            CreateOrJoinActivity.class));
-                    finish();
-                    break;
-                case "loginCOJ1"://社团作品
-                    startActivity(new Intent(LoginActivity.this,
-                            CreateOrJoinActivity.class));
-                    finish();
-                    break;
-            }
+                    case "loginCOJ"://社团活动
+                        startActivity(new Intent(LoginActivity.this,
+                                CreateOrJoinActivity.class));
+                        finish();
+                        break;
+                    case "loginCOJ1"://社团作品
+                        startActivity(new Intent(LoginActivity.this,
+                                CreateOrJoinActivity.class));
+                        finish();
+                        break;
+                }
+                break;
         }
     }
 

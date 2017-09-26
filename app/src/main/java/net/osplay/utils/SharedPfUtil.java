@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by tcloud on 12/7/16..
- * Sharedpreference工具类
+ * Shared preference 工具类
  */
 
 public class SharedPfUtil {
@@ -16,16 +15,22 @@ public class SharedPfUtil {
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
 
-        if (type.equals("String")) {
-            editor.putString(key, (String) obj);
-        } else if ("Integer".equals(type)) {
-            editor.putInt(key, (Integer) obj);
-        } else if ("Boolean".equals(type)) {
-            editor.putBoolean(key, (Boolean) obj);
-        } else if ("Float".equals(type)) {
-            editor.putFloat(key, (Float) obj);
-        } else if ("Long".equals(type)) {
-            editor.putLong(key, (Long) obj);
+        switch (type) {
+            case "String":
+                editor.putString(key, (String) obj);
+                break;
+            case "Integer":
+                editor.putInt(key, (Integer) obj);
+                break;
+            case "Boolean":
+                editor.putBoolean(key, (Boolean) obj);
+                break;
+            case "Float":
+                editor.putFloat(key, (Float) obj);
+                break;
+            case "Long":
+                editor.putLong(key, (Long) obj);
+                break;
         }
 
         editor.apply();

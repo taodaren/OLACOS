@@ -25,8 +25,8 @@ import butterknife.Unbinder;
 
 public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
     private static final int FRAGMENT_ALL = 0;
-    private static final int FRAGMENT_TOP_GREATE = 1;
-    private static final int FRAGMENT_SAME_CITY = 2;
+    private static final int FRAGMENT_FINE = 1;
+    private static final int FRAGMENT_CITY = 2;
     @BindView(R.id.container_fm_details_topic_info)
     FrameLayout containerFmDetailsTopicInfo;
     Unbinder unbinder;
@@ -54,6 +54,41 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
         return inflate;
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        assert rootView != null;
+        unbinder = ButterKnife.bind(this, rootView);
+
+        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_all), true);
+        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_fine));
+        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_same_city));
+        tblFmDetailsTopicInfo.addOnTabSelectedListener(this);
+        return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initFragment();
+        showFragment();
+    }
+
+    @SuppressLint("CommitTransaction")
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case FRAGMENT_ALL://点击全部
+                addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mAllFragment);
+                break;
+            case FRAGMENT_FINE://点击精品
+                addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mFineFragment);
+                break;
+            case FRAGMENT_CITY://点击同城
+                addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mCityFragment);
+                break;
+        }
+    }
 
     private void initFragment() {
         mAllFragment = new TopicInfoAllFragment();
@@ -68,7 +103,6 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
         currentFragment = mAllFragment;
     }
 
-
     private void showFragment() {
         getChildFragmentManager().beginTransaction()
                 .add(R.id.container_fm_details_topic_info, mFragments[0])
@@ -78,59 +112,6 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
                 .hide(mFragments[1])
                 .hide(mFragments[2])
                 .commit();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-
-        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_all), true);
-        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_top_great));
-        tblFmDetailsTopicInfo.addTab(tblFmDetailsTopicInfo.newTab().setText(R.string.text_same_city));
-        tblFmDetailsTopicInfo.addOnTabSelectedListener(this);
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initFragment();
-        showFragment();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        switch (tab.getPosition()) {
-            case FRAGMENT_ALL:
-                clickAllFragment();
-                break;
-            case FRAGMENT_TOP_GREATE:
-                clickTopCreateFragment();
-                break;
-            case FRAGMENT_SAME_CITY:
-                clickSameCityFragment();
-                break;
-        }
-    }
-
-    private void clickSameCityFragment() {
-        addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mCityFragment);
-    }
-
-    private void clickTopCreateFragment() {
-        addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mFineFragment);
-    }
-
-    private void clickAllFragment() {
-        addOrShowFragment(getActivity().getSupportFragmentManager().beginTransaction(), mAllFragment);
     }
 
     private void addOrShowFragment(FragmentTransaction transaction, BaseFragment fragment) {
@@ -152,5 +133,11 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

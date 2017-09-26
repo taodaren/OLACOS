@@ -3,10 +3,10 @@ package net.osplay.service.entity;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/9/25.
+ * 登录
  */
 
-public class UserLodinBean {
+public class UserLoginBean {
 
     /**
      * ok : true

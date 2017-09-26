@@ -3,8 +3,7 @@ package net.osplay.app;
 import android.content.Context;
 
 /**
- * Created by xns on 2017/7/4.
- * App的辅助类
+ * App 的辅助类
  */
 
 public class AppHelper {
@@ -60,8 +59,6 @@ public class AppHelper {
 
     /**
      * 设置登录状态
-     * @param state
-     *
      */
     public void setLogined(boolean state) {
         this.isLogin = state;
@@ -78,8 +75,6 @@ public class AppHelper {
         this.pwd = pwd;
         mModel.setCurrentPW(pwd);
     }
-
-
 
 }
 
