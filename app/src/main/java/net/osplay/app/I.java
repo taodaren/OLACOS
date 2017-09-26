@@ -29,7 +29,7 @@ public interface I {
     String RECOM_WORD = BASE_URL + "/partMobile/recommend.do";
     //专区
     String AREA = BASE_URL + "/partMobile/all.do";
-    //请求专区
+    //专区子分区
     String AREA_SUB = BASE_URL + "/partMobile/twoPart.do";
     //帖子列表
     String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";

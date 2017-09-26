@@ -180,7 +180,9 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     imgAvatar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            context.startActivity(new Intent(context, MinePageOtherActivity.class));
+                            Intent intent = new Intent(context, MinePageOtherActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                         }
                     });
                 }
@@ -282,7 +284,9 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     imgAvatar.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            context.startActivity(new Intent(context, MinePageOtherActivity.class));
+                            Intent intent = new Intent(context, MinePageOtherActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                         }
                     });
                 }
