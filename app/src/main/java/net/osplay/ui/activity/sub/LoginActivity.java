@@ -30,6 +30,8 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.UserLodinBean;
 import net.osplay.ui.activity.base.BaseActivity;
 
+import java.util.List;
+
 
 /**
  * 登录
@@ -38,9 +40,10 @@ import net.osplay.ui.activity.base.BaseActivity;
 public class LoginActivity extends BaseActivity {
     private Button btnLogin;
     private EditText editAccount, editPassword;
-    private Gson gson=new Gson();
-    private  UserLodinBean userLodinBean;
+    private Gson gson = new Gson();
+    private UserLodinBean userLodinBean;
     private String ok;//登录成功与否判断
+    private List<UserLodinBean.MemberBean> member;
 
 
     @Override
@@ -52,7 +55,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-
     private void initView() {
         btnLogin = (Button) findViewById(R.id.btn_login);
         editAccount = (EditText) findViewById(R.id.edit_account_login);
@@ -60,80 +62,96 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(editAccount.getText().toString())){
-                    Toast.makeText(LoginActivity.this,"账号不能为空",Toast.LENGTH_SHORT).show();
-                }else if(TextUtils.isEmpty(editPassword.getText().toString())){
-                    Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
-                } else{
-                    RequestQueue requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.LOGIN, RequestMethod.POST);
-                    request.add("phone",editAccount.getText().toString());
-                    request.add("password",editPassword.getText().toString());
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-
-                        }
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("TAG",json);
-                            if(json!=null){
-                                userLodinBean= gson.fromJson(json, UserLodinBean.class);
-                                ok = userLodinBean.getOk();
-                                if(ok.equals("false1")){
-                                    Toast.makeText(LoginActivity.this,"账号不存在",Toast.LENGTH_SHORT).show();
-                                }else if(ok.equals("false2")){
-                                    Toast.makeText(LoginActivity.this,"密码不正确",Toast.LENGTH_SHORT).show();
-                                }else{
-                                    saveUser(editAccount.getText().toString(), editPassword.getText().toString());
-                                    String loginId = getIntent().getStringExtra("loginId");
-                                    switch (loginId) {
-                                        case "loginTopic":
-                                            startActivity(new Intent(LoginActivity.this,
-                                                    DetailsTopicActivity.class));
-                                            finish();
-                                            break;
-                                        case "loginDou":
-                                            startActivity(new Intent(LoginActivity.this,
-                                                    DetailsDouPictureActivity.class));
-                                            finish();
-                                            break;
-                                        case "loginCOJ":
-                                            startActivity(new Intent(LoginActivity.this,
-                                                    CreateOrJoinActivity.class));
-                                            finish();
-                                            break;
-                                        case "loginCOJ1":
-                                            startActivity(new Intent(LoginActivity.this,
-                                                    CreateOrJoinActivity.class));
-                                            finish();
-                                            break;
-                                    }
-                                }
-                            }else{
-                                return;
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailed(int what, Response<String> response) {
-
-                        }
-
-                        @Override
-                        public void onFinish(int what) {
-
-                        }
-                    });
-
+                if (TextUtils.isEmpty(editAccount.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "账号不能为空", Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(editPassword.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+                } else {
+                    getData();
                 }
             }
         });
     }
 
+    public void getData() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.LOGIN, RequestMethod.POST);
+        request.add("phone", editAccount.getText().toString());
+        request.add("password", editPassword.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
 
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("TAG", json);
+                if (json != null) {
+                    formatJson(json);
+                } else {
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+    private void formatJson(String json) {
+        userLodinBean = gson.fromJson(json, UserLodinBean.class);
+        ok = userLodinBean.getOk();
+//        List<UserLodinBean.MemberBean> member = userLodinBean.getMember();
+//        String id = member.get(1).getID();
+//        Toast.makeText(LoginActivity.this,id,Toast.LENGTH_SHORT).show();
+        login();
+    }
+
+    public void login() {
+        if (ok.equals("false1")) {
+            Toast.makeText(LoginActivity.this, "账号不存在", Toast.LENGTH_SHORT).show();
+        } else if (ok.equals("false2")) {
+            Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
+        } else {
+            saveUser(editAccount.getText().toString(), editPassword.getText().toString());
+            String loginId = getIntent().getStringExtra("loginId");
+            switch (loginId) {
+                case "loginTopic"://八大专区
+                    Intent intent = new Intent(LoginActivity.this,
+                            DetailsTopicActivity.class);
+                    List<UserLodinBean.MemberBean> member = userLodinBean.getMember();
+                    String id = member.get(1).getID();
+                    intent.putExtra("memberId",id);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case "loginDou"://斗图专区
+                    startActivity(new Intent(LoginActivity.this,
+                            DetailsDouPictureActivity.class));
+                    finish();
+                    break;
+                case "loginCOJ"://社团活动
+                    startActivity(new Intent(LoginActivity.this,
+                            CreateOrJoinActivity.class));
+                    finish();
+                    break;
+                case "loginCOJ1"://社团作品
+                    startActivity(new Intent(LoginActivity.this,
+                            CreateOrJoinActivity.class));
+                    finish();
+                    break;
+            }
+        }
+    }
 
 }
 
