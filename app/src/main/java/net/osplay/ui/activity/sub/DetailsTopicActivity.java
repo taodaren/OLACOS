@@ -24,6 +24,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.WordTopicListBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -40,7 +41,8 @@ import java.util.List;
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DetailsTopicActivity";
     private ViewPager mViewPager;
-    private List<WordTopicTitleBean> titleBeanList;
+    private List<WordTopicTitleBean> mTitleList;
+    private List<WordTopicListBean> mListList;
     private Gson gson = new Gson();
 
     @Override
@@ -67,13 +69,65 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         String partId = getIntent().getStringExtra("partId");//获取大区 id
 
         RequestQueue requestQueue = NoHttp.newRequestQueue();
+        //专区分区 帖子标题
+        Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
+        topicRequest.add("partId", partId);
+        //专区分区 帖子列表
+        Request<String> listRequest = NoHttp.createStringRequest(I.POSTS_LIST, RequestMethod.POST);
+        listRequest.add("twoPartId", 10);//专区id
+        listRequest.add("typeId", 1);//1:精品   2：同城   其他：全部
+        listRequest.add("page", 1);//页码
+        listRequest.add("size", 2);//每页几条
+        listRequest.add("authorId", 1);//作者id （注：非登录用户id）
+        listRequest.add("memberId", "667b6b89c10f41c5aba9980fa47c8b76");//用户id （登录用户id）
+        listRequest.add("title", 1);//帖子标题（"搜索"功能使用）
+        listRequest.add("district", "山东省,济南市");//地区（"同城"模块使用） 例如："山东省,济南市"   ","为英文输入法
+
+
+        getDtlTopicTitleData(requestQueue, topicRequest);//帖子内容分区标题
+        getDtlTopicFragData(requestQueue, topicRequest);//帖子内容分区详情
+    }
+
+    private void getDtlTopicFragData(RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: 专区分区帖子列表数据请求====================" + json);
+
+                //数据解析（集合）
+                if (json != null) {
+                    Type type = new TypeToken<List<WordTopicListBean>>() {
+                    }.getType();
+                    mListList = gson.fromJson(json, type);
+                    Log.d(TAG, "onSucceed: 专区分区帖子列表解析结果====================" + mListList);
+                } else {//为了不崩溃
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+    private void getDtlTopicTitleData(RequestQueue requestQueue, Request<String> request) {
+        String partId = getIntent().getStringExtra("partId");//获取大区 id
         Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
         topicRequest.add("partId", partId);
 
-        getDetailsTopicData(requestQueue, topicRequest);//帖子内容
-    }
-
-    private void getDetailsTopicData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -88,13 +142,13 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 if (json != null) {
                     Type type = new TypeToken<List<WordTopicTitleBean>>() {
                     }.getType();
-                    titleBeanList = gson.fromJson(json, type);
-                    Log.d(TAG, "onSucceed: 专区分区标题解析结果====================" + titleBeanList);
+                    mTitleList = gson.fromJson(json, type);
+                    Log.d(TAG, "onSucceed: 专区分区标题解析结果====================" + mTitleList);
                 } else {//为了不崩溃
                     return;
                 }
 
-                setViewPager(titleBeanList);
+                setViewPager(mTitleList);
             }
 
             @Override

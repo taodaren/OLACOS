@@ -8,9 +8,10 @@ public interface I {
     //////////////////// 正式接口 ////////////////////
 
     // TODO: 2017/9/24 基础 url
-//    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器
-    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-//    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
+    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器
+//    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
+//    String BASE_URL = "http://192.168.1.4:8080/qda";//本地
+//    String BASE_URL = "http://192.168.1.15:8080/qda";//本地（素）
 
     // TODO: 2017/9/24 注册登录
     //注册

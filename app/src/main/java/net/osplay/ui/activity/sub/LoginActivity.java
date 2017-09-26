@@ -1,20 +1,13 @@
 package net.osplay.ui.activity.sub;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -30,7 +23,6 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.UserLodinBean;
 import net.osplay.ui.activity.base.BaseActivity;
 
-
 /**
  * 登录
  */
@@ -38,8 +30,8 @@ import net.osplay.ui.activity.base.BaseActivity;
 public class LoginActivity extends BaseActivity {
     private Button btnLogin;
     private EditText editAccount, editPassword;
-    private Gson gson=new Gson();
-    private  UserLodinBean userLodinBean;
+    private Gson gson = new Gson();
+    private UserLodinBean userLodinBean;
     private String ok;//登录成功与否判断
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
 
@@ -51,6 +43,7 @@ public class LoginActivity extends BaseActivity {
         initView();
         bindListener();
     }
+
     private void initView() {
         btnLogin = (Button) findViewById(R.id.btn_login);
         editAccount = (EditText) findViewById(R.id.edit_account_login);
@@ -61,10 +54,10 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(onClickListener);
     }
 
-    private View.OnClickListener onClickListener=new View.OnClickListener() {
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_login:
                     getData();
                     getLodin();
@@ -72,16 +65,17 @@ public class LoginActivity extends BaseActivity {
             }
         }
     };
+
     //登录判断
     public void getLodin() {
         final String loginId = getIntent().getStringExtra("loginId");
-        if(TextUtils.isEmpty(editAccount.getText().toString())){
-            Toast.makeText(LoginActivity.this,"账号不能为空",Toast.LENGTH_SHORT).show();
-        }else if(TextUtils.isEmpty(editPassword.getText().toString())){
-            Toast.makeText(LoginActivity.this,"密码不能为空",Toast.LENGTH_SHORT).show();
-        }else if(ok=="false1"){
-            Toast.makeText(LoginActivity.this,"账户或密码不正确",Toast.LENGTH_SHORT).show();
-        }else{
+        if (TextUtils.isEmpty(editAccount.getText().toString())) {
+            Toast.makeText(LoginActivity.this, "账号不能为空", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(editPassword.getText().toString())) {
+            Toast.makeText(LoginActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
+        } else if (ok == "false1") {
+            Toast.makeText(LoginActivity.this, "账户或密码不正确", Toast.LENGTH_SHORT).show();
+        } else {
             saveUser(editAccount.getText().toString(), editPassword.getText().toString());
             switch (loginId) {
                 case "loginTopic":
@@ -110,10 +104,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     //获取登录数据
-    public void getData(){
+    public void getData() {
         Request<String> request = NoHttp.createStringRequest(I.LOGIN, RequestMethod.POST);
-        request.add("phone",editAccount.getText().toString());
-        request.add("password",editPassword.getText().toString());
+        request.add("phone", editAccount.getText().toString());
+        request.add("password", editPassword.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -123,11 +117,11 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG",json);
-                if(json!=null){
-                    userLodinBean= gson.fromJson(json, UserLodinBean.class);
+                Log.e("TAG", json);
+                if (json != null) {
+                    userLodinBean = gson.fromJson(json, UserLodinBean.class);
                     ok = userLodinBean.getOk();
-                }else{
+                } else {
                     return;
                 }
 
@@ -144,7 +138,6 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
-
 
 }
 
