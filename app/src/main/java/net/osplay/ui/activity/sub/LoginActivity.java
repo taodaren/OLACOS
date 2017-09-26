@@ -18,6 +18,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.UserLodinBean;
@@ -107,7 +108,13 @@ public class LoginActivity extends BaseActivity {
         } else if (ok.equals("false2")) {
             Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
         } else {
-            saveUser(editAccount.getText().toString(), editPassword.getText().toString());
+            // Save user info by sharedPf
+            AppHelper.getInstance().setCurrentUserName(editAccount.getText().toString().trim());
+            AppHelper.getInstance().setCurrentPW(editPassword.getText().toString().trim());
+            // Set login state
+            AppHelper.getInstance().setLogined(true);
+
+//            saveUser(editAccount.getText().toString(), editPassword.getText().toString());
             String loginId = getIntent().getStringExtra("loginId");
             switch (loginId) {
 //                case "loginTopic"://八大专区

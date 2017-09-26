@@ -75,4 +75,10 @@ public interface I {
     String HOME_DETAIL = "http://api.m.mtime.cn/PageSubArea/TrailerList.api";
     //福利 url
     String MSG_FULI = "http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/2";
+
+    interface Account {
+        String USER_NAME = "account_name";
+        String PASS_WORD = "account_pwd";
+        String TOKEN = "account_token";
+    }
 }
