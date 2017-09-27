@@ -8,23 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.osplay.olacos.R;
+import net.osplay.ui.fragment.base.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopicInfoFineFragment extends Fragment {
+public class TopicInfoFineFragment extends BaseFragment {
 
 
     public TopicInfoFineFragment() {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_topic_info_fine, container, false);
+    public View initView() {
+        View inflate = View.inflate(getContext(), R.layout.fragment_topic_info_fine, null);
+        return inflate;
     }
 
 }

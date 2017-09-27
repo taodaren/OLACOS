@@ -1,13 +1,8 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +11,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
-import net.osplay.ui.activity.sub.LoginActivity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +63,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private View outView;//保存子项最外层布局的实例
         private ImageView imgTopic;
         private TextView textTopic;
+        private WordTopicBean topicBean;
 
         private TopicViewHolder(View itemView) {
             super(itemView);
@@ -79,7 +73,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void bindData(int position) {
-            WordTopicBean topicBean = mTopicBeanList.get(position);
+            topicBean = mTopicBeanList.get(position);
             Glide.with(mContext).load(topicBean.getImgId()).into(imgTopic);
             textTopic.setText(topicBean.getName());
         }
@@ -89,25 +83,16 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     switch (viewType) {
-                        case 0:
-                            //查看本地是否有用户的登录信息
-                            SharedPreferences sp = mContext.getSharedPreferences("user_info", Context.MODE_PRIVATE);
-                            String name = sp.getString("name", "");
-
-                            if (TextUtils.isEmpty(name)) {//本地没有保存过用户信息
-                                Intent intent=new Intent(mContext,LoginActivity.class);
-                                intent.putExtra("loginId","loginTopic");
-                                mContext.startActivity(intent);
-                            } else {
-                                int position = getAdapterPosition();
-                                Log.d("TAG", "onClick: "+position);
-                                Intent intent=new Intent(mContext,DetailsTopicActivity.class);
-                                intent.putExtra("partId",position+1+"");
-                                mContext.startActivity(intent);
-                            }
-                           //MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
+                        case 0://九大专区
+                            int position = getAdapterPosition();
+                            Intent intent = new Intent(mContext, DetailsTopicActivity.class);
+                            intent.putExtra("partId", position + 1 + "");
+                            intent.putExtra(I.Img.IMG_KEY, topicBean.getImgId());
+                            intent.putExtra(I.Type.TYPE_NAME, topicBean.getName());
+                            mContext.startActivity(intent);
+                            //MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;
-                        case 1:
+                        case 1://斗图
                             MFGT.isLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
                             break;
                         default:

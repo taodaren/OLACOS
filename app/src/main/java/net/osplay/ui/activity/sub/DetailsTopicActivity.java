@@ -10,8 +10,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -21,6 +25,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicTitleBean;
@@ -32,32 +37,70 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * 专题某一分区详情
  */
 
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
+    @BindView(R.id.topic_details_nick)
+    TextView topicDetailsNick;
+    @BindView(R.id.tv_topic_details_level)
+    TextView tvTopicDetailsLevel;
+    @BindView(R.id.pb_topic_details_level)
+    ProgressBar pbTopicDetailsLevel;
+    @BindView(R.id.topic_page_avatar)
+    CircleImageView topicPageAvatar;
+    @BindView(R.id.btn_topic_heck_in)
+    Button btnHeckIn;
+    @BindView(R.id.btn_topic_attention)
+    Button btnAttention;
+
     private ViewPager mViewPager;
     private Gson gson = new Gson();
+    private TabLayout tabLayout;
+    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_topic);
+        ButterKnife.bind(this);
         initData();
         initView();
     }
 
     private void initView() {
-        findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
-        findViewById(R.id.btn_topic_attention).setOnClickListener(this);
-        findViewById(R.id.topic_page_avatar).setOnClickListener(this);
+        setToolbar();
+        btnHeckIn.setOnClickListener(this);
+        btnAttention.setOnClickListener(this);
+        topicPageAvatar.setOnClickListener(this);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
-        setToolbar();
         tabLayout.setupWithViewPager(mViewPager);
+        changeViewByState();
+    }
+
+    /**
+     * 未登录状态显示专区图片和信息
+     */
+    private void changeViewByState() {
+        if (!AppHelper.getInstance().isLogined()) {
+            tvTopicDetailsLevel.setVisibility(View.GONE);
+            pbTopicDetailsLevel.setVisibility(View.GONE);
+            Intent intent = getIntent();
+            if (intent != null) {
+                String title = intent.getStringExtra(I.Type.TYPE_NAME);
+                topicDetailsNick.setText(title);
+                int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);
+                Glide.with(DetailsTopicActivity.this).load(imgId).into(topicPageAvatar);
+            }
+        }
     }
 
     private void initData() {
@@ -99,18 +142,39 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void setViewPager(List<WordTopicTitleBean> titleBeanList) {
+    private void setViewPager(final List<WordTopicTitleBean> titleBeanList) {
         //设置标题个数和值以及 fragment 的对应个数
-        String[] arr = new String[titleBeanList.size()];
+        String[] areaArr = new String[titleBeanList.size()];
+
         for (int i = 0; i < titleBeanList.size(); i++) {
-            arr[i] = titleBeanList.get(i).getPART();
+            areaArr[i] = titleBeanList.get(i).getPART();//获取专区名
         }
 
         List<Fragment> mFragmentList = new ArrayList<>();
         for (int i = 0; i < titleBeanList.size(); i++) {
-            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts));
+            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_details_topic_info));//对应专区添加布局
         }
-        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, arr);
+
+        //viewpager的滑动监听
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int arg0) {//当前界面0
+                String id = titleBeanList.get(arg0).getID();
+                Toast.makeText(DetailsTopicActivity.this, id, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+        });
+
+
+        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, areaArr);
         mViewPager.setAdapter(mAdapter);
     }
 
@@ -145,10 +209,32 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_topic_heck_in://签到
-                Toast.makeText(this, "btn_topic_heck_in", Toast.LENGTH_SHORT).show();
+                if (!(AppHelper.getInstance().isLogined())) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("loginId", "loginHeck");
+                    startActivity(intent);
+                } else {
+                    //设置登录状态
+                    AppHelper.getInstance().setLogined(true);
+                    if (flag == 0) {
+                        btnHeckIn.setText("已签到");
+                        btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    } else if (flag == 1) {
+                        btnHeckIn.setText("签到");
+                        btnHeckIn.setBackgroundResource(R.drawable.shape_yuan);
+                    }
+                    flag = (flag + 1) % 2;
+                }
                 break;
             case R.id.btn_topic_attention://关注
-                Toast.makeText(this, "btn_topic_attention", Toast.LENGTH_SHORT).show();
+                if (flag == 0) {
+                    btnAttention.setText("已关注");
+                    btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                } else if (flag == 1) {
+                    btnAttention.setText("关注");
+                    btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                }
+                flag = (flag + 1) % 2;
                 break;
             case R.id.topic_page_avatar:
                 startActivity(new Intent(this, MinePageOtherActivity.class));

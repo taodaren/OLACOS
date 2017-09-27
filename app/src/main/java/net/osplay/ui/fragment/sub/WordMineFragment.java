@@ -87,10 +87,14 @@ public class WordMineFragment extends BaseFragment {
                 Log.d(TAG, "onSucceed: 加入的社区数据请求====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<List<WordAddBean>>() {
-                }.getType();
-                mAddWorList = gson.fromJson(json, type);
-                Log.d(TAG, "onSucceed: 加入的社区解析结果====================" + mAddWorList);
+                if (json != null) {
+                    Type type = new TypeToken<List<WordAddBean>>() {
+                    }.getType();
+                    mAddWorList = gson.fromJson(json, type);
+                    Log.d(TAG, "onSucceed: 加入的社区解析结果====================" + mAddWorList);
+                } else {
+                    return;
+                }
 
                 initRecyclerView();
             }
@@ -117,11 +121,14 @@ public class WordMineFragment extends BaseFragment {
                 Log.d(TAG, "onSucceed: 推荐的社区数据请求====================" + json);
 
                 //数据解析（集合）
-                Type type = new TypeToken<List<WordRecoBean>>() {
-                }.getType();
-                mRecoWordList = gson.fromJson(json, type);
-                Log.d(TAG, "onSucceed: 推荐的社区解析结果====================" + mRecoWordList);
-
+                if (json != null) {
+                    Type type = new TypeToken<List<WordRecoBean>>() {
+                    }.getType();
+                    mRecoWordList = gson.fromJson(json, type);
+                    Log.d(TAG, "onSucceed: 推荐的社区解析结果====================" + mRecoWordList);
+                } else {
+                    return;
+                }
                 initRecyclerView();
             }
 

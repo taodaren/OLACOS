@@ -58,6 +58,7 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_topic_details_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/topic_details_nick"
@@ -67,6 +68,7 @@
                         android:textSize="15sp" />
 
                     <ProgressBar
+                        android:id="@+id/pb_topic_details_level"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -83,7 +85,7 @@
                             android:layout_width="60dp"
                             android:layout_height="30dp"
                             android:layout_margin="3dp"
-                            android:background="@drawable/btn_shape_transparent"
+                            android:background="@drawable/shape_yuan"
                             android:text="签到"
                             android:textSize="14sp" />
 
@@ -93,7 +95,7 @@
                             android:layout_height="30dp"
                             android:layout_margin="3dp"
                             android:layout_toEndOf="@id/btn_topic_heck_in"
-                            android:background="@drawable/btn_shape_transparent"
+                            android:background="@drawable/shape_yuan"
                             android:text="关注"
                             android:textSize="14sp" />
                     </RelativeLayout>
