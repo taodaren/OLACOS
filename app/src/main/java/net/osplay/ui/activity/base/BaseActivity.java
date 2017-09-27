@@ -56,15 +56,13 @@ public class BaseActivity extends AppCompatActivity {
         textTitle.setText(title);
     }
 
-
     //保存用户信息
-    public void saveUser(String name,String password){
+    public void saveUser(String name, String password) {
         SharedPreferences sp = this.getSharedPreferences("user_info", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sp.edit();
-        editor.putString("name",name);
-        editor.putString("password",password);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("name", name);
+        editor.putString("password", password);
         editor.commit();//
     }
-
 
 }
