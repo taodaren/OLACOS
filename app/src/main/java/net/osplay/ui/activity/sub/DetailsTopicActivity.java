@@ -228,14 +228,20 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.btn_topic_attention://关注
-                if (flag == 0) {
-                    btnAttention.setText("已关注");
-                    btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                } else if (flag == 1) {
-                    btnAttention.setText("关注");
-                    btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                if (!(AppHelper.getInstance().isLogined())) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("loginId", "loginAttention");
+                    startActivity(intent);
+                } else {
+                    if (flag == 0) {
+                        btnAttention.setText("已关注");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    } else if (flag == 1) {
+                        btnAttention.setText("关注");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    }
+                    flag = (flag + 1) % 2;
                 }
-                flag = (flag + 1) % 2;
                 break;
             case R.id.topic_page_avatar:
                 startActivity(new Intent(this, MinePageOtherActivity.class));
