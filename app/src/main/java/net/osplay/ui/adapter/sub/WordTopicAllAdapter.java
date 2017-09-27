@@ -52,6 +52,16 @@ public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mRowsBeanList == null ? 0 : mRowsBeanList.size();
     }
 
+    public void setData(List<WordTopicAllBean.RowsBean> data) {
+        if (mRowsBeanList != null) {
+            mRowsBeanList.clear();
+        } else {
+            mRowsBeanList = new ArrayList<>();
+        }
+        mRowsBeanList.addAll(data);
+        notifyDataSetChanged();
+    }
+
     private class PostsInfoAllHolder extends RecyclerView.ViewHolder {
         private View outView;
         private TextView tvNick, tvTime, tvTitle, tvZan, tvCollect, tvComment;
