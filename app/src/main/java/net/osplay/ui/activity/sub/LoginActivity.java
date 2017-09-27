@@ -111,18 +111,11 @@ public class LoginActivity extends BaseActivity {
 
                 String loginId = getIntent().getStringExtra("loginId");
                 switch (loginId) {
-//                case "loginTopic"://八大专区
-//                    Intent intent = new Intent(LoginActivity.this,
-//                            DetailsTopicActivity.class);
-//                    List<UserLoginBean.MemberBean> member = userLoginBean.getMember();
-//                    String id = member.get(1).getID();
-//                    intent.putExtra("memberId", id);
-//                    startActivity(intent);
-//                    finish();
-//                    break;
                     case "loginHeck"://签到
                         finish();
                         break;
+                    case "loginAttention"://关注
+                        finish();
                     case "loginCOJ"://社团活动
                         startActivity(new Intent(LoginActivity.this,
                                 CreateOrJoinActivity.class));
