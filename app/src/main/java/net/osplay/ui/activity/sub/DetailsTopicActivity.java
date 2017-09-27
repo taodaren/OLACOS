@@ -56,7 +56,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private ViewPager mViewPager;
     private Gson gson = new Gson();
     private TabLayout tabLayout;
-    private DetailsTopicInfoFragment dFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +79,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         changeViewByState();
     }
 
+    /**
+     * 未登录状态显示专区图片和信息
+     */
     private void changeViewByState() {
-        // 未登录状态显示专区图片和信息
         if (!AppHelper.getInstance().isLogined()) {
             tvTopicDetailsLevel.setVisibility(View.GONE);
             pbTopicDetailsLevel.setVisibility(View.GONE);
@@ -136,16 +137,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void setViewPager(final List<WordTopicTitleBean> titleBeanList) {
         //设置标题个数和值以及 fragment 的对应个数
-        String[] arr = new String[titleBeanList.size()];
+        String[] areaArr = new String[titleBeanList.size()];
 
         for (int i = 0; i < titleBeanList.size(); i++) {
-            arr[i] = titleBeanList.get(i).getPART();
+            areaArr[i] = titleBeanList.get(i).getPART();//获取专区名
         }
 
         List<Fragment> mFragmentList = new ArrayList<>();
         for (int i = 0; i < titleBeanList.size(); i++) {
-            dFragment = new DetailsTopicInfoFragment(this, R.layout.layout_word_hot_posts);
-            mFragmentList.add(dFragment);
+            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_details_topic_info));//对应专区添加布局
         }
 
         //viewpager的滑动监听
@@ -155,7 +155,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             public void onPageSelected(int arg0) {//当前界面0
                 String id = titleBeanList.get(arg0).getID();
                 Toast.makeText(DetailsTopicActivity.this, id, Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -168,7 +167,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
 
 
-        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, arr);
+        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, areaArr);
         mViewPager.setAdapter(mAdapter);
     }
 

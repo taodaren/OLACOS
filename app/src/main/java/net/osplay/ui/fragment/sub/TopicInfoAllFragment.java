@@ -22,23 +22,20 @@ import net.osplay.ui.fragment.base.BaseFragment;
 import java.util.List;
 
 /**
- * 大区详情 → 全部帖子
+ * 专区详情 → 全部帖子
  */
 
 public class TopicInfoAllFragment extends BaseFragment {
+    private static final String TAG = "TopicInfoAllFragment";
     private RecyclerView mRvTopicAll;
     private Gson gson = new Gson();
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
-    private WordTopicAllBean wordTopicAllBean;
-    private List<WordTopicAllBean.RowsBean> rows;
-    private WordTopicAllAdapter aAdapter;
 
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_topic_info_all, null);
         mRvTopicAll = (RecyclerView) inflate.findViewById(R.id.recycler_topic_all);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        mRvTopicAll.setLayoutManager(manager);
+
         return inflate;
     }
 
@@ -57,13 +54,12 @@ public class TopicInfoAllFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG", json);
+                Log.d(TAG, "onSucceed: 大区详情 → 全部帖子网络请求");
                 if (json != null) {
                     formatJson(json);
                 } else {
                     return;
                 }
-
             }
 
             @Override
@@ -79,9 +75,11 @@ public class TopicInfoAllFragment extends BaseFragment {
     }
 
     private void formatJson(String json) {
-        wordTopicAllBean = gson.fromJson(json, WordTopicAllBean.class);
-        rows = wordTopicAllBean.getRows();
-        aAdapter = new WordTopicAllAdapter(getContext(), rows);
+        WordTopicAllBean wordTopicAllBean = gson.fromJson(json, WordTopicAllBean.class);
+        List<WordTopicAllBean.RowsBean> rows = wordTopicAllBean.getRows();
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        mRvTopicAll.setLayoutManager(manager);
+        WordTopicAllAdapter aAdapter = new WordTopicAllAdapter(getContext(), rows);
         mRvTopicAll.setAdapter(aAdapter);
     }
 
