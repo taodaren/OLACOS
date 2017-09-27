@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,6 +35,11 @@ public class LoginActivity extends BaseActivity {
     private EditText editAccount, editPassword;
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
+
+    public static Intent getCallIntent(Context context) {
+        return new Intent(context, LoginActivity.class);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
