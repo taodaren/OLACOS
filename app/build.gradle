@@ -65,5 +65,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     // greendao
     compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.github.Aspsine:SwipeToLoadLayout:1.0.4'
 
 }
