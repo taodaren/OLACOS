@@ -90,4 +90,8 @@ public interface I {
     interface Type {
         String TYPE_NAME = "type_name";
     }
+
+    interface Organization {
+        String PARENT_ID = "organization_parent_id";
+    }
 }

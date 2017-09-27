@@ -138,8 +138,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }.getType();
                     List<WordTopicTitleBean> titleBeanList = gson.fromJson(json, type);
                     setViewPager(titleBeanList);
-                } else {//为了不崩溃
-                    return;
                 }
             }
 
@@ -153,17 +151,17 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void setViewPager(final List<WordTopicTitleBean> titleBeanList) {
+    private void setViewPager(final List<WordTopicTitleBean> wordTopicList) {
         //设置标题个数和值以及 fragment 的对应个数
-        String[] areaArr = new String[titleBeanList.size()];
+        String[] areaArr = new String[wordTopicList.size()];
 
-        for (int i = 0; i < titleBeanList.size(); i++) {
-            areaArr[i] = titleBeanList.get(i).getPART();//获取专区名
+        for (int i = 0; i < wordTopicList.size(); i++) {
+            areaArr[i] = wordTopicList.get(i).getPART();//获取专区名
         }
 
         List<Fragment> mFragmentList = new ArrayList<>();
-        for (int i = 0; i < titleBeanList.size(); i++) {
-            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_details_topic_info));//对应专区添加布局
+        for (int i = 0; i < wordTopicList.size(); i++) {
+            mFragmentList.add(DetailsTopicInfoFragment.newInstance(wordTopicList.get(i).getID()));//对应专区添加布局
         }
 
         //viewpager的滑动监听
@@ -172,7 +170,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onPageSelected(int arg0) {//当前界面0
                 // TODO: 2017/9/27 问题：在改变一级 TabLayout 时，二级 TabLayout 随之改变
-                String id = titleBeanList.get(arg0).getID();
+                String id = wordTopicList.get(arg0).getID();
                 Toast.makeText(DetailsTopicActivity.this, "id:" + id, Toast.LENGTH_SHORT).show();
             }
 

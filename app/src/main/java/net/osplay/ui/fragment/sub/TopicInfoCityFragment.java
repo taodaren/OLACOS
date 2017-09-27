@@ -2,11 +2,13 @@ package net.osplay.ui.fragment.sub;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.base.BaseFragment;
 
@@ -14,6 +16,21 @@ import net.osplay.ui.fragment.base.BaseFragment;
  * A simple {@link Fragment} subclass.
  */
 public class TopicInfoCityFragment extends BaseFragment {
+    private String parentId;
+
+    public static TopicInfoCityFragment newInstance(String parentId) {
+        TopicInfoCityFragment fragment = new TopicInfoCityFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(I.Organization.PARENT_ID, parentId);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.parentId = getArguments().getString(I.Organization.PARENT_ID, "0");
+    }
 
 
     public TopicInfoCityFragment() {
