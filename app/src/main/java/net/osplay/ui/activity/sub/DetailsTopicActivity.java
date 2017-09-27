@@ -160,8 +160,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onPageSelected(int arg0) {//当前界面0
+                // TODO: 2017/9/27 问题：在改变一级 TabLayout 时，二级 TabLayout 随之改变
                 String id = titleBeanList.get(arg0).getID();
-                Toast.makeText(DetailsTopicActivity.this, id, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsTopicActivity.this, "id:" + id, Toast.LENGTH_SHORT).show();
             }
 
             @Override
