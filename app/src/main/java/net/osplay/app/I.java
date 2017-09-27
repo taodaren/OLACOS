@@ -79,6 +79,7 @@ public interface I {
     interface Account {
         String USER_NAME = "account_name";
         String PASS_WORD = "account_pwd";
+        String IS_LOGIN = "is_login";
         String TOKEN = "account_token";
     }
 

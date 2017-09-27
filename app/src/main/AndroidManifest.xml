@@ -96,6 +96,7 @@
         <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" />
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsTopicActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/transparentStatusTheme" />
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsColumnActivity"

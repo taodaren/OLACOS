@@ -73,6 +73,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         initView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeViewByState();
+    }
+
     private void initView() {
         setToolbar();
         btnHeckIn.setOnClickListener(this);
@@ -83,7 +89,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
         tabLayout.setupWithViewPager(mViewPager);
-        changeViewByState();
     }
 
     /**
@@ -100,6 +105,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);
                 Glide.with(DetailsTopicActivity.this).load(imgId).into(topicPageAvatar);
             }
+        } else {
+            tvTopicDetailsLevel.setVisibility(View.VISIBLE);
+            pbTopicDetailsLevel.setVisibility(View.VISIBLE);
+            // set Avator
+            Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
+            topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
         }
     }
 
@@ -215,8 +226,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     intent.putExtra("loginId", "loginHeck");
                     startActivity(intent);
                 } else {
-                    //设置登录状态
-                    AppHelper.getInstance().setLogined(true);
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
                         btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);

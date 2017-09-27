@@ -19,9 +19,12 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.data.bean.Account;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.UserLoginBean;
 import net.osplay.ui.activity.base.BaseActivity;
+
+import java.util.List;
 
 /**
  * 登录
@@ -71,15 +74,12 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG", "登录 json 数据请求成功：" + json);
                 if (json != null) {
                     UserLoginBean userLoginBean = gson.fromJson(json, UserLoginBean.class);
                     isLoginOk = userLoginBean.getOk();
-                } else {
-                    return;
+                    login(userLoginBean.getMember());
                 }
 
-                login();
             }
 
             @Override
@@ -94,7 +94,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    public void login() {
+    public void login(List<Account> accounts) {
         switch (isLoginOk) {
             case "false1":
                 Toast.makeText(LoginActivity.this, "账号不存在", Toast.LENGTH_SHORT).show();
@@ -103,12 +103,12 @@ public class LoginActivity extends BaseActivity {
                 Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                //通过 sharedPf 保存用户信息
-                AppHelper.getInstance().setCurrentUserName(editAccount.getText().toString().trim());
-                AppHelper.getInstance().setCurrentPW(editPassword.getText().toString().trim());
-                //设置登录状态
-                AppHelper.getInstance().setLogined(true);
-
+                if (accounts != null && !accounts.isEmpty()) {
+                    // save user
+                    AppHelper.getInstance().setUser(accounts.get(0));
+                    // set login state
+                    AppHelper.getInstance().setLogined(true);
+                }
                 String loginId = getIntent().getStringExtra("loginId");
                 switch (loginId) {
                     case "loginHeck"://签到
