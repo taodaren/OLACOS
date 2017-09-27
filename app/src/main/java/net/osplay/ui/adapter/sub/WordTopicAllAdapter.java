@@ -7,67 +7,88 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.hankkin.library.CircleImageView;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicAllBean;
-import net.osplay.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 社区帖子详情--全部
+ * 社区帖子详情 → 全部
  */
 
-public class WordTopicAllAdapter extends RecyclerView.Adapter<WordTopicAllViewHolder> {
+public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
-    private List<WordTopicAllBean.RowsBean> rows;
-    public WordTopicAllAdapter(Context mContext, List<WordTopicAllBean.RowsBean> rows) {
+    private LayoutInflater mInflater;
+    private List<WordTopicAllBean.RowsBean> mRowsBeanList;
+
+    public WordTopicAllAdapter(Context mContext, List<WordTopicAllBean.RowsBean> rowsBeanList) {
         this.mContext = mContext;
-        this.rows = rows;
+        this.mInflater = LayoutInflater.from(mContext);
+        this.mRowsBeanList = new ArrayList<>();
+        this.mRowsBeanList.addAll(rowsBeanList);
     }
 
     @Override
-    public WordTopicAllViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_word_topic_all, parent, false);
-        WordTopicAllViewHolder viewHolder = new WordTopicAllViewHolder(inflate);
-        return viewHolder;
+    public PostsInfoAllHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View inflate = mInflater.inflate(R.layout.item_word_topic_all, parent, false);
+        PostsInfoAllHolder holder = new PostsInfoAllHolder(inflate);
+        holder.setClickListener();
+        return holder;
     }
 
     @Override
-    public void onBindViewHolder(WordTopicAllViewHolder holder, int position) {
-//        Glide.with(mContext).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_topic_all_icon);
-//        Glide.with(mContext).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.item_topic_all_avatar);
-        holder.item_topic_all_nick.setText("昵称："+rows.get(position).getNICK_NAME());
-        holder.item_topic_all_time.setText("时间"+rows.get(position).getCREATEDATE());
-        holder.item_topic_all_title.setText("标题"+rows.get(position).getTITLE());
-        holder.item_topic_all_good.setText("赞"+rows.get(position).getZAN_COUNT());
-        holder.item_topic_all_collect.setText("收藏"+rows.get(position).getCOLLECT_COUNT());
-        holder.item_topic_all_comment.setText("评论"+rows.get(position).getPINGLUN_COUNT());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ((PostsInfoAllHolder) holder).bindData(position);
     }
 
     @Override
     public int getItemCount() {
-        return rows.size();
+        return mRowsBeanList == null ? 0 : mRowsBeanList.size();
     }
-}
 
-class WordTopicAllViewHolder extends RecyclerView.ViewHolder {
+    private class PostsInfoAllHolder extends RecyclerView.ViewHolder {
+        private View outView;
+        private TextView tvNick, tvTime, tvTitle, tvZan, tvCollect, tvComment;
+        private ImageView imgAvatar, imgBg;
 
-    public TextView item_topic_all_nick,item_topic_all_time,item_topic_all_title,item_topic_all_good,item_topic_all_collect,item_topic_all_comment;
-    public ImageView item_topic_all_icon;
-    public CircleImageView item_topic_all_avatar;
-    public WordTopicAllViewHolder(View itemView) {
-        super(itemView);
-        item_topic_all_nick= (TextView) itemView.findViewById(R.id.item_topic_all_nick);
-        item_topic_all_time= (TextView) itemView.findViewById(R.id.item_topic_all_time);
-        item_topic_all_title= (TextView) itemView.findViewById(R.id.item_topic_all_title);
-        item_topic_all_good= (TextView) itemView.findViewById(R.id.item_topic_all_good);
-        item_topic_all_collect= (TextView) itemView.findViewById(R.id.item_topic_all_collect);
-        item_topic_all_comment= (TextView) itemView.findViewById(R.id.item_topic_all_comment);
+        private PostsInfoAllHolder(View itemView) {
+            super(itemView);
+            outView = itemView;
+            tvNick = (TextView) itemView.findViewById(R.id.item_topic_all_nick);
+            tvTime = (TextView) itemView.findViewById(R.id.item_topic_all_time);
+            tvTitle = (TextView) itemView.findViewById(R.id.item_topic_all_title);
+            tvZan = (TextView) itemView.findViewById(R.id.item_topic_all_good);
+            tvCollect = (TextView) itemView.findViewById(R.id.item_topic_all_collect);
+            tvComment = (TextView) itemView.findViewById(R.id.item_topic_all_comment);
+            imgAvatar = (ImageView) itemView.findViewById(R.id.item_topic_all_avatar);
+            imgBg = (ImageView) itemView.findViewById(R.id.item_topic_all_icon);
+        }
 
+        public void bindData(int position) {
+            WordTopicAllBean.RowsBean rowsBean = mRowsBeanList.get(position);
+            Glide.with(mContext).load(I.BASE_URL + rowsBean.getHEAD_PATH()).into(imgAvatar);
+            Glide.with(mContext).load(I.BASE_URL + rowsBean.getCOVERIMG()).into(imgBg);
+            tvNick.setText(rowsBean.getNICK_NAME());
+            tvTime.setText(rowsBean.getCREATEDATE());
+            tvTitle.setText(rowsBean.getTITLE());
+            tvZan.setText(rowsBean.getZAN_COUNT());
+            tvCollect.setText(rowsBean.getCOLLECT_COUNT());
+            tvComment.setText(rowsBean.getPINGLUN_COUNT());
+        }
+
+        public void setClickListener() {
+            outView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "outView", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
