@@ -85,7 +85,7 @@
                             android:layout_width="60dp"
                             android:layout_height="30dp"
                             android:layout_margin="3dp"
-                            android:background="@drawable/btn_shape_transparent"
+                            android:background="@drawable/shape_yuan"
                             android:text="签到"
                             android:textSize="14sp" />
 
@@ -95,7 +95,7 @@
                             android:layout_height="30dp"
                             android:layout_margin="3dp"
                             android:layout_toEndOf="@id/btn_topic_heck_in"
-                            android:background="@drawable/btn_shape_transparent"
+                            android:background="@drawable/shape_yuan"
                             android:text="关注"
                             android:textSize="14sp" />
                     </RelativeLayout>

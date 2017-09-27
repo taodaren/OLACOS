@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,9 +54,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     ProgressBar pbTopicDetailsLevel;
     @BindView(R.id.topic_page_avatar)
     CircleImageView topicPageAvatar;
+    @BindView(R.id.btn_topic_heck_in)
+    Button btnHeckIn;
+    @BindView(R.id.btn_topic_attention)
+    Button btnAttention;
+
     private ViewPager mViewPager;
     private Gson gson = new Gson();
     private TabLayout tabLayout;
+    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +75,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         setToolbar();
-        findViewById(R.id.btn_topic_heck_in).setOnClickListener(this);
-        findViewById(R.id.btn_topic_attention).setOnClickListener(this);
-        findViewById(R.id.topic_page_avatar).setOnClickListener(this);
+        btnHeckIn.setOnClickListener(this);
+        btnAttention.setOnClickListener(this);
+        topicPageAvatar.setOnClickListener(this);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
@@ -202,10 +209,32 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_topic_heck_in://签到
-                Toast.makeText(this, "btn_topic_heck_in", Toast.LENGTH_SHORT).show();
+                if (!(AppHelper.getInstance().isLogined())) {
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.putExtra("loginId", "loginHeck");
+                    startActivity(intent);
+                } else {
+                    //设置登录状态
+                    AppHelper.getInstance().setLogined(true);
+                    if (flag == 0) {
+                        btnHeckIn.setText("已签到");
+                        btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    } else if (flag == 1) {
+                        btnHeckIn.setText("签到");
+                        btnHeckIn.setBackgroundResource(R.drawable.shape_yuan);
+                    }
+                    flag = (flag + 1) % 2;
+                }
                 break;
             case R.id.btn_topic_attention://关注
-                Toast.makeText(this, "btn_topic_attention", Toast.LENGTH_SHORT).show();
+                if (flag == 0) {
+                    btnAttention.setText("已关注");
+                    btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                } else if (flag == 1) {
+                    btnAttention.setText("关注");
+                    btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                }
+                flag = (flag + 1) % 2;
                 break;
             case R.id.topic_page_avatar:
                 startActivity(new Intent(this, MinePageOtherActivity.class));

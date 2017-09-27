@@ -120,11 +120,9 @@ public class LoginActivity extends BaseActivity {
 //                    startActivity(intent);
 //                    finish();
 //                    break;
-//                case "loginDou"://斗图专区
-//                    startActivity(new Intent(LoginActivity.this,
-//                            DetailsDouPictureActivity.class));
-//                    finish();
-//                    break;
+                    case "loginHeck"://签到
+                        finish();
+                        break;
                     case "loginCOJ"://社团活动
                         startActivity(new Intent(LoginActivity.this,
                                 CreateOrJoinActivity.class));
