@@ -81,6 +81,7 @@ public interface I {
     interface Account {
         String USER_NAME = "account_name";
         String PASS_WORD = "account_pwd";
+        String IS_LOGIN = "is_login";
         String TOKEN = "account_token";
     }
 
@@ -90,5 +91,9 @@ public interface I {
 
     interface Type {
         String TYPE_NAME = "type_name";
+    }
+
+    interface Organization {
+        String PARENT_ID = "organization_parent_id";
     }
 }

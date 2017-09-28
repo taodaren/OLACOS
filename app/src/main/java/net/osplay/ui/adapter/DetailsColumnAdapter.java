@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,18 +53,18 @@ public class DetailsColumnAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private class DtlColumnHolder extends RecyclerView.ViewHolder {
         private View outView;//保存子项最外层布局的实例
-        private RoundedImageView imgOne, imgTwo, imgThree;
+        private RoundedImageView imgDtlColumn;
         private TextView tvTitle;
 
         private DtlColumnHolder(View itemView) {
             super(itemView);
             outView = itemView;
             tvTitle = (TextView) itemView.findViewById(R.id.tv_column_details_title);
-            imgThree = (RoundedImageView) itemView.findViewById(R.id.img_column_details_three);
+            imgDtlColumn = (RoundedImageView) itemView.findViewById(R.id.img_column_details);
         }
 
         public void bindData(VideoBean videoBean) {
-            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgThree);
+            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgDtlColumn);
             tvTitle.setText(videoBean.getVideoTitle());
         }
 

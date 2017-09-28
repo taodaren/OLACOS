@@ -27,6 +27,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
@@ -73,6 +74,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         initView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeViewByState();
+    }
+
     private void initView() {
         setToolbar();
         btnHeckIn.setOnClickListener(this);
@@ -83,7 +90,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
         tabLayout.setupWithViewPager(mViewPager);
-        changeViewByState();
     }
 
     /**
@@ -100,6 +106,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);
                 Glide.with(DetailsTopicActivity.this).load(imgId).into(topicPageAvatar);
             }
+        } else {
+            tvTopicDetailsLevel.setVisibility(View.VISIBLE);
+            pbTopicDetailsLevel.setVisibility(View.VISIBLE);
+            // set Avatar
+            Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
+            topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
         }
     }
 
@@ -127,8 +139,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }.getType();
                     List<WordTopicTitleBean> titleBeanList = gson.fromJson(json, type);
                     setViewPager(titleBeanList);
-                } else {//为了不崩溃
-                    return;
                 }
             }
 
@@ -142,38 +152,18 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void setViewPager(final List<WordTopicTitleBean> titleBeanList) {
+    private void setViewPager(final List<WordTopicTitleBean> wordTopicList) {
         //设置标题个数和值以及 fragment 的对应个数
-        String[] areaArr = new String[titleBeanList.size()];
+        String[] areaArr = new String[wordTopicList.size()];
 
-        for (int i = 0; i < titleBeanList.size(); i++) {
-            areaArr[i] = titleBeanList.get(i).getPART();//获取专区名
+        for (int i = 0; i < wordTopicList.size(); i++) {
+            areaArr[i] = wordTopicList.get(i).getPART();//获取专区名
         }
 
         List<Fragment> mFragmentList = new ArrayList<>();
-        for (int i = 0; i < titleBeanList.size(); i++) {
-            mFragmentList.add(new DetailsTopicInfoFragment(this, R.layout.fragment_details_topic_info));//对应专区添加布局
+        for (int i = 0; i < wordTopicList.size(); i++) {
+            mFragmentList.add(DetailsTopicInfoFragment.newInstance(wordTopicList.get(i).getID()));//对应专区添加布局
         }
-
-        //viewpager的滑动监听
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int arg0) {//当前界面0
-                // TODO: 2017/9/27 问题：在改变一级 TabLayout 时，二级 TabLayout 随之改变
-                String id = titleBeanList.get(arg0).getID();
-                Toast.makeText(DetailsTopicActivity.this, "id:" + id, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-
 
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, areaArr);
         mViewPager.setAdapter(mAdapter);
@@ -211,12 +201,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.putExtra("loginId", "loginHeck");
-                    startActivity(intent);
+                    MFGT.gotoLogin(this, "loginHeck");
                 } else {
-                    //设置登录状态
-                    AppHelper.getInstance().setLogined(true);
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
                         btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
@@ -229,9 +215,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.putExtra("loginId", "loginAttention");
-                    startActivity(intent);
+                    MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     if (flag == 0) {
                         btnAttention.setText("已关注");

@@ -1,20 +1,41 @@
 package net.osplay.service.entity;
 
+import net.osplay.data.bean.Account;
+
 import java.util.List;
 
 /**
  * 登录
+ * {
+ "ok": "true",
+ "member": [
+ {
+ "SCHOOL": "",
+ "ISDELETE": "0",
+ "SHENHE": "0",
+ "PHONE": "17853100903",
+ "CREATEDATE": "2017-09-21 17:07:21",
+ "STU_PATH": "",
+ "CARD_PATH": "null",
+ "CN": "啊啊啊",
+ "NICK_NAME": "雪颜er",
+ "CARD": "371122198910161212",
+ "CARD_F_PATH": "/upLoadResource/e86b6c543eb74840adde38a13d7698e9/CBD鸟瞰_最新_看图王.jpg",
+ "PASSWORD": "Y9sVVJ8RW/Y7lzgKZG1yUAb7WchTLa+cPequLEzbInrB12KF",
+ "FANS_COUNT": "3",
+ "CARD_B_PATH": "/upLoadResource/36188d22ece84b47960d9eeb2f2768b6/1496453261173.jpg",
+ "ID": "3f68feea89784e20873f1de2e694880c",
+ "POINTS": "0",
+ "FOCUS_COUNT": "1"
+ }
+ ]
+ }
  */
 
 public class UserLoginBean {
 
-    /**
-     * ok : true
-     * member : [{"SCHOOL":"","ISDELETE":"0","SHENHE":"0","PHONE":"17611228377","CREATEDATE":"2017-09-12 10:46:12","STU_PATH":"","CN":"cSZXdcZX","NICK_NAME":"呆子","CARD":"622827199411061759","CARD_F_PATH":"/upLoadResource/e04bad69c8934abe86587da9028461e2/未标题-1(1).jpg","PASSWORD":"EryP//NCm+drNvl4WHrvIyUl2bt7AN5H46VbrRer/E3C9LwvndSg+dTdiD4=","FANS_COUNT":"0","CARD_B_PATH":"/upLoadResource/69886802c9784291b96db7db9e9254c7/需要修改的.jpg","ID":"69f1badc98cc441c838310561d11bcb7","FOCUS_COUNT":"0"}]
-     */
-
     private String ok;
-    private List<MemberBean> member;
+    private List<Account> member;
 
     public String getOk() {
         return ok;
@@ -24,167 +45,13 @@ public class UserLoginBean {
         this.ok = ok;
     }
 
-    public List<MemberBean> getMember() {
+    public List<Account> getMember() {
         return member;
     }
 
-    public void setMember(List<MemberBean> member) {
+    public void setMember(List<Account> member) {
         this.member = member;
     }
 
-    public static class MemberBean {
-        /**
-         * SCHOOL :
-         * ISDELETE : 0
-         * SHENHE : 0
-         * PHONE : 17611228377
-         * CREATEDATE : 2017-09-12 10:46:12
-         * STU_PATH :
-         * CN : cSZXdcZX
-         * NICK_NAME : 呆子
-         * CARD : 622827199411061759
-         * CARD_F_PATH : /upLoadResource/e04bad69c8934abe86587da9028461e2/未标题-1(1).jpg
-         * PASSWORD : EryP//NCm+drNvl4WHrvIyUl2bt7AN5H46VbrRer/E3C9LwvndSg+dTdiD4=
-         * FANS_COUNT : 0
-         * CARD_B_PATH : /upLoadResource/69886802c9784291b96db7db9e9254c7/需要修改的.jpg
-         * ID : 69f1badc98cc441c838310561d11bcb7
-         * FOCUS_COUNT : 0
-         */
 
-        private String SCHOOL;
-        private String ISDELETE;
-        private String SHENHE;
-        private String PHONE;
-        private String CREATEDATE;
-        private String STU_PATH;
-        private String CN;
-        private String NICK_NAME;
-        private String CARD;
-        private String CARD_F_PATH;
-        private String PASSWORD;
-        private String FANS_COUNT;
-        private String CARD_B_PATH;
-        private String ID;
-        private String FOCUS_COUNT;
-
-        public String getSCHOOL() {
-            return SCHOOL;
-        }
-
-        public void setSCHOOL(String SCHOOL) {
-            this.SCHOOL = SCHOOL;
-        }
-
-        public String getISDELETE() {
-            return ISDELETE;
-        }
-
-        public void setISDELETE(String ISDELETE) {
-            this.ISDELETE = ISDELETE;
-        }
-
-        public String getSHENHE() {
-            return SHENHE;
-        }
-
-        public void setSHENHE(String SHENHE) {
-            this.SHENHE = SHENHE;
-        }
-
-        public String getPHONE() {
-            return PHONE;
-        }
-
-        public void setPHONE(String PHONE) {
-            this.PHONE = PHONE;
-        }
-
-        public String getCREATEDATE() {
-            return CREATEDATE;
-        }
-
-        public void setCREATEDATE(String CREATEDATE) {
-            this.CREATEDATE = CREATEDATE;
-        }
-
-        public String getSTU_PATH() {
-            return STU_PATH;
-        }
-
-        public void setSTU_PATH(String STU_PATH) {
-            this.STU_PATH = STU_PATH;
-        }
-
-        public String getCN() {
-            return CN;
-        }
-
-        public void setCN(String CN) {
-            this.CN = CN;
-        }
-
-        public String getNICK_NAME() {
-            return NICK_NAME;
-        }
-
-        public void setNICK_NAME(String NICK_NAME) {
-            this.NICK_NAME = NICK_NAME;
-        }
-
-        public String getCARD() {
-            return CARD;
-        }
-
-        public void setCARD(String CARD) {
-            this.CARD = CARD;
-        }
-
-        public String getCARD_F_PATH() {
-            return CARD_F_PATH;
-        }
-
-        public void setCARD_F_PATH(String CARD_F_PATH) {
-            this.CARD_F_PATH = CARD_F_PATH;
-        }
-
-        public String getPASSWORD() {
-            return PASSWORD;
-        }
-
-        public void setPASSWORD(String PASSWORD) {
-            this.PASSWORD = PASSWORD;
-        }
-
-        public String getFANS_COUNT() {
-            return FANS_COUNT;
-        }
-
-        public void setFANS_COUNT(String FANS_COUNT) {
-            this.FANS_COUNT = FANS_COUNT;
-        }
-
-        public String getCARD_B_PATH() {
-            return CARD_B_PATH;
-        }
-
-        public void setCARD_B_PATH(String CARD_B_PATH) {
-            this.CARD_B_PATH = CARD_B_PATH;
-        }
-
-        public String getID() {
-            return ID;
-        }
-
-        public void setID(String ID) {
-            this.ID = ID;
-        }
-
-        public String getFOCUS_COUNT() {
-            return FOCUS_COUNT;
-        }
-
-        public void setFOCUS_COUNT(String FOCUS_COUNT) {
-            this.FOCUS_COUNT = FOCUS_COUNT;
-        }
-    }
 }

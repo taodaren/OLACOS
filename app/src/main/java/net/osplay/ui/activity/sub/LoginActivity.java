@@ -4,9 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,9 +18,12 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.data.bean.Account;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.UserLoginBean;
 import net.osplay.ui.activity.base.BaseActivity;
+
+import java.util.List;
 
 /**
  * 登录
@@ -73,15 +73,11 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG", "登录 json 数据请求成功：" + json);
                 if (json != null) {
                     UserLoginBean userLoginBean = gson.fromJson(json, UserLoginBean.class);
                     isLoginOk = userLoginBean.getOk();
-                } else {
-                    return;
+                    login(userLoginBean.getMember());
                 }
-
-                login();
             }
 
             @Override
@@ -96,7 +92,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    public void login() {
+    public void login(List<Account> accounts) {
         switch (isLoginOk) {
             case "false1":
                 Toast.makeText(LoginActivity.this, "账号不存在", Toast.LENGTH_SHORT).show();
@@ -105,12 +101,12 @@ public class LoginActivity extends BaseActivity {
                 Toast.makeText(LoginActivity.this, "密码不正确", Toast.LENGTH_SHORT).show();
                 break;
             default:
-                //通过 sharedPf 保存用户信息
-                AppHelper.getInstance().setCurrentUserName(editAccount.getText().toString().trim());
-                AppHelper.getInstance().setCurrentPW(editPassword.getText().toString().trim());
-                //设置登录状态
-                AppHelper.getInstance().setLogined(true);
-
+                if (accounts != null && !accounts.isEmpty()) {
+                    // save user
+                    AppHelper.getInstance().setUser(accounts.get(0));
+                    // set login state
+                    AppHelper.getInstance().setLogined(true);
+                }
                 String loginId = getIntent().getStringExtra("loginId");
                 switch (loginId) {
                     case "loginHeck"://签到
@@ -133,33 +129,4 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_register).setVisible(true);
-        menu.findItem(R.id.menu_set).setVisible(false);
-        menu.findItem(R.id.menu_category).setVisible(false);
-        menu.findItem(R.id.menu_code).setVisible(false);
-        menu.findItem(R.id.menu_search).setVisible(false);
-        menu.findItem(R.id.menu_msg).setVisible(false);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.menu_register:
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
-                break;
-        }
-        return true;
-    }
-
 }
-

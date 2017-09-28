@@ -2,6 +2,8 @@ package net.osplay.app;
 
 import android.content.Context;
 
+import net.osplay.data.bean.Account;
+
 /**
  * App 的辅助类
  */
@@ -10,6 +12,7 @@ public class AppHelper {
     private static final String TAG = "AppHelper";
     private static AppHelper instance = null;
     private AppModel mModel;
+    private Account user;
     private String userName;
     private String pwd;
     private String token;
@@ -54,6 +57,9 @@ public class AppHelper {
     }
 
     public boolean isLogined() {
+        if (!isLogin) {
+            isLogin = mModel.getLoginState();
+        }
         return isLogin;
     }
 
@@ -62,6 +68,7 @@ public class AppHelper {
      */
     public void setLogined(boolean state) {
         this.isLogin = state;
+        mModel.setLoginState(state);
     }
 
     public String getCurrentPW() {
@@ -74,6 +81,22 @@ public class AppHelper {
     public void setCurrentPW(String pwd) {
         this.pwd = pwd;
         mModel.setCurrentPW(pwd);
+    }
+
+    public Account getUser() {
+        if (user == null) {
+            this.user = mModel.getCurrentUser(getCurrentUserName());
+        }
+        return this.user;
+    }
+
+    public void setUser(Account account) {
+        if (account != null) {
+            this.user = account;
+            setCurrentUserName(account.getPHONE());
+            setCurrentPW(account.getPASSWORD());
+            mModel.setCurrentUser(account);
+        }
     }
 
 }

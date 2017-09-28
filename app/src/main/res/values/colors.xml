@@ -38,4 +38,10 @@
     <color name="grey_normal_bg">#EEEEEE</color>
     <color name="colorTextNormal">#292929</color>
     <color name="colorTextGary">#999999</color>
+
+    <!--SwipeLayout-->
+    <color name="google_blue">#4285F4</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_green">#34A853</color>
+    <color name="google_yellow">#FBBC05</color>
 </resources>

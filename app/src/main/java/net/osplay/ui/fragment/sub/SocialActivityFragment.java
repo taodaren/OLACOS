@@ -3,18 +3,13 @@ package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.CreateOrJoinActivity;
-import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
-import net.osplay.ui.activity.sub.LoginActivity;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 
 /**
@@ -42,7 +37,7 @@ public class SocialActivityFragment extends BaseBussFragment {
         create_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MFGT.isLogin(getActivity(), CreateOrJoinActivity.class, "loginCOJ1");
+                MFGT.gotoLogin(getActivity(), CreateOrJoinActivity.class, "loginCOJ1");
             }
         });
     }

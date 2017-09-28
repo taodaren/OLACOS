@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.base.BaseFragment;
 
@@ -38,6 +39,7 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     private TopicInfoAllFragment mAllFragment;
     private TopicInfoFineFragment mFineFragment;
     private TopicInfoCityFragment mCityFragment;
+    private String parentId;
 
     @SuppressLint("ValidFragment")
     public DetailsTopicInfoFragment() {
@@ -52,6 +54,20 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_details_topic_info, null);
         return inflate;
+    }
+
+    public static DetailsTopicInfoFragment newInstance(String parentId) {
+        DetailsTopicInfoFragment fragment = new DetailsTopicInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(I.Organization.PARENT_ID, parentId);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.parentId = getArguments().getString(I.Organization.PARENT_ID, "0");
     }
 
     @Override
@@ -91,9 +107,9 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     }
 
     private void initFragment() {
-        mAllFragment = new TopicInfoAllFragment();
-        mFineFragment = new TopicInfoFineFragment();
-        mCityFragment = new TopicInfoCityFragment();
+        mAllFragment = TopicInfoAllFragment.newInstance(parentId);
+        mFineFragment = TopicInfoFineFragment.newInstance(parentId);
+        mCityFragment = TopicInfoCityFragment.newInstance(parentId);
 
         mFragments = new Fragment[3];
         mFragments[0] = mAllFragment;
