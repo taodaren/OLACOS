@@ -12,7 +12,7 @@ import net.osplay.ui.activity.sub.LoginActivity;
 public class MFGT {
 
     /**
-     * 判断用户是否已经登录
+     * 判断用户是否已经登录，未登录跳转登录，登录跳转到目标类
      *
      * @param activity 上下文
      * @param clz      目标类

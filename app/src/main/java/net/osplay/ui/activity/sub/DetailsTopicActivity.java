@@ -165,26 +165,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             mFragmentList.add(DetailsTopicInfoFragment.newInstance(wordTopicList.get(i).getID()));//对应专区添加布局
         }
 
-        //viewpager的滑动监听
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int arg0) {//当前界面0
-                // TODO: 2017/9/27 问题：在改变一级 TabLayout 时，二级 TabLayout 随之改变
-                String id = wordTopicList.get(arg0).getID();
-                Toast.makeText(DetailsTopicActivity.this, "id:" + id, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-            }
-        });
-
-
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this, mFragmentList, areaArr);
         mViewPager.setAdapter(mAdapter);
     }
