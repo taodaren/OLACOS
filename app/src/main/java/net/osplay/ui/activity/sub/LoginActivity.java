@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -129,6 +131,34 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        //显示需要菜单项，隐藏多余菜单项
+        menu.findItem(R.id.menu_register).setVisible(true);
+        menu.findItem(R.id.menu_set).setVisible(false);
+        menu.findItem(R.id.menu_category).setVisible(false);
+        menu.findItem(R.id.menu_code).setVisible(false);
+        menu.findItem(R.id.menu_search).setVisible(false);
+        menu.findItem(R.id.menu_msg).setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_register:
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
+                break;
+        }
+        return true;
     }
 
 }

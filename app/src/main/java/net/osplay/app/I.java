@@ -21,6 +21,8 @@ public interface I {
     String VERIFICATION_CODE = BASE_URL + "/memberMobile/sendRegisterMsg.do";
     //验证手机号码是否注册
     String IS_REGISTER = BASE_URL + "/memberMobile/checkPhone.do";
+    //检查昵称是否存在
+    String IS_NICKNAME=BASE_URL + "/memberMobile/testNickName.do";
 
     // TODO: 2017/9/24 社区
     //加入的专区
