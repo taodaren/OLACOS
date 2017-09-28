@@ -27,6 +27,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
@@ -108,7 +109,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         } else {
             tvTopicDetailsLevel.setVisibility(View.VISIBLE);
             pbTopicDetailsLevel.setVisibility(View.VISIBLE);
-            // set Avator
+            // set Avatar
             Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
             topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
         }
@@ -220,9 +221,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.putExtra("loginId", "loginHeck");
-                    startActivity(intent);
+                    MFGT.gotoLogin(this, "loginHeck");
                 } else {
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
@@ -236,9 +235,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
-                    Intent intent = new Intent(this, LoginActivity.class);
-                    intent.putExtra("loginId", "loginAttention");
-                    startActivity(intent);
+                    MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     if (flag == 0) {
                         btnAttention.setText("已关注");

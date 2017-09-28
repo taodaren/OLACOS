@@ -1,11 +1,9 @@
 package net.osplay.ui.activity.sub;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,11 +33,6 @@ public class LoginActivity extends BaseActivity {
     private EditText editAccount, editPassword;
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
-
-    public static Intent getCallIntent(Context context) {
-        return new Intent(context, LoginActivity.class);
-    }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,7 +78,6 @@ public class LoginActivity extends BaseActivity {
                     isLoginOk = userLoginBean.getOk();
                     login(userLoginBean.getMember());
                 }
-
             }
 
             @Override
@@ -138,4 +130,3 @@ public class LoginActivity extends BaseActivity {
     }
 
 }
-

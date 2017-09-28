@@ -90,10 +90,10 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             intent.putExtra(I.Img.IMG_KEY, topicBean.getImgId());
                             intent.putExtra(I.Type.TYPE_NAME, topicBean.getName());
                             mContext.startActivity(intent);
-                            //MFGT.isLogin(mContext, DetailsTopicActivity.class, "loginTopic");
+                            //MFGT.gotoLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;
                         case 1://斗图
-                            MFGT.isLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
+                            MFGT.gotoLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
                             break;
                         default:
                             break;
