@@ -19,24 +19,24 @@
             android:paddingStart="8dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/item_topic_all_avatar"
+                android:id="@+id/img_topic_list_avatar"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/avatar_boy" />
 
             <TextView
-                android:id="@+id/item_topic_all_nick"
+                android:id="@+id/tv_topic_list_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/item_topic_all_avatar"
+                android:layout_toEndOf="@id/img_topic_list_avatar"
                 android:padding="5dp"
                 android:text="叶秋"
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/item_topic_all_time"
+                android:id="@+id/tv_topic_list_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -54,7 +54,7 @@
             android:padding="4dp">
 
             <TextView
-                android:id="@+id/item_topic_all_title"
+                android:id="@+id/tv_topic_list_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="1"
@@ -63,7 +63,7 @@
                 android:textSize="16sp" />
 
             <ImageView
-                android:id="@+id/item_topic_all_icon"
+                android:id="@+id/img_topic_list_icon"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:layout_margin="4dp"
@@ -83,6 +83,7 @@
                 android:padding="4dp">
 
                 <LinearLayout
+                    android:id="@+id/ll_topic_list_zan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -90,12 +91,13 @@
                     android:padding="3dp">
 
                     <ImageView
+                        android:id="@+id/img_topic_list_zan"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_sugar_unselected" />
 
                     <TextView
-                        android:id="@+id/item_topic_all_good"
+                        android:id="@+id/tv_topic_list_zan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -105,6 +107,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_topic_list_collect"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -112,12 +115,13 @@
                     android:padding="3dp">
 
                     <ImageView
+                        android:id="@+id/img_topic_list_collect"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_collect_unselected" />
 
                     <TextView
-                        android:id="@+id/item_topic_all_collect"
+                        android:id="@+id/tv_topic_list_collect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
@@ -127,6 +131,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_topic_list_comment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -139,7 +144,7 @@
                         android:src="@drawable/ic_laugh" />
 
                     <TextView
-                        android:id="@+id/item_topic_all_comment"
+                        android:id="@+id/tv_topic_list_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
