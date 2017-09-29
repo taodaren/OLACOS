@@ -13,21 +13,21 @@ import com.bumptech.glide.Glide;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.WordTopicAllBean;
+import net.osplay.service.entity.WordTopicListBean;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 社区帖子详情 → 全部
+ * 社区帖子详情 → 全部/精品/同城
  */
 
-public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<WordTopicAllBean.RowsBean> mRowsBeanList;
+    private List<WordTopicListBean.RowsBean> mRowsBeanList;
 
-    public WordTopicAllAdapter(Context mContext, List<WordTopicAllBean.RowsBean> rowsBeanList) {
+    public WordTopicListAdapter(Context mContext, List<WordTopicListBean.RowsBean> rowsBeanList) {
         this.mContext = mContext;
         this.mInflater = LayoutInflater.from(mContext);
         this.mRowsBeanList = new ArrayList<>();
@@ -36,7 +36,7 @@ public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public PostsInfoAllHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = mInflater.inflate(R.layout.item_word_topic_all, parent, false);
+        View inflate = mInflater.inflate(R.layout.item_word_topic_list, parent, false);
         PostsInfoAllHolder holder = new PostsInfoAllHolder(inflate);
         holder.setClickListener();
         return holder;
@@ -52,7 +52,7 @@ public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return mRowsBeanList == null ? 0 : mRowsBeanList.size();
     }
 
-    public void setData(List<WordTopicAllBean.RowsBean> data) {
+    public void setData(List<WordTopicListBean.RowsBean> data) {
         if (mRowsBeanList != null) {
             mRowsBeanList.clear();
         } else {
@@ -81,7 +81,7 @@ public class WordTopicAllAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bindData(int position) {
-            WordTopicAllBean.RowsBean rowsBean = mRowsBeanList.get(position);
+            WordTopicListBean.RowsBean rowsBean = mRowsBeanList.get(position);
             Glide.with(mContext).load(I.BASE_URL + rowsBean.getHEAD_PATH()).into(imgAvatar);
             Glide.with(mContext).load(I.BASE_URL + rowsBean.getCOVERIMG()).into(imgBg);
             tvNick.setText(rowsBean.getNICK_NAME());
