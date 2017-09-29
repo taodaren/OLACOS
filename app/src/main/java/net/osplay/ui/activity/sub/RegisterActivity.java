@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,6 +22,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.UserCodeBean;
 import net.osplay.service.entity.UserIsNickNameBean;
 import net.osplay.service.entity.UserIsRegisterBean;
+import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.utils.VerificationUtil;
 
@@ -196,44 +198,53 @@ public class RegisterActivity extends BaseActivity {
 
     //提交用户信息
     private void submitRegisterInfo() {
-        if (!(editPhoneCode.equals(code1))) {
+        if (!(editPhoneCode.getText().toString().equals(code1))) {
             Toast.makeText(RegisterActivity.this, "验证码不正确", Toast.LENGTH_SHORT).show();
         } else {
-//            Request<String> request = NoHttp.createStringRequest(I.REGISTER, RequestMethod.POST);
-//            request.add("NICK_NAME", editAccount.getText().toString());
-//            request.add("PHONE", editPhone.getText().toString());
-//            request.add("PASSWORD", editPassword.getText().toString());
-//            requestQueue.add(0, request, new OnResponseListener<String>() {
-//                @Override
-//                public void onStart(int what) {
-//
-//                }
-//
-//                @Override
-//                public void onSucceed(int what, Response<String> response) {
-//                    String code = response.get();
-//                    Log.e("JGB", "-----------" + code);
-//                    if (code != null) {
-//                        formatCodeJson(code);
-//                    } else {
-//                        return;
-//                    }
-//                   // submitRegister();
-//                }
-//
-//                @Override
-//                public void onFailed(int what, Response<String> response) {
-//
-//                }
-//
-//                @Override
-//                public void onFinish(int what) {
-//
-//                }
-//            });
+            Request<String> request = NoHttp.createStringRequest(I.REGISTER, RequestMethod.POST);
+            request.add("NICK_NAME", editAccount.getText().toString());
+            request.add("PHONE", editPhone.getText().toString());
+            request.add("PASSWORD", editPassword.getText().toString());
+            requestQueue.add(0, request, new OnResponseListener<String>() {
+                @Override
+                public void onStart(int what) {
+
+                }
+                @Override
+                public void onSucceed(int what, Response<String> response) {
+                    String json = response.get();
+                    Log.e("JGB","submit----------"+json);
+                    if(json!=null){
+                        formatSubmit(json);
+                    }else{
+                        return;
+                    }
+
+                }
+
+                @Override
+                public void onFailed(int what, Response<String> response) {
+
+                }
+
+                @Override
+                public void onFinish(int what) {
+
+                }
+            });
         }
     }
 
+    private void formatSubmit(String json) {
+        UserRegisterBean userRegisterBean = mGson.fromJson(json, UserRegisterBean.class);
+        String registCode = userRegisterBean.getCode();
+        if(registCode.equals("true")){
+            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
+            startActivity(intent);
+        }
+
+    }
 
 
     public void getCode() {
@@ -250,7 +261,7 @@ public class RegisterActivity extends BaseActivity {
                 String code = response.get();
                 Log.e("JGB","-----------"+code);
                 if(code!=null){
-                   // formatCodeJson(code);
+                    formatCodeJson(code);
                 }else{
                     return;
                 }
@@ -268,10 +279,10 @@ public class RegisterActivity extends BaseActivity {
         });
     }
 
-//    private void formatCodeJson(String code) {
-//        UserCodeBean userCodeBean = mGson.fromJson(code, UserCodeBean.class);
-//        code1 = userCodeBean.getCode();
-//    }
+    private void formatCodeJson(String code) {
+        UserCodeBean userCodeBean = mGson.fromJson(code, UserCodeBean.class);
+        code1 = userCodeBean.getCode();
+    }
 
 
 

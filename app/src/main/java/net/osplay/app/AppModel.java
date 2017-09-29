@@ -4,7 +4,6 @@ import android.content.Context;
 
 import net.osplay.data.bean.Account;
 import net.osplay.data.db.GreenDaoHelper;
-import net.osplay.utils.Constants;
 import net.osplay.utils.SharedPfUtil;
 
 import java.util.List;
@@ -66,4 +65,6 @@ public class AppModel {
     public void setCurrentUser(Account account) {
         GreenDaoHelper.getDaoSession().insertOrReplace(account);
     }
+
+
 }

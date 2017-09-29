@@ -17,7 +17,7 @@ public class AppHelper {
     private String pwd;
     private String token;
     private boolean isLogin;
-
+    private String nickIcon;
     private AppHelper() {
     }
 
@@ -89,6 +89,7 @@ public class AppHelper {
         }
         return this.user;
     }
+
 
     public void setUser(Account account) {
         if (account != null) {

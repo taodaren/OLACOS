@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -34,16 +37,17 @@ public class LoginActivity extends BaseActivity {
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+
     }
 
     private void initView() {
         setToolbar("登录", View.VISIBLE);
-
         editAccount = (EditText) findViewById(R.id.edit_account_login);
         editPassword = (EditText) findViewById(R.id.edit_password_login);
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
@@ -68,11 +72,13 @@ public class LoginActivity extends BaseActivity {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
+
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
+                Log.e("JGB","login----------"+json);
                 if (json != null) {
                     UserLoginBean userLoginBean = gson.fromJson(json, UserLoginBean.class);
                     isLoginOk = userLoginBean.getOk();
@@ -107,6 +113,7 @@ public class LoginActivity extends BaseActivity {
                     // set login state
                     AppHelper.getInstance().setLogined(true);
                 }
+
                 String loginId = getIntent().getStringExtra("loginId");
                 switch (loginId) {
                     case "loginHeck"://签到
@@ -127,6 +134,33 @@ public class LoginActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        //显示需要菜单项，隐藏多余菜单项
+        menu.findItem(R.id.menu_register).setVisible(true);
+        menu.findItem(R.id.menu_set).setVisible(false);
+        menu.findItem(R.id.menu_category).setVisible(false);
+        menu.findItem(R.id.menu_code).setVisible(false);
+        menu.findItem(R.id.menu_search).setVisible(false);
+        menu.findItem(R.id.menu_msg).setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_register:
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
+                break;
+        }
+        return true;
     }
 
 }

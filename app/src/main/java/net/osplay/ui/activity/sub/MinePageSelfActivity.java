@@ -9,14 +9,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import net.osplay.app.AppHelper;
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
 import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
 import net.osplay.ui.fragment.sub.MinePageWordFragment;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 个人主页（自己）
@@ -25,6 +33,9 @@ import net.osplay.ui.fragment.sub.MinePageWordFragment;
 public class MinePageSelfActivity extends BaseActivity implements View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private CircleImageView nickIcon;
+    private TextView tv_mine_page_praise,attention_tv,fans_tv,tv_mine_page_info;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,19 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_mine_page_self);
         setToolbar();
         initView();
+        setUserInfo();
+    }
+
+    private void setUserInfo() {
+        if(AppHelper.getInstance().isLogined()){
+            Glide.with(MinePageSelfActivity.this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nickIcon);
+            tv_mine_page_praise.setText(AppHelper.getInstance().getUser().getNICK_NAME());
+            attention_tv.setText(AppHelper.getInstance().getUser().getFOCUS_COUNT());
+            fans_tv.setText(AppHelper.getInstance().getUser().getFANS_COUNT());
+            tv_mine_page_info.setText(AppHelper.getInstance().getUser().getINTRODUCE());
+
+        }
+
     }
 
     private void setToolbar() {
@@ -52,6 +76,11 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         findViewById(R.id.btn_mine_page_edit_picture).setOnClickListener(this);
+        nickIcon= (CircleImageView) findViewById(R.id.mine_page_avatar);
+        tv_mine_page_praise= (TextView) findViewById(R.id.tv_mine_page_praise);
+        attention_tv= (TextView) findViewById(R.id.attention_tv);
+        fans_tv= (TextView) findViewById(R.id.fans_tv);
+        tv_mine_page_info= (TextView) findViewById(R.id.tv_mine_page_info);
         setTabLayout();
     }
 

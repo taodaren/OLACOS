@@ -91,6 +91,7 @@
                 android:background="@color/white">
 
                 <TextView
+
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -99,6 +100,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/name_tv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -128,10 +130,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
-                    android:text="年龄"
+                    android:text="出生日期"
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/age_tv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -165,45 +168,13 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/xingxuo_tv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="摩羯座"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="5dp"
-                    android:padding="5dp"
-                    android:src="@drawable/mine_right" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/edit_info_blood"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:text="血型"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="5dp"
-                    android:text="A"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -231,6 +202,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/area_tv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -265,6 +237,7 @@
                     android:textSize="15sp" />
 
                 <TextView
+                    android:id="@+id/Certification"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -274,6 +247,7 @@
                     android:textSize="14sp" />
 
                 <ImageView
+                    android:id="@+id/shiming_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

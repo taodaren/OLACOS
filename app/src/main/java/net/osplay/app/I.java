@@ -83,6 +83,7 @@ public interface I {
         String PASS_WORD = "account_pwd";
         String IS_LOGIN = "is_login";
         String TOKEN = "account_token";
+        String NICK_ICON="nick_icon";
     }
 
     interface Img {
