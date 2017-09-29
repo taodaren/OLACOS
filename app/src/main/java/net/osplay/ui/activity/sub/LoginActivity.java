@@ -131,6 +131,11 @@ public class LoginActivity extends BaseActivity {
                                 CreateOrJoinActivity.class));
                         finish();
                         break;
+                    case "loginMine"://个人中心
+                        startActivity(new Intent(LoginActivity.this,
+                                MinePageSelfActivity.class));
+                        finish();
+                        break;
                 }
                 break;
         }

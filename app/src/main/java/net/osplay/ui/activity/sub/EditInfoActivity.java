@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -20,9 +21,10 @@ import net.osplay.ui.activity.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditInfoActivity extends BaseActivity implements View.OnClickListener {
+public class EditInfoActivity extends BaseActivity  {
 
 
     @BindView(R.id.text_city)
@@ -63,6 +65,7 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
     ImageView shimingTv;
     @BindView(R.id.edit_info_real_name)
     LinearLayout editInfoRealName;
+    private String shenhe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +73,10 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         setToolbar("编辑资料", View.VISIBLE);
-        findViewById(R.id.edit_info_real_name).setOnClickListener(this);
         setUserInfo();
+
     }
+
     private void setUserInfo() {
         if (AppHelper.getInstance().isLogined()) {
             Glide.with(EditInfoActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(mineAvatar);
@@ -80,7 +84,19 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
             ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
             xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
             areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
-//            shimingTv.setText(AppHelper.getInstance().getUser().);
+            shenhe = AppHelper.getInstance().getUser().getSHENHE();
+            switch (shenhe) {
+                case "0":
+                    Certification.setText("已审核");
+                    break;
+                case "1":
+                    Certification.setText("审核未通过");
+                    break;
+                case "2":
+                    Certification.setText("待审核");
+
+                    break;
+            }
         }
     }
 
@@ -94,12 +110,49 @@ public class EditInfoActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.edit_info_real_name:
-                startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
+
+
+    @OnClick({R.id.name_tv, R.id.age_tv, R.id.xingxuo_tv, R.id.area_tv,R.id.Certification})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.name_tv:
+                Intent intent =new  Intent(EditInfoActivity.this,ChangeNameActivity.class);
+                intent.putExtra("nameTv",nameTv.getText().toString());
+                startActivityForResult(intent,1);
                 break;
+            case R.id.age_tv:
+                Intent intent2 =new  Intent(EditInfoActivity.this,ChangeAgeActivity.class);
+                intent2.putExtra("ageTv",ageTv.getText().toString());
+                startActivityForResult(intent2,2);
+                break;
+            case R.id.xingxuo_tv:
+                Intent intent3 =new  Intent(EditInfoActivity.this,ChangeXingzuoActivity.class);
+                intent3.putExtra("xingzuoTv",xingxuoTv.getText().toString());
+                startActivityForResult(intent3,3);
+                break;
+            case R.id.area_tv:
+                Intent intent4 =new  Intent(EditInfoActivity.this,ChangeAreaActivity.class);
+                intent4.putExtra("area_tv",areaTv.getText().toString());
+                startActivityForResult(intent4,4);
+                break;
+            case R.id.Certification:
+                if(shenhe.equals(2)){
+                    startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
+                }else{
+                   Toast.makeText(EditInfoActivity.this,"您已实名认证过",Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+           if(data.getStringExtra("returnName")!=null){
+               nameTv.setText(data.getStringExtra("returnName"));
+           }
+
         }
     }
 }

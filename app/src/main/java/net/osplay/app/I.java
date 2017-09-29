@@ -23,6 +23,8 @@ public interface I {
     String IS_REGISTER = BASE_URL + "/memberMobile/checkPhone.do";
     //检查昵称是否存在
     String IS_NICKNAME=BASE_URL + "/memberMobile/testNickName.do";
+    //修改个人信息
+    String CHANGE_USER=BASE_URL + "/memberMobile/updateMember.do";
 
     // TODO: 2017/9/24 社区
     //加入的专区

@@ -12,6 +12,7 @@ import android.view.View;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
+import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.sub.TabGoodsFragment;
 import net.osplay.ui.fragment.sub.TabHomeFragment;
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.nav_avatar:
-                startActivity(new Intent(this, MinePageSelfActivity.class));
+                MFGT.gotoLogin(MainActivity.this, MinePageSelfActivity.class, "loginMine");
                 break;
             case R.id.nav_code:
                 startActivity(new Intent(this, QRCodeActivity.class));

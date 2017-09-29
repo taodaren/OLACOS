@@ -240,8 +240,7 @@ public class RegisterActivity extends BaseActivity {
         String registCode = userRegisterBean.getCode();
         if(registCode.equals("true")){
             Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-            Intent intent=new Intent(RegisterActivity.this,LoginActivity.class);
-            startActivity(intent);
+           finish();
         }
 
     }
