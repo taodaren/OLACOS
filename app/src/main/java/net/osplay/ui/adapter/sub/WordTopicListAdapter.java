@@ -82,7 +82,11 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bindData(int position) {
             WordTopicListBean.RowsBean rowsBean = mRowsBeanList.get(position);
-            Glide.with(mContext).load(I.BASE_URL + rowsBean.getHEAD_PATH()).into(imgAvatar);
+            if (rowsBean.getHEAD_PATH() != null) {
+                Glide.with(mContext).load(I.BASE_URL + rowsBean.getHEAD_PATH()).into(imgAvatar);
+            } else {
+                Glide.with(mContext).load(R.drawable.avatar_default).into(imgAvatar);
+            }
             Glide.with(mContext).load(I.BASE_URL + rowsBean.getCOVERIMG()).into(imgBg);
             tvNick.setText(rowsBean.getNICK_NAME());
             tvTime.setText(rowsBean.getCREATEDATE());
