@@ -103,6 +103,7 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
     private void getData(final int action) {
         Request<String> request = NoHttp.createStringRequest(I.POSTS_LIST, RequestMethod.POST);
         request.add("twoPartId", parentId);
+        request.add("typeId", 1);//精品
         request.add("page", page);
         request.add("size", DATA_COUNT);
         requestQueue.add(0, request, new OnResponseListener<String>() {
