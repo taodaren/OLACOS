@@ -2,6 +2,7 @@ package net.osplay.ui.adapter.sub;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,6 +116,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         public void onClick(View v) {
+            WordTopicListBean.RowsBean bean = mRowsBeanList.get(getAdapterPosition());
             switch (v.getId()) {
                 case R.id.img_topic_list_avatar:
                     Toast.makeText(mContext, "click Avatar", Toast.LENGTH_SHORT).show();
@@ -125,10 +127,10 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         if (flag == 0) {
                             imgZan.setImageResource(R.drawable.ic_sugar_selected);
-                            Toast.makeText(mContext, "zan+1", Toast.LENGTH_SHORT).show();
+                            tvZan.setText(String.valueOf(Integer.parseInt(bean.getZAN_COUNT()) + 1));
                         } else if (flag == 1) {
                             imgZan.setImageResource(R.drawable.ic_sugar_unselected);
-                            Toast.makeText(mContext, "zan-1", Toast.LENGTH_SHORT).show();
+                            tvZan.setText(String.valueOf(Integer.parseInt(bean.getZAN_COUNT()) - 1));
                         }
                         flag = (flag + 1) % 2;
                     }
