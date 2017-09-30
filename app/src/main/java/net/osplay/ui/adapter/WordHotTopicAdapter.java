@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import net.osplay.app.I;
-import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
@@ -27,7 +26,6 @@ import java.util.List;
 public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Activity mContext;
     private LayoutInflater mInflater;
-
     private List<WordTopicBean> mTopicBeanList;
 
     public WordHotTopicAdapter(Activity mContext, List<WordTopicBean> mTopicBeanList) {
@@ -90,10 +88,9 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             intent.putExtra(I.Img.IMG_KEY, topicBean.getImgId());
                             intent.putExtra(I.Type.TYPE_NAME, topicBean.getName());
                             mContext.startActivity(intent);
-                            //MFGT.gotoLogin(mContext, DetailsTopicActivity.class, "loginTopic");
                             break;
                         case 1://斗图
-                            MFGT.gotoLogin(mContext, DetailsDouPictureActivity.class, "loginDou");
+                            mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));
                             break;
                         default:
                             break;
