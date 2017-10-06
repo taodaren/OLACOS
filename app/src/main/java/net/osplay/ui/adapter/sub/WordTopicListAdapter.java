@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter.sub;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicListBean;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,11 +68,13 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     private class PostsInfoListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String TAG = "PostsInfoListHolder";
         private int flag;
         private View outView;
         private LinearLayout llZan, llCollect, llComment;
         private TextView tvNick, tvTime, tvTitle, tvZan, tvCollect, tvComment;
         private ImageView imgAvatar, imgBg, imgZan, imgCollect;
+        private String postsId;//帖子 ID
 
         private PostsInfoListHolder(View itemView) {
             super(itemView);
@@ -104,6 +108,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvZan.setText(rowsBean.getZAN_COUNT());
             tvCollect.setText(rowsBean.getCOLLECT_COUNT());
             tvComment.setText(rowsBean.getPINGLUN_COUNT());
+            postsId = rowsBean.getID();
         }
 
         public void setClickListener() {
@@ -153,7 +158,10 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Toast.makeText(mContext, "click outView", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "postsId=================================" + postsId);
+                    Intent intent = new Intent(mContext, DetailsPostsActivity.class);
+                    intent.putExtra(I.Posts.POSTS_ID, postsId);
+                    mContext.startActivity(intent);
                     break;
             }
         }
