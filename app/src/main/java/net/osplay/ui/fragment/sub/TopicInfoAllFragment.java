@@ -40,7 +40,7 @@ import butterknife.Unbinder;
 public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListener, OnLoadMoreListener {
     private static final String TAG = "TopicInfoAllFragment";
     private static final int ACTION_REFRESH = 0;
-    private static final int ACTION_LOADMORE = 1;
+    private static final int ACTION_LOAD_MORE = 1;
     private static final int DATA_COUNT = 10;
     @BindView(R.id.swipe_target)
     RecyclerView swipeTarget;
@@ -54,7 +54,6 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
     private String parentId;
     private List<WordTopicAllBean.RowsBean> data = new ArrayList<>();
-    private LinearLayoutManager mLayoutManager;
     private WordTopicAllAdapter aAdapter;
 
     public static TopicInfoAllFragment newInstance(String parentId) {
@@ -74,7 +73,7 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         swipeTarget.setHasFixedSize(true);
         swipeTarget.setLayoutManager(mLayoutManager);
 
@@ -84,9 +83,14 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
 
     @Override
     public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_topic_info_all, null);
+        return View.inflate(getContext(), R.layout.fragment_topic_info_all, null);
+    }
 
-        return inflate;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
     @Override
@@ -109,7 +113,7 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 if (json != null) {
-                    // 处理total为0的情况
+                    // 处理 total 为 0 的情况
                     String s = json.substring(9, 10);
                     if (!s.equals("0")) {
                         WordTopicAllBean wordTopicAllBean = gson.fromJson(json, WordTopicAllBean.class);
@@ -141,7 +145,7 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
                     // close refresh
                     this.showRefreshing(false);
                     break;
-                case ACTION_LOADMORE:
+                case ACTION_LOAD_MORE:
                     data.addAll(tempList);
                     this.showLoadMoreing(false);
                     break;
@@ -159,14 +163,6 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
         if (swipeTarget != null & swipeTarget.getAdapter() == null) {
             swipeTarget.setAdapter(aAdapter);
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
     @Override
@@ -218,7 +214,7 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     public void onLoadMore() {
         if (checkoutLoadMoreState()) {
             page++;
-            getData(ACTION_LOADMORE);
+            getData(ACTION_LOAD_MORE);
         } else {
             showLoadMoreing(false);
             mSwipe.setLoadMoreEnabled(false);
@@ -226,7 +222,6 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     }
 
     /**
-     *
      * @return true:can load more; false: no load more
      */
     private boolean checkoutLoadMoreState() {
@@ -235,7 +230,7 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
 
     @Override
     public void onRefresh() {
-        // 重置状态
+        //重置状态
         resetState();
         getData(ACTION_REFRESH);
     }
