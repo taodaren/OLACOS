@@ -16,7 +16,7 @@
             android:layout_height="100dp">
 
             <ImageView
-                android:id="@id/img_hot_posts_bg"
+                android:id="@+id/img_hot_posts_list_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
@@ -29,7 +29,7 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/tv_hot_posts_info"
+                    android:id="@+id/tv_hot_posts_info_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -48,26 +48,15 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/tv_hot_posts_type"
+                android:id="@+id/tv_hot_posts_type_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="摄影"
                 android:textColor="@color/colorPrimaryDark" />
 
-<!--            <TextView
-                android:id="@+id/tv_hot_posts_nick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/tv_hot_posts_type"
-                android:text="osplay"
-                android:textColor="@color/colorBlack2"
-                android:textSize="13sp" />-->
-
             <TextView
-                android:id="@+id/tv_hot_posts_comment"
+                android:id="@+id/tv_hot_posts_comment_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

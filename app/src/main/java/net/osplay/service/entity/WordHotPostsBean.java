@@ -84,8 +84,8 @@ public class WordHotPostsBean {
 
         private String PINGLUN_COUNT;//帖子评论数量
         private String COVERIMG;//帖子封面图
-        private String VIEW_COUNT;//帖子标题
-        private String TITLE;//帖子阅读量
+        private String VIEW_COUNT;//帖子阅读量
+        private String TITLE;//帖子标题
         private String PARTNAME;//专区名字
         private String ID;//帖子id
 

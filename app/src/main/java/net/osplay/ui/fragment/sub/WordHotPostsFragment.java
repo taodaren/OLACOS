@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -18,14 +17,10 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.VideoBean;
-import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,9 +31,10 @@ public class WordHotPostsFragment extends BaseFragment {
     private static final String TAG = "WordHotPostsFragment";
 
     private RecyclerView mRvHotPosts;
-    //    private List<VideoBean> mHotPostsList;
-    private List<WordHotPostsBean> mHotPostsList;
     private Gson gson = new Gson();
+    private WordHotPostsBean mWordHotPostsBean;
+    private List<WordHotPostsBean.PartBean> mPartList;
+    private List<WordHotPostsBean.DataBean> mDataList;
 
     @SuppressLint("ValidFragment")
     public WordHotPostsFragment() {
@@ -81,12 +77,12 @@ public class WordHotPostsFragment extends BaseFragment {
                 Log.d(TAG, "onSucceed: 热帖主界面请求 --> " + json);
 
                 //数据解析
-                WordHotPostsBean wordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);
-                List<WordHotPostsBean.PartBean> part = wordHotPostsBean.getPart();
-                List<WordHotPostsBean.DataBean> data = wordHotPostsBean.getData();
-                Log.d(TAG, "onSucceed: 热帖主界面 part 解析结果 --> " + part);
-                Log.d(TAG, "onSucceed: 热帖主界面 data 解析结果 --> " + data);
-//                initRecyclerView();
+                mWordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);
+                mPartList = mWordHotPostsBean.getPart();
+                mDataList = mWordHotPostsBean.getData();
+                Log.d(TAG, "onSucceed: 热帖主界面 part 解析结果 --> " + mPartList);
+                Log.d(TAG, "onSucceed: 热帖主界面 data 解析结果 --> " + mDataList);
+                initRecyclerView();
             }
 
             @Override
@@ -101,14 +97,14 @@ public class WordHotPostsFragment extends BaseFragment {
         });
     }
 
-//    private void initRecyclerView() {
-//        if (mHotPostsList != null) {
-//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
-//            mRvHotPosts.setLayoutManager(layoutManager);
-//            mRvHotPosts.setHasFixedSize(true);
-//            mRvHotPosts.setAdapter(adapter);
-//        }
-//    }
+    private void initRecyclerView() {
+        if (mWordHotPostsBean != null) {
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mPartList, mDataList);
+            mRvHotPosts.setLayoutManager(layoutManager);
+            mRvHotPosts.setHasFixedSize(true);
+            mRvHotPosts.setAdapter(adapter);
+        }
+    }
 
 }

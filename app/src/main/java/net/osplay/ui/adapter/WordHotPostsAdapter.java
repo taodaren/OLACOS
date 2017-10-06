@@ -15,9 +15,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.VideoBean;
+import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
@@ -31,14 +32,16 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Activity mContext;
     private LayoutInflater mInflater;
 
-    private List<VideoBean> mHotPostsList;
+    private List<WordHotPostsBean.PartBean> mPartList;
+    private List<WordHotPostsBean.DataBean> mDataList;
 
-    public WordHotPostsAdapter(Activity context, List<VideoBean> data) {
+    public WordHotPostsAdapter(Activity context, List<WordHotPostsBean.PartBean> partList, List<WordHotPostsBean.DataBean> dataList) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
-
-        this.mHotPostsList = new ArrayList<>();
-        this.mHotPostsList.addAll(data);
+        this.mPartList = new ArrayList<>();
+        this.mDataList = new ArrayList<>();
+        this.mPartList.addAll(partList);
+        this.mDataList.addAll(dataList);
     }
 
     @Override
@@ -50,21 +53,18 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((PostsViewHolder) holder).bindData(mHotPostsList.get(position), position, mHotPostsList);
+        ((PostsViewHolder) holder).bindData(position);
     }
 
     @Override
     public int getItemCount() {
-        return mHotPostsList == null ? 0 : mHotPostsList.size();
+        return mPartList == null && mDataList == null ? 0 : mPartList.size();
     }
 
     private class PostsViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView recyclerPosts;
-        private List<VideoBean> postsList;
         private PostsInfoAdapter adapter;
-
         private LinearLayout layout;
-        //        private Button btnClick, btnMore;
         private ImageView imgHead, imgRefresh;
         private TextView tvHead, tvNumber;
 
@@ -72,29 +72,17 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(inflate);
             layout = (LinearLayout) inflate.findViewById(R.id.layout_hot_posts_title);
             recyclerPosts = (RecyclerView) inflate.findViewById(R.id.recycler_hot_posts);
-//            btnClick = (Button) inflate.findViewById(R.id.btn_hot_posts_click);
-//            btnMore = (Button) inflate.findViewById(R.id.btn_hot_posts_more);
             imgRefresh = (ImageView) inflate.findViewById(R.id.img_hot_posts_refresh);
             imgHead = (ImageView) inflate.findViewById(R.id.img_hot_posts_head);
             tvHead = (TextView) inflate.findViewById(R.id.tv_hot_posts_head);
             tvNumber = (TextView) inflate.findViewById(R.id.tv_posts_refresh_num);
         }
 
-        public void bindData(VideoBean videoBean, int position, List<VideoBean> beanList) {
+        public void bindData(int position) {
             //网络接口数据
 //            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgHead);
 
             //模拟数据
-            List<String> strTypes = new ArrayList<>();
-            strTypes.add("COS专区");
-            strTypes.add("服装区");
-            strTypes.add("模玩区");
-            strTypes.add("游戏区");
-            strTypes.add("动漫区");
-            strTypes.add("影视区");
-            strTypes.add("同人区");
-            strTypes.add("周边区");
-
             List<Integer> niTypes = new ArrayList<>();
             niTypes.add(R.drawable.hot_posts_cos);
             niTypes.add(R.drawable.hot_posts_clothing);
@@ -106,22 +94,13 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             niTypes.add(R.drawable.hot_posts_periphery);
 
             imgHead.setImageResource(niTypes.get(position));
-            tvHead.setText(strTypes.get(position));
-            tvNumber.setText(videoBean.getVideoLength() + "条新动态，点击刷新！");
+            tvHead.setText(mPartList.get(position).getPART());
+            tvNumber.setText(mPartList.get(position).getTOPICK_COUNT() + "条新动态，点击刷新！");
 
-            if (beanList != null && !beanList.isEmpty()) {
-                this.postsList = new ArrayList<>();
-                for (int i = 0; i < 4; i++) {
-                    postsList.add(beanList.get(i));
-                }
-//                this.postsList.addAll(beanList);
-
-                GridLayoutManager layoutManager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
-                recyclerPosts.setLayoutManager(layoutManager);
-
-                adapter = new PostsInfoAdapter(mContext, postsList);
-                recyclerPosts.setAdapter(adapter);
-            }
+            GridLayoutManager layoutManager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
+            recyclerPosts.setLayoutManager(layoutManager);
+            adapter = new PostsInfoAdapter(mContext, mDataList);
+            recyclerPosts.setAdapter(adapter);
         }
 
         private void setClickListener() {
@@ -138,31 +117,18 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Toast.makeText(mContext, "刷新数据，动态数亦随之变化", Toast.LENGTH_SHORT).show();
                 }
             });
-
-//            btnMore.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext, "跳转到更多界面，开发中...", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//            btnClick.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext, "跳转到未知界面，开发中...", Toast.LENGTH_SHORT).show();
-//                }
-//            });
         }
 
         private class PostsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private Activity context;
             private LayoutInflater inflater;
-            private List<VideoBean> datas;
+            private List<WordHotPostsBean.DataBean> dataList;
 
-            private PostsInfoAdapter(Activity context, List<VideoBean> list) {
+            private PostsInfoAdapter(Activity context, List<WordHotPostsBean.DataBean> list) {
                 this.context = context;
                 this.inflater = LayoutInflater.from(this.context);
-                this.datas = new ArrayList<>();
-                this.datas.addAll(list);
+                this.dataList = new ArrayList<>();
+                this.dataList.addAll(list);
             }
 
             @Override
@@ -174,27 +140,26 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                ((PostsInfoHolder) holder).bindData(datas.get(position));
+                ((PostsInfoHolder) holder).bindData(dataList.get(position));
             }
 
             @Override
             public int getItemCount() {
-                return datas == null ? 0 : datas.size();
+                return dataList == null ? 0 : 4;
             }
 
             private class PostsInfoHolder extends RecyclerView.ViewHolder {
                 private View outView;
                 private ImageView imgShow;
-                private TextView tvInfo, tvType, tvNick, tvComment;
+                private TextView tvInfo, tvType, tvComment;
 
                 private PostsInfoHolder(View view) {
                     super(view);
                     outView = view;
-                    imgShow = (ImageView) view.findViewById(R.id.img_hot_posts_bg);
-                    tvInfo = (TextView) view.findViewById(R.id.tv_hot_posts_info);
-                    tvType = (TextView) view.findViewById(R.id.tv_hot_posts_type);
-//                    tvNick = (TextView) view.findViewById(R.id.tv_hot_posts_nick);
-                    tvComment = (TextView) view.findViewById(R.id.tv_hot_posts_comment);
+                    imgShow = (ImageView) view.findViewById(R.id.img_hot_posts_list_bg);
+                    tvInfo = (TextView) view.findViewById(R.id.tv_hot_posts_info_list);
+                    tvType = (TextView) view.findViewById(R.id.tv_hot_posts_type_list);
+                    tvComment = (TextView) view.findViewById(R.id.tv_hot_posts_comment_list);
                 }
 
                 public void setClickListener() {
@@ -206,10 +171,11 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     });
                 }
 
-                public void bindData(VideoBean videoBean) {
-                    Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgShow);
-                    tvInfo.setText(videoBean.getSummary() + videoBean.getSummary());
-//                    tvComment.setText(videoBean.getVideoLength());
+                public void bindData(WordHotPostsBean.DataBean dataBean) {
+                    Glide.with(MyApplication.getContext()).load(I.BASE_URL + dataBean.getCOVERIMG()).into(imgShow);
+                    tvInfo.setText(dataBean.getTITLE());
+                    tvType.setText(dataBean.getPARTNAME());
+                    tvComment.setText(dataBean.getPINGLUN_COUNT());
                 }
             }
         }
