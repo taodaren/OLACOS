@@ -20,6 +20,7 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.VideoMapperBean;
+import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
@@ -35,7 +36,8 @@ public class WordHotPostsFragment extends BaseFragment {
     private static final String TAG = "WordHotPostsFragment";
 
     private RecyclerView mRvHotPosts;
-    private List<VideoBean> mHotPostsList;
+    //    private List<VideoBean> mHotPostsList;
+    private List<WordHotPostsBean> mHotPostsList;
     private Gson gson = new Gson();
 
     @SuppressLint("ValidFragment")
@@ -60,7 +62,7 @@ public class WordHotPostsFragment extends BaseFragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
 
         //创建一个字符串类型请求，自定义请求方法。
-        Request<String> requestHotPosts = NoHttp.createStringRequest(I.HOME_DETAIL, RequestMethod.GET);
+        Request<String> requestHotPosts = NoHttp.createStringRequest(I.POSTS_HOT_LIST, RequestMethod.POST);
 
         //获取数据请求并解析
         getHotPostsData(requestQueue, requestHotPosts);
@@ -76,19 +78,15 @@ public class WordHotPostsFragment extends BaseFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: HotPostsRequest====================" + json);
+                Log.d(TAG, "onSucceed: 热帖主界面请求 --> " + json);
 
-                //数据解析（集合）
-                Type type = new TypeToken<VideoMapperBean>() {
-                }.getType();
-                VideoMapperBean bean = gson.fromJson(json, type);
-                List<VideoBean> temp = bean.getTrailers();
-                mHotPostsList = new ArrayList<>();
-                for (int i = 0; i < 8; i++) {
-                    mHotPostsList.add(temp.get(i));
-                }
-
-                initRecyclerView();
+                //数据解析
+                WordHotPostsBean wordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);
+                List<WordHotPostsBean.PartBean> part = wordHotPostsBean.getPart();
+                List<WordHotPostsBean.DataBean> data = wordHotPostsBean.getData();
+                Log.d(TAG, "onSucceed: 热帖主界面 part 解析结果 --> " + part);
+                Log.d(TAG, "onSucceed: 热帖主界面 data 解析结果 --> " + data);
+//                initRecyclerView();
             }
 
             @Override
@@ -103,14 +101,14 @@ public class WordHotPostsFragment extends BaseFragment {
         });
     }
 
-    private void initRecyclerView() {
-        if (mHotPostsList != null) {
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
-            mRvHotPosts.setLayoutManager(layoutManager);
-            mRvHotPosts.setHasFixedSize(true);
-            mRvHotPosts.setAdapter(adapter);
-        }
-    }
+//    private void initRecyclerView() {
+//        if (mHotPostsList != null) {
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+//            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mHotPostsList);
+//            mRvHotPosts.setLayoutManager(layoutManager);
+//            mRvHotPosts.setHasFixedSize(true);
+//            mRvHotPosts.setAdapter(adapter);
+//        }
+//    }
 
 }
