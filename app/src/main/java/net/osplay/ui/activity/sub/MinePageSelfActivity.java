@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,9 +18,14 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
-import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
-import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
-import net.osplay.ui.fragment.sub.MinePageWordFragment;
+import net.osplay.ui.adapter.base.FragmentAdapter;
+import net.osplay.ui.fragment.sub.MyFansFragment;
+import net.osplay.ui.fragment.sub.MycollectionFragment;
+import net.osplay.ui.fragment.sub.MyfocusFragment;
+import net.osplay.ui.fragment.sub.MypostsFragment;
+import net.osplay.ui.fragment.sub.MyareaFragment;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,8 +36,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MinePageSelfActivity extends BaseActivity implements View.OnClickListener {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private FragmentAdapter fragmentAdapter = null;
+    private List<Fragment> lists = new ArrayList<>();
+    private String[] titles = new String[]{"我的专区", "我的帖子", "我的收藏","我的关注","我的粉丝"};
     private CircleImageView nickIcon;
     private TextView tv_mine_page_praise,attention_tv,fans_tv,tv_mine_page_info;
+    private MyareaFragment aFragment;
+    private MypostsFragment  pFragment;
+    private MycollectionFragment cFragment;
+    private MyfocusFragment fcFragemnt;
+    private MyFansFragment  faFragment;
+
+    
 
 
     @Override
@@ -77,6 +90,13 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
         attention_tv= (TextView) findViewById(R.id.attention_tv);
         fans_tv= (TextView) findViewById(R.id.fans_tv);
         tv_mine_page_info= (TextView) findViewById(R.id.tv_mine_page_info);
+        tabLayout = (TabLayout) findViewById(R.id.tl_mine_page);
+        viewPager = (ViewPager) findViewById(R.id.vp_mine_page);
+        aFragment=new MyareaFragment();
+        pFragment=new MypostsFragment();
+        cFragment=new MycollectionFragment();
+        fcFragemnt=new MyfocusFragment();
+        faFragment=new MyFansFragment();
         setTabLayout();
     }
 
@@ -84,38 +104,15 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
      * 设置 TabLayout
      */
     private void setTabLayout() {
-        tabLayout = (TabLayout) findViewById(R.id.tl_mine_page);
-        viewPager = (ViewPager) findViewById(R.id.vp_mine_page);
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
-            String[] itemName = {"商品", "动态", "社区"};
+        lists.add(aFragment);
+        lists.add(pFragment);
+        lists.add(cFragment);
+        lists.add(fcFragemnt);
+        lists.add(faFragment);
+        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), MinePageSelfActivity.this, lists, titles);
+        viewPager.setAdapter(fragmentAdapter);
+        tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
 
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new MinePageGoodsFragment();
-                    case 1:
-                        return new MinePageDynamicFragment();
-                    case 2:
-                        return new MinePageWordFragment();
-                }
-                return new MinePageGoodsFragment();
-            }
-
-            @Override
-            public int getCount() {
-                return itemName.length;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return itemName[position];
-            }
-        });
-
-//        viewPager.setAdapter(new MyTabAdapter(getSupportFragmentManager()));
-        //绑定
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override

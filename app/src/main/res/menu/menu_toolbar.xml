@@ -31,4 +31,6 @@
         android:icon="@drawable/menu_msg"
         android:title="消息"
         app:showAsAction="always" />
+
+
 </menu>

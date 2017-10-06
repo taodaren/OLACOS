@@ -120,7 +120,8 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String isName= response.get();
-                Log.e("JGB","-----------is"+isName);
+
+                Log.e("JGB","-----------is:"+isName);
                 if(isName!=null){
                     formatName(isName);
                 }else{

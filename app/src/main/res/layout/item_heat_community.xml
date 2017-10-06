@@ -10,10 +10,10 @@
         android:padding="10dp">
 
         <net.osplay.utils.XCRoundRectImageView
-            android:id="@+id/heat_avatar_iv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/heat" />
+        android:id="@+id/heat_avatar_iv"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/heat" />
 
         <TextView
             android:id="@+id/heat_title_tv"

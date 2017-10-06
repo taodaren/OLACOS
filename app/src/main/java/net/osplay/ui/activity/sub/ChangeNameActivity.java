@@ -55,8 +55,7 @@ public class ChangeNameActivity extends BaseActivity {
         Intent returnName = new Intent();
         returnName.putExtra("returnName",changeName.getText().toString());
         setResult(1,returnName);
-            formatChangeName();
-
+        formatChangeName();
         finish();
     }
 
@@ -71,6 +70,7 @@ public class ChangeNameActivity extends BaseActivity {
         request.add("XINGZUO",AppHelper.getInstance().getUser().getXINGZUO());
         request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
         request.add("LOCAL_DRESS",AppHelper.getInstance().getUser().getLOCAL_DRESS());
+      //  http://www.olacos.net//memberMobile/updateMember.do?ID=69f1badc98cc441c838310561d11bcb7&NICK_NAME=呆子&CN=朱呵呵&BIRTHDAY=1994-11-06&TARGET=1&XINGZUO=天蝎座&INTRODUCE=啊累累&LOCAL_DRESS=北京
 //        request.add("ID","69f1badc98cc441c838310561d11bcb7");
 //        request.add("NICK_NAME","呆子");
 //        request.add("CN","朱呵呵");
@@ -79,6 +79,7 @@ public class ChangeNameActivity extends BaseActivity {
 //        request.add("XINGZUO","天蝎座");
 //        request.add("INTRODUCE","啊累累");
 //        request.add("LOCAL_DRESS","北京");
+
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {

@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 import net.osplay.olacos.R;
 
 /**
- * 个人主页-商品
+ * 个人中心--我的关注
  */
-public class MinePageGoodsFragment extends Fragment {
+public class MyFansFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mine_page_goods, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_my_fans, container, false);
+        return inflate;
     }
 
 }

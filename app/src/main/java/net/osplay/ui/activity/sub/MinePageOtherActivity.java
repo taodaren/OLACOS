@@ -14,9 +14,9 @@ import android.view.View;
 
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
-import net.osplay.ui.fragment.sub.MinePageDynamicFragment;
-import net.osplay.ui.fragment.sub.MinePageGoodsFragment;
-import net.osplay.ui.fragment.sub.MinePageWordFragment;
+import net.osplay.ui.fragment.sub.MycollectionFragment;
+import net.osplay.ui.fragment.sub.MypostsFragment;
+import net.osplay.ui.fragment.sub.MyareaFragment;
 
 /**
  * 个人主页（他人）
@@ -68,13 +68,13 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return new MinePageGoodsFragment();
+                        return new MyareaFragment();
                     case 1:
-                        return new MinePageDynamicFragment();
+                        return new MypostsFragment();
                     case 2:
-                        return new MinePageWordFragment();
+                        return new MycollectionFragment();
                 }
-                return new MinePageGoodsFragment();
+                return new MyareaFragment();
             }
 
             @Override

@@ -1,11 +1,13 @@
 package net.osplay.ui.activity.sub;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,6 +20,8 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -121,9 +125,7 @@ public class EditInfoActivity extends BaseActivity  {
                 startActivityForResult(intent,1);
                 break;
             case R.id.age_tv:
-                Intent intent2 =new  Intent(EditInfoActivity.this,ChangeAgeActivity.class);
-                intent2.putExtra("ageTv",ageTv.getText().toString());
-                startActivityForResult(intent2,2);
+                getDate();
                 break;
             case R.id.xingxuo_tv:
                 Intent intent3 =new  Intent(EditInfoActivity.this,ChangeXingzuoActivity.class);
@@ -149,10 +151,33 @@ public class EditInfoActivity extends BaseActivity  {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == 1){
+            if (data == null)
+                return;
            if(data.getStringExtra("returnName")!=null){
                nameTv.setText(data.getStringExtra("returnName"));
            }
 
         }
     }
-}
+
+    public void getDate() {
+        //获取 Calendar 对象，用于获取当前时间
+        Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerStart = new DatePickerDialog(EditInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    //选择完日期后会调用该回调函数
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                        //因为 monthOfYear 会比实际月份少一月所以这边要加 1
+                        ageTv.setText(year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
+                    }
+                }, year, month, day);
+                //弹出选择日期对话框
+                datePickerStart.show();
+
+        }
+    }
+
