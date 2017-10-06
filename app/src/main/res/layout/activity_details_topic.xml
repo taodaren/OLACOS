@@ -94,6 +94,7 @@
                             android:background="@drawable/shape_yuan"
                             android:text="关注专区"
                             android:textSize="14sp" />
+
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>

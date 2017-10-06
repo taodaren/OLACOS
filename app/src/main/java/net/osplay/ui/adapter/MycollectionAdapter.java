@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MyAreaBean;
 import net.osplay.service.entity.MycollectionBean;
+import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by fanyanmin on 2017/9/30.
+ *
  */
 
 public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder> {
@@ -47,6 +50,13 @@ public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         holder.item_collection_good.setText(rows.get(position).getZAN_COUNT());
         holder.item_collection_collect.setText(rows.get(position).getCOLLECT_COUNT());
         holder.item_collection_comment.setText(rows.get(position).getPINGLUN_COUNT());
+        holder.item_collection_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, MinePageOtherActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

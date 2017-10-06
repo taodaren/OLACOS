@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.DetailsAttentionBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -63,6 +65,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private ViewPager mViewPager;
     private Gson gson = new Gson();
     private int flag;
+    private String partId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +118,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
-        String partId = getIntent().getStringExtra("partId");//获取大区 id
+        //获取大区 id
+        partId = getIntent().getStringExtra("partId");
 
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
@@ -212,16 +216,19 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 break;
+            // TODO: 2017/10/6  取消关注时接口存在问题
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     if (flag == 0) {
-                        btnAttention.setText("已关注");
+                        attentionHttp();//关注
+                        btnAttention.setText("已专区");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     } else if (flag == 1) {
+                        unsubscribeHttp();//取消关注
                         btnAttention.setText("关注专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -230,6 +237,78 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, MinePageOtherActivity.class));
                 break;
         }
+    }
+
+    private void unsubscribeHttp() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        request.add("memberId",AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId",partId);
+        request.add("mark",1);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB","取消关注："+json);
+                if(json!=null){
+
+                }else{
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+
+
+
+    private void attentionHttp() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        request.add("memberId",AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId",partId);
+        request.add("mark",0);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB","关注："+json);
+                if(json!=null){
+                }else{
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
     }
 
 }

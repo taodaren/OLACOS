@@ -1,7 +1,9 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import com.bumptech.glide.Glide;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MyAreaBean;
+import net.osplay.ui.activity.sub.DetailsTopicActivity;
+import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
 
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -39,9 +43,17 @@ public class MyAreaAdapter extends RecyclerView.Adapter<AreaViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(AreaViewHolder holder, int position) {
+    public void onBindViewHolder(AreaViewHolder holder, final int position) {
         Glide.with(context).load(I.BASE_URL+rows.get(position).getPART_PATH()).into(holder.area_picture);
         holder.area_name.setText(rows.get(position).getPART());
+        holder.myarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context,DetailsTopicActivity.class);
+                intent.putExtra("partId", rows.get(position).getID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

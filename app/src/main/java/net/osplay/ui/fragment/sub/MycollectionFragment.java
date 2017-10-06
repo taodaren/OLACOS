@@ -66,7 +66,7 @@ public class MycollectionFragment extends Fragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","-----------:"+json);
+                Log.e("JGB","我的收藏:"+json);
                 if(json!=null){
                     formatMyarea(json);
                 }else{

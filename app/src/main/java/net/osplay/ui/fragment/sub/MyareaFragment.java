@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -89,7 +90,7 @@ public class MyareaFragment extends Fragment {
     private void formatMyarea(String json) {
         MyAreaBean myAreaBean = mGson.fromJson(json, MyAreaBean.class);
         rows = myAreaBean.getRows();
-        area_recycler.setAdapter(new MyAreaAdapter(getContext(),rows) );
+        area_recycler.setAdapter(new MyAreaAdapter(getActivity(),rows) );
     }
 
 
