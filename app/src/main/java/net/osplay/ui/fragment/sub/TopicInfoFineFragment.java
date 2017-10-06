@@ -22,8 +22,8 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.WordTopicAllBean;
-import net.osplay.ui.adapter.sub.WordTopicAllAdapter;
+import net.osplay.service.entity.WordTopicListBean;
+import net.osplay.ui.adapter.sub.WordTopicListAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -53,8 +53,8 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
     private String parentId;
     private Gson gson = new Gson();
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
-    private List<WordTopicAllBean.RowsBean> data = new ArrayList<>();
-    private WordTopicAllAdapter aAdapter;
+    private List<WordTopicListBean.RowsBean> data = new ArrayList<>();
+    private WordTopicListAdapter aAdapter;
 
     public static TopicInfoFineFragment newInstance(String parentId) {
         TopicInfoFineFragment fragment = new TopicInfoFineFragment();
@@ -118,9 +118,9 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
                     // 处理 total 为 0 的情况
                     String s = json.substring(9, 10);
                     if (!s.equals("0")) {
-                        WordTopicAllBean wordTopicAllBean = gson.fromJson(json, WordTopicAllBean.class);
-                        count = wordTopicAllBean.getTotal();
-                        List<WordTopicAllBean.RowsBean> tempList = wordTopicAllBean.getRows();
+                        WordTopicListBean wordTopicListBean = gson.fromJson(json, WordTopicListBean.class);
+                        count = wordTopicListBean.getTotal();
+                        List<WordTopicListBean.RowsBean> tempList = wordTopicListBean.getRows();
                         resultData(tempList, action);
                     }
                 }
@@ -138,7 +138,7 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
         });
     }
 
-    private void resultData(List<WordTopicAllBean.RowsBean> tempList, int action) {
+    private void resultData(List<WordTopicListBean.RowsBean> tempList, int action) {
         if (tempList != null && !tempList.isEmpty()) {
             switch (action) {
                 case ACTION_REFRESH:
@@ -158,7 +158,7 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
 
     private void showListView() {
         if (aAdapter == null) {
-            aAdapter = new WordTopicAllAdapter(getContext(), data);
+            aAdapter = new WordTopicListAdapter(getContext(), data);
         } else {
             aAdapter.setData(data);
         }

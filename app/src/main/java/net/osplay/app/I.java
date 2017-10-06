@@ -8,13 +8,17 @@ public interface I {
 
     // TODO: 正式接口
 
-    /**基础 url**/
+    /**
+     * 基础 url
+     **/
     String BASE_URL = "http://www.olacos.net/";//服务器域名
 //    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
 //    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
 //    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
 
-    /**注册登录**/
+    /**
+     * 注册登录
+     **/
     //注册
     String REGISTER = BASE_URL + "/memberMobile/memberSave.do";
     //登录
@@ -55,7 +59,9 @@ public interface I {
 
 
 
-    /**社区**/
+    /**
+     * 社区
+     **/
     //加入的专区
     String ADD_WORD = BASE_URL + "/partMobile/myarrondi.do";
     //推荐的专区
@@ -77,7 +83,9 @@ public interface I {
     //帖子详情
     String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
 
-    /**评论**/
+    /**
+     * 评论
+     **/
     //查询一级评论总数（用于评论分页）
     String QUERY_COMMENT_COUNT = BASE_URL + "/topicMobile/queryOneCommentCount.do";
     //分页查询一级评论及一级评论下默认显示的二级评论
@@ -85,20 +93,26 @@ public interface I {
     //分页查询二级评论
     String QUERY_COMMENT_SUB = BASE_URL + "/topicMobile/queryTwoCommentPage.do";
 
-    /**提交评论**/
+    /**
+     * 提交评论
+     **/
     //查询可以@的所有用户
     String FOLLOW_ALL_AT = BASE_URL + "/topicMobile/followAll.do";
     //保存评论
     String WORD_ = BASE_URL + "/topicMobile/publishComment.do";
 
-    /**热帖**/
+    /**
+     * 热帖
+     **/
     //热帖列表
     String POSTS_HOT_LIST = BASE_URL + "/topicMobile/hotTopic.do";
     //热帖刷新
     String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
 
 
-    /**获取省市国家等数据**/
+    /**
+     * 获取省市国家等数据
+     **/
     String ASCII_CITY = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js";
 
 
@@ -134,6 +148,10 @@ public interface I {
 
     interface Organization {
         String PARENT_ID = "organization_parent_id";
+    }
+
+    interface Posts {
+        String POSTS_ID = "posts_id";
     }
 
 }

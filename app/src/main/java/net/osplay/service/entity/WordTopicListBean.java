@@ -3,14 +3,14 @@ package net.osplay.service.entity;
 import java.util.List;
 
 /**
- * 专区分区帖子列表实体类
+ * 社区帖子详情--全部
  */
 
 public class WordTopicListBean {
 
     /**
-     * total : 1
-     * rows : [{"PINGLUN_COUNT":"0","COVERIMG":"/upLoadResource/34520819a194447584a9fb768618053b/木道公社-轻武器（枪械类道具）2439.png","BOUTIQUE":"0","ZAN_COUNT":"0","ZAN":"false","CREATEDATE":"2017-09-16 18:28:14","COLLECT_COUNT":"1","USERID":"9e23d87dc3e2446396998c0f40426727","COLLECT":"false","TITLE":"【展示】木道公社-轻武器（枪械类道具）","ID":"984a7a46016c426c8883893f7e850e1a","NICK_NAME":"taodaren"}]
+     * total : 27
+     * rows : [{"PINGLUN_COUNT":"1","COVERIMG":"/upLoadResource/2a40340a5c06479caeea39f8007dda4b/1496453261173.jpg","BOUTIQUE":"1","ZAN_COUNT":"1","ZAN":"false","CREATEDATE":"2017-09-21 18:59:40","COLLECT_COUNT":"2","USERID":"3f68feea89784e20873f1de2e694880c","COLLECT":"false","TITLE":"问问","ID":"7517c971cdf94713b33f66472ef9ad39","NICK_NAME":"雪颜er"},{"COVERIMG":"/upLoadResource/24447a99880c40f7aab44e2fd44217c5/QQ截图20170901095901.jpg","BOUTIQUE":"1","ZAN_COUNT":"1","ZAN":"false","CREATEDATE":"2017-09-16 18:37:02","COLLECT":"false","HEAD_PATH":"/upLoadResource/f54acfc07faa465a8ce61366eefb6a9e/f54acfc07faa465a8ce61366eefb6a9e.png","NICK_NAME":"江","PINGLUN_COUNT":"3","COLLECT_COUNT":"6","USERID":"667b6b89c10f41c5aba9980fa47c8b76","TITLE":"sdfsdf","ID":"2aa2027c86f545ba954d6923d24b5817"}]
      */
 
     private int total;
@@ -34,18 +34,19 @@ public class WordTopicListBean {
 
     public static class RowsBean {
         /**
-         * PINGLUN_COUNT : 0
-         * COVERIMG : /upLoadResource/34520819a194447584a9fb768618053b/木道公社-轻武器（枪械类道具）2439.png
-         * BOUTIQUE : 0
-         * ZAN_COUNT : 0
+         * PINGLUN_COUNT : 1
+         * COVERIMG : /upLoadResource/2a40340a5c06479caeea39f8007dda4b/1496453261173.jpg
+         * BOUTIQUE : 1
+         * ZAN_COUNT : 1
          * ZAN : false
-         * CREATEDATE : 2017-09-16 18:28:14
-         * COLLECT_COUNT : 1
-         * USERID : 9e23d87dc3e2446396998c0f40426727
+         * CREATEDATE : 2017-09-21 18:59:40
+         * COLLECT_COUNT : 2
+         * USERID : 3f68feea89784e20873f1de2e694880c
          * COLLECT : false
-         * TITLE : 【展示】木道公社-轻武器（枪械类道具）
-         * ID : 984a7a46016c426c8883893f7e850e1a
-         * NICK_NAME : taodaren
+         * TITLE : 问问
+         * ID : 7517c971cdf94713b33f66472ef9ad39
+         * NICK_NAME : 雪颜er
+         * HEAD_PATH : /upLoadResource/f54acfc07faa465a8ce61366eefb6a9e/f54acfc07faa465a8ce61366eefb6a9e.png
          */
 
         private String PINGLUN_COUNT;
@@ -60,6 +61,7 @@ public class WordTopicListBean {
         private String TITLE;
         private String ID;
         private String NICK_NAME;
+        private String HEAD_PATH;
 
         public String getPINGLUN_COUNT() {
             return PINGLUN_COUNT;
@@ -155,6 +157,14 @@ public class WordTopicListBean {
 
         public void setNICK_NAME(String NICK_NAME) {
             this.NICK_NAME = NICK_NAME;
+        }
+
+        public String getHEAD_PATH() {
+            return HEAD_PATH;
+        }
+
+        public void setHEAD_PATH(String HEAD_PATH) {
+            this.HEAD_PATH = HEAD_PATH;
         }
     }
 }
