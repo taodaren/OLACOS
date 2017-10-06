@@ -55,6 +55,8 @@ public interface I {
     String GOOD=BASE_URL + "/centerMobile/zan.do";
     //验证是否关注当前的专区
     String IS_ATTENTION=BASE_URL + "/centerMobile/departBymemberId.do";
+    //他人个人主页
+    String OTHER_CENTER=BASE_URL + "/member/getMemberInfo.do";
 
 
 

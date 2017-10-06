@@ -41,7 +41,7 @@ public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
     }
 
     @Override
-    public void onBindViewHolder(CollectionViewHolder holder, int position) {
+    public void onBindViewHolder(CollectionViewHolder holder, final int position) {
         Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.item_collection_avatar);
         Glide.with(context).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_collection_icon);
         holder.item_collection_nick.setText(rows.get(position).getNICK_NAME());
@@ -50,13 +50,6 @@ public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         holder.item_collection_good.setText(rows.get(position).getZAN_COUNT());
         holder.item_collection_collect.setText(rows.get(position).getCOLLECT_COUNT());
         holder.item_collection_comment.setText(rows.get(position).getPINGLUN_COUNT());
-        holder.item_collection_avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(context, MinePageOtherActivity.class);
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
