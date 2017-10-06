@@ -24,6 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 修改个人姓名
+ */
 public class ChangeNameActivity extends BaseActivity {
 
     @BindView(R.id.change_name)

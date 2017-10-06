@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,6 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
@@ -28,6 +35,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * 全部个人信息
+ */
 public class EditInfoActivity extends BaseActivity  {
 
 
@@ -143,10 +153,11 @@ public class EditInfoActivity extends BaseActivity  {
                 }else{
                    Toast.makeText(EditInfoActivity.this,"您已实名认证过",Toast.LENGTH_SHORT).show();
                 }
-
                 break;
         }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -160,13 +171,13 @@ public class EditInfoActivity extends BaseActivity  {
         }
     }
 
+    //修改时间
     public void getDate() {
         //获取 Calendar 对象，用于获取当前时间
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
         DatePickerDialog datePickerStart = new DatePickerDialog(EditInfoActivity.this, new DatePickerDialog.OnDateSetListener() {
                     //选择完日期后会调用该回调函数
                     @Override
@@ -177,7 +188,6 @@ public class EditInfoActivity extends BaseActivity  {
                 }, year, month, day);
                 //弹出选择日期对话框
                 datePickerStart.show();
-
         }
     }
 
