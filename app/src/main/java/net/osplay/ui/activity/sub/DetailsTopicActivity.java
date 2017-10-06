@@ -52,7 +52,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.tv_topic_details_level)
     TextView tvTopicDetailsLevel;
     @BindView(R.id.pb_topic_details_level)
-    ProgressBar pbTopicDetailsLevel;
+    ProgressBar progressBar;
     @BindView(R.id.topic_page_avatar)
     CircleImageView topicPageAvatar;
     @BindView(R.id.btn_topic_heck_in)
@@ -62,7 +62,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private ViewPager mViewPager;
     private Gson gson = new Gson();
-    private TabLayout tabLayout;
     private int flag;
 
     @Override
@@ -86,7 +85,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         btnAttention.setOnClickListener(this);
         topicPageAvatar.setOnClickListener(this);
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
 
         tabLayout.setupWithViewPager(mViewPager);
@@ -98,7 +97,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private void changeViewByState() {
         if (!AppHelper.getInstance().isLogined()) {
             tvTopicDetailsLevel.setVisibility(View.GONE);
-            pbTopicDetailsLevel.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             Intent intent = getIntent();
             if (intent != null) {
                 String title = intent.getStringExtra(I.Type.TYPE_NAME);
@@ -108,7 +107,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             }
         } else {
             tvTopicDetailsLevel.setVisibility(View.VISIBLE);
-            pbTopicDetailsLevel.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
             // set Avatar
             Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
             topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
@@ -206,11 +205,11 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
                         btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
-                    } else if (flag == 1) {
-                        btnHeckIn.setText("签到");
-                        btnHeckIn.setBackgroundResource(R.drawable.shape_yuan);
+                        progressBar.setProgress(progressBar.getProgress() + 10);
+                        flag++;
+                    } else {
+                        Toast.makeText(this, "今天签完啦，明天再来呦~", Toast.LENGTH_SHORT).show();
                     }
-                    flag = (flag + 1) % 2;
                 }
                 break;
             case R.id.btn_topic_attention://关注
@@ -221,7 +220,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                         btnAttention.setText("已关注");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     } else if (flag == 1) {
-                        btnAttention.setText("关注");
+                        btnAttention.setText("关注专区");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan);
                     }
                     flag = (flag + 1) % 2;

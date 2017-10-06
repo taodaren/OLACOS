@@ -1,6 +1,7 @@
 package net.osplay.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import net.osplay.ui.activity.sub.LoginActivity;
@@ -34,6 +35,10 @@ public class MFGT {
      */
     public static void gotoLogin(Activity activity, String strLogin) {
         activity.startActivity(new Intent(activity, LoginActivity.class).putExtra("loginId", strLogin));
+    }
+
+    public static void gotoLogin(Context context, String strLogin) {
+        context.startActivity(new Intent(context, LoginActivity.class).putExtra("loginId", strLogin));
     }
 
 }

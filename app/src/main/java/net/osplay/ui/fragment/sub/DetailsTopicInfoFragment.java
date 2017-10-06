@@ -1,7 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -30,9 +29,9 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     private static final int FRAGMENT_CITY = 2;
     @BindView(R.id.container_fm_details_topic_info)
     FrameLayout containerFmDetailsTopicInfo;
-    Unbinder unbinder;
     @BindView(R.id.tbl_fm_details_topic_info)
     TabLayout tblFmDetailsTopicInfo;
+    Unbinder unbinder;
 
     private Fragment[] mFragments;
     private BaseFragment currentFragment;
@@ -41,27 +40,17 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
     private TopicInfoCityFragment mCityFragment;
     private String parentId;
 
-    @SuppressLint("ValidFragment")
-    public DetailsTopicInfoFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public DetailsTopicInfoFragment(Context context, int resId) {
-        super(context, resId);
-    }
-
-    @Override
-    public View initView() {
-        View inflate = View.inflate(getContext(), R.layout.fragment_details_topic_info, null);
-        return inflate;
-    }
-
     public static DetailsTopicInfoFragment newInstance(String parentId) {
         DetailsTopicInfoFragment fragment = new DetailsTopicInfoFragment();
         Bundle bundle = new Bundle();
         bundle.putString(I.Organization.PARENT_ID, parentId);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public View initView() {
+        return View.inflate(getContext(), R.layout.fragment_details_topic_info, null);
     }
 
     @Override
@@ -143,12 +132,10 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
-
     }
 
     @Override
@@ -156,4 +143,5 @@ public class DetailsTopicInfoFragment extends BaseFragment implements TabLayout.
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }
