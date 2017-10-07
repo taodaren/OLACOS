@@ -30,7 +30,7 @@ import net.osplay.ui.adapter.MyFocusAdapter;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 个人中心-----我的关注
  */
 public class MyfocusFragment extends Fragment {
     private View inflate;

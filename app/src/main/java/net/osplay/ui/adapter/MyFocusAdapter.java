@@ -42,7 +42,7 @@ public class MyFocusAdapter extends RecyclerView.Adapter<FocusViewHolder> {
 
     @Override
     public void onBindViewHolder(FocusViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).placeholder(R.drawable.all4).into(holder.focus_user_icon);
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.focus_user_icon);
         holder.focus_nick_name.setText(rows.get(position).getNICK_NAME());
         holder.focus_ll.setOnClickListener(new View.OnClickListener() {
             @Override

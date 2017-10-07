@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -48,8 +49,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MinePageOtherActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.tv_mine_page_other_praise)
     TextView tvMinePageOtherPraise;
-    @BindView(R.id.mine_page_other_praise)
-    LinearLayout minePageOtherPraise;
     @BindView(R.id.mine_page_other_follow)
     LinearLayout minePageOtherFollow;
     @BindView(R.id.mine_page_other_fans)
@@ -68,33 +67,41 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
     TabLayout tlMinePageOther;
     @BindView(R.id.vp_mine_page_other)
     ViewPager vpMinePageOther;
+    @BindView(R.id.focus_tv)
+    TextView focusTv;
+    @BindView(R.id.fans_tv)
+    TextView fansTv;
 
     private FragmentAdapter fragmentAdapter = null;
     private List<Fragment> lists = new ArrayList<>();
-    private String[] titles = new String[]{"我的专区", "我的帖子", "我的收藏", "我的关注", "我的粉丝"};
+    private String[] titles = new String[]{"足迹", "百宝箱", "idol", "情敌"};
     private OtherPostsFragment pFragment;//帖子
     private OtherCollectionFragment cFragment;//收藏
     private OtherFocusFragment fcFragemnt;//关注
-    private OtherFansFragment faFragment;//
+    private OtherFansFragment faFragment;//粉丝
     private Gson mGson = new Gson();
-    private OtherCenterBean otherCenterBean;
     private List<OtherCenterBean> otherList;
+    private String memberId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        memberId = getIntent().getStringExtra("memberId");
         setContentView(R.layout.activity_mine_page_other);
         ButterKnife.bind(this);
         setToolbar();
         initView();
         initData();
-        //setUserInfo();
+        Bundle bundle = new Bundle();
+        bundle.putString("otherMemberId", memberId);
+        pFragment.setArguments(bundle);
+        cFragment.setArguments(bundle);
+        fcFragemnt.setArguments(bundle);
+        faFragment.setArguments(bundle);
     }
-
 
     //得到其他个人信息
     private void initData() {
-        String memberId = getIntent().getStringExtra("memberId");
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.OTHER_CENTER, RequestMethod.POST);
         request.add("memberId", memberId);
@@ -127,10 +134,16 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         });
     }
 
+    //设置用户信息
     private void formatCenter(String json) {
         Type type = new TypeToken<List<OtherCenterBean>>() {
         }.getType();
         otherList = mGson.fromJson(json, type);
+        Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).into(minePageOtherAvatar);
+        tvMinePageOtherPraise.setText(otherList.get(0).getNICK_NAME());
+        focusTv.setText(otherList.get(0).getFOCUS_COUNT());
+        fansTv.setText(otherList.get(0).getFANS_COUNT());
+        tvMinePageOtherInfo.setText(otherList.get(0).getINTRODUCE());
 
     }
 
@@ -161,6 +174,7 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setTabLayout() {
+        Log.e("JGB","其他用户的id："+memberId);
         lists.add(pFragment);
         lists.add(cFragment);
         lists.add(fcFragemnt);

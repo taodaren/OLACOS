@@ -240,6 +240,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void unsubscribeHttp() {
+
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
         request.add("memberId",AppHelper.getInstance().getUser().getID());
@@ -274,10 +275,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-
-
-
     private void attentionHttp() {
+        Log.e("DTA","关注的专区=="+partId);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
         request.add("memberId",AppHelper.getInstance().getUser().getID());

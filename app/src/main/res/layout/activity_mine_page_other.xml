@@ -55,39 +55,16 @@
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="3dp">
 
-                        <LinearLayout
-                            android:id="@+id/mine_page_other_praise"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:padding="3dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:text="2"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="13sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                android:text="赞"
-                                android:textColor="@color/colorTiShiWenZi"
-                                android:textSize="13sp" />
-                        </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/mine_page_other_follow"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/mine_page_other_praise"
                             android:gravity="center"
                             android:padding="3dp">
 
                             <TextView
+                                android:id="@+id/focus_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="2dp"
@@ -113,6 +90,7 @@
                             android:padding="3dp">
 
                             <TextView
+                                android:id="@+id/fans_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="2dp"

@@ -3,6 +3,7 @@ package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,16 @@ import net.osplay.olacos.R;
  */
 public class OtherCollectionFragment extends Fragment {
 
-
-    public OtherCollectionFragment() {
-        // Required empty public constructor
-    }
-
+    private View inflate;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_other_collection, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        inflate = inflater.inflate(R.layout.fragment_other_collection, container, false);
+        Bundle bundle = getArguments();//从activity传过来的Bundle
+        if(bundle!=null){
+            Log.e("O","百宝箱"+bundle.getString("otherMemberId"));
+        }
+        return inflate;
     }
 
 }

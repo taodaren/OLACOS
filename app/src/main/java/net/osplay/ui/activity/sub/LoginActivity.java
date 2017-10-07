@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity {
                         break;
                     case "loginAttention"://关注
                         finish();
+                        break;
                     case "loginCOJ"://社团活动
                         startActivity(new Intent(LoginActivity.this,
                                 CreateOrJoinActivity.class));
