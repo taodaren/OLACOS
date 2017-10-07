@@ -3,7 +3,7 @@ package net.osplay.service.entity;
 import java.util.List;
 
 /**
- * 社区：热区 → 热帖
+ * 社区：热区 → 热帖列表
  */
 
 public class WordHotPostsBean {

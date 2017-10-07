@@ -80,8 +80,8 @@ public class WordHotPostsFragment extends BaseFragment {
                 mWordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);
                 mPartList = mWordHotPostsBean.getPart();
                 mDataList = mWordHotPostsBean.getData();
-                Log.d(TAG, "onSucceed: 热帖主界面 part 解析结果 --> " + mPartList);
-                Log.d(TAG, "onSucceed: 热帖主界面 data 解析结果 --> " + mDataList);
+                Log.d(TAG, "热帖主界面 part 解析 Succeed");
+                Log.d(TAG, "热帖主界面 data 解析 Succeed");
                 initRecyclerView();
             }
 
