@@ -63,7 +63,7 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setUserInfo() {
-            Glide.with(MinePageSelfActivity.this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nickIcon);
+        Glide.with(MinePageSelfActivity.this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nickIcon);
             tv_mine_page_praise.setText(AppHelper.getInstance().getUser().getNICK_NAME());
             attention_tv.setText(AppHelper.getInstance().getUser().getFOCUS_COUNT());
             fans_tv.setText(AppHelper.getInstance().getUser().getFANS_COUNT());

@@ -71,7 +71,7 @@ public class MyfocusFragment extends Fragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "-----------fo:" + json);
+                Log.e("JGB", "关注的人数据:" + json);
                 if (json != null) {
                     formatMyfocus(json);
                 } else {

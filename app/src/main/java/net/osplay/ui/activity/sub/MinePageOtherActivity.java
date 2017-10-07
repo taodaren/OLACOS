@@ -25,6 +25,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.OtherCenterBean;
@@ -41,12 +42,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 个人主页（他人）
  */
-public class MinePageOtherActivity extends BaseActivity implements View.OnClickListener {
+public class MinePageOtherActivity extends BaseActivity  {
     @BindView(R.id.tv_mine_page_other_praise)
     TextView tvMinePageOtherPraise;
     @BindView(R.id.mine_page_other_follow)
@@ -57,8 +59,8 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
     TextView tvMinePageOtherInfo;
     @BindView(R.id.mine_page_other_avatar)
     CircleImageView minePageOtherAvatar;
-    @BindView(R.id.btn_mine_page_other_dou_picture)
-    Button btnMinePageOtherDouPicture;
+    @BindView(R.id.btn_mine_page_other_picture)
+    Button btnMinePageOtherPicture;
     @BindView(R.id.toolbar_mine_page_other)
     Toolbar toolbarMinePageOther;
     @BindView(R.id.collapsing_toolbar_mine_page_other)
@@ -91,7 +93,9 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         ButterKnife.bind(this);
         setToolbar();
         initView();
-        initData();
+        initUserData();//请求个人数据
+        // TODO: 2017/10/7   关注关系发生改变  没有返回值
+        initAttention();//请求关注信息
         Bundle bundle = new Bundle();
         bundle.putString("otherMemberId", memberId);
         pFragment.setArguments(bundle);
@@ -100,8 +104,44 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         faFragment.setArguments(bundle);
     }
 
+    private void initAttention() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.IS_FANS, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("followId", memberId);
+        request.add("mark", 1);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("TAG","关注信息："+json);
+                if (json != null) {
+
+                } else {
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
     //得到其他个人信息
-    private void initData() {
+    private void initUserData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.OTHER_CENTER, RequestMethod.POST);
         request.add("memberId", memberId);
@@ -143,7 +183,7 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         tvMinePageOtherPraise.setText(otherList.get(0).getNICK_NAME());
         focusTv.setText(otherList.get(0).getFOCUS_COUNT());
         fansTv.setText(otherList.get(0).getFANS_COUNT());
-        if(otherList.get(0).getINTRODUCE()!=null){
+        if (otherList.get(0).getINTRODUCE() != null) {
             tvMinePageOtherInfo.setText(otherList.get(0).getINTRODUCE());
         }
 
@@ -171,12 +211,9 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         fcFragemnt = new OtherFocusFragment();
         faFragment = new OtherFansFragment();
         setTabLayout();
-        findViewById(R.id.btn_mine_page_other_dou_picture).setOnClickListener(this);
-
     }
 
     private void setTabLayout() {
-        Log.e("JGB","其他用户的id："+memberId);
         lists.add(pFragment);
         lists.add(cFragment);
         lists.add(fcFragemnt);
@@ -196,12 +233,9 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         return true;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_mine_page_other_dou_picture://斗图
-                startActivity(new Intent(MinePageOtherActivity.this, DouPictureActivity.class));
-                break;
-        }
+
+    @OnClick(R.id.btn_mine_page_other_picture)
+    public void onViewClicked() {
+        startActivity(new Intent(MinePageOtherActivity.this, DouPictureActivity.class));
     }
 }

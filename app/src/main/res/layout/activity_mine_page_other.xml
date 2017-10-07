@@ -128,14 +128,14 @@
                     android:src="@drawable/avatar_boy" />
 
                 <Button
-                    android:id="@+id/btn_mine_page_other_dou_picture"
+                    android:id="@+id/btn_mine_page_other_picture"
                     android:layout_width="70dp"
                     android:layout_height="30dp"
                     android:layout_alignBottom="@+id/mine_page_other_avatar"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/btn_shape_white"
-                    android:text="斗图"
+                    android:text="关注"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
             </RelativeLayout>
