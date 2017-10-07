@@ -3,13 +3,13 @@ package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -27,21 +27,29 @@ import net.osplay.ui.adapter.MyPostsBean;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
- * 个人中心——我的帖子
+ * 个人中心——我的帖子(ok)
  */
 public class MypostsFragment extends Fragment {
 
+    @BindView(R.id.center_recycler)
+    RecyclerView centerRecycler;
+    @BindView(R.id.center_not_data_iv)
+    ImageView centerNotDataIv;
+    Unbinder unbinder;
     private View inflate;
-    private RecyclerView posts_recycler;
-    private Gson mGson=new Gson();
+    private Gson mGson = new Gson();
     private List<MyPostsBean.RowsBean> rows;
-    private int total;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflate = inflater.inflate(R.layout.fragment_mine_page_dynamic, container, false);
-        initView();
+        inflate = inflater.inflate(R.layout.center_layout, container, false);
+        unbinder = ButterKnife.bind(this, inflate);
+        centerRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         initData();
         return inflate;
     }
@@ -49,21 +57,22 @@ public class MypostsFragment extends Fragment {
     private void initData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_POSTS, RequestMethod.POST);
-        request.add("page","1");
-        request.add("rows","25");
+        request.add("page", "1");
+        request.add("rows", "25");
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
 
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","posts_____"+json);
-                if(json!=null){
+                Log.e("JGB", "posts_____" + json);
+                if (json != null) {
                     formatMyposts(json);
-                }else{
+                } else {
                     return;
                 }
 
@@ -83,15 +92,20 @@ public class MypostsFragment extends Fragment {
 
     private void formatMyposts(String json) {
         MyPostsBean myPostsBean = mGson.fromJson(json, MyPostsBean.class);
-        rows = myPostsBean.getRows();
-        total = myPostsBean.getTotal();
-        posts_recycler.setAdapter(new MyPostsAdapter(getContext(),rows));
+        if(myPostsBean.getTotal()==0){
+            centerRecycler.setVisibility(View.GONE);
+            centerNotDataIv.setVisibility(View.VISIBLE);
+        }else {
+            rows = myPostsBean.getRows();
+            centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));
+        }
+
     }
 
-    private void initView() {
-        posts_recycler= (RecyclerView) inflate.findViewById(R.id.posts_recycler);
-        posts_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
-
 }

@@ -139,11 +139,13 @@ public class MinePageOtherActivity extends BaseActivity implements View.OnClickL
         Type type = new TypeToken<List<OtherCenterBean>>() {
         }.getType();
         otherList = mGson.fromJson(json, type);
-        Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).into(minePageOtherAvatar);
+        Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).error(R.drawable.avatar_default).into(minePageOtherAvatar);
         tvMinePageOtherPraise.setText(otherList.get(0).getNICK_NAME());
         focusTv.setText(otherList.get(0).getFOCUS_COUNT());
         fansTv.setText(otherList.get(0).getFANS_COUNT());
-        tvMinePageOtherInfo.setText(otherList.get(0).getINTRODUCE());
+        if(otherList.get(0).getINTRODUCE()!=null){
+            tvMinePageOtherInfo.setText(otherList.get(0).getINTRODUCE());
+        }
 
     }
 

@@ -40,7 +40,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<PostsViewHolder> {
 
     @Override
     public void onBindViewHolder(PostsViewHolder holder, int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.item_posts_avatar);
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_posts_avatar);
         Glide.with(context).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_posts_icon);
         holder.item_topic_all_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_posts_time.setText(rows.get(position).getCREATEDATE());

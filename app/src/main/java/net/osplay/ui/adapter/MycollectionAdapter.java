@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -22,8 +23,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by fanyanmin on 2017/9/30.
- *
+ * 个人中心----我的收藏
  */
 
 public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder> {
@@ -42,7 +42,7 @@ public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
 
     @Override
     public void onBindViewHolder(CollectionViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.item_collection_avatar);
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_collection_avatar);
         Glide.with(context).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_collection_icon);
         holder.item_collection_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_collection_time.setText(rows.get(position).getCREATEDATE());

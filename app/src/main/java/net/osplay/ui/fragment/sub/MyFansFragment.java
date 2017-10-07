@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -26,28 +27,32 @@ import net.osplay.ui.adapter.MyFansAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 
 /**
- * 个人中心--我的粉丝
+ * 个人中心--我的粉丝(ok)
  */
 public class MyFansFragment extends Fragment {
+    @BindView(R.id.center_recycler)
+    RecyclerView centerRecycler;
+    @BindView(R.id.center_not_data_iv)
+    ImageView centerNotDataIv;
+    Unbinder unbinder;
     private View inflate;
-    private RecyclerView fans_recycler;
     private Gson mGson = new Gson();
     private List<MyFansBean.RowsBean> rows;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflate = inflater.inflate(R.layout.fragment_my_fans, container, false);
-        setView();
+        inflate = inflater.inflate(R.layout.center_layout, container, false);
+        unbinder = ButterKnife.bind(this, inflate);
+        centerRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         initData();
         return inflate;
-    }
-
-    private void setView() {
-        fans_recycler = (RecyclerView) inflate.findViewById(R.id.fans_recycler);
-        fans_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void initData() {
@@ -88,7 +93,19 @@ public class MyFansFragment extends Fragment {
 
     private void formatMyfans(String json) {
         MyFansBean myFansBean = mGson.fromJson(json, MyFansBean.class);
-        rows = myFansBean.getRows();
-        fans_recycler.setAdapter(new MyFansAdapter(getContext(), rows));
+        if(myFansBean.getTotal()==0){
+            centerRecycler.setVisibility(View.GONE);
+            centerNotDataIv.setVisibility(View.VISIBLE);
+        }else{
+            rows = myFansBean.getRows();
+            centerRecycler.setAdapter(new MyFansAdapter(getContext(), rows));
+        }
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

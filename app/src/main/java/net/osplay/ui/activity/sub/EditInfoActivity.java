@@ -92,7 +92,9 @@ public class EditInfoActivity extends BaseActivity  {
     }
 
     private void setUserInfo() {
-        if (AppHelper.getInstance().isLogined()) {
+        if (AppHelper.getInstance().getUser()==null) {
+            return;
+        }else{
             Glide.with(EditInfoActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(mineAvatar);
             nameTv.setText(AppHelper.getInstance().getUser().getCN());
             ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
@@ -110,7 +112,8 @@ public class EditInfoActivity extends BaseActivity  {
                     Certification.setText("待审核");
 
                     break;
-            }
+        }
+            
         }
     }
 

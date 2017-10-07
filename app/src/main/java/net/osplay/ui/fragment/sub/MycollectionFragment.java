@@ -3,13 +3,13 @@ package net.osplay.ui.fragment.sub;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -22,54 +22,58 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MyAreaBean;
 import net.osplay.service.entity.MycollectionBean;
-import net.osplay.ui.adapter.MyAreaAdapter;
 import net.osplay.ui.adapter.MycollectionAdapter;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
- * 个人中心---我的收藏
+ * 个人中心---我的收藏(ok)
  */
 public class MycollectionFragment extends Fragment {
 
+    @BindView(R.id.center_recycler)
+    RecyclerView centerRecycler;
+    @BindView(R.id.center_not_data_iv)
+    ImageView centerNotDataIv;
+    Unbinder unbinder;
     private View inflate;
-    private RecyclerView collection_recycler;
-    private Gson mGson=new Gson();
-    private List<MycollectionBean.RowsBean> rows;
 
+    private Gson mGson = new Gson();
+    private List<MycollectionBean.RowsBean> rows;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflate = inflater.inflate(R.layout.fragment_mine_page_word, container, false);
-        setView();
+        inflate = inflater.inflate(R.layout.center_layout, container, false);
+        unbinder = ButterKnife.bind(this, inflate);
+        centerRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         initData();
         return inflate;
-    }
-    private void setView() {
-        collection_recycler= (RecyclerView) inflate.findViewById(R.id.collection_recycler);
-        collection_recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void initData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_COLLECTION, RequestMethod.POST);
-        request.add("page","1");
-        request.add("rows","5");
+        request.add("page", "1");
+        request.add("rows", "5");
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
 
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","我的收藏:"+json);
-                if(json!=null){
+                Log.e("JGB", "我的收藏:" + json);
+                if (json != null) {
                     formatMyarea(json);
-                }else{
+                } else {
                     return;
                 }
 
@@ -89,10 +93,18 @@ public class MycollectionFragment extends Fragment {
 
     private void formatMyarea(String json) {
         MycollectionBean mycollectionBean = mGson.fromJson(json, MycollectionBean.class);
-        rows = mycollectionBean.getRows();
-        collection_recycler.setAdapter(new MycollectionAdapter(getContext(),rows) );
+        if (mycollectionBean.getTotal() == 0) {
+            centerRecycler.setVisibility(View.GONE);
+            centerNotDataIv.setVisibility(View.VISIBLE);
+        } else {
+            rows = mycollectionBean.getRows();
+            centerRecycler.setAdapter(new MycollectionAdapter(getContext(), rows));
+        }
     }
 
-
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
