@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,11 +125,11 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             private LayoutInflater inflater;
             private List<WordHotPostsBean.DataBean> dataList;
 
-            private PostsInfoAdapter(Activity context, List<WordHotPostsBean.DataBean> list) {
+            private PostsInfoAdapter(Activity context, List<WordHotPostsBean.DataBean> dataList) {
                 this.context = context;
                 this.inflater = LayoutInflater.from(this.context);
                 this.dataList = new ArrayList<>();
-                this.dataList.addAll(list);
+                this.dataList.addAll(dataList);
             }
 
             @Override
@@ -152,6 +153,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 private View outView;
                 private ImageView imgShow;
                 private TextView tvInfo, tvType, tvComment;
+                private String postsId, memberId;
 
                 private PostsInfoHolder(View view) {
                     super(view);
@@ -166,7 +168,9 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     outView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            context.startActivity(new Intent(context, DetailsPostsActivity.class));
+                            Intent intent = new Intent(context, DetailsPostsActivity.class);
+                            intent.putExtra("postsId", postsId);//携带帖子ID
+                            context.startActivity(intent);
                         }
                     });
                 }
@@ -176,6 +180,8 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     tvInfo.setText(dataBean.getTITLE());
                     tvType.setText(dataBean.getPARTNAME());
                     tvComment.setText(dataBean.getPINGLUN_COUNT());
+                    postsId = dataBean.getID();
+
                 }
             }
         }
