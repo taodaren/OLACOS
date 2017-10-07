@@ -11,8 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -20,14 +23,14 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MeiZiBean;
+import net.osplay.service.entity.WordDetailsPostsBean;
 import net.osplay.ui.activity.base.BaseActivity;
-import net.osplay.ui.adapter.DetailsPostsCommentAdapter;
 import net.osplay.ui.adapter.DetailsPostsContentAdapter;
-import net.osplay.ui.adapter.MessageAdapter;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -36,15 +39,16 @@ import java.util.List;
 
 public class DetailsPostsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DetailsPostsActivity";
-    private LinearLayout mllShow, mllHide;
-    private ImageView mImgSugar, mImgCollect;
-    private Button mBtnAttention;
     private int flag;
+    private LinearLayout mllShow, mllHide;
+    private ImageView mImgSugar, mImgCollect, mAvatar;
+    private Button mBtnAttention;
+    private TextView mTvNick, mTvTime, mTvType, mTvTitle;
 
     private RecyclerView mRvContent, mRvComment;
-    private List<MeiZiBean.ResultsBean> mContentList;
-    private List<MeiZiBean.ResultsBean> mCommentList;
     private Gson gson = new Gson();
+    private List<WordDetailsPostsBean> mContentList;
+    //    private List<MeiZiBean.ResultsBean> mCommentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +59,15 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
+        String postsId = getIntent().getStringExtra("postsId");
+        String memberId = AppHelper.getInstance().getUser().getID();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> msgRequest = NoHttp.createStringRequest(I.MSG_FULI, RequestMethod.GET);
-        getContentData(requestQueue, msgRequest);//帖子内容
-        getCommentData(requestQueue, msgRequest);//评论
+        Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
+        request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
+        request.add("memberId", memberId);//然并卵
+
+        getContentData(requestQueue, request);//帖子内容
+//        getCommentData(requestQueue, msgRequest);//评论
     }
 
     private void getContentData(RequestQueue requestQueue, Request<String> request) {
@@ -71,13 +80,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: 帖子详情内容 json 数据====================" + json);
+                Log.d(TAG, "onSucceed: 帖子详情 json 数据====================" + json);
 
-                //数据解析（集合）
-                MeiZiBean bean = gson.fromJson(json, MeiZiBean.class);
-                mContentList = bean.getResults();
-                Log.d(TAG, "onSucceed: 帖子详情内容解析结果====================" + mContentList);
-                initRvContent();
+                Type type = new TypeToken<List<WordDetailsPostsBean>>() {
+                }.getType();
+                mContentList = gson.fromJson(json, type);
+                Log.d(TAG, "帖子详情解析 Succeed");
+                initContentData();
             }
 
             @Override
@@ -92,49 +101,16 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void getCommentData(RequestQueue requestQueue, Request<String> request) {
-        requestQueue.add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: 帖子详情评论 json 数据====================" + json);
-
-                //数据解析（集合）
-                MeiZiBean bean = gson.fromJson(json, MeiZiBean.class);
-                mCommentList = bean.getResults();
-                Log.d(TAG, "onSucceed: 帖子详情评论解析结果====================" + mCommentList);
-                initRvComment();
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-
-            }
-
-            @Override
-            public void onFinish(int what) {
-
-            }
-        });
-    }
-
-    private void initRvComment() {
-        if (mCommentList != null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mRvComment.setLayoutManager(layoutManager);
-            mRvComment.setHasFixedSize(true);
-            DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentList);
-            mRvContent.setAdapter(adapter);
-        }
-    }
-
-    private void initRvContent() {
+    private void initContentData() {
         if (mContentList != null) {
+            for (int i = 0; i < mContentList.size(); i++) {
+                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getCOVERIMG()).into(mAvatar);
+                mTvNick.setText(mContentList.get(i).getNICK_NAME());
+                mTvTime.setText(mContentList.get(i).getCREATEDATE());
+                mTvType.setText(mContentList.get(i).getPART());
+                mTvTitle.setText(mContentList.get(i).getTITLE());
+            }
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);
             mRvContent.setHasFixedSize(true);
@@ -145,10 +121,15 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
-        mRvComment = (RecyclerView) findViewById(R.id.recycler_details_posts_comment);
+//        mRvComment = (RecyclerView) findViewById(R.id.recycler_details_posts_comment);
         setToolbar();
         mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
         mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);
+        mAvatar = (ImageView) findViewById(R.id.img_details_posts_avatar);
+        mTvNick = (TextView) findViewById(R.id.tv_details_posts_nick);
+        mTvTime = (TextView) findViewById(R.id.tv_details_posts_time);
+        mTvType = (TextView) findViewById(R.id.tv_details_posts_type);
+        mTvTitle = (TextView) findViewById(R.id.tv_details_posts_title);
         mImgSugar = (ImageView) findViewById(R.id.img_details_posts_sugar);
         mImgCollect = (ImageView) findViewById(R.id.img_details_posts_collect);
         mBtnAttention = (Button) findViewById(R.id.btn_details_posts_attention);
