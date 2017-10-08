@@ -20,6 +20,7 @@ import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordHotPostsBean;
+import net.osplay.service.entity.WordPostsRefreshBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
@@ -33,8 +34,10 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Activity mContext;
     private LayoutInflater mInflater;
 
-    private List<WordHotPostsBean.PartBean> mPartList;
-    private List<WordHotPostsBean.DataBean> mDataList;
+    private List<WordHotPostsBean.PartBean> mPartList;//热帖列表所有大区的信息
+    private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
+    private List<WordPostsRefreshBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
+    private List<WordPostsRefreshBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
 
     public WordHotPostsAdapter(Activity context, List<WordHotPostsBean.PartBean> partList, List<WordHotPostsBean.DataBean> dataList) {
         this.mContext = context;
@@ -48,7 +51,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PostsViewHolder holder = new PostsViewHolder(mInflater.inflate(R.layout.layout_word_hot_posts, parent, false));
-        holder.setClickListener();
+        holder.setClickListener(mDataList);
         return holder;
     }
 
@@ -104,7 +107,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             recyclerPosts.setAdapter(adapter);
         }
 
-        private void setClickListener() {
+        private void setClickListener(final List<WordHotPostsBean.DataBean> dataList) {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -112,10 +115,14 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
-            imgRefresh.setOnClickListener(new View.OnClickListener() {
+            imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, "刷新数据，动态数亦随之变化", Toast.LENGTH_SHORT).show();
+                    mDataList.clear();
+                    mDataList.addAll(dataList);
+                    Log.i("SHUAXIN", "onClick: "+mDataList.size());
+                    // close refresh
+//                    mContext.showRefreshing(false);
                 }
             });
         }
