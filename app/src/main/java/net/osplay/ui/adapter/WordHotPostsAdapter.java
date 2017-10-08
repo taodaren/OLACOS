@@ -103,7 +103,15 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             GridLayoutManager layoutManager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
             recyclerPosts.setLayoutManager(layoutManager);
-            adapter = new PostsInfoAdapter(mContext, mDataList);
+            setAdapter(position);
+
+        }
+
+        private void setAdapter(int position) {
+            List<WordHotPostsBean.DataBean> list = null;
+            int startIndex = position * 4;
+            list = new ArrayList<>(mDataList.subList(startIndex, startIndex + 4));
+            adapter = new PostsInfoAdapter(mContext, list);
             recyclerPosts.setAdapter(adapter);
         }
 
