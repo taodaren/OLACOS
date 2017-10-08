@@ -3,12 +3,13 @@ package net.osplay.service.entity;
 import java.util.List;
 
 /**
- * 社区：热区 → 热帖列表
+ * 热帖刷新
  */
 
-public class WordHotPostsBean {
-    private List<PartBean> part;//所有大区的信息
-    private List<DataBean> data;//各个大区的数据
+public class WordPostsRefreshBean {
+
+    private List<PartBean> part;//查询大区的信息
+    private List<DataBean> data;//查询大区的帖子信息
 
     public List<PartBean> getPart() {
         return part;
@@ -29,15 +30,15 @@ public class WordHotPostsBean {
     public static class PartBean {
         /**
          * PART_PATH : /upLoadResource/c66d6fb8d921406e8edfeccf7566e120/cos.jpg
-         * TOPICK_COUNT : 40
+         * TOPICK_COUNT : 62
          * PART : COS社区
          * ID : 1
          */
 
-        private String PART_PATH;//大区图片路径
-        private String TOPICK_COUNT;//大区帖子总数
-        private String PART;//大区名字
-        private String ID;//大区id
+        private String PART_PATH;//当前大区图片
+        private String TOPICK_COUNT;//当前大区帖子总数
+        private String PART;//当前大区名字
+        private String ID;//当前大区id
 
         public String getPART_PATH() {
             return PART_PATH;
@@ -75,17 +76,17 @@ public class WordHotPostsBean {
     public static class DataBean {
         /**
          * PINGLUN_COUNT : 0
-         * COVERIMG : /upLoadResource/995c1553cc2b411590249e11055d6986/【Cosplay】3.栗山未来•色诱女仆 字数：136149.png
-         * VIEW_COUNT : 1
-         * TITLE : 栗山未来•色诱女仆
+         * COVERIMG : /upLoadResource/2083e8c9c163475c93adac3dd8dcff85/【Cosplay】8.缘之空软萌少女 春日野穹COS 字数：236837.png
+         * VIEW_COUNT : 4
+         * TITLE : 缘之空软萌少女 春日野穹COS
          * PARTNAME : COS正片
-         * ID : 15f1a8623abb43e2bcd2ff0ecb6538fe
+         * ID : 70f5738b81454eddb0b65747fbc59f7e
          */
 
         private String PINGLUN_COUNT;//帖子评论数量
         private String COVERIMG;//帖子封面图
-        private String VIEW_COUNT;//帖子阅读量
-        private String TITLE;//帖子标题
+        private String VIEW_COUNT;//帖子标题
+        private String TITLE;//帖子阅读量
         private String PARTNAME;//专区名字
         private String ID;//帖子id
 

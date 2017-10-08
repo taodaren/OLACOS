@@ -52,6 +52,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/tv_details_posts_nick"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="昵称"
@@ -66,7 +67,8 @@
                             android:paddingEnd="5dp"
                             android:paddingStart="5dp"
                             android:text="楼主"
-                            android:textColor="@color/colorWhite" />
+                            android:textColor="@color/colorWhite"
+                            android:visibility="gone" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -75,17 +77,19 @@
                         android:layout_alignParentBottom="true">
 
                         <TextView
+                            android:id="@+id/tv_details_posts_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="45秒前"
+                            android:text="来自 COS专区"
+                            android:textColor="@color/colorPrimaryDark"
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tv_details_posts_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:text="来自 COS专区"
-                            android:textColor="@color/colorPrimaryDark"
+                            android:layout_marginStart="5dp"
+                            android:text="45秒前"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -111,6 +115,7 @@
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/tv_details_posts_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
@@ -122,7 +127,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容" />
+                    android:text="帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容帖子内容"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
