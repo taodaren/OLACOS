@@ -22,6 +22,7 @@ import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.service.entity.WordPostsRefreshBean;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
+import net.osplay.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class WordHotPostsFragment extends BaseFragment {
 
             @Override
             public void onSucceed(int what, Response<String> response) {
-                String json = response.get();
+                String json = GsonUtils.cleanErrorCode(response.get());
                 Log.d(TAG, "onSucceed: 热帖主界面刷新请求 --> " + json);
                 //数据解析
                 mRefreshWordHotPostsBean = gson.fromJson(json, WordPostsRefreshBean.class);
