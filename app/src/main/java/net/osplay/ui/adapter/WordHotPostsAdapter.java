@@ -36,8 +36,19 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private List<WordHotPostsBean.PartBean> mPartList;//热帖列表所有大区的信息
     private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
-    private List<WordPostsRefreshBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
-    private List<WordPostsRefreshBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
+//    private List<WordPostsRefreshBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
+//    private List<WordPostsRefreshBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
+
+    private HotPostingsOnClickListener listener;
+
+    public void setListener(HotPostingsOnClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface HotPostingsOnClickListener {
+
+        void subareaOnClickRefresh(int parentPosition);
+    }
 
     public WordHotPostsAdapter(Activity context, List<WordHotPostsBean.PartBean> partList, List<WordHotPostsBean.DataBean> dataList) {
         this.mContext = context;
@@ -48,10 +59,28 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mDataList.addAll(dataList);
     }
 
+    /**
+     * 刷新指定热帖分区的方法
+     * @param mPartList: 刷新分区的数据
+     * @param mDataList: 刷新分区内容的数据
+     * @param partPosition： 点击分区的位置
+     */
+    public void setSubareaData(List<WordHotPostsBean.PartBean> mPartList, List<WordHotPostsBean.DataBean> mDataList, int partPosition) {
+        // update part data
+        int partIndex = partPosition;
+        this.mPartList.set(partIndex, mPartList.get(0));
+        // update subareaData
+        int subareaIndex = partPosition * 4;
+        for (int i = subareaIndex, j = 0; j < mDataList.size(); i++,j++) {
+            this.mDataList.set(i, mDataList.get(j));
+        }
+        // notify refresh data
+        notifyItemRangeChanged(partPosition, 1);
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         PostsViewHolder holder = new PostsViewHolder(mInflater.inflate(R.layout.layout_word_hot_posts, parent, false));
-        holder.setClickListener(mDataList);
         return holder;
     }
 
@@ -82,7 +111,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tvNumber = (TextView) inflate.findViewById(R.id.tv_posts_refresh_num);
         }
 
-        public void bindData(int position) {
+        public void bindData(final int position) {
             //网络接口数据
 //            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgHead);
 
@@ -100,6 +129,18 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             imgHead.setImageResource(niTypes.get(position));
             tvHead.setText(mPartList.get(position).getPART());
             tvNumber.setText(mPartList.get(position).getTOPICK_COUNT() + "条新动态，点击刷新！");
+
+            imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
+                @Override
+                public void onClick(View v) {
+//                    mDataList.clear();
+//                    mDataList.addAll(dataList);
+//                    Log.i("SHUAXIN", "onClick: "+mDataList.size());
+//                    // close refresh
+////                    mContext.showRefreshing(false);
+                    listener.subareaOnClickRefresh(position);
+                }
+            });
 
             GridLayoutManager layoutManager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
             recyclerPosts.setLayoutManager(layoutManager);
@@ -123,16 +164,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
-            imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
-                @Override
-                public void onClick(View v) {
-                    mDataList.clear();
-                    mDataList.addAll(dataList);
-                    Log.i("SHUAXIN", "onClick: "+mDataList.size());
-                    // close refresh
-//                    mContext.showRefreshing(false);
-                }
-            });
+
         }
 
         private class PostsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

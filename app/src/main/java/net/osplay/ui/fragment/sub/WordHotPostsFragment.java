@@ -29,17 +29,18 @@ import java.util.List;
  * 社区：热区 → 热帖
  */
 
-public class WordHotPostsFragment extends BaseFragment {
+public class WordHotPostsFragment extends BaseFragment implements WordHotPostsAdapter.HotPostingsOnClickListener {
     private static final String TAG = "WordHotPostsFragment";
 
     private RecyclerView mRvHotPosts;
     private Gson gson = new Gson();
     private WordHotPostsBean mWordHotPostsBean;
-    private WordPostsRefreshBean mRefreshWordHotPostsBean;
+    private WordHotPostsBean mRefreshWordHotPostsBean;
     private List<WordHotPostsBean.PartBean> mPartList;//热帖列表所有大区的信息
     private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
-    private List<WordPostsRefreshBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
-    private List<WordPostsRefreshBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
+    private List<WordHotPostsBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
+    private List<WordHotPostsBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
+    private WordHotPostsAdapter adapter;
 
     @SuppressLint("ValidFragment")
     public WordHotPostsFragment() {
@@ -65,45 +66,6 @@ public class WordHotPostsFragment extends BaseFragment {
         Request<String> requestHotPosts = NoHttp.createStringRequest(I.POSTS_HOT_LIST, RequestMethod.POST);
         getHotPostsData(requestQueue, requestHotPosts);//获取数据请求并解析
 
-
-        SharedPreferences preferences = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE);
-        String bigPartId = preferences.getString("bigPartId", "");
-
-        Request<String> requestRefreshHotPosts = NoHttp.createStringRequest(I.POSTS_REFRESH, RequestMethod.POST);
-        requestRefreshHotPosts.add("bigPartId", bigPartId);
-        getRefreshHotPostsData(requestQueue, requestRefreshHotPosts);//获取数据请求并解析
-    }
-
-    private void getRefreshHotPostsData(RequestQueue requestQueue, Request<String> request) {
-        requestQueue.add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json =response.get();
-                Log.d(TAG, "onSucceed: 热帖主界面刷新请求 --> " + json);
-                //数据解析
-                mRefreshWordHotPostsBean = gson.fromJson(json, WordPostsRefreshBean.class);
-                mRefreshPartList = mRefreshWordHotPostsBean.getPart();
-                Log.d(TAG, "热帖主界面刷新 part 解析 Succeed");
-                mRefreshDataList = mRefreshWordHotPostsBean.getData();
-                Log.d(TAG, "热帖主界面刷新 data 解析 Succeed");
-                initRecyclerView();
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-
-            }
-
-            @Override
-            public void onFinish(int what) {
-
-            }
-        });
     }
 
     private void getHotPostsData(RequestQueue requestQueue, Request<String> request) {
@@ -149,11 +111,54 @@ public class WordHotPostsFragment extends BaseFragment {
             }
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            WordHotPostsAdapter adapter = new WordHotPostsAdapter(getActivity(), mPartList, mDataList);
+            adapter = new WordHotPostsAdapter(getActivity(), mPartList, mDataList);
             mRvHotPosts.setLayoutManager(layoutManager);
             mRvHotPosts.setHasFixedSize(true);
             mRvHotPosts.setAdapter(adapter);
+
+            adapter.setListener(this);
         }
     }
 
+    @Override
+    public void subareaOnClickRefresh(int parentPosition) {
+        String bigPartId = mPartList.get(parentPosition).getID();
+        if (bigPartId != null) {
+            RequestQueue requestQueue = NoHttp.newRequestQueue();
+            Request<String> requestRefreshHotPosts = NoHttp.createStringRequest(I.POSTS_REFRESH, RequestMethod.POST);
+            requestRefreshHotPosts.add("bigPartId", bigPartId);
+            getRefreshHotPostsData(parentPosition, requestQueue, requestRefreshHotPosts);//获取数据请求并解析
+        }
+    }
+
+    private void getRefreshHotPostsData(final int parentPosition, RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json =response.get();
+                Log.d(TAG, "onSucceed: 热帖主界面刷新请求 --> " + json);
+                //数据解析
+                mRefreshWordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);
+                mRefreshPartList = mRefreshWordHotPostsBean.getPart();
+                mRefreshDataList = mRefreshWordHotPostsBean.getData();
+
+                adapter.setSubareaData(mRefreshPartList, mRefreshDataList, parentPosition);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
 }
