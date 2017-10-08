@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -89,9 +91,15 @@ public class NewestFragment extends BaseBussFragment {
         SetOnClickListen setOnClickListen = new SetOnClickListen() {
             @Override
             public void setOnClick(int position) {
+
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
                 startActivity(new Intent(getActivity(), MinePageSelfActivity.class));
                 getActivity().finish();
             }
+
         };
         adapter.onClick(setOnClickListen);
     }

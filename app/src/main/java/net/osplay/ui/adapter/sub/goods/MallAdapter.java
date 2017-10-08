@@ -202,16 +202,21 @@ public class MallAdapter extends RecyclerView.Adapter {
             //集合数据
             final List<ResultBeanData.ResultBean.SeckillInfoBean.ListBean> list = seckill_info.getList();
             //设置recyclerview
-            adapter=new SeckillAdapter(mContext,list);
+            adapter = new SeckillAdapter(mContext, list);
             rv_seckill.setAdapter(adapter);
-            rv_seckill.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.HORIZONTAL,false));
+            rv_seckill.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
             //recyclerView的点击事件
             SetOnClickListen setOnClickListen = new SetOnClickListen() {
                 @Override
                 public void setOnClick(int position) {
-                Toast.makeText(mContext,"position"+position,Toast.LENGTH_SHORT).show();
+
+                }
+
+                @Override
+                public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                    Toast.makeText(mContext, "position" + position, Toast.LENGTH_SHORT).show();
                     ResultBeanData.ResultBean.SeckillInfoBean.ListBean listBean = list.get(position);
-                    GoodsBean goodsBean=new GoodsBean();
+                    GoodsBean goodsBean = new GoodsBean();
                     goodsBean.setCover_price(listBean.getCover_price());
                     goodsBean.setFigure(listBean.getFigure());
                     goodsBean.setName(listBean.getName());
@@ -225,7 +230,9 @@ public class MallAdapter extends RecyclerView.Adapter {
             //倒计时
             handler.sendEmptyMessageDelayed(0, 1000);
 
+
         }
+
     }
 
     class ActViewHolder extends RecyclerView.ViewHolder {

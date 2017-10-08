@@ -240,7 +240,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void unsubscribeHttp() {
-
+Log.e("JJJ","专区id："+partId);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
         request.add("memberId",AppHelper.getInstance().getUser().getID());

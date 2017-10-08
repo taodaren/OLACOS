@@ -33,7 +33,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<PostsViewHolder> {
 
     @Override
     public PostsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(context).inflate(R.layout.item_posts, parent, false);
+        View inflate = LayoutInflater.from(context).inflate(R.layout.item_word_topic_list, parent, false);
         PostsViewHolder viewHolder = new PostsViewHolder(inflate);
         return viewHolder;
     }
@@ -45,7 +45,7 @@ public class MyPostsAdapter extends RecyclerView.Adapter<PostsViewHolder> {
         holder.item_topic_all_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_posts_time.setText(rows.get(position).getCREATEDATE());
         holder.item_posts_title.setText(rows.get(position).getTITLE());
-      // holder.item_posts_good.setText(rows.get(position).);
+        //holder.item_posts_good.setText(rows.get(position).get);
     }
 
     @Override
@@ -61,13 +61,13 @@ class PostsViewHolder extends RecyclerView.ViewHolder{
     public TextView item_posts_good,item_posts_collect,item_posts_comment;
     public PostsViewHolder(View itemView) {
         super(itemView);
-        item_posts_avatar= (CircleImageView) itemView.findViewById(R.id.item_posts_avatar);
-        item_posts_time= (TextView) itemView.findViewById(R.id.item_posts_time);
-        item_posts_title= (TextView) itemView.findViewById(R.id.item_posts_title);
-        item_posts_icon= (ImageView) itemView.findViewById(R.id.item_posts_icon);
-        item_posts_good= (TextView) itemView.findViewById(R.id.item_posts_good);
-        item_posts_collect= (TextView) itemView.findViewById(R.id.item_posts_collect);
-        item_posts_comment= (TextView) itemView.findViewById(R.id.item_posts_comment);
-        item_topic_all_nick= (TextView) itemView.findViewById(R.id.item_topic_all_nick);
+        item_posts_avatar= (CircleImageView) itemView.findViewById(R.id.img_topic_list_avatar);
+        item_posts_time= (TextView) itemView.findViewById(R.id.tv_topic_list_time);
+        item_posts_title= (TextView) itemView.findViewById(R.id.tv_topic_list_title);
+        item_posts_icon= (ImageView) itemView.findViewById(R.id.img_topic_list_icon);
+        item_posts_good= (TextView) itemView.findViewById(R.id.tv_topic_list_zan);
+        item_posts_collect= (TextView) itemView.findViewById(R.id.tv_topic_list_collect);
+        item_posts_comment= (TextView) itemView.findViewById(R.id.tv_topic_list_comment);
+        item_topic_all_nick= (TextView) itemView.findViewById(R.id.tv_topic_list_nick);
     }
 }

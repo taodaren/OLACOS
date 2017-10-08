@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
@@ -51,8 +53,14 @@ public class HeatRankFragment extends BaseBussFragment {
         SetOnClickListen setOnClickListen = new SetOnClickListen() {
             @Override
             public void setOnClick(int position) {
+
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
                 startActivity(new Intent(context, JoinCommunityDetailsActivity.class));
             }
+
         };
         hAdapter.onClick(setOnClickListen);
     }

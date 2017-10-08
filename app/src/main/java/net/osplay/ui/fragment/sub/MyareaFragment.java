@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.google.zxing.oned.Code39Reader;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -70,6 +72,7 @@ public class MyareaFragment extends Fragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
+                Log.e("JJJ","个人中心专区列表："+json);
                 if (json != null) {
                     formatMyarea(json);
                 } else {
@@ -96,12 +99,11 @@ public class MyareaFragment extends Fragment {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
         }else{
+
             rows = myAreaBean.getRows();
             centerRecycler.setAdapter(new MyAreaAdapter(getActivity(), rows));
         }
-
     }
-
 
     @Override
     public void onDestroyView() {

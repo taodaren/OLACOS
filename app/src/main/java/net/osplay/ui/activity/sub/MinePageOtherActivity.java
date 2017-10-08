@@ -95,7 +95,7 @@ public class MinePageOtherActivity extends BaseActivity  {
         initView();
         initUserData();//请求个人数据
         // TODO: 2017/10/7   关注关系发生改变  没有返回值
-        initAttention();//请求关注信息
+      //  initAttention();//请求关注信息
         Bundle bundle = new Bundle();
         bundle.putString("otherMemberId", memberId);
         pFragment.setArguments(bundle);
