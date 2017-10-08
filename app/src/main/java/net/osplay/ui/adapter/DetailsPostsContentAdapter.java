@@ -45,7 +45,7 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((PostsContentHolder) holder).bindData();
+        ((PostsContentHolder) holder).bindData(position);
     }
 
     @Override
@@ -55,21 +55,15 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private class PostsContentHolder extends RecyclerView.ViewHolder {
         private TextView tvHtml;
-        private final String html;
+        private String html;
 
         private PostsContentHolder(View itemView) {
             super(itemView);
             tvHtml = (TextView) itemView.findViewById(R.id.tv_dtl_posts_html);
-            html = "<p><br/>图片来源：Moorea Seal 不少人发现胶片照的质感后，就自然会深深爱上，因为数码摄影确实依然无法取而代之；而且，即使iPhone App有无数的滤镜特效，但还远不及使用不同胶片相机所带来的真实感动；再者，其实很多不错的胶片相机物美价廉，二手巿场也一直有供有求，所以喜欢玩不同相机与镜头的朋友，其实胶片老相机是一个很好的选择。问题是，我们购买二手相机，有什么地方需要留意？以下几点需要留意，先从镜头说起。<\\/p>\n<p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558751961084713.png\" title=\"1505558751961084713.png\"/></p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558760633039134.png\" title=\"1505558760633039134.png\"/></p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558763821003594.png\" title=\"1505558763821003594.png\"/></p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558760211003942.png\" title=\"1505558760211003942.png\"/></p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558767352052642.png\" title=\"1505558767352052642.png\"/></p>" +
-                    "<p><img src=\"http://www.olacos.net/upLoadResource/image/20170916/1505558768992037086.png\" title=\"1505558768992037086.png\"/></p>";
         }
 
-        public void bindData() {
+        public void bindData(int position) {
+            html = mDtlPostsList.get(position).getCONTENT();
             tvHtml.setText(Html.fromHtml(html, new MyImgGetter(), null));
         }
 
