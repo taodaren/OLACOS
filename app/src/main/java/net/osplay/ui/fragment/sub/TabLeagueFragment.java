@@ -2,10 +2,6 @@ package net.osplay.ui.fragment.sub;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -23,11 +19,11 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import net.osplay.app.AppHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.LeagueIMActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.FastBlur;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
@@ -49,6 +45,8 @@ public class TabLeagueFragment extends BaseFragment {
     private MineFragment mFragment;
     private CommunityFragment cFragment;
     private CommunityWorksFragment wFragment;
+    private CommunityALoginFragment lFragment;
+    private CommunityPLoginFragment pFragment;
     private String lannotated = "olacos";
     private String cAnnotated;
     private String addlannotated = "addolacos";
@@ -66,13 +64,14 @@ public class TabLeagueFragment extends BaseFragment {
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
-        //获取窗户社团的值
+        //获取创建社团的值
         SharedPreferences preferences1 = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
         cAnnotated = preferences1.getString("Annotated", "defaultname");
         //获取加入社团的值
         SharedPreferences preferences2 = getActivity().getSharedPreferences("AddCommunity", getActivity().MODE_PRIVATE);
         addcAnnotated = preferences2.getString("addAnnotated", "defaultname");
         setView();
+        isJoin();//判断是否加入过社团
         return inflate;
     }
 
@@ -86,23 +85,38 @@ public class TabLeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
+
         nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);//社团推荐
         hFragment = new SocialActivityFragment(getActivity(), R.layout.fragment_create_community);//社团活动
         cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);//加入或创建社团之后的社团活动
         mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);//社团作品
         wFragment=new CommunityWorksFragment(getActivity(),R.layout.fragment_community_works);//加入或创建社团之后的社团作品
+        lFragment=new CommunityALoginFragment();//活动未等陆的提醒
+        pFragment=new CommunityPLoginFragment();//作品未的登录的提醒
         mList.add(nFragment);
-        //如果创建或者加入社团后将不再显示创建或加入社团界面
-        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
-            mList.add(cFragment);
-        } else {
+        if(!AppHelper.getInstance().isLogined()){
+            mList.add(lFragment);
+        }else{
             mList.add(hFragment);
         }
-        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
-            mList.add(wFragment);
+        if(!AppHelper.getInstance().isLogined()){
+            mList.add(pFragment);
         }else{
             mList.add(mFragment);
         }
+
+
+//        //如果创建或者加入社团后将不再显示创建或加入社团界面
+//        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
+//            mList.add(cFragment);
+//        } else {
+//            mList.add(hFragment);
+//        }
+//        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
+//            mList.add(wFragment);
+//        }else{
+//            mList.add(mFragment);
+//        }
         fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
@@ -117,18 +131,6 @@ public class TabLeagueFragment extends BaseFragment {
         if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
             appBarLayout.setVisibility(View.VISIBLE);
             toolbar.setVisibility(View.GONE);
-            //这里是背景虚化加了背景虚化 使用时不得放在隐藏后的APPbar中 之后会非常卡后期看需求
-//            final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-//                    R.drawable.example02);
-//            league_bg.getViewTreeObserver().addOnPreDrawListener(
-//                    new ViewTreeObserver.OnPreDrawListener() {
-//
-//                        @Override
-//                        public boolean onPreDraw() {
-//                            blur(bitmap, league_bg);
-//                            return true;
-//                        }
-//                    });
         } else {
             appBarLayout.setVisibility(View.GONE);
             toolbar.setVisibility(View.VISIBLE);
@@ -154,14 +156,11 @@ public class TabLeagueFragment extends BaseFragment {
     }
 
     private void addMenu() {
-//        // 通过代码添加菜单项
+        // 通过代码添加菜单项
         menu.add(Menu.NONE, Menu.FIRST + 0, 0, "成员管理");
         menu.add(Menu.NONE, Menu.FIRST + 1, 1, "申请管理");
         menu.add(Menu.NONE, Menu.FIRST + 2, 2, "积分兑换");
         menu.add(Menu.NONE, Menu.FIRST + 3, 3, "设置");
-        // 通过XML文件添加菜单项
-//        MenuInflater menuInflater = getActivity().getMenuInflater();
-//        menuInflater.inflate(R.menu.popupmenu, menu);
     }
 
     private void setOnMenuItemClickListener() {
@@ -208,29 +207,6 @@ public class TabLeagueFragment extends BaseFragment {
         return true;
     }
 
-    //图片虚化
-    private void blur(Bitmap bkg, View view) {
-        long startMs = System.currentTimeMillis();
-        float scaleFactor = 2;
-        float radius = 1;
-
-        Bitmap overlay = Bitmap.createBitmap(
-                (int) (view.getMeasuredWidth() / scaleFactor),
-                (int) (view.getMeasuredHeight() / scaleFactor),
-                Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
-                / scaleFactor);
-        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-        Paint paint = new Paint();
-        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-        canvas.drawBitmap(bkg, 0, 0, paint);
-
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setBackground(new BitmapDrawable(getResources(), overlay));
-        System.out.println(System.currentTimeMillis() - startMs + "ms");
-    }
-
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -241,12 +217,60 @@ public class TabLeagueFragment extends BaseFragment {
                 case R.id.league_menu:
                     popupMenu.show();
                     break;
+
             }
         }
     };
 
 
+     public void isJoin() {
+         //String id = AppHelper.getInstance().getUser().getID();
+        // Log.e("JGB","获取当前登录用户id:"+id);
+//        RequestQueue requestQueue = NoHttp.newRequestQueue();
+//        Request<String> request = NoHttp.createStringRequest(I.IS_JOIN, RequestMethod.POST);
+//        request.add("memberId", AppHelper.getInstance().getUser().getID());
+//        requestQueue.add(0, request, new OnResponseListener<String>() {
+//            @Override
+//            public void onStart(int what) {
+//
+//            }
+//
+//            @Override
+//            public void onSucceed(int what, Response<String> response) {
+//                String json = response.get();
+//                Log.e("JGB", "获取当前用户是否加入过社会团：:" + json);
+//                if (json != null) {
+//                } else {
+//                    return;
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFailed(int what, Response<String> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFinish(int what) {
+//
+//            }
+//        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    //    @Override
+//    public void onResume() {
+//        super.onResume();
+//        setView();
+//    }
 }
+
 
 
 

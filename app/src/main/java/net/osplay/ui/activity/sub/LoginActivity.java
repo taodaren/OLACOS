@@ -127,9 +127,7 @@ public class LoginActivity extends BaseActivity {
                                 CreateOrJoinActivity.class));
                         finish();
                         break;
-                    case "loginCOJ1"://社团作品
-                        startActivity(new Intent(LoginActivity.this,
-                                CreateOrJoinActivity.class));
+                    case "loginCOJ1"://社团作品登录成功后跳转的目的地
                         finish();
                         break;
                     case "loginMine"://个人中心
