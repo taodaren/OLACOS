@@ -16,6 +16,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
+import net.osplay.ui.activity.sub.WaitDevActivity;
 
 import java.util.List;
 
@@ -90,7 +91,8 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             mContext.startActivity(intent);
                             break;
                         case 1://斗图
-                            mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));
+                            mContext.startActivity(new Intent(mContext, WaitDevActivity.class));//开发中
+//                            mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));//实际跳转界面
                             break;
                         default:
                             break;

@@ -112,7 +112,8 @@
         <activity android:name="net.osplay.ui.activity.sub.ChangeNameActivity" />
         <activity android:name="net.osplay.ui.activity.sub.ChangeAgeActivity" />
         <activity android:name="net.osplay.ui.activity.sub.ChangeXingzuoActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.ChangeAreaActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.sub.ChangeAreaActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.WaitDevActivity"></activity>
     </application>
 
 </manifest>
