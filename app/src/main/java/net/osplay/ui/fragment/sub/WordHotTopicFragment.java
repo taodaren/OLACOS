@@ -54,9 +54,7 @@ public class WordHotTopicFragment extends BaseFragment {
             GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
             mRvTopic.setLayoutManager(mLayoutManager);
             mRvTopic.setHasFixedSize(true);
-
             WordHotTopicAdapter mAdapter = new WordHotTopicAdapter(getActivity(), topicList);
-            Log.d(TAG, "initView: topicList======================" + topicList);
             mRvTopic.setAdapter(mAdapter);
         }
     }

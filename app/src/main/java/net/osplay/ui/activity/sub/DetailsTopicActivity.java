@@ -30,7 +30,6 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.DetailsAttentionBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -223,12 +222,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     if (flag == 0) {
                         attentionHttp();//关注
-                        btnAttention.setText("已专区");
+                        btnAttention.setText("已关注");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     } else if (flag == 1) {
-                        unsubscribeHttp();//取消关注
+                        unSubscribeHttp();//取消关注
                         btnAttention.setText("关注专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -239,73 +238,64 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void unsubscribeHttp() {
-Log.e("JJJ","专区id："+partId);
+    private void unSubscribeHttp() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
-        request.add("memberId",AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId",partId);
-        request.add("mark",1);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", partId);
+        request.add("mark", 1);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","取消关注："+json);
-                if(json!=null){
+                if (json != null) {
 
-                }else{
+                } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
 
     private void attentionHttp() {
-        Log.e("DTA","关注的专区=="+partId);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
-        request.add("memberId",AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId",partId);
-        request.add("mark",0);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", partId);
+        request.add("mark", 0);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","关注："+json);
-                if(json!=null){
-                }else{
+                Log.e("JGB", "关注：" + json);
+                if (json != null) {
+                } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
