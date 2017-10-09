@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.List;
 
@@ -39,13 +41,22 @@ public class MyPostsAdapter extends RecyclerView.Adapter<PostsViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PostsViewHolder holder, int position) {
+    public void onBindViewHolder(PostsViewHolder holder, final int position) {
         Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_posts_avatar);
         Glide.with(context).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_posts_icon);
         holder.item_topic_all_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_posts_time.setText(rows.get(position).getCREATEDATE());
         holder.item_posts_title.setText(rows.get(position).getTITLE());
+        //赞、收藏、评论没有值
         //holder.item_posts_good.setText(rows.get(position).get);
+        holder.posts_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(context, DetailsPostsActivity.class);
+                intent.putExtra("postsId",rows.get(position).getID());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -59,6 +70,7 @@ class PostsViewHolder extends RecyclerView.ViewHolder{
     public TextView item_posts_title,item_topic_all_nick;
     public ImageView item_posts_icon;
     public TextView item_posts_good,item_posts_collect,item_posts_comment;
+    public LinearLayout posts_ll;
     public PostsViewHolder(View itemView) {
         super(itemView);
         item_posts_avatar= (CircleImageView) itemView.findViewById(R.id.img_topic_list_avatar);
@@ -69,5 +81,6 @@ class PostsViewHolder extends RecyclerView.ViewHolder{
         item_posts_collect= (TextView) itemView.findViewById(R.id.tv_topic_list_collect);
         item_posts_comment= (TextView) itemView.findViewById(R.id.tv_topic_list_comment);
         item_topic_all_nick= (TextView) itemView.findViewById(R.id.tv_topic_list_nick);
+        posts_ll = (LinearLayout) itemView.findViewById(R.id.posts_ll);
     }
 }

@@ -9,22 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.RequestQueue;
-import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MyAreaBean;
 import net.osplay.service.entity.MycollectionBean;
-import net.osplay.ui.activity.sub.MinePageOtherActivity;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.List;
 
@@ -68,9 +60,19 @@ public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
             @Override
             public void onClick(View v) {
                 setOnClickListen.setOnClick(position,holder.item_collection_good,holder.item_collection_collect,holder.item_collection_comment,holder.img_topic_list_zan,holder.img_topic_list_collect);
-
             }
         });
+
+        //holder.item_posts_good.setText(rows.get(position).get);
+        holder.posts_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(context, DetailsPostsActivity.class);
+                intent.putExtra("postsId",rows.get(position).getID());
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -86,6 +88,7 @@ class CollectionViewHolder extends RecyclerView.ViewHolder{
     public TextView item_collection_good,item_collection_collect,item_collection_comment;
     public ImageView img_topic_list_zan,img_topic_list_collect;
     public LinearLayout ll_topic_list_zan;
+    public LinearLayout posts_ll;
 
     public CollectionViewHolder(View itemView) {
         super(itemView);
@@ -100,5 +103,6 @@ class CollectionViewHolder extends RecyclerView.ViewHolder{
         ll_topic_list_zan = (LinearLayout) itemView.findViewById(R.id.ll_topic_list_zan);
         img_topic_list_zan = (ImageView) itemView.findViewById(R.id.img_topic_list_zan);
         img_topic_list_collect = (ImageView) itemView.findViewById(R.id.img_topic_list_collect);
+        posts_ll = (LinearLayout) itemView.findViewById(R.id.posts_ll);
     }
 }
