@@ -117,7 +117,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             imgHead.setImageResource(niTypes.get(position));
             tvHead.setText(mPartList.get(position).getPART());
-            tvNumber.setText(mPartList.get(position).getTOPICK_COUNT() + "条新动态，点击刷新！");
+//            tvNumber.setText(mPartList.get(position).getTOPICK_COUNT() + "条新动态，点击刷新！");
 
             imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
                 @Override
