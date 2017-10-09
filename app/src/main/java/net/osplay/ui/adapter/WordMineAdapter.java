@@ -2,7 +2,6 @@ package net.osplay.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -23,7 +22,6 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
 import net.osplay.service.entity.base.HomeData;
-import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -177,14 +175,6 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             Toast.makeText(context, "点击" + addBean.getNOTES() + "布局", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    imgAvatar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, MinePageOtherActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    });
                 }
             }
         }
@@ -281,12 +271,11 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             Toast.makeText(context, "点击" + recomBean.getPART() + "布局", Toast.LENGTH_SHORT).show();
                         }
                     });
-                    imgAvatar.setOnClickListener(new View.OnClickListener() {
+
+                    btnAdd.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(context, MinePageOtherActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
+                            Toast.makeText(context, "+++", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

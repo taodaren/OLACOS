@@ -1,6 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordHotPostsBean;
-import net.osplay.service.entity.WordPostsRefreshBean;
 import net.osplay.ui.adapter.WordHotPostsAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
@@ -41,15 +39,6 @@ public class WordHotPostsFragment extends BaseFragment implements WordHotPostsAd
     private List<WordHotPostsBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
     private List<WordHotPostsBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
     private WordHotPostsAdapter adapter;
-
-    @SuppressLint("ValidFragment")
-    public WordHotPostsFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordHotPostsFragment(Context context, int resId) {
-        super(context, resId);
-    }
 
     @Override
     public View initView() {
@@ -103,7 +92,7 @@ public class WordHotPostsFragment extends BaseFragment implements WordHotPostsAd
 
     private void initRecyclerView() {
         if (mWordHotPostsBean != null) {
-            for (int i=0;i<mPartList.size();i++) {
+            for (int i = 0; i < mPartList.size(); i++) {
                 String bigPartId = mPartList.get(i).getID();
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
                 editor.putString("bigPartId", bigPartId);
@@ -140,7 +129,7 @@ public class WordHotPostsFragment extends BaseFragment implements WordHotPostsAd
 
             @Override
             public void onSucceed(int what, Response<String> response) {
-                String json =response.get();
+                String json = response.get();
                 Log.d(TAG, "onSucceed: 热帖主界面刷新请求 --> " + json);
                 //数据解析
                 mRefreshWordHotPostsBean = gson.fromJson(json, WordHotPostsBean.class);

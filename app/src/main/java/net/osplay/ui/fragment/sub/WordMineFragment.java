@@ -1,7 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,15 +39,6 @@ public class WordMineFragment extends BaseFragment {
     private List<WordAddBean> mAddWorList;
     private List<WordRecoBean> mRecoWordList;
 
-    @SuppressLint("ValidFragment")
-    public WordMineFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordMineFragment(Context mContext, int resId) {
-        super(mContext, resId);
-    }
-
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_word_mine, null);
@@ -68,7 +57,7 @@ public class WordMineFragment extends BaseFragment {
 
         Request<String> requestRecoWord = NoHttp.createStringRequest(I.RECOM_WORD, RequestMethod.POST);
         requestRecoWord.add("memberId", "667b6b89c10f41c5aba9980fa47c8b76");
-        requestRecoWord.add("rows", "5");
+        requestRecoWord.add("rows", "3");
 
         //获取数据请求并解析
         getAddWordData(requestQueue, requestAddWord);
@@ -143,8 +132,6 @@ public class WordMineFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        Log.d(TAG, "加入的专区===============================" + mAddWorList);
-        Log.d(TAG, "推荐的专区===============================" + mRecoWordList);
         if (mRecoWordList != null && mAddWorList != null) {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             mRvWordMine.setLayoutManager(mLayoutManager);
