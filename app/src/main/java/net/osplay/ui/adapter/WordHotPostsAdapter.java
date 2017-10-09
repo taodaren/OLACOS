@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -20,7 +17,6 @@ import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordHotPostsBean;
-import net.osplay.service.entity.WordPostsRefreshBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.ArrayList;
@@ -36,8 +32,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private List<WordHotPostsBean.PartBean> mPartList;//热帖列表所有大区的信息
     private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
-//    private List<WordPostsRefreshBean.PartBean> mRefreshPartList;//热帖刷新查询大区的信息
-//    private List<WordPostsRefreshBean.DataBean> mRefreshDataList;//热帖刷新查询大区的帖子信息
 
     private HotPostingsOnClickListener listener;
 
@@ -46,7 +40,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public interface HotPostingsOnClickListener {
-
         void subareaOnClickRefresh(int parentPosition);
     }
 
@@ -61,9 +54,10 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     /**
      * 刷新指定热帖分区的方法
-     * @param mPartList: 刷新分区的数据
-     * @param mDataList: 刷新分区内容的数据
-     * @param partPosition： 点击分区的位置
+     *
+     * @param mPartList    刷新分区的数据
+     * @param mDataList    刷新分区内容的数据
+     * @param partPosition 点击分区的位置
      */
     public void setSubareaData(List<WordHotPostsBean.PartBean> mPartList, List<WordHotPostsBean.DataBean> mDataList, int partPosition) {
         // update part data
@@ -71,7 +65,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.mPartList.set(partIndex, mPartList.get(0));
         // update subareaData
         int subareaIndex = partPosition * 4;
-        for (int i = subareaIndex, j = 0; j < mDataList.size(); i++,j++) {
+        for (int i = subareaIndex, j = 0; j < mDataList.size(); i++, j++) {
             this.mDataList.set(i, mDataList.get(j));
         }
         // notify refresh data
@@ -97,13 +91,11 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private class PostsViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView recyclerPosts;
         private PostsInfoAdapter adapter;
-        private LinearLayout layout;
         private ImageView imgHead, imgRefresh;
         private TextView tvHead, tvNumber;
 
         private PostsViewHolder(View inflate) {
             super(inflate);
-            layout = (LinearLayout) inflate.findViewById(R.id.layout_hot_posts_title);
             recyclerPosts = (RecyclerView) inflate.findViewById(R.id.recycler_hot_posts);
             imgRefresh = (ImageView) inflate.findViewById(R.id.img_hot_posts_refresh);
             imgHead = (ImageView) inflate.findViewById(R.id.img_hot_posts_head);
@@ -112,9 +104,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         public void bindData(final int position) {
-            //网络接口数据
-//            Glide.with(MyApplication.getContext()).load(videoBean.getCoverImg()).into(imgHead);
-
             //模拟数据
             List<Integer> niTypes = new ArrayList<>();
             niTypes.add(R.drawable.hot_posts_cos);
@@ -133,11 +122,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
                 @Override
                 public void onClick(View v) {
-//                    mDataList.clear();
-//                    mDataList.addAll(dataList);
-//                    Log.i("SHUAXIN", "onClick: "+mDataList.size());
-//                    // close refresh
-////                    mContext.showRefreshing(false);
                     listener.subareaOnClickRefresh(position);
                 }
             });
@@ -154,17 +138,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             list = new ArrayList<>(mDataList.subList(startIndex, startIndex + 4));
             adapter = new PostsInfoAdapter(mContext, list);
             recyclerPosts.setAdapter(adapter);
-        }
-
-        private void setClickListener(final List<WordHotPostsBean.DataBean> dataList) {
-            layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(mContext, "跳转到未知界面，开发中...", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
         }
 
         private class PostsInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -200,7 +173,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 private View outView;
                 private ImageView imgShow;
                 private TextView tvInfo, tvType, tvComment;
-                private String postsId, memberId;
+                private String postsId;
 
                 private PostsInfoHolder(View view) {
                     super(view);
@@ -228,7 +201,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     tvType.setText(dataBean.getPARTNAME());
                     tvComment.setText(dataBean.getPINGLUN_COUNT());
                     postsId = dataBean.getID();
-
                 }
             }
         }
