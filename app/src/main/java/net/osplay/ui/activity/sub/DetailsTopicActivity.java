@@ -200,12 +200,11 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.topic_page_avatar:
-                Intent intent = new Intent(this, MinePageSelfActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, MinePageSelfActivity.class));
                 break;
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
-                    MFGT.gotoLogin(this, "loginHeck");
+                    Toast.makeText(this, "请先关注专区", Toast.LENGTH_SHORT).show();
                 } else {
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
@@ -217,17 +216,17 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 break;
-            // TODO: 2017/10/6  取消关注时接口存在问题
+            // TODO:2017/10/6 取消关注时接口存在问题
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     if (flag == 0) {
-                        attentionHttp();//关注
+                        attentionHttp();
                         btnAttention.setText("已关注");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     } else if (flag == 1) {
-                        unSubscribeHttp();//取消关注
+                        unAttentionHttp();
                         btnAttention.setText("关注专区");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan);
                     }
@@ -237,7 +236,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    private void unSubscribeHttp() {
+    /**
+     * 取消关注
+     */
+    private void unAttentionHttp() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
@@ -268,6 +270,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * 关注
+     */
     private void attentionHttp() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);

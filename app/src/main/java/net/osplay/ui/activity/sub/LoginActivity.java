@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,13 +36,11 @@ public class LoginActivity extends BaseActivity {
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-
     }
 
     private void initView() {
@@ -72,13 +69,11 @@ public class LoginActivity extends BaseActivity {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","login----------"+json);
                 if (json != null) {
                     UserLoginBean userLoginBean = gson.fromJson(json, UserLoginBean.class);
                     isLoginOk = userLoginBean.getOk();
@@ -88,12 +83,10 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -116,9 +109,6 @@ public class LoginActivity extends BaseActivity {
 
                 String loginId = getIntent().getStringExtra("loginId");
                 switch (loginId) {
-                    case "loginHeck"://签到
-                        finish();
-                        break;
                     case "loginAttention"://关注
                         finish();
                         break;
@@ -142,7 +132,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
@@ -155,6 +144,7 @@ public class LoginActivity extends BaseActivity {
         menu.findItem(R.id.menu_msg).setVisible(false);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
