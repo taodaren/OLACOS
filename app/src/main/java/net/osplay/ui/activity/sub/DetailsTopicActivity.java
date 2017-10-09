@@ -75,12 +75,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         initView();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        changeViewByState();
-    }
-
     private void initView() {
         setToolbar();
         btnHeckIn.setOnClickListener(this);
@@ -89,8 +83,13 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
-
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeViewByState();
     }
 
     /**
@@ -117,8 +116,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initData() {
-        //获取大区 id
-        partId = getIntent().getStringExtra("partId");
+        partId = getIntent().getStringExtra("partId");//获取大区 id
 
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
@@ -201,6 +199,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.topic_page_avatar:
+                Intent intent = new Intent(this, MinePageSelfActivity.class);
+                startActivity(intent);
+                break;
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginHeck");
@@ -231,9 +233,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                     flag = (flag + 1) % 2;
                 }
-                break;
-            case R.id.topic_page_avatar:
-                startActivity(new Intent(this, MinePageOtherActivity.class));
                 break;
         }
     }
