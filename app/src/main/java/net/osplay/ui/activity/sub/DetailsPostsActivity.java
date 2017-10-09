@@ -60,11 +60,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         String postsId = getIntent().getStringExtra("postsId");
-        String memberId = AppHelper.getInstance().getUser().getID();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
         request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
-        request.add("memberId", memberId);//然并卵
 
         getContentData(requestQueue, request);//帖子内容
 //        getCommentData(requestQueue, msgRequest);//评论
