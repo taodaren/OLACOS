@@ -94,7 +94,7 @@ public class TabLeagueFragment extends BaseFragment {
         lFragment=new CommunityALoginFragment();//活动未等陆的提醒
         pFragment=new CommunityPLoginFragment();//作品未的登录的提醒
         mList.add(nFragment);
-        if(!AppHelper.getInstance().isLogined()){
+        if(!AppHelper.getInstance().isLogined()){//未登录状态fragemnt集合当中添加的是提醒登录的fragemnt，else登录之后fragment集合当中添加的是其他布局
             mList.add(lFragment);
         }else{
             mList.add(hFragment);
@@ -256,11 +256,6 @@ public class TabLeagueFragment extends BaseFragment {
 //
 //            }
 //        });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
