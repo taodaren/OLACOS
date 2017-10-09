@@ -28,38 +28,35 @@ public interface I {
     //验证手机号码是否注册
     String IS_REGISTER = BASE_URL + "/memberMobile/checkPhone.do";
     //检查昵称是否存在
-    String IS_NICKNAME=BASE_URL + "/memberMobile/testNickName.do";
+    String IS_NICKNAME = BASE_URL + "/memberMobile/testNickName.do";
+
     /**
      * 个人中心
      */
-
     //修改个人信息
     String CHANGE_USER = BASE_URL + "/memberMobile/updateMember.do";
     //我的专区列表
     String MY_AREA = BASE_URL + "/centerMobile/myarrondi.do";
     //关注专区/取消专区
-    String ATTENORCANCEL=BASE_URL + "/centerMobile/foMyarrondi.do";
+    String ATTENORCANCEL = BASE_URL + "/centerMobile/foMyarrondi.do";
     //我的帖子
-    String MY_POSTS=BASE_URL + "/centerMobile/community.do";
+    String MY_POSTS = BASE_URL + "/centerMobile/community.do";
     //我的收藏
-    String MY_COLLECTION=BASE_URL + "/centerMobile/collect.do";
+    String MY_COLLECTION = BASE_URL + "/centerMobile/collect.do";
     //我关注的用户 全部
-    String MY_FOCUS_ALL=BASE_URL + "/centerMobile/followAll.do";
+    String MY_FOCUS_ALL = BASE_URL + "/centerMobile/followAll.do";
     //我关注的用户 分页
-    String MY_FOCUS_PAGER=BASE_URL + "/centerMobile/follow.do";
+    String MY_FOCUS_PAGER = BASE_URL + "/centerMobile/follow.do";
     //我的粉丝 分页
-    String MY_FANS_PAGER=BASE_URL + "/centerMobile/fans.do";
+    String MY_FANS_PAGER = BASE_URL + "/centerMobile/fans.do";
     //成为/取消 粉丝
-    String IS_FANS=BASE_URL + "/centerMobile/foFollow.do";
+    String IS_FANS = BASE_URL + "/centerMobile/foFollow.do";
     //点赞/取消赞
-    String GOOD=BASE_URL + "/centerMobile/zan.do";
+    String GOOD = BASE_URL + "/centerMobile/zan.do";
     //验证是否关注当前的专区
-    String IS_ATTENTION=BASE_URL + "/centerMobile/departBymemberId.do";
+    String IS_ATTENTION = BASE_URL + "/centerMobile/departBymemberId.do";
     //他人个人主页
-    String OTHER_CENTER=BASE_URL + "/member/getMemberInfo.do";
-
-
-
+    String OTHER_CENTER = BASE_URL + "/member/getMemberInfo.do";
 
     /**
      * 社区
@@ -111,7 +108,6 @@ public interface I {
     //热帖刷新
     String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
 
-
     /**
      * 获取省市国家等数据
      **/
@@ -137,7 +133,7 @@ public interface I {
         String PASS_WORD = "account_pwd";
         String IS_LOGIN = "is_login";
         String TOKEN = "account_token";
-        String NICK_ICON="nick_icon";
+        String NICK_ICON = "nick_icon";
     }
 
     interface Img {

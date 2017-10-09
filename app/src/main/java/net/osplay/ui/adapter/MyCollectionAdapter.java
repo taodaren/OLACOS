@@ -1,7 +1,6 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,22 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.RequestQueue;
-import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MyAreaBean;
-import net.osplay.service.entity.MycollectionBean;
-import net.osplay.ui.activity.sub.MinePageOtherActivity;
+import net.osplay.service.entity.MyCollectionBean;
 
 import java.util.List;
 
@@ -34,16 +24,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * 个人中心----我的收藏
  */
 
-public class MycollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder> {
+public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder> {
     private SetOnClickListen setOnClickListen;
     public void onClick(SetOnClickListen setOnClickListen){
         this.setOnClickListen=setOnClickListen;
     }
 
     private Context context;
-    private List<MycollectionBean.RowsBean> rows;
+    private List<MyCollectionBean.RowsBean> rows;
 
-    public MycollectionAdapter(Context context, List<MycollectionBean.RowsBean> rows) {
+    public MyCollectionAdapter(Context context, List<MyCollectionBean.RowsBean> rows) {
         this.context = context;
         this.rows = rows;
     }

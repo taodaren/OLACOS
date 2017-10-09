@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -20,8 +19,8 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
+import net.osplay.ui.fragment.sub.MyCollectionFragment;
 import net.osplay.ui.fragment.sub.MyFansFragment;
-import net.osplay.ui.fragment.sub.MycollectionFragment;
 import net.osplay.ui.fragment.sub.MyfocusFragment;
 import net.osplay.ui.fragment.sub.MypostsFragment;
 import net.osplay.ui.fragment.sub.MyareaFragment;
@@ -44,7 +43,7 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
     private TextView tv_mine_page_praise,attention_tv,fans_tv,tv_mine_page_info;
     private MyareaFragment aFragment;
     private MypostsFragment  pFragment;
-    private MycollectionFragment cFragment;
+    private MyCollectionFragment cFragment;
     private MyfocusFragment fcFragemnt;
     private MyFansFragment  faFragment;
 
@@ -97,7 +96,7 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
         viewPager = (ViewPager) findViewById(R.id.vp_mine_page);
         aFragment=new MyareaFragment();
         pFragment=new MypostsFragment();
-        cFragment=new MycollectionFragment();
+        cFragment=new MyCollectionFragment();
         fcFragemnt=new MyfocusFragment();
         faFragment=new MyFansFragment();
         setTabLayout();
