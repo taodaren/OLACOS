@@ -109,9 +109,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         } else {
             tvTopicDetailsLevel.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
-            // set Avatar
-            Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
-            topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
+            // set Avatar and Nick
+            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(topicPageAvatar);
+            topicDetailsNick.setText(AppHelper.getInstance().getUser().getNICK_NAME());
         }
     }
 
