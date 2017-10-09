@@ -33,6 +33,7 @@ public interface I {
     /**
      * 个人中心
      */
+
     //修改个人信息
     String CHANGE_USER = BASE_URL + "/memberMobile/updateMember.do";
     //我的专区列表
@@ -107,6 +108,14 @@ public interface I {
     String POSTS_HOT_LIST = BASE_URL + "/topicMobile/hotTopic.do";
     //热帖刷新
     String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
+
+
+    /**
+     * 社团
+     */
+    //查询已经参加过的社团（可用于判断是否参加过社团）
+    String IS_JOIN=BASE_URL + "/corporationMobile/joinCorporation.do";
+
 
     /**
      * 获取省市国家等数据

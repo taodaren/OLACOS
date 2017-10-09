@@ -109,94 +109,95 @@ public class OtherCollectionFragment extends Fragment {
             rows = myCollectionBean.getRows();
             cAadapter=new MyCollectionAdapter(getContext(), rows);
             centerRecycler.setAdapter(cAadapter);
+
+            //点赞的点击事件
+            SetOnClickListen setOnClickListen = new SetOnClickListen() {
+                @Override
+                public void setOnClick(int position) {
+
+                }
+
+                @Override
+                public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                    if (flag == 0) {
+                        RequestQueue requestQueue = NoHttp.newRequestQueue();
+                        Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
+                        request.add("memberId", rows.get(position).getMEMID());
+                        request.add("topickId", rows.get(position).getID());
+                        request.add("mark",0);
+                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                            @Override
+                            public void onStart(int what) {
+                            }
+                            @Override
+                            public void onSucceed(int what, Response<String> response) {
+                                String json = response.get();
+                                Log.e("TAG","点赞结果："+json);
+                                if (json != null) {
+                                } else {
+                                    return;
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailed(int what, Response<String> response) {
+
+                            }
+
+                            @Override
+                            public void onFinish(int what) {
+
+                            }
+                        });
+                        int zanCount = Integer.parseInt(zanTv.getText().toString());
+                        zanTv.setText(zanCount+1+"");
+                        zanIv.setImageResource(R.drawable.ic_sugar_selected);
+                    } else if (flag == 1) {
+                        RequestQueue requestQueue = NoHttp.newRequestQueue();
+                        Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
+                        request.add("memberId", rows.get(position).getMEMID());
+                        request.add("topickId", rows.get(position).getID());
+                        request.add("mark",1);
+                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                            @Override
+                            public void onStart(int what) {
+                            }
+                            @Override
+                            public void onSucceed(int what, Response<String> response) {
+                                String json = response.get();
+                                Log.e("TAG","点赞结果："+json);
+                                if (json != null) {
+                                } else {
+                                    return;
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailed(int what, Response<String> response) {
+
+                            }
+
+                            @Override
+                            public void onFinish(int what) {
+
+                            }
+                        });
+                        int zanCount = Integer.parseInt(zanTv.getText().toString());
+                        zanTv.setText(zanCount-1+"");
+                        zanIv.setImageResource(R.drawable.ic_sugar_unselected);
+                    }
+                    flag = (flag + 1) % 2;//其余得到循环执行上面2个不同的功能
+                }
+
+
+
+
+            };
+            cAadapter .onClick(setOnClickListen);
         }
 
-        //点赞的点击事件
-        SetOnClickListen setOnClickListen = new SetOnClickListen() {
-            @Override
-            public void setOnClick(int position) {
-
-            }
-
-            @Override
-            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
-                if (flag == 0) {
-                    RequestQueue requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
-                    request.add("memberId", rows.get(position).getMEMID());
-                    request.add("topickId", rows.get(position).getID());
-                    request.add("mark",0);
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-                        }
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("TAG","点赞结果："+json);
-                            if (json != null) {
-                            } else {
-                                return;
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailed(int what, Response<String> response) {
-
-                        }
-
-                        @Override
-                        public void onFinish(int what) {
-
-                        }
-                    });
-                    int zanCount = Integer.parseInt(zanTv.getText().toString());
-                    zanTv.setText(zanCount+1+"");
-                    zanIv.setImageResource(R.drawable.ic_sugar_selected);
-                } else if (flag == 1) {
-                    RequestQueue requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
-                    request.add("memberId", rows.get(position).getMEMID());
-                    request.add("topickId", rows.get(position).getID());
-                    request.add("mark",1);
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-                        }
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("TAG","点赞结果："+json);
-                            if (json != null) {
-                            } else {
-                                return;
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailed(int what, Response<String> response) {
-
-                        }
-
-                        @Override
-                        public void onFinish(int what) {
-
-                        }
-                    });
-                    int zanCount = Integer.parseInt(zanTv.getText().toString());
-                    zanTv.setText(zanCount-1+"");
-                    zanIv.setImageResource(R.drawable.ic_sugar_unselected);
-                }
-                flag = (flag + 1) % 2;//其余得到循环执行上面2个不同的功能
-            }
-
-
-
-
-        };
-        cAadapter .onClick(setOnClickListen);
 
     }
 

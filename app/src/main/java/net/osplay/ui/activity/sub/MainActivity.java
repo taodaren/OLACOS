@@ -7,11 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+import com.bumptech.glide.Glide;
 
+import net.osplay.app.AppHelper;
+import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.sub.TabGoodsFragment;
@@ -20,6 +24,7 @@ import net.osplay.ui.fragment.sub.TabLeagueFragment;
 import net.osplay.ui.fragment.sub.TabWordFragment;
 import net.osplay.utils.PublishPopWindow;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
     private TabLeagueFragment tabLeagueFragment;
+    private CircleImageView nav_avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         initBottomNavBar();
         initFabButton();
         defaultShowHome();
+        setUserInfo();
+    }
+
+    private void setUserInfo() {
+        nav_avatar = (CircleImageView) findViewById(R.id.nav_avatar);
+//        if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+//            return;
+//        }else{
+            //Glide.with(this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nav_avatar);
+  //      }
     }
 
     /**

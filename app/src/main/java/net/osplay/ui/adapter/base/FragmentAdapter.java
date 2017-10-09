@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import net.osplay.ui.activity.sub.LeagueIMActivity;
@@ -60,7 +61,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     }
 
     @Override
+
     public CharSequence getPageTitle(int position) {
+        Log.e("JGB","标题的长度："+position);
         return mTitles[position];
     }
 

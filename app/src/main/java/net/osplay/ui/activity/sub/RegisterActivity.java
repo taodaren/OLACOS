@@ -195,8 +195,6 @@ public class RegisterActivity extends BaseActivity {
         }
     }
 
-
-
     //提交用户信息
     private void submitRegisterInfo() {
         if (!(editPhoneCode.getText().toString().equals(code1))) {
