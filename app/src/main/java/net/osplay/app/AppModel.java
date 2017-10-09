@@ -67,4 +67,11 @@ public class AppModel {
     }
 
 
+    public void setUserID(String userID) {
+        SharedPfUtil.setParam(mContext, I.Account.USER_ID, userID);
+    }
+
+    public String getUserID() {
+        return SharedPfUtil.getParam(mContext, I.Account.USER_ID, "String");
+    }
 }
