@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MyCollectionBean;
-import net.osplay.service.entity.MycollectionBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
 
 import java.util.List;
@@ -28,8 +28,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHolder> {
     private SetOnClickListen setOnClickListen;
-    public void onClick(SetOnClickListen setOnClickListen){
-        this.setOnClickListen=setOnClickListen;
+
+    public void onClick(SetOnClickListen setOnClickListen) {
+        this.setOnClickListen = setOnClickListen;
     }
 
     private Context context;
@@ -39,6 +40,7 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         this.context = context;
         this.rows = rows;
     }
+
     @Override
     public CollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(context).inflate(R.layout.item_word_topic_list, parent, false);
@@ -48,8 +50,8 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
 
     @Override
     public void onBindViewHolder(final CollectionViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_collection_avatar);
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getCOVERIMG()).into(holder.item_collection_icon);
+        Glide.with(context).load(I.BASE_URL + rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_collection_avatar);
+        Glide.with(context).load(I.BASE_URL + rows.get(position).getCOVERIMG()).into(holder.item_collection_icon);
         holder.item_collection_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_collection_time.setText(rows.get(position).getCREATEDATE());
         holder.item_collection_title.setText(rows.get(position).getTITLE());
@@ -59,7 +61,7 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         holder.ll_topic_list_zan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setOnClickListen.setOnClick(position,holder.item_collection_good,holder.item_collection_collect,holder.item_collection_comment,holder.img_topic_list_zan,holder.img_topic_list_collect);
+                setOnClickListen.setOnClick(position, holder.item_collection_good, holder.item_collection_collect, holder.item_collection_comment, holder.img_topic_list_zan, holder.img_topic_list_collect);
             }
         });
 
@@ -67,8 +69,8 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         holder.posts_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(context, DetailsPostsActivity.class);
-                intent.putExtra("postsId",rows.get(position).getID());
+                Intent intent = new Intent(context, DetailsPostsActivity.class);
+                intent.putExtra("postsId", rows.get(position).getID());
                 context.startActivity(intent);
             }
         });
@@ -79,13 +81,14 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         return rows.size();
     }
 }
-class CollectionViewHolder extends RecyclerView.ViewHolder{
+
+class CollectionViewHolder extends RecyclerView.ViewHolder {
     public CircleImageView item_collection_avatar;
     public TextView item_collection_time;//时间
-    public TextView item_collection_title,item_collection_nick;
+    public TextView item_collection_title, item_collection_nick;
     public ImageView item_collection_icon;
-    public TextView item_collection_good,item_collection_collect,item_collection_comment;
-    public ImageView img_topic_list_zan,img_topic_list_collect;
+    public TextView item_collection_good, item_collection_collect, item_collection_comment;
+    public ImageView img_topic_list_zan, img_topic_list_collect;
     public LinearLayout ll_topic_list_zan;
     public LinearLayout posts_ll;
 
