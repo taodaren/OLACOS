@@ -117,6 +117,17 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mDataList.get(pos).isSpan();
     }
 
+    public void setData(List<HomeData> datas, int refreshIndex, int rangeCount) {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+            mDataList.addAll(datas);
+        } else {
+            mDataList.clear();
+            mDataList.addAll(datas);
+        }
+        notifyItemRangeChanged(refreshIndex, rangeCount);
+    }
+
 
     //////////////////// view holder ////////////////////
 

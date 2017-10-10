@@ -1,11 +1,15 @@
 package net.osplay.ui.fragment.sub;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,7 +43,12 @@ public class WordMineFragment extends BaseFragment {
     private static final String TAG = "WordMineFragment";
     private static final int ACTION_FOLLOW = 0;
     private static final int ACTION_RECO = 1;
+    private static final int ACTION_INIT = 2;
+    private static final int ACTION_UPDATE = 3;
+
     private RecyclerView mRvWordMine;
+    private TextView mTvActionRefresh;
+    private TextView mTvActionMore;
 
     private Gson gson = new Gson();
     private List<WordAddBean> mAddWorList = new ArrayList<>();
@@ -52,12 +61,42 @@ public class WordMineFragment extends BaseFragment {
     private RequestQueue requestQueue;
     private Request<String> requestAddWord;
     private Request<String> requestRecoWord;
+    /**
+     * 换一换时集合的更新的起始坐标
+     */
+    private int refreshIndex;
 
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_word_mine, null);
         mRvWordMine = (RecyclerView) inflate.findViewById(R.id.recycler_word_mine);
+        mTvActionRefresh = (TextView) inflate.findViewById(R.id.tv_fm_word_mine_refresh);
+        mTvActionMore = (TextView) inflate.findViewById(R.id.tv_fm_word_mine_more);
         return inflate;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mTvActionRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getNewRecoData();
+            }
+        });
+    }
+
+    /**
+     * 获取最新的推荐数据
+     */
+    private void getNewRecoData() {
+        // clear old reco data
+        for (int i=0;i<3;i++) {
+            mDatas.remove(mDatas.size() - 1);
+        }
+        refreshIndex = mDatas.size();
+        getRecoWordData(requestQueue, requestRecoWord, ACTION_UPDATE);
     }
 
     @Override
@@ -87,7 +126,7 @@ public class WordMineFragment extends BaseFragment {
                 getAddWordData(requestQueue, requestAddWord);
                 break;
             case ACTION_RECO:
-                getRecoWordData(requestQueue, requestRecoWord);
+                getRecoWordData(requestQueue, requestRecoWord, ACTION_INIT);
                 break;
         }
     }
@@ -137,8 +176,8 @@ public class WordMineFragment extends BaseFragment {
         addTitle("推荐的专区", R.drawable.word_add, ACTION_RECO);
     }
 
-    private void transformData(int action) {
-        switch (action) {
+    private void transformData(int getDataAction) {
+        switch (getDataAction) {
             case ACTION_FOLLOW:
                 mDatas.addAll(HomeDataMapper.transformWordAddDatas(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
                 addEmptyItem();
@@ -151,7 +190,7 @@ public class WordMineFragment extends BaseFragment {
     }
 
 
-    private void getRecoWordData(RequestQueue requestQueue, Request<String> request) {
+    private void getRecoWordData(RequestQueue requestQueue, Request<String> request, final int action) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -167,14 +206,16 @@ public class WordMineFragment extends BaseFragment {
                     Type type = new TypeToken<List<WordRecoBean>>() {
                     }.getType();
                     mRecoWordList = gson.fromJson(json, type);
-                    transformData(ACTION_RECO);
+                    showSuccess(ACTION_RECO, action);
                     Log.d(TAG, "onSucceed: 推荐的社区解析结果====================" + mRecoWordList);
+                } else {
+                    showError(what);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
+                showError(what);
             }
 
             @Override
@@ -182,6 +223,39 @@ public class WordMineFragment extends BaseFragment {
 
             }
         });
+    }
+
+    private void showError(int what) {
+        Toast.makeText(getContext(), getString(R.string.attention_internet_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSuccess(int getDataAction, int resultDataAction) {
+        switch (resultDataAction) {
+            case ACTION_INIT:
+                transformData(getDataAction);
+                break;
+            case ACTION_UPDATE:
+                updateRecyclerView(getDataAction);
+                break;
+        }
+
+    }
+
+    /**
+     * 更新RecyclrView的方法
+     * @param getDataAction: 更新数据的操作，ACTION_FOLLOW：更新关注Item; ACTION_RECO: 更新推荐Item;
+     */
+    private void updateRecyclerView(int getDataAction) {
+        switch (getDataAction) {
+            case ACTION_FOLLOW:
+
+                break;
+            case ACTION_RECO:
+                mDatas.addAll(HomeDataMapper.transformWordRecoDatas(mRecoWordList, WordMineAdapter.TYPE_RECO_WORD, true));
+                break;
+        }
+
+        mAdapter.setData(mDatas, refreshIndex, mRecoWordList.size());
     }
 
     private void initRecyclerView() {
