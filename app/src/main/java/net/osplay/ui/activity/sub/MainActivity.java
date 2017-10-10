@@ -4,11 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -33,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
     private TabLeagueFragment tabLeagueFragment;
-    private CircleImageView nav_avatar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +46,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         initBottomNavBar();
         initFabButton();
         defaultShowHome();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         setUserInfo();
     }
 
     private void setUserInfo() {
-        nav_avatar = (CircleImageView) findViewById(R.id.nav_avatar);
-//        if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
-//            return;
-//        }else{
-            //Glide.with(this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nav_avatar);
-  //      }
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navView.getHeaderView(0);
+        CircleImageView imgAvatar = (CircleImageView) headerView.findViewById(R.id.nav_avatar);
+        TextView tvAccount = (TextView) headerView.findViewById(R.id.nav_account);
+
+        if (AppHelper.getInstance().isLogined()) {//如果是登录状态
+            Glide.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+            tvAccount.setText(AppHelper.getInstance().getUser().getNICK_NAME());
+        }
     }
 
     /**
