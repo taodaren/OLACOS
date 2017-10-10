@@ -1,8 +1,6 @@
 package net.osplay.ui.fragment.sub;
 
 
-import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -27,9 +24,9 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MycollectionBean;
-import net.osplay.ui.activity.sub.EventDetailsActivity;
-import net.osplay.ui.adapter.MycollectionAdapter;
+import net.osplay.service.entity.MyCollectionBean;
+import net.osplay.ui.adapter.MyCollectionAdapter;
+
 
 import java.util.List;
 
@@ -41,20 +38,23 @@ import butterknife.Unbinder;
  * 个人中心---我的收藏(ok)
  */
 public class MyCollectionFragment extends Fragment {
+
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
     Unbinder unbinder;
+    private View inflate;
+    private MyCollectionAdapter cAadapter;
+    int flag = 0;//定义标记变量
 
-    private int flag = 0;//定义标记变量
-    private Gson gson = new Gson();
+    private Gson mGson = new Gson();
     private List<MyCollectionBean.RowsBean> rows;
-    private MyCollectionAdapter cAdapter;
+    private List<MyCollectionBean.RowsBean> onClickListen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.center_layout, container, false);
+        inflate = inflater.inflate(R.layout.center_layout, container, false);
         unbinder = ButterKnife.bind(this, inflate);
         centerRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         initData();
@@ -76,94 +76,97 @@ public class MyCollectionFragment extends Fragment {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB", "我的收藏:" + json);
-                if (json != null) {
-                    formatMyArea(json);
-                } else {
+                if (json ==null) {
                     return;
+                } else {
+                    formatMyarea(json);
                 }
+
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
+
             }
 
             @Override
             public void onFinish(int what) {
+
             }
         });
 
     }
 
-    private void formatMyArea(String json) {
-        MyCollectionBean myCollectionBean = gson.fromJson(json, MyCollectionBean.class);
-        if (myCollectionBean.getTotal() == 0) {
+    private void formatMyarea(String json) {
+        MyCollectionBean mycollectionBean = mGson.fromJson(json, MyCollectionBean.class);
+        if (mycollectionBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
-            rows = myCollectionBean.getRows();
-            cAdapter = new MyCollectionAdapter(getContext(), rows);
-            centerRecycler.setAdapter(cAdapter);
-        }
+            rows = mycollectionBean.getRows();
+            cAadapter=new MyCollectionAdapter(getContext(), rows);
+            centerRecycler.setAdapter(cAadapter);
+            //点赞的点击事件
+            SetOnClickListen setOnClickListen = new SetOnClickListen() {
+                @Override
+                public void setOnClick(int position) {
 
-        //点赞的点击事件
-        SetOnClickListen setOnClickListen = new SetOnClickListen() {
-            @Override
-            public void setOnClick(int position) {
-            }
+                }
 
-            @Override
-            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
-                if (flag == 0) {
-                    RequestQueue requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
-                    request.add("memberId", rows.get(position).getMEMID());
-                    request.add("topickId", rows.get(position).getID());
-                    request.add("mark", 0);
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-                        }
-
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("TAG", "点赞结果：" + json);
-                            if (json != null) {
-                            } else {
-                                return;
+                @Override
+                public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                    if (flag == 0) {
+                        RequestQueue requestQueue = NoHttp.newRequestQueue();
+                        Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
+                        request.add("memberId", rows.get(position).getMEMID());
+                        request.add("topickId", rows.get(position).getID());
+                        request.add("mark",0);
+                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                            @Override
+                            public void onStart(int what) {
                             }
-                        }
+                            @Override
+                            public void onSucceed(int what, Response<String> response) {
+                                String json = response.get();
+                                Log.e("TAG","点赞结果："+json);
+                                if (json != null) {
+                                } else {
+                                    return;
+                                }
 
-                        @Override
-                        public void onFailed(int what, Response<String> response) {
-                        }
-
-                        @Override
-                        public void onFinish(int what) {
-                        }
-                    });
-                    int zanCount = Integer.parseInt(zanTv.getText().toString());
-                    zanTv.setText(zanCount + 1 + "");
-                    zanIv.setImageResource(R.drawable.ic_sugar_selected);
-                } else if (flag == 1) {
-                    RequestQueue requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
-                    request.add("memberId", rows.get(position).getMEMID());
-                    request.add("topickId", rows.get(position).getID());
-                    request.add("mark", 1);
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-                        }
-
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("TAG", "点赞结果：" + json);
-                            if (json != null) {
-                            } else {
-                                return;
                             }
+
+                            @Override
+                            public void onFailed(int what, Response<String> response) {
+
+                            }
+
+                            @Override
+                            public void onFinish(int what) {
+
+                            }
+                        });
+                        int zanCount = Integer.parseInt(zanTv.getText().toString());
+                        zanTv.setText(zanCount+1+"");
+                        zanIv.setImageResource(R.drawable.ic_sugar_selected);
+                    } else if (flag == 1) {
+                        RequestQueue requestQueue = NoHttp.newRequestQueue();
+                        Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
+                        request.add("memberId", rows.get(position).getMEMID());
+                        request.add("topickId", rows.get(position).getID());
+                        request.add("mark",1);
+                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                            @Override
+                            public void onStart(int what) {
+                            }
+                            @Override
+                            public void onSucceed(int what, Response<String> response) {
+                                String json = response.get();
+                                Log.e("TAG","点赞结果："+json);
+                                if (json != null) {
+                                } else {
+                                    return;
+                                }
 
                             }
 
@@ -190,7 +193,7 @@ public class MyCollectionFragment extends Fragment {
 
 
 
-
+    }
 
     @Override
     public void onDestroyView() {
