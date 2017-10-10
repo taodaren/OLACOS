@@ -158,7 +158,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Log.d(TAG, "postsId=================================" + postsId);
                     Intent intent = new Intent(mContext, DetailsPostsActivity.class);
                     intent.putExtra(I.Posts.POSTS_ID, postsId);
                     mContext.startActivity(intent);

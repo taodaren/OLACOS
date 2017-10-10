@@ -158,16 +158,16 @@ public class TabHomeFragment extends BaseFragment {
 
     private void getDatas() {
         egDatas = new ArrayList<>();
-        egDatas.add(new ImgTvBean(R.drawable.example07,"资讯"));
-        egDatas.add(new ImgTvBean(R.drawable.example11,"特卖"));
-        egDatas.add(new ImgTvBean(R.drawable.example10,"商品"));
-        egDatas.add(new ImgTvBean(R.drawable.example09,"二手"));
-        egDatas.add(new ImgTvBean(R.drawable.example08,"教程"));
-        egDatas.add(new ImgTvBean(R.drawable.example07,"资讯"));
-        egDatas.add(new ImgTvBean(R.drawable.example11,"特卖"));
-        egDatas.add(new ImgTvBean(R.drawable.example10,"商品"));
-        egDatas.add(new ImgTvBean(R.drawable.example09,"二手"));
-        egDatas.add(new ImgTvBean(R.drawable.example08,"教程"));
+        egDatas.add(new ImgTvBean(R.drawable.banner01,"资讯"));
+        egDatas.add(new ImgTvBean(R.drawable.banner02,"特卖"));
+        egDatas.add(new ImgTvBean(R.drawable.banner03,"商品"));
+        egDatas.add(new ImgTvBean(R.drawable.banner04,"二手"));
+        egDatas.add(new ImgTvBean(R.drawable.banner05,"教程"));
+        egDatas.add(new ImgTvBean(R.drawable.banner01,"资讯"));
+        egDatas.add(new ImgTvBean(R.drawable.banner02,"特卖"));
+        egDatas.add(new ImgTvBean(R.drawable.banner03,"商品"));
+        egDatas.add(new ImgTvBean(R.drawable.banner04,"二手"));
+        egDatas.add(new ImgTvBean(R.drawable.banner05,"教程"));
         initRecyclerView();
     }
 
