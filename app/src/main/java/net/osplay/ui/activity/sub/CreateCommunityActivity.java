@@ -1,11 +1,10 @@
 package net.osplay.ui.activity.sub;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,12 +31,13 @@ public class CreateCommunityActivity extends BaseActivity {
     private Button create_submit_btn;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_community);
-        preferences=getSharedPreferences("CreateCommunity",Activity.MODE_PRIVATE);
-        editor=preferences.edit();
+        preferences = getSharedPreferences("CreateCommunity", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
         setToolbar("创建社团", View.VISIBLE);
         initView();
         bindEvent();
@@ -55,17 +55,17 @@ public class CreateCommunityActivity extends BaseActivity {
         create_submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(create_community_ed.getText().toString().isEmpty()){
-                    Toast.makeText(CreateCommunityActivity.this,"请输入社团名称",Toast.LENGTH_SHORT).show();
-                }else if(create_area_ed.getText().toString().isEmpty()){
-                    Toast.makeText(CreateCommunityActivity.this,"请输入地区",Toast.LENGTH_SHORT).show();
-                }else if(create_reason_ed.getText().toString().isEmpty()){
-                    Toast.makeText(CreateCommunityActivity.this,"请输入申团理由",Toast.LENGTH_SHORT).show();
-                }else{
+                if (create_community_ed.getText().toString().isEmpty()) {
+                    Toast.makeText(CreateCommunityActivity.this, "请输入社团名称", Toast.LENGTH_SHORT).show();
+                } else if (create_area_ed.getText().toString().isEmpty()) {
+                    Toast.makeText(CreateCommunityActivity.this, "请输入地区", Toast.LENGTH_SHORT).show();
+                } else if (create_reason_ed.getText().toString().isEmpty()) {
+                    Toast.makeText(CreateCommunityActivity.this, "请输入申团理由", Toast.LENGTH_SHORT).show();
+                } else {
                     establishHttp();//提交创建社团信息
 
 
-                   // startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
+                    // startActivity(new Intent(CreateCommunityActivity.this,MainActivity.class));
 //                    Intent show=new Intent(CreateCommunityActivity.this,MainActivity.class);
 //                    show.putExtra("jgb",1);
 //                    startActivity(show);
@@ -97,7 +97,7 @@ public class CreateCommunityActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Toast.makeText(CreateCommunityActivity.this,"提交成功等待审核",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateCommunityActivity.this, "提交成功等待审核", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -111,6 +111,16 @@ public class CreateCommunityActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
 

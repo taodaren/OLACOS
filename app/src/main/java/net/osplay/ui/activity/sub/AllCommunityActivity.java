@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -25,7 +26,7 @@ import java.util.List;
 
 public class AllCommunityActivity extends Activity {
 
-   private RecyclerView all_recy;
+    private RecyclerView all_recy;
     private Gson mGson = new Gson();
     private List<AllCommunityBean.RowsBean> rows;
 
@@ -53,7 +54,7 @@ public class AllCommunityActivity extends Activity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","全部社团数据："+json);
+                Log.e("JGB", "全部社团数据：" + json);
                 if (json == null) {
                     return;
                 } else {
@@ -76,9 +77,11 @@ public class AllCommunityActivity extends Activity {
     private void formatJson(String json) {
         AllCommunityBean allCommunityBean = mGson.fromJson(json, AllCommunityBean.class);
         rows = allCommunityBean.getRows();
-        Log.e("JGB","全部社团集合："+rows);
-        all_recy.setAdapter(new AllCommunityAdapter(AllCommunityActivity.this,rows));
+        Log.e("JGB", "全部社团集合：" + rows);
+        all_recy.setAdapter(new AllCommunityAdapter(AllCommunityActivity.this, rows));
     }
 
-
+    public void onClick(View view) {
+        finish();
+    }
 }
