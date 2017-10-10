@@ -306,7 +306,6 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
     private void initRecyclerView() {
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         mLayoutManager.setAutoMeasureEnabled(true);
-        mLayoutManager.setSmoothScrollbarEnabled(true);
 
         mRvWordMine.setLayoutManager(mLayoutManager);
         mRvWordMine.setHasFixedSize(true);
