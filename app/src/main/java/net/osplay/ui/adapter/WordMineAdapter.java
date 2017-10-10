@@ -146,6 +146,17 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyItemRangeChanged(refreshIndex, rangeCount);
     }
 
+    public void setData(List<HomeData> datas) {
+        if (mDataList == null) {
+            mDataList = new ArrayList<>();
+            mDataList.addAll(datas);
+        } else {
+            mDataList.clear();
+            mDataList.addAll(datas);
+        }
+        notifyDataSetChanged();
+    }
+
 
     //////////////////// view holder ////////////////////
 
@@ -249,6 +260,10 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white_un));
                 recommendWordAdd.setTextColor(ContextCompat.getColor(mContext, R.color.colorTiShiWenZi));
                 recommendWordAdd.setText("已加入");
+            } else {
+                recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white));
+                recommendWordAdd.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+                recommendWordAdd.setText("+ 加入");
             }
         }
 

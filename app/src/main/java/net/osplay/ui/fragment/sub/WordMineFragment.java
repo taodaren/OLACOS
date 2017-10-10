@@ -88,6 +88,13 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
                 getNewRecoData();
             }
         });
+
+        mTvActionMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // goto somewhere
+            }
+        });
     }
 
     /**
@@ -268,16 +275,32 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
      */
     private void resultFollowAction() {
         HomeData homeData = HomeDataMapper.transformWordAddData(actionFollowBean, WordMineAdapter.TYPE_ADD_WORD, false);
-        if (followAction == I.Action.ACTION_DO) {
+        if (followAction == I.Action.ACTION_DO) {// 加入专区
             // change follow state
             ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("true");
             // add follow bean
             refreshIndex = mDatas.indexOf(addBean) - 1;
             mDatas.add(refreshIndex, homeData);
-        } else if (followAction == I.Action.ACTION_CANCEL) {
 
+            showMsgByStr("加入专区成功");
+        } else if (followAction == I.Action.ACTION_CANCEL) {// 退出专区
+            // change follow state
+            ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("false");
+            refreshIndex = mDatas.indexOf(addBean);
+            for (int i = 1; i < refreshIndex; i++) {
+                if (((WordAddBean) mDatas.get(i).getData()).getID().equals(actionFollowBean.getID())) {
+                    mDatas.remove(i);
+                    break;
+                }
+            }
+
+            showMsgByStr("退出专区成功");
         }
-        mAdapter.setData(mDatas, 0, mDatas.size());
+        mAdapter.setData(mDatas);
+    }
+
+    private void showMsgByStr(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 
     private void initRecyclerView() {
