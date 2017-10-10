@@ -162,4 +162,9 @@ public interface I {
         String POSTS_ID = "posts_id";
     }
 
+    interface Action {
+        int ACTION_DO = 0;
+        int ACTION_CANCEL = 1;
+    }
+
 }
