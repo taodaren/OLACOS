@@ -92,7 +92,7 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private RecyclerView recyclerPosts;
         private PostsInfoAdapter adapter;
         private ImageView imgHead, imgRefresh;
-        private TextView tvHead, tvNumber;
+        private TextView tvHead;
 
         private PostsViewHolder(View inflate) {
             super(inflate);
@@ -100,7 +100,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             imgRefresh = (ImageView) inflate.findViewById(R.id.img_hot_posts_refresh);
             imgHead = (ImageView) inflate.findViewById(R.id.img_hot_posts_head);
             tvHead = (TextView) inflate.findViewById(R.id.tv_hot_posts_head);
-            tvNumber = (TextView) inflate.findViewById(R.id.tv_posts_refresh_num);
         }
 
         public void bindData(final int position) {
@@ -117,7 +116,6 @@ public class WordHotPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             imgHead.setImageResource(niTypes.get(position));
             tvHead.setText(mPartList.get(position).getPART());
-            tvNumber.setText(mPartList.get(position).getTOPICK_COUNT() + "条新动态，点击刷新！");
 
             imgRefresh.setOnClickListener(new View.OnClickListener() {//刷新数据，动态数亦随之变化
                 @Override

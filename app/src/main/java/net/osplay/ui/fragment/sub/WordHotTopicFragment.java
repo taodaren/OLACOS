@@ -1,7 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,15 +22,6 @@ public class WordHotTopicFragment extends BaseFragment {
     private static final String TAG = "WordHotTopicFragment";
     private RecyclerView mRvTopic;
     private List<WordTopicBean> topicList;
-
-    @SuppressLint("ValidFragment")
-    public WordHotTopicFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordHotTopicFragment(Context context, int resId) {
-        super(context, resId);
-    }
 
     @Override
     public View initView() {
@@ -65,9 +54,7 @@ public class WordHotTopicFragment extends BaseFragment {
             GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
             mRvTopic.setLayoutManager(mLayoutManager);
             mRvTopic.setHasFixedSize(true);
-
             WordHotTopicAdapter mAdapter = new WordHotTopicAdapter(getActivity(), topicList);
-            Log.d(TAG, "initView: topicList======================" + topicList);
             mRvTopic.setAdapter(mAdapter);
         }
     }

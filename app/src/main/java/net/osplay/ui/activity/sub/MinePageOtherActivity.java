@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -48,7 +47,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * 个人主页（他人）
  */
-public class MinePageOtherActivity extends BaseActivity  {
+public class MinePageOtherActivity extends BaseActivity {
     @BindView(R.id.tv_mine_page_other_praise)
     TextView tvMinePageOtherPraise;
     @BindView(R.id.mine_page_other_follow)
@@ -74,15 +73,13 @@ public class MinePageOtherActivity extends BaseActivity  {
     @BindView(R.id.fans_tv)
     TextView fansTv;
 
-    private FragmentAdapter fragmentAdapter = null;
-    private List<Fragment> lists = new ArrayList<>();
     private String[] titles = new String[]{"足迹", "百宝箱", "idol", "情敌"};
+    private List<Fragment> lists = new ArrayList<>();
     private OtherPostsFragment pFragment;//帖子
     private OtherCollectionFragment cFragment;//收藏
-    private OtherFocusFragment fcFragemnt;//关注
+    private OtherFocusFragment fcFragment;//关注
     private OtherFansFragment faFragment;//粉丝
-    private Gson mGson = new Gson();
-    private List<OtherCenterBean> otherList;
+    private Gson gson = new Gson();
     private String memberId;
 
     @Override
@@ -95,12 +92,12 @@ public class MinePageOtherActivity extends BaseActivity  {
         initView();
         initUserData();//请求个人数据
         // TODO: 2017/10/7   关注关系发生改变  没有返回值
-      //  initAttention();//请求关注信息
+        //  initAttention();//请求关注信息
         Bundle bundle = new Bundle();
         bundle.putString("otherMemberId", memberId);
         pFragment.setArguments(bundle);
         cFragment.setArguments(bundle);
-        fcFragemnt.setArguments(bundle);
+        fcFragment.setArguments(bundle);
         faFragment.setArguments(bundle);
     }
 
@@ -113,29 +110,24 @@ public class MinePageOtherActivity extends BaseActivity  {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("TAG","关注信息："+json);
+                Log.e("TAG", "关注信息：" + json);
                 if (json != null) {
-
                 } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -148,7 +140,6 @@ public class MinePageOtherActivity extends BaseActivity  {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
@@ -159,17 +150,14 @@ public class MinePageOtherActivity extends BaseActivity  {
                 } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -178,7 +166,7 @@ public class MinePageOtherActivity extends BaseActivity  {
     private void formatCenter(String json) {
         Type type = new TypeToken<List<OtherCenterBean>>() {
         }.getType();
-        otherList = mGson.fromJson(json, type);
+        List<OtherCenterBean> otherList = gson.fromJson(json, type);
         Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).error(R.drawable.avatar_default).into(minePageOtherAvatar);
         tvMinePageOtherPraise.setText(otherList.get(0).getNICK_NAME());
         focusTv.setText(otherList.get(0).getFOCUS_COUNT());
@@ -186,7 +174,6 @@ public class MinePageOtherActivity extends BaseActivity  {
         if (otherList.get(0).getINTRODUCE() != null) {
             tvMinePageOtherInfo.setText(otherList.get(0).getINTRODUCE());
         }
-
     }
 
     private void setToolbar() {
@@ -208,7 +195,7 @@ public class MinePageOtherActivity extends BaseActivity  {
     private void initView() {
         pFragment = new OtherPostsFragment();
         cFragment = new OtherCollectionFragment();
-        fcFragemnt = new OtherFocusFragment();
+        fcFragment = new OtherFocusFragment();
         faFragment = new OtherFansFragment();
         setTabLayout();
     }
@@ -216,9 +203,9 @@ public class MinePageOtherActivity extends BaseActivity  {
     private void setTabLayout() {
         lists.add(pFragment);
         lists.add(cFragment);
-        lists.add(fcFragemnt);
+        lists.add(fcFragment);
         lists.add(faFragment);
-        fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), MinePageOtherActivity.this, lists, titles);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), MinePageOtherActivity.this, lists, titles);
         vpMinePageOther.setAdapter(fragmentAdapter);
         tlMinePageOther.setupWithViewPager(vpMinePageOther);//设置 TabLayout 和 ViewPager 绑定
     }
@@ -232,7 +219,6 @@ public class MinePageOtherActivity extends BaseActivity  {
         }
         return true;
     }
-
 
     @OnClick(R.id.btn_mine_page_other_picture)
     public void onViewClicked() {

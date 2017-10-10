@@ -1,85 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card_recommend_word"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="4dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/layout_recommend_word"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorContentBg"
-        android:orientation="vertical">
+        android:layout_height="100dp"
+        android:padding="3dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:background="@color/colorWhite"
-            android:gravity="center_vertical"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/collect_goods_avatar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/word_add" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="推荐的专区"
-                android:textColor="@color/colorTiShiWenZi" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_recommend_word"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite" />
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/recommend_word_avatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/example01"
+            app:riv_corner_radius="5dp"
+            app:riv_mutate_background="true" />
 
         <RelativeLayout
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:padding="10dp">
+            android:layout_height="80dp"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@id/recommend_word_avatar"
+            android:padding="3dp">
 
-            <LinearLayout
-                android:id="@+id/ll_hyh"
+            <TextView
+                android:id="@+id/recommend_word_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:text="次元不二"
+                android:textSize="17sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_recommend_word"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/recommend_word_member"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:text="换一换"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="15sp" />
+                    android:layout_weight="1"
+                    android:text="成员:9527" />
 
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/recommend_word_posts"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    app:srcCompat="@drawable/huan_yi_huan" />
+                    android:layout_weight="1"
+                    android:text="帖子:89757" />
+
+                <Button
+                    android:id="@+id/recommend_word_add"
+                    android:layout_width="60dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/btn_shape_white"
+                    android:text="+ 加入"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
-            <Button
+            <TextView
+                android:id="@+id/recommend_word_info"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_below="@id/ll_hyh"
-                android:layout_centerInParent="true"
-                android:layout_margin="8dp"
-                android:background="@drawable/btn_shape_circle"
-                android:padding="8dp"
-                android:text="    查看更多专区    "
-                android:textColor="@color/colorWhite" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="不要污，要优雅"
+                android:textColor="@color/colorTiShiWenZi" />
         </RelativeLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorContentBg" />
+</LinearLayout>

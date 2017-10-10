@@ -16,6 +16,7 @@ public class AppHelper {
     private String userName;
     private String pwd;
     private String token;
+    private String userID;
     private boolean isLogin;
     private String nickIcon;
     private AppHelper() {
@@ -83,6 +84,18 @@ public class AppHelper {
         mModel.setCurrentPW(pwd);
     }
 
+    public String getUserID() {
+        if (userID == null) {
+            userID = mModel.getUserID();
+        }
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+        mModel.setUserID(userID);
+    }
+
     public Account getUser() {
         if (user == null) {
             this.user = mModel.getCurrentUser(getCurrentUserName());
@@ -96,6 +109,7 @@ public class AppHelper {
             this.user = account;
             setCurrentUserName(account.getPHONE());
             setCurrentPW(account.getPASSWORD());
+            setUserID(account.getID());
             mModel.setCurrentUser(account);
         }
     }

@@ -1,9 +1,9 @@
 package net.osplay.ui.fragment.sub;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -16,7 +16,9 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.data.bean.CommonTitleBean;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
@@ -35,20 +37,21 @@ import java.util.List;
 
 public class WordMineFragment extends BaseFragment {
     private static final String TAG = "WordMineFragment";
+    private static final int ACTION_FOLLOW = 0;
+    private static final int ACTION_RECO = 1;
     private RecyclerView mRvWordMine;
 
     private Gson gson = new Gson();
-    private List<WordAddBean> mAddWorList;
-    private List<WordRecoBean> mRecoWordList;
+    private List<WordAddBean> mAddWorList = new ArrayList<>();
+    private List<WordRecoBean> mRecoWordList = new ArrayList<>();
+    private List<HomeData> mDatas = new ArrayList<>();
+    private WordMineAdapter mAdapter;
 
-    @SuppressLint("ValidFragment")
-    public WordMineFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordMineFragment(Context mContext, int resId) {
-        super(mContext, resId);
-    }
+    private String accountID;
+    private HomeData addBean;
+    private RequestQueue requestQueue;
+    private Request<String> requestAddWord;
+    private Request<String> requestRecoWord;
 
     @Override
     public View initView() {
@@ -60,22 +63,40 @@ public class WordMineFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        RequestQueue requestQueue = NoHttp.newRequestQueue();
+
+        accountID = AppHelper.getInstance().getUserID();
+        requestQueue = NoHttp.newRequestQueue();
 
         //创建一个字符串类型请求，自定义请求方法。
-        Request<String> requestAddWord = NoHttp.createStringRequest(I.ADD_WORD, RequestMethod.POST);
-        requestAddWord.add("memberId", "667b6b89c10f41c5aba9980fa47c8b76");
+        requestAddWord = NoHttp.createStringRequest(I.ADD_WORD, RequestMethod.POST);
+        requestAddWord.add("memberId", accountID);
 
-        Request<String> requestRecoWord = NoHttp.createStringRequest(I.RECOM_WORD, RequestMethod.POST);
-        requestRecoWord.add("memberId", "667b6b89c10f41c5aba9980fa47c8b76");
-        requestRecoWord.add("rows", "5");
+        requestRecoWord = NoHttp.createStringRequest(I.RECOM_WORD, RequestMethod.POST);
+        requestRecoWord.add("memberId", accountID);
+        requestRecoWord.add("rows", "3");
 
-        //获取数据请求并解析
-        getAddWordData(requestQueue, requestAddWord);
-        getRecoWordData(requestQueue, requestRecoWord);
+        addTitle("加入的专区", R.drawable.word_add, ACTION_FOLLOW);
+    }
+
+    private void addTitle(String title, int imgID, int action) {
+        CommonTitleBean bean = new CommonTitleBean(title, imgID);
+        mDatas.add(HomeDataMapper.transformCommonTitle(bean, WordMineAdapter.TYPE_TITLE, true));
+
+        switch (action) {
+            case ACTION_FOLLOW:
+                getAddWordData(requestQueue, requestAddWord);
+                break;
+            case ACTION_RECO:
+                getRecoWordData(requestQueue, requestRecoWord);
+                break;
+        }
     }
 
     private void getAddWordData(RequestQueue requestQueue, Request<String> request) {
+        if (TextUtils.isEmpty(accountID)) {
+            addEmptyItem();
+            return;
+        }
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -91,23 +112,44 @@ public class WordMineFragment extends BaseFragment {
                     Type type = new TypeToken<List<WordAddBean>>() {
                     }.getType();
                     mAddWorList = gson.fromJson(json, type);
+                    transformData(ACTION_FOLLOW);
                     Log.d(TAG, "onSucceed: 加入的社区解析结果====================" + mAddWorList);
-                } else {
-                    return;
                 }
-
-                initRecyclerView();
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
+                addTitle("推荐的专区", R.drawable.word_add, ACTION_RECO);
             }
 
             @Override
             public void onFinish(int what) {
+
             }
         });
     }
+
+    private void addEmptyItem() {
+        addBean = new HomeData();
+        addBean.setSpan(false);
+        addBean.setItemType(WordMineAdapter.TYPE_ADD_EMPTY);
+        mDatas.add(addBean);
+        addTitle("推荐的专区", R.drawable.word_add, ACTION_RECO);
+    }
+
+    private void transformData(int action) {
+        switch (action) {
+            case ACTION_FOLLOW:
+                mDatas.addAll(HomeDataMapper.transformWordAddDatas(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
+                addEmptyItem();
+                break;
+            case ACTION_RECO:
+                mDatas.addAll(HomeDataMapper.transformWordRecoDatas(mRecoWordList, WordMineAdapter.TYPE_RECO_WORD, true));
+                initRecyclerView();
+                break;
+        }
+    }
+
 
     private void getRecoWordData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -125,38 +167,31 @@ public class WordMineFragment extends BaseFragment {
                     Type type = new TypeToken<List<WordRecoBean>>() {
                     }.getType();
                     mRecoWordList = gson.fromJson(json, type);
+                    transformData(ACTION_RECO);
                     Log.d(TAG, "onSucceed: 推荐的社区解析结果====================" + mRecoWordList);
-                } else {
-                    return;
                 }
-                initRecyclerView();
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
+
             }
 
             @Override
             public void onFinish(int what) {
+
             }
         });
     }
 
     private void initRecyclerView() {
-        Log.d(TAG, "加入的专区===============================" + mAddWorList);
-        Log.d(TAG, "推荐的专区===============================" + mRecoWordList);
-        if (mRecoWordList != null && mAddWorList != null) {
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            mRvWordMine.setLayoutManager(mLayoutManager);
-            mRvWordMine.setHasFixedSize(true);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
+        mRvWordMine.setLayoutManager(mLayoutManager);
+        mRvWordMine.setHasFixedSize(true);
 
-            List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformWordAddData(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
-            list.add(HomeDataMapper.transformWordRecoData(mRecoWordList, WordMineAdapter.TYPE_RECOM_WORD, false));
+        mAdapter = new WordMineAdapter(getActivity(), mDatas);
+        mRvWordMine.setAdapter(mAdapter);
 
-            WordMineAdapter adapter = new WordMineAdapter(getActivity(), list, mAddWorList, mRecoWordList);
-            mRvWordMine.setAdapter(adapter);
-        }
     }
 
 }

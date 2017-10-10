@@ -2,6 +2,7 @@ package net.osplay.utils;
 
 import android.util.SparseArray;
 
+import net.osplay.data.bean.CommonTitleBean;
 import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
@@ -55,30 +56,69 @@ public class HomeDataMapper {
         }
         return null;
     }
-    public static HomeData transformWordAddData(List<WordAddBean> beans, int adapterType, boolean isSpan) {
-        HomeData<List<WordAddBean>> homeData;
+
+    public static HomeData transformCommonTitle(CommonTitleBean bean, int adapterType, boolean isSpan) {
+        if (bean == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        final HomeData<CommonTitleBean> resData = new HomeData<>();
+        resData.setItemType(adapterType);
+        resData.setSpan(isSpan);
+        resData.setLocal(false);
+        resData.setData(bean);
+        return resData;
+    }
+
+    private static HomeData transformWordAddData(WordAddBean bean, int adapterType, boolean isSpan) {
+        if (bean == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        final HomeData<WordAddBean> resData = new HomeData<>();
+        resData.setItemType(adapterType);
+        resData.setSpan(isSpan);
+        resData.setLocal(false);
+        resData.setData(bean);
+        return resData;
+    }
+
+    public static List<HomeData> transformWordAddDatas(List<WordAddBean> beans, int adapterType, boolean isSpan) {
+        List<HomeData> resDataCollection;
         if (beans != null && !beans.isEmpty()) {
-            homeData = new HomeData();
-            homeData.setData(beans);
-            homeData.setItemType(adapterType);
-            homeData.setLocal(false);
-            homeData.setSpan(isSpan);
-            return homeData;
+            resDataCollection = new ArrayList<>();
+            for (WordAddBean bean : beans) {
+                resDataCollection.add(transformWordAddData(bean, adapterType, isSpan));
+            }
+            mHomeDataMap.put(adapterType, resDataCollection);
+            return resDataCollection;
         }
         return null;
     }
-    public static HomeData transformWordRecoData(List<WordRecoBean> beans, int adapterType, boolean isSpan) {
-        HomeData<List<WordRecoBean>> homeData;
+
+    private static HomeData transformWordRecoData(WordRecoBean bean, int adapterType, boolean isSpan) {
+        if (bean == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        final HomeData<WordRecoBean> resData = new HomeData<>();
+        resData.setItemType(adapterType);
+        resData.setSpan(isSpan);
+        resData.setLocal(false);
+        resData.setData(bean);
+        return resData;
+    }
+
+    public static List<HomeData> transformWordRecoDatas(List<WordRecoBean> beans, int adapterType, boolean isSpan) {
+        List<HomeData> resDataCollection;
         if (beans != null && !beans.isEmpty()) {
-            homeData = new HomeData();
-            homeData.setData(beans);
-            homeData.setItemType(adapterType);
-            homeData.setLocal(false);
-            homeData.setSpan(isSpan);
-            return homeData;
+            resDataCollection = new ArrayList<>();
+            for (WordRecoBean bean : beans) {
+                resDataCollection.add(transformWordRecoData(bean, adapterType, isSpan));
+            }
+            mHomeDataMap.put(adapterType, resDataCollection);
+            return resDataCollection;
         }
         return null;
     }
+
     public static HomeData transformHotPostsData(List<VideoBean> beans) {
         HomeData<List<VideoBean>> homeData;
         if (beans != null && !beans.isEmpty()) {

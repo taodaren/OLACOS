@@ -75,8 +75,8 @@
             android:id="@+id/tv_posts_refresh_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5条新动态，点击刷新！"
-            android:textColor="@color/colorBlack2"
+            android:text="想看更多？快快点我  →"
+            android:textColor="@color/colorTiShiWenZi"
             android:textSize="10sp" />
 
         <ImageView

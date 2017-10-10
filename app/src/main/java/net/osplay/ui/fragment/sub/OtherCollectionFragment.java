@@ -23,8 +23,8 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MycollectionBean;
-import net.osplay.ui.adapter.MycollectionAdapter;
+import net.osplay.service.entity.MyCollectionBean;
+import net.osplay.ui.adapter.MyCollectionAdapter;
 
 import java.util.List;
 
@@ -46,8 +46,8 @@ public class OtherCollectionFragment extends Fragment {
     private View inflate;
     private String memberId;
     private Gson mGson = new Gson();
-    private List<MycollectionBean.RowsBean> rows;
-    private MycollectionAdapter cAadapter;
+    private List<MyCollectionBean.RowsBean> rows;
+    private MyCollectionAdapter cAadapter;
     int flag = 0;//定义标记变量
 
 
@@ -101,13 +101,13 @@ public class OtherCollectionFragment extends Fragment {
     }
 
     private void formatMyarea(String json) {
-        MycollectionBean mycollectionBean = mGson.fromJson(json, MycollectionBean.class);
-        if (mycollectionBean.getTotal() == 0) {
+        MyCollectionBean myCollectionBean = mGson.fromJson(json, MyCollectionBean.class);
+        if (myCollectionBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
-            rows = mycollectionBean.getRows();
-            cAadapter=new MycollectionAdapter(getContext(), rows);
+            rows = myCollectionBean.getRows();
+            cAadapter=new MyCollectionAdapter(getContext(), rows);
             centerRecycler.setAdapter(cAadapter);
 
             //点赞的点击事件

@@ -1,7 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -23,15 +21,6 @@ public class WordHotFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private String[] mTitles = new String[]{"专区", "热帖", "专栏"};
-
-    @SuppressLint("ValidFragment")
-    public WordHotFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordHotFragment(Context mContext, int resId) {
-        super(mContext, resId);
-    }
 
     @Override
     public View initView() {
@@ -59,9 +48,9 @@ public class WordHotFragment extends BaseFragment {
 
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
-        mFragmentList.add(new WordHotTopicFragment(getContext(), R.layout.fragment_word_hot_topic));
-        mFragmentList.add(new WordHotPostsFragment(getContext(), R.layout.layout_word_hot_posts));
-        mFragmentList.add(new WordHotColumnFragment(getContext(), R.layout.fragment_word_hot_column));
+        mFragmentList.add(new WordHotTopicFragment());
+        mFragmentList.add(new WordHotPostsFragment());
+        mFragmentList.add(new WordHotColumnFragment());
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }

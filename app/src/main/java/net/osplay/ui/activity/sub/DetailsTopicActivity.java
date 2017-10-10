@@ -30,7 +30,6 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.DetailsAttentionBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -76,12 +75,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         initView();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        changeViewByState();
-    }
-
     private void initView() {
         setToolbar();
         btnHeckIn.setOnClickListener(this);
@@ -90,8 +83,13 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
         mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
-
         tabLayout.setupWithViewPager(mViewPager);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeViewByState();
     }
 
     /**
@@ -111,15 +109,14 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         } else {
             tvTopicDetailsLevel.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
-            // set Avatar
-            Glide.with(DetailsTopicActivity.this).load(R.drawable.avatar_boy).into(topicPageAvatar);
-            topicDetailsNick.setText(AppHelper.getInstance().getCurrentUserName());
+            // set Avatar and Nick
+            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(topicPageAvatar);
+            topicDetailsNick.setText(AppHelper.getInstance().getUser().getNICK_NAME());
         }
     }
 
     private void initData() {
-        //获取大区 id
-        partId = getIntent().getStringExtra("partId");
+        partId = getIntent().getStringExtra("partId");//获取大区 id
 
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
@@ -202,9 +199,12 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.topic_page_avatar:
+                startActivity(new Intent(this, MinePageSelfActivity.class));
+                break;
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
-                    MFGT.gotoLogin(this, "loginHeck");
+                    Toast.makeText(this, "请先关注专区", Toast.LENGTH_SHORT).show();
                 } else {
                     if (flag == 0) {
                         btnHeckIn.setText("已签到");
@@ -216,96 +216,90 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 break;
-            // TODO: 2017/10/6  取消关注时接口存在问题
+            // TODO:2017/10/6 取消关注时接口存在问题
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     if (flag == 0) {
-                        attentionHttp();//关注
-                        btnAttention.setText("已专区");
+                        attentionHttp();
+                        btnAttention.setText("已关注");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     } else if (flag == 1) {
-                        unsubscribeHttp();//取消关注
+                        unAttentionHttp();
                         btnAttention.setText("关注专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
                     }
                     flag = (flag + 1) % 2;
                 }
                 break;
-            case R.id.topic_page_avatar:
-                startActivity(new Intent(this, MinePageOtherActivity.class));
-                break;
         }
     }
 
-    private void unsubscribeHttp() {
-Log.e("JJJ","专区id："+partId);
+    /**
+     * 取消关注
+     */
+    private void unAttentionHttp() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
-        request.add("memberId",AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId",partId);
-        request.add("mark",1);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", partId);
+        request.add("mark", 1);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","取消关注："+json);
-                if(json!=null){
+                if (json != null) {
 
-                }else{
+                } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
 
+    /**
+     * 关注
+     */
     private void attentionHttp() {
-        Log.e("DTA","关注的专区=="+partId);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
-        request.add("memberId",AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId",partId);
-        request.add("mark",0);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", partId);
+        request.add("mark", 0);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB","关注："+json);
-                if(json!=null){
-                }else{
+                Log.e("JGB", "关注：" + json);
+                if (json != null) {
+                } else {
                     return;
                 }
-
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }

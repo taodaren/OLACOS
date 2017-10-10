@@ -2,11 +2,7 @@ package net.osplay.service.entity;
 
 import java.util.List;
 
-/**
- * Created by fanyanmin on 2017/9/30.
- */
-
-public class MycollectionBean {
+public class MyCollectionBean {
 
     /**
      * rows : [{"BOUTIQUE":"1","COLLECT":"true","COLLECT_COUNT":"1","COVERIMG":"/upLoadResource/62aa85ec3b614e4ba989da44cfadb71f/【杂谈】20.《超人总动员》 平凡的你也是改变世界重要的齿轮 字数：1880169.png","CREATEDATE":"2017-09-16 17:33:09","HEAD_PATH":"/upLoadResource/2b46b52f1c9940e2b7b4d0fe37a0aa74/2b46b52f1c9940e2b7b4d0fe37a0aa74.png","ID":"e339c4c54d16453386a95a41ea0056bb","MEMID":"69f1badc98cc441c838310561d11bcb7","NICK_NAME":"呆子","PART":"电影","PINGLUN_COUNT":"0","TITLE":"《超人总动员》 平凡的你也是改变世界重要的齿轮","ZAN":"true","ZAN_COUNT":"1"},{"BOUTIQUE":"1","COLLECT":"true","COLLECT_COUNT":"1","COVERIMG":"/upLoadResource/6dc4189a004d4da194e88543cba279c4/timg.jpg","CREATEDATE":"2017-09-16 18:37:40","ID":"cb8fd9a8c2a0408cada2fcacf5eaf401","MEMID":"4a891cd377c84ef783cd145990048995","NICK_NAME":"我爱徐倩楠","PART":"综合周边","PINGLUN_COUNT":"0","TITLE":"我真是受不了现在淘宝卖家的脑洞了","ZAN":"true","ZAN_COUNT":"1"}]

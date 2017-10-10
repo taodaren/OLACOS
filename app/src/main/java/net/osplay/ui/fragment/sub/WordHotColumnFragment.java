@@ -1,8 +1,5 @@
 package net.osplay.ui.fragment.sub;
 
-
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,15 +39,6 @@ public class WordHotColumnFragment extends BaseFragment {
 
     private List<VideoBean> mSubList;//已订阅
     private List<VideoBean> mUnSubList;//未订阅
-
-    @SuppressLint("ValidFragment")
-    public WordHotColumnFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public WordHotColumnFragment(Context context, int resId) {
-        super(context, resId);
-    }
 
     @Override
     public View initView() {
