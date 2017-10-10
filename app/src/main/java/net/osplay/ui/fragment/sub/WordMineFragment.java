@@ -279,7 +279,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
             // change follow state
             ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("true");
             // add follow bean
-            refreshIndex = mDatas.indexOf(addBean) - 1;
+            refreshIndex = mDatas.indexOf(addBean);
             mDatas.add(refreshIndex, homeData);
 
             showMsgByStr("加入专区成功");
