@@ -3,7 +3,6 @@ package net.osplay.ui.fragment.sub;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,6 +22,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.data.bean.CommonTitleBean;
+import net.osplay.data.bean.FollowAreaBean;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
@@ -39,7 +39,7 @@ import java.util.List;
  * 社区：我的分模块
  */
 
-public class WordMineFragment extends BaseFragment {
+public class WordMineFragment extends BaseFragment implements WordMineAdapter.ActionListener {
     private static final String TAG = "WordMineFragment";
     private static final int ACTION_FOLLOW = 0;
     private static final int ACTION_RECO = 1;
@@ -61,6 +61,9 @@ public class WordMineFragment extends BaseFragment {
     private RequestQueue requestQueue;
     private Request<String> requestAddWord;
     private Request<String> requestRecoWord;
+    private int followAction;
+    private int actionPosition;
+    private WordAddBean actionFollowBean;
     /**
      * 换一换时集合的更新的起始坐标
      */
@@ -91,12 +94,14 @@ public class WordMineFragment extends BaseFragment {
      * 获取最新的推荐数据
      */
     private void getNewRecoData() {
-        // clear old reco data
-        for (int i=0;i<3;i++) {
-            mDatas.remove(mDatas.size() - 1);
+        if (mDatas != null && !mDatas.isEmpty() && mDatas.size() > 3) {
+            // clear old reco data
+            for (int i=0;i<3;i++) {
+                mDatas.remove(mDatas.size() - 1);
+            }
+            refreshIndex = mDatas.size();
+            getRecoWordData(requestQueue, requestRecoWord, ACTION_UPDATE);
         }
-        refreshIndex = mDatas.size();
-        getRecoWordData(requestQueue, requestRecoWord, ACTION_UPDATE);
     }
 
     @Override
@@ -248,14 +253,31 @@ public class WordMineFragment extends BaseFragment {
     private void updateRecyclerView(int getDataAction) {
         switch (getDataAction) {
             case ACTION_FOLLOW:
-
+                resultFollowAction();
                 break;
             case ACTION_RECO:
                 mDatas.addAll(HomeDataMapper.transformWordRecoDatas(mRecoWordList, WordMineAdapter.TYPE_RECO_WORD, true));
+                mAdapter.setData(mDatas, refreshIndex, mRecoWordList.size());
                 break;
         }
 
-        mAdapter.setData(mDatas, refreshIndex, mRecoWordList.size());
+    }
+
+    /**
+     * 当加入或退出专区服务器端成功后的处理方法
+     */
+    private void resultFollowAction() {
+        HomeData homeData = HomeDataMapper.transformWordAddData(actionFollowBean, WordMineAdapter.TYPE_ADD_WORD, false);
+        if (followAction == I.Action.ACTION_DO) {
+            // change follow state
+            ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("true");
+            // add follow bean
+            refreshIndex = mDatas.indexOf(addBean) - 1;
+            mDatas.add(refreshIndex, homeData);
+        } else if (followAction == I.Action.ACTION_CANCEL) {
+
+        }
+        mAdapter.setData(mDatas, 0, mDatas.size());
     }
 
     private void initRecyclerView() {
@@ -266,6 +288,51 @@ public class WordMineFragment extends BaseFragment {
         mAdapter = new WordMineAdapter(getActivity(), mDatas);
         mRvWordMine.setAdapter(mAdapter);
 
+        mAdapter.setListener(WordMineFragment.this);
     }
 
+    @Override
+    public void actionFollow(String areaID, int action, WordAddBean bean, int actionPosition) {
+        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", areaID);
+        request.add("mark", action);
+        followAction = action;
+        actionFollowBean = bean;
+        this.actionPosition = actionPosition;
+        getFollowState(requestQueue, request);
+    }
+
+    private void getFollowState(RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                if (json != null) {
+                    Type type = new TypeToken<FollowAreaBean>() {
+                    }.getType();
+                    FollowAreaBean bean = gson.fromJson(json, type);
+                    if (bean.isCode()) {
+                        updateRecyclerView(ACTION_FOLLOW);
+                    } else {
+                        showError(what);
+                    }
+                } else {
+                    showError(what);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
 }

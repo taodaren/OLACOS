@@ -69,7 +69,7 @@ public class HomeDataMapper {
         return resData;
     }
 
-    private static HomeData transformWordAddData(WordAddBean bean, int adapterType, boolean isSpan) {
+    public static HomeData transformWordAddData(WordAddBean bean, int adapterType, boolean isSpan) {
         if (bean == null) {
             throw new IllegalArgumentException("Cannot transform a null value");
         }

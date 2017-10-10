@@ -1,6 +1,8 @@
 package net.osplay.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.data.bean.CommonTitleBean;
@@ -22,6 +25,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
 import net.osplay.service.entity.base.HomeData;
+import net.osplay.ui.activity.sub.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +49,20 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private LayoutInflater mInflater;
 
     private List<HomeData> mDataList;
+    private ActionListener mListener;
+
+    public interface ActionListener {
+
+        void actionFollow(String areaID, int action, WordAddBean bean, int actionPosition);
+    }
+
+    public ActionListener getListener() {
+        return mListener;
+    }
+
+    public void setListener(ActionListener listener) {
+        mListener = listener;
+    }
 
     public WordMineAdapter(Activity context, List<HomeData> data) {
         this.mContext = context;
@@ -81,7 +99,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((AddViewHolder) holder).setData((HomeData<WordAddBean>) mDataList.get(position));
                 break;
             case TYPE_RECO_WORD:
-                ((RecoViewHolder) holder).setData((HomeData<WordRecoBean>) mDataList.get(position));
+                ((RecoViewHolder) holder).setData((HomeData<WordRecoBean>) mDataList.get(position), position);
                 break;
         }
     }
@@ -205,15 +223,17 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @BindView(R.id.layout_recommend_word)
         LinearLayout layoutRecommendWord;
         private WordRecoBean data;
+        private int position;
 
         RecoViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
         }
 
-        public void setData(HomeData<WordRecoBean> data) {
+        public void setData(HomeData<WordRecoBean> data, int position) {
             if (data != null) {
                 this.data = data.getData();
+                this.position = position;
                 bindData();
             }
         }
@@ -224,17 +244,47 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             recommendWordMember.setText("成员:" + data.getMEMBER_COUNT());
             recommendWordPosts.setText("帖子:" + data.getTOPICK_COUNT());
             recommendWordInfo.setText(data.getNOTES());
+
+            if ("true".equals(data.getFOLLOW())) {
+                recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white_un));
+                recommendWordAdd.setTextColor(ContextCompat.getColor(mContext, R.color.colorTiShiWenZi));
+                recommendWordAdd.setText("已加入");
+            }
         }
 
         @OnClick({R.id.recommend_word_add, R.id.layout_recommend_word})
         public void onViewClicked(View view) {
             switch (view.getId()) {
                 case R.id.recommend_word_add:
-
+                    checkoutState();
                     break;
                 case R.id.layout_recommend_word:
 
                     break;
+            }
+        }
+
+        private void checkoutState() {
+            if (AppHelper.getInstance().isLogined()) {
+                actionFollow();
+            } else {
+                // goto LoginActivity
+                mContext.startActivity(LoginActivity.getCallIntent(mContext));
+            }
+        }
+
+        private void actionFollow() {
+            // Add bean
+            WordAddBean bean = new WordAddBean();
+            bean.setID(data.getID());
+            bean.setPART(data.getPART());
+            bean.setPART_PATH(data.getPART_PATH());
+            bean.setNOTES(data.getNOTES());
+
+            if ("true".equals(data.getFOLLOW())) {
+                mListener.actionFollow(data.getID(), I.Action.ACTION_CANCEL, bean, position);
+            } else {
+                mListener.actionFollow(data.getID(), I.Action.ACTION_DO, bean, position);
             }
         }
     }
@@ -250,7 +300,16 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @OnClick(R.id.add_empty)
         public void onViewClicked() {
-            Log.d("xns", "add");
+            gotoActivity();
+        }
+
+        private void gotoActivity() {
+            if (AppHelper.getInstance().isLogined()) {
+
+            } else {
+                Intent callIntent = LoginActivity.getCallIntent(mContext);
+                mContext.startActivity(callIntent);
+            }
         }
     }
 }
