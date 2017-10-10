@@ -159,7 +159,7 @@ public interface I {
     }
 
     interface Posts {
-        String POSTS_ID = "posts_id";
+        String POSTS_ID = "postsId";
     }
 
     interface Action {
