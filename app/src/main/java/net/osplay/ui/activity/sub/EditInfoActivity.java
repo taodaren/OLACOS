@@ -92,30 +92,31 @@ public class EditInfoActivity extends BaseActivity  {
     }
 
     private void setUserInfo() {
-        if (AppHelper.getInstance().getUser()==null) {
-            return;
-        }else{
             Glide.with(EditInfoActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(mineAvatar);
             nameTv.setText(AppHelper.getInstance().getUser().getCN());
             ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
             xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
             areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
             shenhe = AppHelper.getInstance().getUser().getSHENHE();
-            switch (shenhe) {
-                case "0":
-                    Certification.setText("已审核");
-                    break;
-                case "1":
-                    Certification.setText("审核未通过");
-                    break;
-                case "2":
-                    Certification.setText("待审核");
+            if(shenhe==null){
+                Certification.setText("待审核");
+            }else{
+                switch (shenhe) {
+                    case "0":
+                        Certification.setText("已审核");
+                        break;
+                    case "1":
+                        Certification.setText("审核未通过");
+                        break;
+                    case "2":
+                        Certification.setText("待审核");
 
-                    break;
-        }
+                        break;
+                }
+            }
             
         }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -151,7 +152,9 @@ public class EditInfoActivity extends BaseActivity  {
                 startActivityForResult(intent4,4);
                 break;
             case R.id.Certification:
-                if(shenhe.equals(2)){
+                if(shenhe==null){
+                    startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
+                }else if(shenhe.equals(2)){
                     startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
                 }else{
                    Toast.makeText(EditInfoActivity.this,"您已实名认证过",Toast.LENGTH_SHORT).show();

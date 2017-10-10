@@ -14,7 +14,7 @@ public interface I {
    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
 //    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-//    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
+   // String BASE_URL = "http://192.168.1.10:8080/qda";//本地（素）
 
     /**
      * 注册登录
@@ -115,8 +115,12 @@ public interface I {
  /**
   * 社团
   */
- //查询已经参加过的社团（可用于判断是否参加过社团）
- String IS_JOIN=BASE_URL + "/corporationMobile/joinCorporation.do";
+    //查询已经参加过的社团（可用于判断是否参加过社团）
+    String IS_JOIN=BASE_URL + "/corporationMobile/joinCorporation.do";
+    //创建社团
+    String ESTABLISH=BASE_URL+ "/corporationMobile/addCorporation.do";
+    //查询全部社团
+    String ALL_ASSOCIATION=BASE_URL+"/corporationMobile/corporationList.do";
 
  /**
      * 获取省市国家等数据

@@ -1,13 +1,53 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.osplay.ui.fragment.sub.CommunityALoginFragment">
+    android:orientation="vertical"
+    android:gravity="center">
 
 
+    <LinearLayout
+        android:id="@+id/community_login_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您还没有登陆过请  " />
+        <TextView
+            android:id="@+id/community_login_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/community_joinorEstablish_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="登录" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="您还没有社团请  "/>
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/community_joinorEstablish_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加入/创建"
+            android:textColor="@color/colorPrimaryDark"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/community_activity_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="社团活动"/>
+    </LinearLayout>
+</LinearLayout>

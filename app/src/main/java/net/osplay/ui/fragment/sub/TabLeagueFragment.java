@@ -59,6 +59,7 @@ public class TabLeagueFragment extends BaseFragment {
     private ImageView league_menu;
     private PopupMenu popupMenu;
     private Menu menu;
+    private String string;
 
     @Override
     public View initView() {
@@ -70,6 +71,7 @@ public class TabLeagueFragment extends BaseFragment {
         //获取加入社团的值
         SharedPreferences preferences2 = getActivity().getSharedPreferences("AddCommunity", getActivity().MODE_PRIVATE);
         addcAnnotated = preferences2.getString("addAnnotated", "defaultname");
+
         setView();
         isJoin();//判断是否加入过社团
         return inflate;
@@ -85,7 +87,6 @@ public class TabLeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-
         nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);//社团推荐
         hFragment = new SocialActivityFragment(getActivity(), R.layout.fragment_create_community);//社团活动
         cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);//加入或创建社团之后的社团活动
@@ -94,17 +95,18 @@ public class TabLeagueFragment extends BaseFragment {
         lFragment=new CommunityALoginFragment();//活动未等陆的提醒
         pFragment=new CommunityPLoginFragment();//作品未的登录的提醒
         mList.add(nFragment);
-        if(!AppHelper.getInstance().isLogined()){//未登录状态fragemnt集合当中添加的是提醒登录的fragemnt，else登录之后fragment集合当中添加的是其他布局
-            mList.add(lFragment);
-        }else{
-            mList.add(hFragment);
-        }
-        if(!AppHelper.getInstance().isLogined()){
-            mList.add(pFragment);
-        }else{
-            mList.add(mFragment);
-        }
-
+//        if(!AppHelper.getInstance().isLogined()){//未登录状态fragemnt集合当中添加的是提醒登录的fragemnt，else登录之后fragment集合当中添加的是其他布局
+//            mList.add(lFragment);
+//        }else if(AppHelper.getInstance().isLogined()&string.equals("jgb")){
+//            mList.add(hFragment);
+//        }
+//        if(!AppHelper.getInstance().isLogined()){
+//            mList.add(pFragment);
+//        }else if(AppHelper.getInstance().isLogined()&string.equals("jgb")){
+//            mList.add(mFragment);
+//        }
+        mList.add(lFragment);
+        mList.add(pFragment);
 
 //        //如果创建或者加入社团后将不再显示创建或加入社团界面
 //        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {

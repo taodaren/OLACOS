@@ -1,164 +1,72 @@
 package net.osplay.ui.adapter.sub;
 
+
 import android.content.Context;
-import android.text.TextUtils;
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import com.bumptech.glide.Glide;
 
-import net.osplay.app.FilterListener;
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.AllCommunityBean;
-import net.osplay.ui.activity.sub.AllCommunityActivity;
-import net.osplay.utils.GlideRoundTransform;
+import net.osplay.ui.activity.sub.JoinCommunityDetailsActivity;
+import net.osplay.ui.activity.sub.LoginActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AllCommunityAdapter extends BaseAdapter implements Filterable {
 
-    private List<AllCommunityBean> list = new ArrayList<AllCommunityBean>();
+public class AllCommunityAdapter extends RecyclerView.Adapter<AllCommunityViewHolder> {
     private Context context;
-    private MyFilter filter = null;// 创建MyFilter对象
-    private FilterListener listener = null;// 接口对象
+    private List<AllCommunityBean.RowsBean> rows;
 
-    public AllCommunityAdapter(List<AllCommunityBean> list, Context context, FilterListener filterListener) {
-        this.list = list;
+    public AllCommunityAdapter(Context context, List<AllCommunityBean.RowsBean> rows) {
         this.context = context;
-        this.listener = filterListener;
+        this.rows = rows;
     }
-
 
 
     @Override
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return list.size();
+    public AllCommunityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View inflate = LayoutInflater.from(context).inflate(R.layout.item_listview_ss, parent, false);
+        AllCommunityViewHolder viewHolder = new AllCommunityViewHolder(inflate);
+        return viewHolder;
     }
 
     @Override
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return list.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_listview_ss, null);
-            holder = new ViewHolder();
-            holder.tv_ss = (TextView) convertView.findViewById(R.id.tv_ss);
-            holder.icon= (ImageView) convertView.findViewById(R.id.icon);
-            convertView.setTag(holder);
-        }
-        holder = (ViewHolder) convertView.getTag();
-        holder.tv_ss.setText(list.get(position).getName());
-        Glide.with(context).load(list.get(position).getIcon()).transform(new GlideRoundTransform(context)).into(holder.icon);
-        return convertView;
-    }
-
-    /**
-     * 自定义MyAdapter类实现了Filterable接口，重写了该方法
-     */
-    @Override
-    public Filter getFilter() {
-        // 如果MyFilter对象为空，那么重写创建一个
-        if (filter == null) {
-            filter = new MyFilter(list);
-        }
-        return filter;
-    }
-
-    /**
-     * 创建内部类MyFilter继承Filter类，并重写相关方法，实现数据的过滤
-     * @author 邹奇
-     *
-     */
-    class MyFilter extends Filter {
-
-        // 创建集合保存原始数据
-        private List<AllCommunityBean> original = new ArrayList<AllCommunityBean>();
-
-        public MyFilter(List<AllCommunityBean> list) {
-            this.original = list;
-        }
-
-        /**
-         * 该方法返回搜索过滤后的数据
-         */
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            // 创建FilterResults对象
-            FilterResults results = new FilterResults();
-
-            /**
-             * 没有搜索内容的话就还是给results赋值原始数据的值和大小
-             * 执行了搜索的话，根据搜索的规则过滤即可，最后把过滤后的数据的值和大小赋值给results
-             *
-             */
-            if(TextUtils.isEmpty(constraint)){
-                results.values = original;
-                results.count = original.size();
-            }else {
-                // 创建集合保存过滤后的数据
-                List<AllCommunityBean> mList = new ArrayList<AllCommunityBean>();
-                // 遍历原始数据集合，根据搜索的规则过滤数据
-                for(AllCommunityBean s: original){
-                    // 这里就是过滤规则的具体实现【规则有很多，大家可以自己决定怎么实现】
-                    if(s.getName().trim().toLowerCase().contains(constraint.toString().trim().toLowerCase())){
-                        // 规则匹配的话就往集合中添加该数据
-                        mList.add(s);
-                    }
-                }
-                results.values = mList;
-                results.count = mList.size();
+    public void onBindViewHolder(AllCommunityViewHolder holder, int position) {
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getPHOTO()).error(R.drawable.avatar_default).into(holder.all_im);
+        holder.all_tv.setText(rows.get(position).getNAME());
+        holder.all_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, JoinCommunityDetailsActivity.class));
             }
-
-            // 返回FilterResults对象
-            return results;
-        }
-
-        /**
-         * 该方法用来刷新用户界面，根据过滤后的数据重新展示列表
-         */
-        @Override
-        protected void publishResults(CharSequence constraint,
-                                      FilterResults results) {
-            // 获取过滤后的数据
-            list = (List<AllCommunityBean>) results.values;
-            // 如果接口对象不为空，那么调用接口中的方法获取过滤后的数据，具体的实现在new这个接口的时候重写的方法里执行
-            if(listener != null){
-                listener.getFilterData(list);
-            }
-            // 刷新数据源显示
-            notifyDataSetChanged();
-        }
+        });
 
     }
 
-    /**
-     * 控件缓存类
-     *
-     * @author 邹奇
-     *
-     */
-    class ViewHolder {
-        TextView tv_ss;
-        ImageView icon;
+    @Override
+    public int getItemCount() {
+        return rows.size();
     }
+}
+class AllCommunityViewHolder extends RecyclerView.ViewHolder{
 
+    public ImageView all_im;
+    public TextView all_tv;
+    public LinearLayout all_item;
+    public AllCommunityViewHolder(View itemView) {
+        super(itemView);
+        all_im= (ImageView) itemView.findViewById(R.id.all_im);
+        all_tv= (TextView) itemView.findViewById(R.id.all_tv);
+        all_item= (LinearLayout) itemView.findViewById(R.id.all_item);
+    }
 }

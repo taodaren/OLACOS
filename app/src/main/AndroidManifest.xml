@@ -93,7 +93,8 @@
         <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity" />
         <activity android:name="net.osplay.ui.activity.sub.CreateOrJoinActivity" />
         <activity android:name="net.osplay.ui.activity.sub.JoinCommunityDetailsActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" >
+        </activity>
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsTopicActivity"
             android:screenOrientation="portrait"

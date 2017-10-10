@@ -32,8 +32,8 @@ public class TabGoodsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
-        initView();
-        switchFragment();
+//        initView();
+ //       switchFragment();
 
         return view;
     }
@@ -75,9 +75,9 @@ public class TabGoodsFragment extends Fragment {
             }
         });
     }
-    private void initView() {
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-        switch_egg = (ImageView) view.findViewById(R.id.switch_egg);
-    }
+//    private void initView() {
+//        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+//        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+//        switch_egg = (ImageView) view.findViewById(R.id.switch_egg);
+//    }
 }

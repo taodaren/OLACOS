@@ -99,7 +99,7 @@ public class OtherFansFragment extends Fragment {
             centerNotDataIv.setVisibility(View.VISIBLE);
         }else{
             rows = myFansBean.getRows();
-            centerRecycler.setAdapter(new MyFansAdapter(getContext(), rows));
+            centerRecycler.setAdapter(new MyFansAdapter(getActivity(), rows));
         }
 
     }

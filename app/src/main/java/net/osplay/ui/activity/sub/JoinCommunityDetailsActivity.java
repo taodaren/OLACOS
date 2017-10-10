@@ -63,20 +63,6 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
     }
     private void initView() {
         jcd_add_but= (Button) findViewById(R.id.jcd_add_but);
-        //设置背景图片虚化
-//        jcd_bg= (ImageView) findViewById(R.id.jcd_bg);
-//        final Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-//                R.drawable.example02);
-//        jcd_bg.getViewTreeObserver().addOnPreDrawListener(
-//                new ViewTreeObserver.OnPreDrawListener() {
-//
-//                    @Override
-//                    public boolean onPreDraw() {
-//                        blur(bitmap, jcd_bg);
-//                        return true;
-//                    }
-//                });
-
         jcd_toolbar= (Toolbar) findViewById(R.id.jcd_toolbar);
         jcd_toolbar.setNavigationIcon(R.drawable.title_back);
         jcd_recy= (RecyclerView) findViewById(R.id.jcd_recy);
@@ -105,28 +91,6 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         }
     }
 
-//    //图片虚化
-//    private void blur(Bitmap bkg, View view) {
-//        long startMs = System.currentTimeMillis();
-//        float scaleFactor = 4;
-//        float radius = 2;
-//
-//        Bitmap overlay = Bitmap.createBitmap(
-//                (int) (view.getMeasuredWidth() / scaleFactor),
-//                (int) (view.getMeasuredHeight() / scaleFactor),
-//                Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(overlay);
-//        canvas.translate(-view.getLeft() / scaleFactor, -view.getTop()
-//                / scaleFactor);
-//        canvas.scale(1 / scaleFactor, 1 / scaleFactor);
-//        Paint paint = new Paint();
-//        paint.setFlags(Paint.FILTER_BITMAP_FLAG);
-//        canvas.drawBitmap(bkg, 0, 0, paint);
-//
-//        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-//        view.setBackground(new BitmapDrawable(getResources(), overlay));
-//        System.out.println(System.currentTimeMillis() - startMs + "ms");
-//    }
 
     private View.OnClickListener mOnClickListener=new View.OnClickListener() {
         @Override
@@ -134,14 +98,18 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
             switch (v.getId()){
                 case R.id.jcd_add_but://加入社团
                     Toast.makeText(JoinCommunityDetailsActivity.this,"加入成功",Toast.LENGTH_SHORT).show();
-                    Intent show=new Intent(JoinCommunityDetailsActivity.this,MainActivity.class);
-                    show.putExtra("jgb",1);
-                    startActivity(show);
-                    finish();
+                    //这里是加入成功的社团显示传值
+//                    Intent show=new Intent(JoinCommunityDetailsActivity.this,MainActivity.class);
+//                    show.putExtra("jgb",1);
+//                    startActivity(show);
+//                    finish();
+
+
+
 //                    startActivity(new Intent(JoinCommunityDetailsActivity.this,MainActivity.class));
 //                    finish();
-                    editor.putString("addAnnotated", "addolacos");
-                    editor.commit();
+//                    editor.putString("addAnnotated", "addolacos");
+//                    editor.commit();
                     break;
             }
         }

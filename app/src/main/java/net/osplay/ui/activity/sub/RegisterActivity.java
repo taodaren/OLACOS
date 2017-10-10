@@ -18,6 +18,7 @@ import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
+import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.UserCodeBean;
 import net.osplay.service.entity.UserIsNickNameBean;
@@ -239,7 +240,12 @@ public class RegisterActivity extends BaseActivity {
         String registCode = userRegisterBean.getCode();
         if(registCode.equals("true")){
             Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-           finish();
+            Intent i=new Intent();
+            i.putExtra("phone", editPhone.getText().toString());
+            i.putExtra("password",editPassword.getText().toString());
+            setResult(4,i);
+            finish();
+            // finish();
         }
 
     }

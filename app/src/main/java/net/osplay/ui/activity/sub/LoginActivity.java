@@ -1,6 +1,7 @@
 package net.osplay.ui.activity.sub;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -36,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     private EditText editAccount, editPassword;
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
+    private String phone;
+    private String password;
 
 
     @Override
@@ -123,8 +126,6 @@ public class LoginActivity extends BaseActivity {
                         finish();
                         break;
                     case "loginCOJ"://社团活动
-                        startActivity(new Intent(LoginActivity.this,
-                                CreateOrJoinActivity.class));
                         finish();
                         break;
                     case "loginCOJ1"://社团作品登录成功后跳转的目的地
@@ -139,7 +140,6 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,11 +160,23 @@ public class LoginActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.menu_register:
-                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
+                startActivityForResult(new Intent(LoginActivity.this, RegisterActivity.class), 1);
+                //startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
                 break;
         }
         return true;
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == 4) {
+            String phone=data.getStringExtra("phone");
+            String password=data.getStringExtra("password");
+            editAccount.setText(phone);
+            editPassword.setText(password);
+        }
+    }
 }
