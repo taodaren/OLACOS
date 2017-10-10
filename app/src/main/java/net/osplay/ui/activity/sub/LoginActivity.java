@@ -1,5 +1,6 @@
 package net.osplay.ui.activity.sub;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,6 +39,11 @@ public class LoginActivity extends BaseActivity {
     private String isLoginOk;//登录成功与否判断
     private String phone;
     private String password;
+
+    public static Intent getCallIntent(Context context) {
+        Intent callIntent = new Intent(context, LoginActivity.class);
+        return callIntent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
