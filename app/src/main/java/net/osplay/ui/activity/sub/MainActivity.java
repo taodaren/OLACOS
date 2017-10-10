@@ -61,8 +61,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         TextView tvAccount = (TextView) headerView.findViewById(R.id.nav_account);
 
         if (AppHelper.getInstance().isLogined()) {//如果是登录状态
-            Glide.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
             tvAccount.setText(AppHelper.getInstance().getUser().getNICK_NAME());
+            if (AppHelper.getInstance().getUser().getHEAD_PATH() == null) {
+                Glide.with(this).load(R.drawable.avatar_default).into(imgAvatar);
+            } else {
+                Glide.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+            }
         }
     }
 
