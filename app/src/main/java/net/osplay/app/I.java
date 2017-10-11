@@ -5,17 +5,16 @@ package net.osplay.app;
  */
 
 public interface I {
-
     // TODO: 正式接口
 
     /**
      * 基础 url
      **/
 
-     //String BASE_URL = "http://www.olacos.net";//服务器域名
+    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
 //    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
+//    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
 
     /**
      * 注册登录
@@ -34,7 +33,6 @@ public interface I {
     /**
      * 个人中心
      */
-
     //修改个人信息
     String CHANGE_USER = BASE_URL + "/memberMobile/updateMember.do";
     //我的专区列表
@@ -111,17 +109,17 @@ public interface I {
     String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
 
 
- /**
-  * 社团
-  */
+    /**
+     * 社团
+     */
     //查询已经参加过的社团（可用于判断是否参加过社团）
-    String IS_JOIN=BASE_URL + "/corporationMobile/joinCorporation.do";
+    String IS_JOIN = BASE_URL + "/corporationMobile/joinCorporation.do";
     //创建社团
-    String ESTABLISH=BASE_URL+ "/corporationMobile/addCorporation.do";
+    String ESTABLISH = BASE_URL + "/corporationMobile/addCorporation.do";
     //查询全部社团
-    String ALL_ASSOCIATION=BASE_URL+"/corporationMobile/corporationList.do";
+    String ALL_ASSOCIATION = BASE_URL + "/corporationMobile/corporationList.do";
     //添加社团成员（申请加入社团）
-    String ADD_GROUP_MEMBER=BASE_URL + "/corporationMobile/addGroupMember.do";
+    String ADD_GROUP_MEMBER = BASE_URL + "/corporationMobile/addGroupMember.do";
 
 
     /**
