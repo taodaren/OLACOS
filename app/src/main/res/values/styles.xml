@@ -81,4 +81,12 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <!--设置toolbar中弹出的menu菜单在toolbar的底部显示-->
+    <style name="toolbarMenu">
+        <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
+    </style>
+    <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
+        <item name="overlapAnchor">false</item>  <!--设置不覆盖锚点-->
+    </style>
+
 </resources>

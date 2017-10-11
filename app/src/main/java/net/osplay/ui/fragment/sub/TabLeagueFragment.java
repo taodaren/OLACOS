@@ -5,13 +5,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,12 +25,15 @@ import android.widget.Toast;
 import net.osplay.app.AppHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.LeagueIMActivity;
+import net.osplay.ui.activity.sub.MessageActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 社团模块
@@ -53,10 +59,12 @@ public class TabLeagueFragment extends BaseFragment {
     private String addcAnnotated;
     private View inflate;
     private AppBarLayout appBarLayout;
-    private Toolbar toolbar;
+
+    private Toolbar league_toolbar;
 
 
-    @Override
+
+   @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
@@ -67,10 +75,36 @@ public class TabLeagueFragment extends BaseFragment {
         SharedPreferences preferences2 = getActivity().getSharedPreferences("AddCommunity", getActivity().MODE_PRIVATE);
         addcAnnotated = preferences2.getString("addAnnotated", "defaultname");
         setView();
+       setToolbars();
         return inflate;
     }
 
+    //设置toolbar
+    private void setToolbars() {
+        league_toolbar.setNavigationIcon(R.drawable.menu_set);
+        league_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        league_toolbar.setPopupTheme(R.style.toolbarMenu);
+        league_toolbar.inflateMenu(R.menu.popupmenu);
+        league_toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.special_topic:
+                        Log.e("JGB","菜单");
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
     private void setView() {
+        league_toolbar= (Toolbar) inflate.findViewById(R.id.league_toolbar);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
         tabLayout.post(new Runnable() {
@@ -94,36 +128,22 @@ public class TabLeagueFragment extends BaseFragment {
         viewPager.setAdapter(fragmentAdapter);
         tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
         appBarLayout = (AppBarLayout) inflate.findViewById(R.id.league_appbar);
-        toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_league);
 
         /**
          * 创建或加入社团成功后才显示的社团主页
          */
         if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
             appBarLayout.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.GONE);
+            league_toolbar.setVisibility(View.GONE);
         } else {
             appBarLayout.setVisibility(View.GONE);
-            toolbar.setVisibility(View.VISIBLE);
+            league_toolbar.setVisibility(View.VISIBLE);
         }
 
+
     }
 
 
-    //设置toolbar
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
-        }
-        return true;
-    }
 
 
 }
