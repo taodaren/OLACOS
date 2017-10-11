@@ -69,7 +69,6 @@ public class NewestFragment extends BaseBussFragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e("TAG", json);
                 gsonFormat(json);
                 setOnclick();
 

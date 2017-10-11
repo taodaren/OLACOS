@@ -122,6 +122,8 @@ public interface I {
     String ALL_ASSOCIATION=BASE_URL+"/corporationMobile/corporationList.do";
     //添加社团成员（申请加入社团）
     String ADD_GROUP_MEMBER=BASE_URL + "/corporationMobile/addGroupMember.do";
+    //查询社团成员
+    String SELECT_GROUP_MEMBER=BASE_URL+"/corporationMobile/memberList.do";
 
 
     /**
