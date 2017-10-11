@@ -11,10 +11,11 @@ public interface I {
     /**
      * 基础 url
      **/
-    String BASE_URL = "http://www.olacos.net";//服务器域名
+
+     //String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
 //    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-   // String BASE_URL = "http://192.168.1.10:8080/qda";//本地（素）
+    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
 
     /**
      * 注册登录
@@ -119,6 +120,8 @@ public interface I {
     String ESTABLISH=BASE_URL+ "/corporationMobile/addCorporation.do";
     //查询全部社团
     String ALL_ASSOCIATION=BASE_URL+"/corporationMobile/corporationList.do";
+    //添加社团成员（申请加入社团）
+    String ADD_GROUP_MEMBER=BASE_URL + "/corporationMobile/addGroupMember.do";
 
 
     /**

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -24,7 +23,7 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.IsJoinBean;
+import net.osplay.service.entity.JoinBean;
 import net.osplay.ui.activity.sub.CreateOrJoinActivity;
 
 import java.util.List;
@@ -50,6 +49,8 @@ public class CommunityPLoginFragment extends Fragment {
     LinearLayout communityJoinorEstablishLl;//提醒加入创建
     @BindView(R.id.community_activity_ll)
     LinearLayout communityActivityLl;//社团活动帖
+    @BindView(R.id.text)
+    TextView text;
     private View view;
     private Gson mGson = new Gson();
 
@@ -81,6 +82,7 @@ public class CommunityPLoginFragment extends Fragment {
         super.onStart();
         setLayout();
     }
+
     public void isJoinHttp() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.IS_JOIN, RequestMethod.POST);
@@ -115,16 +117,15 @@ public class CommunityPLoginFragment extends Fragment {
     }
 
     private void formatJsonIsJoin(String json) {
-        IsJoinBean isJoinBean = mGson.fromJson(json, IsJoinBean.class);
-        List<IsJoinBean.RowsBean> rows = isJoinBean.getRows();
-        String cn = rows.get(0).getCN();
-        if (cn.equals("无相关查询数据！")) {
+        JoinBean joinBean = mGson.fromJson(json, JoinBean.class);
+        List<JoinBean.RowsBean> rows = joinBean.getRows();
+        if (rows.size() == 0) {
             communityActivityLl.setVisibility(View.GONE);//隐藏社团活动
             communityJoinorEstablishLl.setVisibility(View.VISIBLE);//显示提醒加入或创建
-          
         } else {
             communityJoinorEstablishLl.setVisibility(View.GONE);//隐藏提醒加入或创建
             communityActivityLl.setVisibility(View.VISIBLE);//显示社团活动
+            text.setText(rows.toString());
         }
     }
 
@@ -135,7 +136,7 @@ public class CommunityPLoginFragment extends Fragment {
                 MFGT.gotoLogin(getActivity(), "loginCOJ");
                 break;
             case R.id.community_joinorEstablish_tv:
-                startActivity(new Intent(getActivity(),CreateOrJoinActivity.class));
+                startActivity(new Intent(getActivity(), CreateOrJoinActivity.class));
                 break;
         }
     }

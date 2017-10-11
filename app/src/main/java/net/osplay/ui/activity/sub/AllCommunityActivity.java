@@ -29,8 +29,6 @@ public class AllCommunityActivity extends Activity {
     private RecyclerView all_recy;
     private Gson mGson = new Gson();
     private List<AllCommunityBean.RowsBean> rows;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +43,8 @@ public class AllCommunityActivity extends Activity {
         Request<String> request = NoHttp.createStringRequest(I.ALL_ASSOCIATION, RequestMethod.POST);
         request.add("rows", 5);
         request.add("page", 1);
+//        request.add("isExamine", 1);
+
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -80,7 +80,6 @@ public class AllCommunityActivity extends Activity {
         Log.e("JGB", "全部社团集合：" + rows);
         all_recy.setAdapter(new AllCommunityAdapter(AllCommunityActivity.this, rows));
     }
-
     public void onClick(View view) {
         finish();
     }
