@@ -20,6 +20,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
+                android:padding="35dp"
                 android:src="@drawable/olacos_logo" />
 
             <LinearLayout
