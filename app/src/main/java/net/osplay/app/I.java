@@ -12,9 +12,9 @@ public interface I {
      * 基础 url
      **/
 
-     //String BASE_URL = "http://www.olacos.net";//服务器域名
+     String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
-    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
+    //String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
    // String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
 
     /**
@@ -124,6 +124,11 @@ public interface I {
     String ADD_GROUP_MEMBER=BASE_URL + "/corporationMobile/addGroupMember.do";
     //查询社团成员
     String SELECT_GROUP_MEMBER=BASE_URL+"/corporationMobile/memberList.do";
+
+/**
+ * 上传图片
+ */
+    String PHOTO=BASE_URL+"/upload/uploadFile.do";
 
 
     /**

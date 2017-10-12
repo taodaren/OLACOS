@@ -15,10 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -29,8 +31,10 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.PhotoBean;
 import net.osplay.ui.activity.base.BaseActivity;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -77,6 +81,11 @@ public class CreateCommunityActivity extends BaseActivity {
     Button createSubmitBtn;
     private List<LocalMedia> avaterList;
     private List<LocalMedia> backgroupList;
+    private Gson mGson=new Gson();
+    private String avaterok;
+    private String avaterurl;
+    private String backgroupok;
+    private String backgroupurl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +93,7 @@ public class CreateCommunityActivity extends BaseActivity {
         setContentView(R.layout.activity_create_community);
         ButterKnife.bind(this);
         setToolbar("创建社团", View.VISIBLE);
+
 
     }
 
@@ -112,22 +122,21 @@ public class CreateCommunityActivity extends BaseActivity {
                 } else if (createIntroductionEd.getText().toString().isEmpty()) {
                     Toast.makeText(CreateCommunityActivity.this, "请输入社团简介", Toast.LENGTH_SHORT).show();
                 }if (createSignatureEd.getText().toString().isEmpty()) {
-                    Toast.makeText(CreateCommunityActivity.this, "请输入社团签名", Toast.LENGTH_SHORT).show();
-                } else if (createAreaEd.getText().toString().isEmpty()) {
-                    Toast.makeText(CreateCommunityActivity.this, "请输入地区", Toast.LENGTH_SHORT).show();
-                } else if (createReasonEd.getText().toString().isEmpty()) {
-                    Toast.makeText(CreateCommunityActivity.this, "请输入申请理由", Toast.LENGTH_SHORT).show();
-                } else if (avaterList == null) {
-                    Toast.makeText(CreateCommunityActivity.this, "请设置社团头像", Toast.LENGTH_SHORT).show();
-                } else if (backgroupList == null) {
-                    Toast.makeText(CreateCommunityActivity.this, "请设置社团背景", Toast.LENGTH_SHORT).show();
-                } else {
-                    establishHttp();//提交创建社团信息
-                }
+                Toast.makeText(CreateCommunityActivity.this, "请输入社团签名", Toast.LENGTH_SHORT).show();
+            } else if (createAreaEd.getText().toString().isEmpty()) {
+                Toast.makeText(CreateCommunityActivity.this, "请输入地区", Toast.LENGTH_SHORT).show();
+            } else if (createReasonEd.getText().toString().isEmpty()) {
+                Toast.makeText(CreateCommunityActivity.this, "请输入申请理由", Toast.LENGTH_SHORT).show();
+            } else if (avaterList==null) {
+                Toast.makeText(CreateCommunityActivity.this, "请设置社团头像", Toast.LENGTH_SHORT).show();
+            } else if (backgroupList==null) {
+                Toast.makeText(CreateCommunityActivity.this, "请设置社团背景", Toast.LENGTH_SHORT).show();
+            } else {
+                establishHttp();//提交创建社团信息
+            }
                 break;
         }
     }
-
     private void establishHttp() {
         Log.e("JGB", "头像:" + avaterList);
         Log.e("JGB", "头像:" + backgroupList);
@@ -137,8 +146,8 @@ public class CreateCommunityActivity extends BaseActivity {
         request.add("region", createAreaEd.getText().toString());
         request.add("reason", createReasonEd.getText().toString());
         request.add("headId", AppHelper.getInstance().getUser().getID());
-        request.add("photo", avaterList.get(0).getPath());
-        request.add("background", backgroupList.get(0).getPath());
+        request.add("photo", avaterurl);
+        request.add("background", backgroupurl);
         request.add("introduction", createIntroductionEd.getText().toString());
         request.add("autograph", createSignatureEd.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -180,14 +189,75 @@ public class CreateCommunityActivity extends BaseActivity {
                     // 图片选择结果回调
                     avaterList = PictureSelector.obtainMultipleResult(data);
                     Glide.with(CreateCommunityActivity.this).load(avaterList.get(0).getPath()).into(createAvaterIv);
+                    //得到图片路径后上传服务器
+                    RequestQueue requestQueue1 = NoHttp.newRequestQueue();
+                    Request<String> request1 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
+                    request1.add("url",new FileBinary(new File(avaterList.get(0).getPath())));//上传文件
+                    requestQueue1.add(0, request1, new OnResponseListener<String>() {
+                        @Override
+                        public void onStart(int what) {
+                        }
+
+                        @Override
+                        public void onSucceed(int what, Response<String> response) {
+                            String json = response.get();
+                            Log.e("JGB", "上传头像文件结果" + json);
+                            if (json == null) {
+                                return;
+                            } else {
+                                PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
+                                avaterok = photoBean.getOk();
+                                avaterurl = photoBean.getFilelist().get(0).getURL();
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(int what, Response<String> response) {
+                        }
+
+                        @Override
+                        public void onFinish(int what) {
+
+                        }
+                    });
                     break;
                 case PictureConfig.REQUEST_CAMERA:
                     backgroupList = PictureSelector.obtainMultipleResult(data);
                     Glide.with(CreateCommunityActivity.this).load(backgroupList.get(0).getPath()).into(createBackgroundIv);
+                    //得到图片路径后上传服务器
+                    RequestQueue requestQueue2 = NoHttp.newRequestQueue();
+                    Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
+                    request2.add("url",new FileBinary(new File(backgroupList.get(0).getPath())));//上传文件
+                    requestQueue2.add(0, request2, new OnResponseListener<String>() {
+                        @Override
+                        public void onStart(int what) {
+                        }
+
+                        @Override
+                        public void onSucceed(int what, Response<String> response) {
+                            String json = response.get();
+                            Log.e("JGB", "上传背景文件结果" + json);
+                            if (json == null) {
+                                return;
+                            } else {
+                                PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
+                                backgroupok = photoBean.getOk();
+                                backgroupurl = photoBean.getFilelist().get(0).getURL();
+                            }
+                        }
+
+                        @Override
+                        public void onFailed(int what, Response<String> response) {
+                        }
+
+                        @Override
+                        public void onFinish(int what) {
+
+                        }
+                    });
             }
         }
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
