@@ -33,6 +33,7 @@ public class WordDetailsPostsBean {
      * BIGPARTID : 1
      */
 
+    private String HEAD_PATH;//头像
     private String ISDELETE;
     private String COVERIMG;//封面图
     private String BOUTIQUE;//"0"：精品；"1"非精品
@@ -57,6 +58,14 @@ public class WordDetailsPostsBean {
     private String ID;//帖子 id
     private String CONTENT;//帖子内容（注：内容为html可直接展示）
     private String BIGPARTID;//大区 id
+
+    public String getHEAD_PATH() {
+        return HEAD_PATH;
+    }
+
+    public void setHEAD_PATH(String HEAD_PATH) {
+        this.HEAD_PATH = HEAD_PATH;
+    }
 
     public String getISDELETE() {
         return ISDELETE;

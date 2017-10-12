@@ -23,7 +23,6 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
-import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsPostsBean;
@@ -60,6 +59,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         String postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);
+        Log.d(TAG, "initData: " + postsId);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
         request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
@@ -102,7 +102,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private void initContentData() {
         if (mContentList != null) {
             for (int i = 0; i < mContentList.size(); i++) {
-                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getCOVERIMG()).into(mAvatar);
+                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
                 mTvNick.setText(mContentList.get(i).getNICK_NAME());
                 mTvTime.setText(mContentList.get(i).getCREATEDATE());
                 mTvType.setText(mContentList.get(i).getPART());
