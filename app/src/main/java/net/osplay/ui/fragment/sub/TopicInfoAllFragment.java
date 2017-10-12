@@ -172,6 +172,9 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     }
 
     private void showRefreshing(boolean enable) {
+        if (mSwipe == null) {
+            return;
+        }
         if (enable) {
             mSwipe.post(new Runnable() {
                 @Override
