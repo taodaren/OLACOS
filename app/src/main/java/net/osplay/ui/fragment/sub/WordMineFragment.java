@@ -191,7 +191,9 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
     private void transformData(int getDataAction) {
         switch (getDataAction) {
             case ACTION_FOLLOW:
-                mDatas.addAll(HomeDataMapper.transformWordAddDatas(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
+                if (mAddWorList != null && mAddWorList.isEmpty()) {
+                    mDatas.addAll(HomeDataMapper.transformWordAddDatas(mAddWorList, WordMineAdapter.TYPE_ADD_WORD, false));
+                }
                 addEmptyItem();
                 break;
             case ACTION_RECO:

@@ -297,7 +297,7 @@ public class TabHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private void addFragment(int containerViewId, Fragment fragment) {
             final FragmentTransaction fragmentTransaction = ((AppCompatActivity) mContext).getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(containerViewId, fragment);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
         }
 
         private void addOrShowFragment(FragmentTransaction transaction, Fragment fragment) {
