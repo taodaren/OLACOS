@@ -5,6 +5,7 @@ import android.util.SparseArray;
 import net.osplay.data.bean.CommonTitleBean;
 import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.WordAddBean;
+import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.service.entity.WordRecoBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.service.entity.HomeBannerBean;
@@ -32,6 +33,20 @@ public class HomeDataMapper {
         }
         return null;
     }
+
+    public static HomeData transformTopicData(List<WordHotPostsBean.DataBean> beans, int adapterType, boolean isSpan) {
+        HomeData<List<WordHotPostsBean.DataBean>> homeData;
+        if (beans != null && !beans.isEmpty()) {
+            homeData = new HomeData();
+            homeData.setData(beans);
+            homeData.setItemType(adapterType);
+            homeData.setLocal(false);
+            homeData.setSpan(isSpan);
+            return homeData;
+        }
+        return null;
+    }
+
     public static HomeData transformHomeTestData(List<ImgTvBean> beans, int adapterType, boolean isSpan) {
         HomeData<List<ImgTvBean>> homeData;
         if (beans != null && !beans.isEmpty()) {

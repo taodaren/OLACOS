@@ -19,8 +19,8 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
+import net.osplay.ui.fragment.sub.TabBatFragment;
 import net.osplay.ui.fragment.sub.TabGoodsFragment;
-import net.osplay.ui.fragment.sub.TabHomeFragment;
 import net.osplay.ui.fragment.sub.TabLeagueFragment;
 import net.osplay.ui.fragment.sub.TabWordFragment;
 import net.osplay.utils.PublishPopWindow;
@@ -30,7 +30,8 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private Fragment currentFragment;
-    private TabHomeFragment tabHomeFragment;
+    private TabBatFragment tabHomeFragment;
+//    private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
     private TabGoodsFragment tabGoodsFragment;
     private TabLeagueFragment tabLeagueFragment;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 默认显示 TabHomeFragment
      */
     private void defaultShowHome() {
-        tabHomeFragment = new TabHomeFragment();
+        tabHomeFragment = new TabBatFragment();
         if (!tabHomeFragment.isAdded()) {
             addFragment(R.id.main_content, tabHomeFragment);
             currentFragment = tabHomeFragment;
@@ -176,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         switch (position) {
             case 0:
                 if (tabHomeFragment == null) {
-                    tabHomeFragment = new TabHomeFragment();
+                    tabHomeFragment = new TabBatFragment();
                 }
                 replaceFragment(tabHomeFragment);
                 break;
