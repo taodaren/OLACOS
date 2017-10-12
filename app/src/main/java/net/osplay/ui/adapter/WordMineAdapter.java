@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -25,6 +26,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordAddBean;
 import net.osplay.service.entity.WordRecoBean;
 import net.osplay.service.entity.base.HomeData;
+import net.osplay.ui.activity.sub.DetailsTopicActivity;
 import net.osplay.ui.activity.sub.LoginActivity;
 
 import java.util.ArrayList;
@@ -274,7 +276,11 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     checkoutState();
                     break;
                 case R.id.layout_recommend_word:
-
+                    Intent intent = new Intent(mContext, DetailsTopicActivity.class);
+                    intent.putExtra("partId", data.getPID());
+                    intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
+                    intent.putExtra(I.Type.TYPE_NAME, data.getPART());
+                    mContext.startActivity(intent);
                     break;
             }
         }
