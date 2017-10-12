@@ -117,13 +117,13 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 String loginId = getIntent().getStringExtra("loginId");
+                if (loginId == null) {
+                    finish();
+                    return;
+                }
                 switch (loginId) {
                     case "loginAttention"://关注
-                        finish();
-                        break;
                     case "loginCOJ"://社团活动
-                        finish();
-                        break;
                     case "loginCOJ1"://社团作品登录成功后跳转的目的地
                         finish();
                         break;
