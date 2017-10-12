@@ -20,6 +20,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicListBean;
@@ -104,6 +105,9 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
         request.add("twoPartId", parentId);
         request.add("page", page);
         request.add("size", DATA_COUNT);
+        if (AppHelper.getInstance().isLogined()) {// 如果用户登录需要加入memberId参数访问接口
+            request.add("memberId", AppHelper.getInstance().getUserID());
+        }
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -172,6 +176,9 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     }
 
     private void showRefreshing(boolean enable) {
+        if (mSwipe == null) {
+            return;
+        }
         if (enable) {
             mSwipe.post(new Runnable() {
                 @Override
