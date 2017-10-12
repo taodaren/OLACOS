@@ -56,6 +56,8 @@ public class MyFansFragment extends Fragment {
     }
 
     private void initData() {
+        String id = AppHelper.getInstance().getUser().getID();
+        Log.e("JGB","个人id"+id);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_FANS_PAGER, RequestMethod.POST);
         request.add("page", "1");

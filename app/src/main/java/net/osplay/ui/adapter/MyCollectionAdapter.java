@@ -50,7 +50,8 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
 
     @Override
     public void onBindViewHolder(final CollectionViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL + rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_collection_avatar);
+        //Glide.with(context).load(I.BASE_URL + rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.item_collection_avatar);
+        Glide.with(context).load(I.BASE_URL + rows.get(position).getHEAD_PATH()).into(holder.item_collection_avatar);
         Glide.with(context).load(I.BASE_URL + rows.get(position).getCOVERIMG()).into(holder.item_collection_icon);
         holder.item_collection_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_collection_time.setText(rows.get(position).getCREATEDATE());

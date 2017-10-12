@@ -7,114 +7,184 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="30dp"
-            android:text="请认真阅读以下规则："
-            android:textColor="@color/colorBlack2"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="1.申请必须符合osplay社区氛围及相关法律法规"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="2.同兴趣人数不足的申请将不予通过"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="3.已有类似专区的申请将不予通过"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="4.请勿重复申请相同内容"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:text="若申请通过，osplay将会在2周之内与你联系"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
-
-        <EditText
-            android:id="@+id/create_community_ed"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="30dp"
-            android:hint="填写社区名称"
-            android:textSize="14sp" />
+            android:background="@color/white"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/create_area_ed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="填写所在地区"
-            android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:text="请认真阅读以下规则："
+                android:textColor="@color/colorBlack2"
+                android:textSize="15sp" />
 
-        <EditText
-            android:id="@+id/create_reason_ed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:hint="填写申请理由"
-            android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="1.申请必须符合olacos社团氛围及相关法律法规"
+                android:textColor="@color/colorBlack2"
+                android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:text="请认真填写以上内容，例如：版区管理经验、在线时间等信息，申请通过率才会高呦~"
-            android:textColor="@color/colorBlack2"
-            android:textSize="14sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="2.同兴趣人数不足的申请将不予通过"
+                android:textColor="@color/colorBlack2"
+                android:textSize="14sp" />
 
-        <Button
-            android:id="@+id/create_submit_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_shape_cp"
-            android:text="提交申请"
-            android:textColor="@color/white" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="3.已有类似专区的申请将不予通过"
+                android:textColor="@color/colorBlack2"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="4.请勿重复申请相同内容"
+                android:textColor="@color/colorBlack2"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="若申请通过，olacos将会在2周之内与你联系"
+                android:textColor="@color/colorBlack2"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/create_community_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:hint="填写社区名称"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/create_area_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="团长姓名"
+                android:textSize="14sp" />
+            <EditText
+                android:id="@+id/create_introduction_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="社团简介"
+                android:textSize="14sp" />
+
+
+            <EditText
+                android:id="@+id/create_signature_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="社团签名"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/create_area_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="填写所在地区"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/create_reason_ed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:hint="填写申请理由"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/create_avater_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="社团头像："
+                    android:textSize="14sp"
+                    />
+                <ImageView
+                    android:id="@+id/create_avater_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/add"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#929292"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/create_background_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="社团背景:"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/create_background_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/add"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/create_submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_shape_cp"
+                android:text="提交申请"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
