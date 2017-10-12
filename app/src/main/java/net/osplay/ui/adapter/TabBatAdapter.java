@@ -2,23 +2,29 @@ package net.osplay.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 
+import net.osplay.app.I;
 import net.osplay.app.MyApplication;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.ImgTvBean;
-import net.osplay.service.entity.VideoBean;
 import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.service.entity.base.HomeData;
+import net.osplay.ui.activity.sub.DetailsPostsActivity;
 import net.osplay.utils.GlideImageLoader;
 
 import java.util.ArrayList;
@@ -115,8 +121,8 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private class TopicViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView rvItem;
-        private List<WordHotPostsBean.DataBean> subList;
-        private LinearLayoutManager manager;
+        private List<WordHotPostsBean.DataBean> postsList;
+        private GridLayoutManager manager;
         private TopicItemAdapter adapter;
 
         public TopicViewHolder(View itemView) {
@@ -126,16 +132,17 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public void bindData(List<WordHotPostsBean.DataBean> data) {
             if (data != null && !data.isEmpty()) {
-                this.subList = new ArrayList<>();
-                this.subList.addAll(data);
+                this.postsList = new ArrayList<>();
+                this.postsList.addAll(data);
                 bindItem();
             }
         }
 
         private void bindItem() {
-            manager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
+//            manager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
+            manager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
             rvItem.setLayoutManager(manager);
-            adapter = new TopicItemAdapter(MyApplication.getContext(), subList);
+            adapter = new TopicItemAdapter(MyApplication.getContext(), postsList);
             rvItem.setAdapter(adapter);
         }
 
@@ -144,16 +151,16 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             private LayoutInflater inflater;
             private List<WordHotPostsBean.DataBean> datas;
 
-            public TopicItemAdapter(Context context, List<WordHotPostsBean.DataBean> subList) {
+            public TopicItemAdapter(Context context, List<WordHotPostsBean.DataBean> list) {
                 this.context = context;
                 this.inflater = LayoutInflater.from(MyApplication.getContext());
                 this.datas = new ArrayList<>();
-                this.datas.addAll(subList);
+                this.datas.addAll(list);
             }
 
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View inflate = inflater.inflate(R.layout.item_posts, parent, false);
+                View inflate = inflater.inflate(R.layout.item_word_hot_posts, parent, false);
                 TopicItemHolder holder = new TopicItemHolder(inflate);
                 holder.setClickListener();
                 return holder;
@@ -169,18 +176,38 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 return datas == null ? 0 : datas.size();
             }
 
-            private class TopicItemHolder extends RecyclerView.ViewHolder  {
+            private class TopicItemHolder extends RecyclerView.ViewHolder {
+                private View outView;
+                private ImageView imgBg;
+                private TextView tvInfo, tvType, tvComment;
+                private String postsId;
 
                 public TopicItemHolder(View itemView) {
                     super(itemView);
+                    outView = itemView;
+                    imgBg = (ImageView) itemView.findViewById(R.id.img_hot_posts_list_bg);
+                    tvInfo = (TextView) itemView.findViewById(R.id.tv_hot_posts_info_list);
+                    tvType = (TextView) itemView.findViewById(R.id.tv_hot_posts_type_list);
+                    tvComment = (TextView) itemView.findViewById(R.id.tv_hot_posts_comment_list);
                 }
 
                 public void setClickListener() {
-
+                    outView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, DetailsPostsActivity.class);
+                            intent.putExtra("postsId", postsId);//携带帖子ID
+                            context.startActivity(intent);
+                        }
+                    });
                 }
 
                 public void bindData(WordHotPostsBean.DataBean dataBean) {
-
+                    Glide.with(MyApplication.getContext()).load(I.BASE_URL + dataBean.getCOVERIMG()).into(imgBg);
+                    tvInfo.setText(dataBean.getTITLE());
+                    tvType.setText(dataBean.getPARTNAME());
+                    tvComment.setText(dataBean.getPINGLUN_COUNT());
+                    postsId = dataBean.getID();
                 }
             }
         }
