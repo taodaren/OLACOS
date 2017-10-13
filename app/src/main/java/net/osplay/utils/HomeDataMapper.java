@@ -34,15 +34,27 @@ public class HomeDataMapper {
         return null;
     }
 
-    public static HomeData transformTopicData(List<WordHotPostsBean.DataBean> beans, int adapterType, boolean isSpan) {
-        HomeData<List<WordHotPostsBean.DataBean>> homeData;
+    private static HomeData transformTopicData(WordHotPostsBean.DataBean bean, int adapterType, boolean isSpan) {
+        if (bean == null) {
+            throw new IllegalArgumentException("Cannot transform a null value");
+        }
+        final HomeData<WordHotPostsBean.DataBean> resData = new HomeData<>();
+        resData.setItemType(adapterType);
+        resData.setSpan(isSpan);
+        resData.setLocal(false);
+        resData.setData(bean);
+        return resData;
+    }
+
+    public static List<HomeData> transformTopicDatas(List<WordHotPostsBean.DataBean> beans, int adapterType, boolean isSpan) {
+        List<HomeData> resDataCollection;
         if (beans != null && !beans.isEmpty()) {
-            homeData = new HomeData();
-            homeData.setData(beans);
-            homeData.setItemType(adapterType);
-            homeData.setLocal(false);
-            homeData.setSpan(isSpan);
-            return homeData;
+            resDataCollection = new ArrayList<>();
+            for (WordHotPostsBean.DataBean bean : beans) {
+                resDataCollection.add(transformTopicData(bean, adapterType, isSpan));
+            }
+            mHomeDataMap.put(adapterType, resDataCollection);
+            return resDataCollection;
         }
         return null;
     }

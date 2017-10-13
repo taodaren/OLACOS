@@ -58,7 +58,7 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case TYPE_BANNER:
                 return new BannerViewHolder(mInflater.inflate(R.layout.layout_home_banner, parent, false));
             case TYPE_TOPIC:
-                return new TopicViewHolder(mInflater.inflate(R.layout.layout_recycler_view, parent, false));
+                return new TopicViewHolder(mInflater.inflate(R.layout.item_word_hot_posts, parent, false));
             default:
                 Log.e(TAG, "onCreateViewHolder: is null");
                 return null;
@@ -73,7 +73,7 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((BannerViewHolder) holder).bindData((List<ImgTvBean>) mDataList.get(position).getData());
                 break;
             case TYPE_TOPIC:
-                ((TopicViewHolder) holder).bindData((List<WordHotPostsBean.DataBean>) mDataList.get(position).getData());
+                ((TopicViewHolder) holder).bindData((WordHotPostsBean.DataBean) mDataList.get(position).getData());
                 break;
         }
     }
@@ -86,6 +86,27 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemViewType(int position) {
         return mDataList.get(position).getItemType();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+            gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    if (isFullSpanType(position)) {
+                        return gridLayoutManager.getSpanCount();
+                    }
+                    return 1;
+                }
+            });
+        }
+    }
+
+    private boolean isFullSpanType(int pos) {
+        return mDataList.get(pos).isSpan();
     }
 
     //////////////////// view holder ////////////////////
@@ -122,98 +143,47 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private class TopicViewHolder extends RecyclerView.ViewHolder {
-        private RecyclerView rvItem;
-        private List<WordHotPostsBean.DataBean> postsList;
-        private GridLayoutManager manager;
-        private TopicItemAdapter adapter;
+        private WordHotPostsBean.DataBean dataBean;
+        private View outView;
+        private ImageView imgBg;
+        private TextView tvInfo, tvType, tvComment;
+        private String postsId;
 
         public TopicViewHolder(View itemView) {
             super(itemView);
-            rvItem = (RecyclerView) itemView.findViewById(R.id.rv_layout_public);
+            outView = itemView;
+            imgBg = (ImageView) itemView.findViewById(R.id.img_hot_posts_list_bg);
+            tvInfo = (TextView) itemView.findViewById(R.id.tv_hot_posts_info_list);
+            tvType = (TextView) itemView.findViewById(R.id.tv_hot_posts_type_list);
+            tvComment = (TextView) itemView.findViewById(R.id.tv_hot_posts_comment_list);
         }
 
-        public void bindData(List<WordHotPostsBean.DataBean> data) {
-            if (data != null && !data.isEmpty()) {
-                this.postsList = new ArrayList<>();
-                this.postsList.addAll(data);
+        public void bindData(WordHotPostsBean.DataBean data) {
+            if (data != null) {
+                this.dataBean = data;
                 bindItem();
             }
         }
 
         private void bindItem() {
-//            manager = new LinearLayoutManager(MyApplication.getContext(), LinearLayoutManager.VERTICAL, false);
-            manager = new GridLayoutManager(MyApplication.getContext(), 2, LinearLayoutManager.VERTICAL, false);
-            rvItem.setLayoutManager(manager);
-            adapter = new TopicItemAdapter(MyApplication.getContext(), postsList);
-            rvItem.setAdapter(adapter);
+            Glide.with(MyApplication.getContext()).load(I.BASE_URL + dataBean.getCOVERIMG()).into(imgBg);
+            tvInfo.setText(dataBean.getTITLE());
+            tvType.setText(dataBean.getPARTNAME());
+            tvComment.setText(dataBean.getPINGLUN_COUNT());
+            postsId = dataBean.getID();
+
+            outView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, DetailsPostsActivity.class);
+                    intent.putExtra("postsId", postsId);//携带帖子ID
+                    intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+            });
+
         }
 
-        private class TopicItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-            private Context context;
-            private LayoutInflater inflater;
-            private List<WordHotPostsBean.DataBean> datas;
-
-            public TopicItemAdapter(Context context, List<WordHotPostsBean.DataBean> list) {
-                this.context = context;
-                this.inflater = LayoutInflater.from(MyApplication.getContext());
-                this.datas = new ArrayList<>();
-                this.datas.addAll(list);
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View inflate = inflater.inflate(R.layout.item_word_hot_posts, parent, false);
-                TopicItemHolder holder = new TopicItemHolder(inflate);
-                holder.setClickListener();
-                return holder;
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                ((TopicItemHolder) holder).bindData(datas.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return datas == null ? 0 : datas.size();
-            }
-
-            private class TopicItemHolder extends RecyclerView.ViewHolder {
-                private View outView;
-                private ImageView imgBg;
-                private TextView tvInfo, tvType, tvComment;
-                private String postsId;
-
-                public TopicItemHolder(View itemView) {
-                    super(itemView);
-                    outView = itemView;
-                    imgBg = (ImageView) itemView.findViewById(R.id.img_hot_posts_list_bg);
-                    tvInfo = (TextView) itemView.findViewById(R.id.tv_hot_posts_info_list);
-                    tvType = (TextView) itemView.findViewById(R.id.tv_hot_posts_type_list);
-                    tvComment = (TextView) itemView.findViewById(R.id.tv_hot_posts_comment_list);
-                }
-
-                public void setClickListener() {
-                    outView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(context, DetailsPostsActivity.class);
-                            intent.putExtra("postsId", postsId);//携带帖子ID
-                            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        }
-                    });
-                }
-
-                public void bindData(WordHotPostsBean.DataBean dataBean) {
-                    Glide.with(MyApplication.getContext()).load(I.BASE_URL + dataBean.getCOVERIMG()).into(imgBg);
-                    tvInfo.setText(dataBean.getTITLE());
-                    tvType.setText(dataBean.getPARTNAME());
-                    tvComment.setText(dataBean.getPINGLUN_COUNT());
-                    postsId = dataBean.getID();
-                }
-            }
-        }
     }
 
 }
