@@ -55,7 +55,6 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ActionListener mListener;
 
     public interface ActionListener {
-
         void actionFollow(String areaID, int action, WordAddBean bean, int actionPosition);
     }
 
@@ -163,7 +162,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     //////////////////// view holder ////////////////////
 
-    public class CommonTitleHolder extends RecyclerView.ViewHolder {
+    private class CommonTitleHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_item_common_title)
         ImageView ivItemCommonTitle;
         @BindView(R.id.tv_item_common_title)
@@ -194,7 +193,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class AddViewHolder extends RecyclerView.ViewHolder {
+    private class AddViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_item_word_add_cover)
         ImageView ivItemWordAddCover;
         @BindView(R.id.tv_item_word_add)
@@ -229,12 +228,17 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         @OnLongClick(R.id.layout_add_topic)
         boolean onLongClick() {//长按加入的专区列表项
-            Toast.makeText(mContext, "changandianji", Toast.LENGTH_SHORT).show();
+            // TODO: 2017/10/13 长按退出专区功能待实现 （思路：取消关注）
+//            data.setID(null);
+//            data.setNOTES(null);
+//            data.setPART(null);
+//            data.setPART_PATH(null);
+            notifyItemRemoved(getAdapterPosition());
             return true;
         }
     }
 
-    public class RecoViewHolder extends RecyclerView.ViewHolder {
+    private class RecoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recommend_word_avatar)
         RoundedImageView recommendWordAvatar;
         @BindView(R.id.recommend_word_type)
@@ -326,7 +330,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public class AddEmptyHolder extends RecyclerView.ViewHolder {
+    private class AddEmptyHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.add_empty)
         RoundedImageView addEmpty;
 
@@ -349,4 +353,5 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         }
     }
+
 }
