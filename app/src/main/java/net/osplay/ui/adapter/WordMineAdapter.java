@@ -35,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * 社区 → 我的适配器
@@ -218,12 +219,18 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @OnClick(R.id.layout_add_topic)
-        public void onViewClicked() {
+        public void onViewClicked() {//点击加入的专区列表项
             Intent intent = new Intent(mContext, DetailsTopicActivity.class);
             intent.putExtra("partId", data.getID());
             intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
             intent.putExtra(I.Type.TYPE_NAME, data.getPART());
             mContext.startActivity(intent);
+        }
+
+        @OnLongClick(R.id.layout_add_topic)
+        boolean onLongClick() {//长按加入的专区列表项
+            Toast.makeText(mContext, "changandianji", Toast.LENGTH_SHORT).show();
+            return true;
         }
     }
 
