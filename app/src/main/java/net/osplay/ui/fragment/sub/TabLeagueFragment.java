@@ -182,16 +182,12 @@ public class TabLeagueFragment extends BaseFragment {
         List<JoinBean.RowsBean> rows = joinBean.getRows();
         if (rows.size() == 0) {//没有加入或是创建过社团
             appBarLayout.setVisibility(View.GONE);
-        }else if(rows.get(0).getISEXAMINE().equals(0)){
-            appBarLayout.setVisibility(View.GONE);
-        } else {//已经加入过社团
-            Log.e("JGB","已经成功加入过社团");
-            appBarLayout.setVisibility(View.VISIBLE);
-            league_toolbar.setVisibility(View.GONE);
+        } else {//判断当前社团是否通过审核
             getAssociationInfoHttp(rows);//获取当前社团信息
         }
     }
 
+    //查询当前社团信息
     public void getAssociationInfoHttp(List<JoinBean.RowsBean> rows) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ASSOCIATION_INFO, RequestMethod.POST);
@@ -228,10 +224,13 @@ public class TabLeagueFragment extends BaseFragment {
     private void formatAssociationInfoJson(String json) {
         AssociationInfoBean associationInfoBean = mGson.fromJson(json, AssociationInfoBean.class);
         List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
-        Log.e("JGB","解析社团信息："+aList);
-        if(aList==null){//没有加入过的社团信息,隐藏社团顶部信息
-          return;
-        }else{//显示加载社团信息
+        String isexamine = aList.get(0).getISEXAMINE();
+        Log.e("JGB","判断社团是否创建通过："+isexamine);
+        if(!aList.get(0).getISEXAMINE().equals("1")){//未审核通过
+            appBarLayout.setVisibility(View.GONE);
+        } else{//显示加载社团信息
+            appBarLayout.setVisibility(View.VISIBLE);
+            league_toolbar.setVisibility(View.GONE);
             Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
             Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
             association_name_tv.setText(aList.get(0).getNAME());
@@ -247,6 +246,8 @@ public class TabLeagueFragment extends BaseFragment {
         super.onStart();
         getAssociationHttp();
     }
+
+
 }
 
 
