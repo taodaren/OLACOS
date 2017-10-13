@@ -216,6 +216,15 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvItemWordAdd.setText(data.getPART());
             Glide.with(MyApplication.getContext()).load(I.BASE_URL + data.getPART_PATH()).into(ivItemWordAddCover);
         }
+
+        @OnClick(R.id.layout_add_topic)
+        public void onViewClicked() {
+            Intent intent = new Intent(mContext, DetailsTopicActivity.class);
+            intent.putExtra("partId", data.getID());
+            intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
+            intent.putExtra(I.Type.TYPE_NAME, data.getPART());
+            mContext.startActivity(intent);
+        }
     }
 
     public class RecoViewHolder extends RecyclerView.ViewHolder {
@@ -272,10 +281,10 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @OnClick({R.id.recommend_word_add, R.id.layout_recommend_word})
         public void onViewClicked(View view) {
             switch (view.getId()) {
-                case R.id.recommend_word_add:
+                case R.id.recommend_word_add://+ 加入/已加入 按钮
                     checkoutState();
                     break;
-                case R.id.layout_recommend_word:
+                case R.id.layout_recommend_word://推荐的专区列表项
                     Intent intent = new Intent(mContext, DetailsTopicActivity.class);
                     intent.putExtra("partId", data.getID());
                     intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
