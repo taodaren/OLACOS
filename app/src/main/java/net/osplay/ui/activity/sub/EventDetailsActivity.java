@@ -6,11 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -23,7 +21,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.olacos.R;
 
-import net.osplay.service.entity.LeagueBean;
 import net.osplay.service.entity.RecommendBean;
 import net.osplay.ui.activity.base.BaseActivity;
 
@@ -112,9 +109,9 @@ public class EventDetailsActivity extends BaseActivity {
     }
     private void gsonFormat(String json) {
         RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
-        List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
-        adapter = new EventSignUpAdapter(EventDetailsActivity.this, trailers);
-        event_signup_recy.setAdapter(adapter);
+       // List<LeagueBean.TrailersBean> trailers = recommendBean.getTrailers();
+//        adapter = new EventSignUpAdapter(EventDetailsActivity.this, trailers);
+//        event_signup_recy.setAdapter(adapter);
     }
 
 

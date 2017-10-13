@@ -142,7 +142,9 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:src="@drawable/add"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
             </LinearLayout>
 
             <View
@@ -171,7 +173,9 @@
                     android:layout_height="100dp"
                     android:src="@drawable/add"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
             </LinearLayout>
 
             <Button

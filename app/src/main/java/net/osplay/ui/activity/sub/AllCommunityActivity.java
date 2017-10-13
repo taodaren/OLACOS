@@ -77,7 +77,6 @@ public class AllCommunityActivity extends Activity {
         AllCommunityBean allCommunityBean = mGson.fromJson(json, AllCommunityBean.class);
         rows = allCommunityBean.getRows();
         Log.e("JGB", "全部社团集合：" + rows);
-        String photo = rows.get(2).getPHOTO();
         Log.e("JGB", "头像：" + rows);
         all_recy.setAdapter(new AllCommunityAdapter(AllCommunityActivity.this, rows));
     }

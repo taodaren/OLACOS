@@ -8,7 +8,6 @@ import com.squareup.picasso.Picasso;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.LeagueBean;
-import net.osplay.service.entity.RecommendBean;
 import net.osplay.ui.adapter.base.BaseRecyclerViewAdapter;
 import net.osplay.ui.adapter.base.BaseViewHolder;
 

@@ -124,6 +124,10 @@ public interface I {
     String ADD_GROUP_MEMBER=BASE_URL + "/corporationMobile/addGroupMember.do";
     //查询社团成员
     String SELECT_GROUP_MEMBER=BASE_URL+"/corporationMobile/memberList.do";
+    //查询当前社团信息
+    String ASSOCIATION_INFO=BASE_URL + "/corporationMobile/getCorporationById.do";
+    //推荐
+    String RECOMMEND=BASE_URL+"/corporationMobile/recommend.do";
 
 /**
  * 上传图片
