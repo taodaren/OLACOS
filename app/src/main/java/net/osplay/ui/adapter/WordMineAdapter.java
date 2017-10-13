@@ -277,7 +277,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     break;
                 case R.id.layout_recommend_word:
                     Intent intent = new Intent(mContext, DetailsTopicActivity.class);
-                    intent.putExtra("partId", data.getPID());
+                    intent.putExtra("partId", String.valueOf(Integer.valueOf(data.getPID()) + 1));
                     intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
                     intent.putExtra(I.Type.TYPE_NAME, data.getPART());
                     mContext.startActivity(intent);
