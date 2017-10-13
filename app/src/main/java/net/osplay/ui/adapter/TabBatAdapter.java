@@ -30,6 +30,8 @@ import net.osplay.utils.GlideImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * 首页适配器
  */
@@ -197,6 +199,7 @@ public class TabBatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         public void onClick(View v) {
                             Intent intent = new Intent(context, DetailsPostsActivity.class);
                             intent.putExtra("postsId", postsId);//携带帖子ID
+                            intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                         }
                     });
