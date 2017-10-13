@@ -162,7 +162,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     //////////////////// view holder ////////////////////
 
-    private class CommonTitleHolder extends RecyclerView.ViewHolder {
+    class CommonTitleHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_item_common_title)
         ImageView ivItemCommonTitle;
         @BindView(R.id.tv_item_common_title)
@@ -193,7 +193,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private class AddViewHolder extends RecyclerView.ViewHolder {
+    class AddViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_item_word_add_cover)
         ImageView ivItemWordAddCover;
         @BindView(R.id.tv_item_word_add)
@@ -238,7 +238,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private class RecoViewHolder extends RecyclerView.ViewHolder {
+    class RecoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recommend_word_avatar)
         RoundedImageView recommendWordAvatar;
         @BindView(R.id.recommend_word_type)
@@ -330,7 +330,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    private class AddEmptyHolder extends RecyclerView.ViewHolder {
+    class AddEmptyHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.add_empty)
         RoundedImageView addEmpty;
 
