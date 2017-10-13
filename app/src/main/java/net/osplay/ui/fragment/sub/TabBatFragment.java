@@ -125,13 +125,16 @@ public class TabBatFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (hotTopicBean != null) {
-            LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
             mRvHome.setLayoutManager(manager);
+            manager.setAutoMeasureEnabled(true);
+            manager.setSmoothScrollbarEnabled(true);
             mRvHome.setHasFixedSize(true);
+            mRvHome.setNestedScrollingEnabled(true);
 
             List<HomeData> list = new ArrayList<>();
-            list.add(HomeDataMapper.transformHomeTestData(egDatas, TabBatAdapter.TYPE_BANNER, false));
-            list.add(HomeDataMapper.transformTopicData(mDataList, TabBatAdapter.TYPE_TOPIC, false));
+            list.add(HomeDataMapper.transformHomeTestData(egDatas, TabBatAdapter.TYPE_BANNER, true));
+            list.addAll(HomeDataMapper.transformTopicDatas(mDataList, TabBatAdapter.TYPE_TOPIC, false));
             TabBatAdapter adapter = new TabBatAdapter(getActivity(), list);
             mRvHome.setAdapter(adapter);
         }
