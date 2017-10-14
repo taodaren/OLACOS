@@ -14,10 +14,9 @@ import com.bumptech.glide.Glide;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
-import net.osplay.ui.activity.sub.DetailsDouPictureActivity;
 import net.osplay.ui.activity.sub.DetailsTopicActivity;
-import net.osplay.ui.activity.sub.WaitDevActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,19 +26,20 @@ import java.util.List;
 public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Activity mContext;
     private LayoutInflater mInflater;
-    private List<WordTopicBean> mTopicBeanList;
+    private List<WordTopicBean> mTopicList;
 
-    public WordHotTopicAdapter(Activity mContext, List<WordTopicBean> mTopicBeanList) {
+    public WordHotTopicAdapter(Activity mContext, List<WordTopicBean> mTopicList) {
         this.mContext = mContext;
         this.mInflater = LayoutInflater.from(mContext);
-        this.mTopicBeanList = mTopicBeanList;
+        this.mTopicList = new ArrayList<>();
+        this.mTopicList.addAll(mTopicList);
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = mInflater.inflate(R.layout.item_hot_topic, parent, false);
         TopicViewHolder holder = new TopicViewHolder(inflate);
-        holder.setClickListener(viewType);
+        holder.setClickListener();
         return holder;
     }
 
@@ -50,12 +50,7 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        return mTopicBeanList == null ? 0 : mTopicBeanList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return mTopicBeanList.size() - 1 == position ? 1 : 0;
+        return mTopicList == null ? 0 : mTopicList.size();
     }
 
     private class TopicViewHolder extends RecyclerView.ViewHolder {
@@ -72,31 +67,21 @@ public class WordHotTopicAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
 
         private void bindData(int position) {
-            topicBean = mTopicBeanList.get(position);
-            Glide.with(mContext).load(topicBean.getImgId()).into(imgTopic);
-            textTopic.setText(topicBean.getName());
+            topicBean = mTopicList.get(position);
+            Glide.with(mContext).load(I.BASE_URL + topicBean.getPART_PATH()).into(imgTopic);
+            textTopic.setText(topicBean.getPART());
         }
 
-        public void setClickListener(final int viewType) {
+        public void setClickListener() {
             outView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (viewType) {
-                        case 0://九大专区
-                            int position = getAdapterPosition();
-                            Intent intent = new Intent(mContext, DetailsTopicActivity.class);
-                            intent.putExtra("partId", position + 1 + "");
-                            intent.putExtra(I.Img.IMG_KEY, topicBean.getImgId());
-                            intent.putExtra(I.Type.TYPE_NAME, topicBean.getName());
-                            mContext.startActivity(intent);
-                            break;
-                        case 1://斗图
-                            mContext.startActivity(new Intent(mContext, WaitDevActivity.class));//开发中
-//                            mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));//实际跳转界面
-                            break;
-                        default:
-                            break;
-                    }
+                    int position = getAdapterPosition();
+                    Intent intent = new Intent(mContext, DetailsTopicActivity.class);
+                    intent.putExtra("partId", position + 1 + "");
+                    intent.putExtra(I.Img.IMG_KEY, I.BASE_URL + topicBean.getPART_PATH());
+                    intent.putExtra(I.Type.TYPE_NAME, topicBean.getPART());
+                    mContext.startActivity(intent);
                 }
             });
 

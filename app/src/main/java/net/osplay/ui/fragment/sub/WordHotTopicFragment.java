@@ -5,13 +5,22 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
+
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.ui.adapter.WordHotTopicAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -21,7 +30,8 @@ import java.util.List;
 public class WordHotTopicFragment extends BaseFragment {
     private static final String TAG = "WordHotTopicFragment";
     private RecyclerView mRvTopic;
-    private List<WordTopicBean> topicList;
+    private List<WordTopicBean> mTopicList;
+    private Gson gson = new Gson();
 
     @Override
     public View initView() {
@@ -33,28 +43,46 @@ public class WordHotTopicFragment extends BaseFragment {
     @Override
     public void initData() {
         super.initData();
-        WordTopicBean[] topicBeen = new WordTopicBean[]{
-                new WordTopicBean("COS专区", R.drawable.example01),
-                new WordTopicBean("服装", R.drawable.example02),
-                new WordTopicBean("模玩", R.drawable.example03),
-                new WordTopicBean("游戏", R.drawable.example04),
-                new WordTopicBean("动漫", R.drawable.example05),
-                new WordTopicBean("影视", R.drawable.example06),
-                new WordTopicBean("同人", R.drawable.example08),
-                new WordTopicBean("周边", R.drawable.example09),
-                new WordTopicBean("斗图", R.drawable.dou_picture)
-        };
-        topicList = new ArrayList<>();
-        Collections.addAll(topicList, topicBeen);
-        initRecyclerView();
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.AREA, RequestMethod.POST);
+        getTopicData(requestQueue, request);
+    }
+
+    private void getTopicData(RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: 专区请求 --> " + json);
+
+                //数据解析
+                Type type = new TypeToken<List<WordTopicBean>>() {
+                }.getType();
+                mTopicList = gson.fromJson(json, type);
+                Log.d(TAG, "专区 data 解析成功" + mTopicList.size());
+                initRecyclerView();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
     }
 
     private void initRecyclerView() {
-        if (topicList != null) {
+        if (mTopicList != null) {
             GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
             mRvTopic.setLayoutManager(mLayoutManager);
             mRvTopic.setHasFixedSize(true);
-            WordHotTopicAdapter mAdapter = new WordHotTopicAdapter(getActivity(), topicList);
+            WordHotTopicAdapter mAdapter = new WordHotTopicAdapter(getActivity(), mTopicList);
             mRvTopic.setAdapter(mAdapter);
         }
     }
