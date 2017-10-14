@@ -29,6 +29,7 @@ import net.osplay.data.bean.ActionResultBean;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordTopicListBean;
 import net.osplay.ui.activity.sub.DetailsPostsActivity;
+import net.osplay.ui.activity.sub.MinePageOtherActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
         private ImageView imgAvatar, imgBg, imgZan, imgCollect;
         private String postsId;//帖子 ID
         private WordTopicListBean.RowsBean rowsBean;
+        private Intent intent;
 
         private PostsInfoListHolder(View itemView) {
             super(itemView);
@@ -124,7 +126,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             if ("true".equals(rowsBean.getZAN())) {
                 imgZan.setImageResource(R.drawable.ic_sugar_selected);
             }
-
         }
 
         public void setClickListener() {
@@ -140,7 +141,9 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             WordTopicListBean.RowsBean bean = mRowsBeanList.get(getAdapterPosition());
             switch (v.getId()) {
                 case R.id.img_topic_list_avatar:
-                    Toast.makeText(mContext, "click Avatar", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(mContext, MinePageOtherActivity.class);
+                    intent.putExtra("memberId", bean.getUSERID());
+                    mContext.startActivity(intent);
                     break;
                 case R.id.ll_topic_list_zan://点赞
                     if (!(AppHelper.getInstance().isLogined())) {
@@ -175,7 +178,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Intent intent = new Intent(mContext, DetailsPostsActivity.class);
+                    intent = new Intent(mContext, DetailsPostsActivity.class);
                     intent.putExtra(I.Posts.POSTS_ID, postsId);
                     mContext.startActivity(intent);
                     break;
@@ -195,17 +198,18 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
             request.add("memberId", AppHelper.getInstance().getUserID());
             request.add("topickId", rowsBean.getID());
-            request.add("mark",action);
+            request.add("mark", action);
             final int finalAction = action;
             requestQueue.add(0, request, new OnResponseListener<String>() {
                 @Override
                 public void onStart(int what) {
 
                 }
+
                 @Override
                 public void onSucceed(int what, Response<String> response) {
                     String json = response.get();
-                    Log.e("TAG","点赞结果："+json);
+                    Log.e("TAG", "点赞结果：" + json);
                     if (json != null) {
                         Type type = new TypeToken<ActionResultBean>() {
                         }.getType();
@@ -236,17 +240,14 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         return;
                     }
-
                 }
 
                 @Override
                 public void onFailed(int what, Response<String> response) {
-
                 }
 
                 @Override
                 public void onFinish(int what) {
-
                 }
             });
         }
