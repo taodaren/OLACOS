@@ -152,7 +152,7 @@ public class TabLeagueFragment extends BaseFragment {
         ranking_rl.setOnClickListener(mOnClickListener);
     }
 
-    //展示社团信息
+    //获取当前加入或创建过的社团
     public void getAssociationHttp() {
         if(!AppHelper.getInstance().isLogined()){
             appBarLayout.setVisibility(View.GONE);

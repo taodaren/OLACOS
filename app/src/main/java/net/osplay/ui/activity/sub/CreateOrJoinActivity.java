@@ -51,8 +51,8 @@ public class CreateOrJoinActivity extends BaseActivity {
                 TabUtils.setIndicator(coj_tabLayout, 25, 25);
             }
         });
-        newlyCreatedFragment = new NewlyCreatedFragment(CreateOrJoinActivity.this, R.layout.fragment_newly_created);//加入或创建中的热门排行
-        heatRankFragment = new HeatRankFragment(CreateOrJoinActivity.this, R.layout.fragment_heat_rank);//加入或创建中的最新创建
+        newlyCreatedFragment = new NewlyCreatedFragment();//加入或创建中的热门排行
+        heatRankFragment = new HeatRankFragment();//加入或创建中的最新创建
         mList.add(heatRankFragment);
         mList.add(newlyCreatedFragment);
         fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), CreateOrJoinActivity.this, mList, titles);

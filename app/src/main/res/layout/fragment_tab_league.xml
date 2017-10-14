@@ -37,7 +37,7 @@
                     android:id="@+id/remen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="热门排行>"
+                    android:text="更多社团>"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"

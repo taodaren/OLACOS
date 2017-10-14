@@ -130,6 +130,10 @@ public interface I {
     String RECOMMEND=BASE_URL+"/corporationMobile/recommend.do";
     //审核用户加入社团的状态
     String ASSOCIATION_STATUS=BASE_URL+"/corporationMobile/getMemberById.do";
+    //社团排行
+    String HOT_RANKING=BASE_URL+"/corporationMobile/corporationNewList.do";
+    //最新创建
+    String NEWLYCREATED=BASE_URL+"/corporationMobile/corporationNewList.do";
 
 /**
  * 上传图片
