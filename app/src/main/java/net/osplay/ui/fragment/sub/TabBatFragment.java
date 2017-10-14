@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -26,17 +24,13 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.ImgTvBean;
-import net.osplay.service.entity.VideoBean;
-import net.osplay.service.entity.VideoMapperBean;
 import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.service.entity.base.HomeData;
 import net.osplay.ui.activity.sub.MessageActivity;
 import net.osplay.ui.adapter.TabBatAdapter;
-import net.osplay.ui.adapter.TabHomeAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,11 +76,6 @@ public class TabBatFragment extends BaseFragment {
 
     private void getDatas() {
         egDatas = new ArrayList<>();
-        egDatas.add(new ImgTvBean(R.drawable.banner01, "资讯"));
-        egDatas.add(new ImgTvBean(R.drawable.banner02, "特卖"));
-        egDatas.add(new ImgTvBean(R.drawable.banner03, "商品"));
-        egDatas.add(new ImgTvBean(R.drawable.banner04, "二手"));
-        egDatas.add(new ImgTvBean(R.drawable.banner05, "教程"));
         egDatas.add(new ImgTvBean(R.drawable.banner01, "资讯"));
         egDatas.add(new ImgTvBean(R.drawable.banner02, "特卖"));
         egDatas.add(new ImgTvBean(R.drawable.banner03, "商品"));

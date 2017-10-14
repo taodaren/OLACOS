@@ -233,7 +233,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //            data.setNOTES(null);
 //            data.setPART(null);
 //            data.setPART_PATH(null);
-            notifyItemRemoved(getAdapterPosition());
+//            notifyItemRemoved(getAdapterPosition());
             return true;
         }
     }
