@@ -147,28 +147,21 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     break;
                 case R.id.ll_topic_list_zan://点赞
                     if (!(AppHelper.getInstance().isLogined())) {
-                        MFGT.gotoLogin(mContext, "loginHeck");
+                        MFGT.gotoLogin(mContext, "loginZan");
                     } else {
                         actionSupport();
                     }
                     break;
                 case R.id.ll_topic_list_collect://收藏
                     if (!(AppHelper.getInstance().isLogined())) {
-                        MFGT.gotoLogin(mContext, "loginHeck");
+                        MFGT.gotoLogin(mContext, "loginCollect");
                     } else {
-                        if (flag == 0) {
-                            imgCollect.setImageResource(R.drawable.ic_collect_selected);
-                            Toast.makeText(mContext, "collect+1", Toast.LENGTH_SHORT).show();
-                        } else if (flag == 1) {
-                            imgCollect.setImageResource(R.drawable.ic_collect_unselected);
-                            Toast.makeText(mContext, "collect-1", Toast.LENGTH_SHORT).show();
-                        }
-                        flag = (flag + 1) % 2;
+                        actionCommunity();
                     }
                     break;
-                case R.id.ll_topic_list_comment://评论
-                    Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
-                    break;
+//                case R.id.ll_topic_list_comment://评论
+//                    Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
+//                    break;
                 default:
                     intent = new Intent(mContext, DetailsPostsActivity.class);
                     intent.putExtra(I.Posts.POSTS_ID, postsId);
@@ -206,7 +199,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                         }.getType();
                         Gson gson = new Gson();
                         ActionResultBean resultBean = gson.fromJson(json, type);
-//                        if ("true".equals(resultBean.isOk())) {
                         if (resultBean.isOk()) {
                             switch (finalAction) {
                                 case 0://点赞成功
@@ -222,6 +214,68 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                                             Integer.parseInt(rowsBean.getZAN_COUNT()) - 1));
                                     imgZan.setImageResource(R.drawable.ic_sugar_unselected);
                                     tvZan.setText(rowsBean.getZAN_COUNT());
+                                    break;
+                            }
+                        }
+                    } else {
+                        return;
+                    }
+                }
+
+                @Override
+                public void onFailed(int what, Response<String> response) {
+                }
+
+                @Override
+                public void onFinish(int what) {
+                }
+            });
+        }
+
+        /**
+         * 收藏功能
+         */
+        private void actionCommunity() {
+            RequestQueue requestQueue = NoHttp.newRequestQueue();
+            int action = 0;
+            if ("true".equals(rowsBean.getCOLLECT())) {
+                action = 1;//取消收藏
+            }
+            Request<String> request = NoHttp.createStringRequest(I.POSTS_COLLECT, RequestMethod.POST);
+            request.add("memberId", AppHelper.getInstance().getUserID());
+            request.add("CommunityId", rowsBean.getID());
+            request.add("mark", action);
+
+            final int finalAction = action;
+            requestQueue.add(0, request, new OnResponseListener<String>() {
+                @Override
+                public void onStart(int what) {
+                }
+
+                @Override
+                public void onSucceed(int what, Response<String> response) {
+                    String json = response.get();
+                    Log.e(TAG, "收藏请求：" + json);
+                    if (json != null) {
+                        Type type = new TypeToken<ActionResultBean>() {
+                        }.getType();
+                        Gson gson = new Gson();
+                        ActionResultBean resultBean = gson.fromJson(json, type);
+                        if (resultBean.isOk()) {
+                            switch (finalAction) {
+                                case 0://收藏成功
+                                    rowsBean.setCOLLECT("true");//重置用户对当前帖子的收藏状态
+                                    rowsBean.setCOLLECT_COUNT(String.valueOf(
+                                            Integer.parseInt(rowsBean.getCOLLECT_COUNT()) + 1));
+                                    imgCollect.setImageResource(R.drawable.ic_collect_selected);
+                                    tvCollect.setText(rowsBean.getCOLLECT_COUNT());
+                                    break;
+                                case 1://取消收藏成功
+                                    rowsBean.setCOLLECT("false");//重置用户对当前帖子的收藏状态
+                                    rowsBean.setCOLLECT_COUNT(String.valueOf(
+                                            Integer.parseInt(rowsBean.getCOLLECT_COUNT()) - 1));
+                                    imgCollect.setImageResource(R.drawable.ic_collect_unselected);
+                                    tvCollect.setText(rowsBean.getCOLLECT_COUNT());
                                     break;
                             }
                         }

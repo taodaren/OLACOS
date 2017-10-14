@@ -2,7 +2,6 @@ package net.osplay.ui.activity.sub;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -122,6 +121,8 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
                 switch (loginId) {
+                    case "loginZan"://点赞
+                    case "loginCollect"://收藏
                     case "loginAttention"://关注
                     case "loginCOJ"://社团活动
                     case "loginCOJ1"://社团作品登录成功后跳转的目的地
@@ -170,8 +171,8 @@ public class LoginActivity extends BaseActivity {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 4) {
-            String phone=data.getStringExtra("phone");
-            String password=data.getStringExtra("password");
+            String phone = data.getStringExtra("phone");
+            String password = data.getStringExtra("password");
             editAccount.setText(phone);
             editPassword.setText(password);
         }
