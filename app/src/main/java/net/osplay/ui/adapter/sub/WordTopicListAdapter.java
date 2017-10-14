@@ -149,14 +149,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (!(AppHelper.getInstance().isLogined())) {
                         MFGT.gotoLogin(mContext, "loginHeck");
                     } else {
-//                        if (flag == 0) {
-//                            imgZan.setImageResource(R.drawable.ic_sugar_selected);
-//                            tvZan.setText(String.valueOf(Integer.parseInt(bean.getZAN_COUNT()) + 1));
-//                        } else if (flag == 1) {
-//                            imgZan.setImageResource(R.drawable.ic_sugar_unselected);
-//                            tvZan.setText(String.valueOf(Integer.parseInt(bean.getZAN_COUNT()) - 1));
-//                        }
-//                        flag = (flag + 1) % 2;
                         actionSupport();
                     }
                     break;
@@ -192,46 +184,42 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             RequestQueue requestQueue = NoHttp.newRequestQueue();
             int action = 0;
             if ("true".equals(rowsBean.getZAN())) {
-                // 取消点赞
-                action = 1;
+                action = 1;//取消点赞
             }
             Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
             request.add("memberId", AppHelper.getInstance().getUserID());
             request.add("topickId", rowsBean.getID());
             request.add("mark", action);
+
             final int finalAction = action;
             requestQueue.add(0, request, new OnResponseListener<String>() {
                 @Override
                 public void onStart(int what) {
-
                 }
 
                 @Override
                 public void onSucceed(int what, Response<String> response) {
                     String json = response.get();
-                    Log.e("TAG", "点赞结果：" + json);
+                    Log.e(TAG, "点赞请求：" + json);
                     if (json != null) {
                         Type type = new TypeToken<ActionResultBean>() {
                         }.getType();
                         Gson gson = new Gson();
                         ActionResultBean resultBean = gson.fromJson(json, type);
-                        if ("true".equals(resultBean.getOk())) {
+//                        if ("true".equals(resultBean.isOk())) {
+                        if (resultBean.isOk()) {
                             switch (finalAction) {
-                                case 0:// 点赞成功
-                                    rowsBean.setZAN("true");// 重置用户对当前帖子的点赞状态
-                                    rowsBean.setZAN_COUNT(
-                                            String.valueOf(
-                                                    Integer.parseInt(rowsBean.getZAN_COUNT()) + 1));
-
+                                case 0://点赞成功
+                                    rowsBean.setZAN("true");//重置用户对当前帖子的点赞状态
+                                    rowsBean.setZAN_COUNT(String.valueOf(
+                                            Integer.parseInt(rowsBean.getZAN_COUNT()) + 1));
                                     imgZan.setImageResource(R.drawable.ic_sugar_selected);
                                     tvZan.setText(rowsBean.getZAN_COUNT());
                                     break;
-                                case 1:// 取消点赞成功
-                                    rowsBean.setZAN("false");// 重置用户对当前帖子的点赞状态
-                                    rowsBean.setZAN_COUNT(
-                                            String.valueOf(
-                                                    Integer.parseInt(rowsBean.getZAN_COUNT()) - 1));
-
+                                case 1://取消点赞成功
+                                    rowsBean.setZAN("false");//重置用户对当前帖子的点赞状态
+                                    rowsBean.setZAN_COUNT(String.valueOf(
+                                            Integer.parseInt(rowsBean.getZAN_COUNT()) - 1));
                                     imgZan.setImageResource(R.drawable.ic_sugar_unselected);
                                     tvZan.setText(rowsBean.getZAN_COUNT());
                                     break;

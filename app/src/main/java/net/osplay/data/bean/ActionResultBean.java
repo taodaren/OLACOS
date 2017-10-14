@@ -1,21 +1,18 @@
 package net.osplay.data.bean;
 
 /**
- * Created by xns on 2017/10/12.
- * 点赞操作接口返回的实体类
+ * 点赞/收藏 接口返回的实体类
  */
 
 public class ActionResultBean {
-    private String ok;
+    private boolean ok;//true or false
 
-    public ActionResultBean() {
-    }
-
-    public String getOk() {
+    public boolean isOk() {
         return ok;
     }
 
-    public void setOk(String ok) {
+    public void setOk(boolean ok) {
         this.ok = ok;
     }
+
 }
