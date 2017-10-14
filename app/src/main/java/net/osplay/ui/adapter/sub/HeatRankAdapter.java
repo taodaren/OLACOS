@@ -8,14 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.LeagueBean;
+import net.osplay.service.entity.HotRanKingBean;
 
 import java.util.List;
 
@@ -28,13 +28,12 @@ import java.util.List;
  */
 public class HeatRankAdapter extends RecyclerView.Adapter<HeatRankViewHolder> {
     private Context mContext;
-    private SetOnClickListen setOnClickListen;
-    public HeatRankAdapter(Context mContext) {
+    private List<HotRanKingBean.RowsBean> rows;
+    public HeatRankAdapter(Context mContext, List<HotRanKingBean.RowsBean> rows) {
         this.mContext = mContext;
+        this.rows=rows;
     }
-    public void onClick(SetOnClickListen setOnClickListen){
-        this.setOnClickListen=setOnClickListen;
-    }
+
     @Override
     public HeatRankViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View inflate = LayoutInflater.from(mContext).inflate(R.layout.item_heat_community, parent, false);
@@ -44,24 +43,31 @@ public class HeatRankAdapter extends RecyclerView.Adapter<HeatRankViewHolder> {
 
     @Override
     public void onBindViewHolder(HeatRankViewHolder holder, final int position) {
-        holder.heat_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setOnClickListen.setOnClick(position);
-            }
-        });
+        Glide.with(mContext).load(I.BASE_URL+rows.get(position).getPHOTO()).into(holder.heat_avatar_iv);
+        holder.heat_title_tv.setText(rows.get(position).getNAME());
+        holder.heat_jj_tv.setText(rows.get(position).getINTRODUCTION());
+        holder.heat_members_tv.setText(""+rows.get(position).getMEMBERCOUNT());
+        holder.heat_works_tv.setText(""+rows.get(position).getZPCOUNT());
     }
 
     @Override
     public int getItemCount() {
-        return 20;
+        return rows.size();
     }
 }
 class HeatRankViewHolder extends RecyclerView.ViewHolder{
 
     public LinearLayout heat_item;
+    public ImageView heat_avatar_iv;
+    public TextView heat_title_tv,heat_number_tv,heat_jj_tv,heat_members_tv,heat_works_tv;
     public HeatRankViewHolder(View itemView) {
         super(itemView);
         heat_item= (LinearLayout) itemView.findViewById(R.id.heat_item);
+        heat_avatar_iv = (ImageView) itemView.findViewById(R.id.heat_avatar_iv);
+        heat_title_tv = (TextView) itemView.findViewById(R.id.heat_title_tv);
+        heat_number_tv = (TextView) itemView.findViewById(R.id.heat_number_tv);
+        heat_jj_tv = (TextView) itemView.findViewById(R.id.heat_jj_tv);
+        heat_members_tv = (TextView) itemView.findViewById(R.id.heat_members_tv);
+        heat_works_tv = (TextView) itemView.findViewById(R.id.heat_works_tv);
     }
 }

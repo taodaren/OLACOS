@@ -7,129 +7,224 @@ import java.util.List;
  */
 
 public class RecommendBean {
-    private List<LeagueBean.TrailersBean> trailers;
 
-    public List<LeagueBean.TrailersBean> getTrailers() {
-        return trailers;
+    /**
+     * total : 1
+     * rows : [{"NAME":"开心一刻","BACKGROUND":"/upLoadResource/1/1.jpg","MARK":"1","corporationID":"1","SH_COUNT":"11","LASTUPDATEID":"1","CREATEDATE":"2017-10-11 23:24:46","CONTENT":"1111","COLLECT_COUNT":"1","ZAN_COUNT":"11","INTRODUCTION":"让工作都见鬼去吧！哈哈哈哈~","ISDELETE":"0","ID":"1","LASTUPDATEDATE":"11","PL_COUNT":"11","BM_COUNT":"1","AUTOGRAPH":"解救不开心","PHOTO":"/upLoadResource/1/2.jpg","TITLE":"11"}]
+     */
+
+    private int total;
+    private List<RowsBean> rows;
+
+    public int getTotal() {
+        return total;
     }
 
-    public void setTrailers(List<LeagueBean.TrailersBean> trailers) {
-        this.trailers = trailers;
+    public void setTotal(int total) {
+        this.total = total;
     }
 
-    public static class TrailersBean {
+    public List<RowsBean> getRows() {
+        return rows;
+    }
+
+    public void setRows(List<RowsBean> rows) {
+        this.rows = rows;
+    }
+
+    public static class RowsBean {
         /**
-         * id : 67013
-         * movieName : 《母亲》预告片
-         * coverImg : http://img5.mtime.cn/mg/2017/08/08/183648.13443932.jpg
-         * movieId : 231079
-         * url : http://vfx.mtime.cn/Video/2017/08/08/mp4/170808142541264481.mp4
-         * hightUrl : http://vfx.mtime.cn/Video/2017/08/08/mp4/170808142541264481.mp4
-         * videoTitle : 母亲 剧场版预告片
-         * videoLength : 132
-         * rating : -1
-         * type : ["恐怖","悬疑","惊悚","剧情"]
-         * summary : 不速之客打破平静生活
+         * NAME : 开心一刻
+         * BACKGROUND : /upLoadResource/1/1.jpg
+         * MARK : 1
+         * corporationID : 1
+         * SH_COUNT : 11
+         * LASTUPDATEID : 1
+         * CREATEDATE : 2017-10-11 23:24:46
+         * CONTENT : 1111
+         * COLLECT_COUNT : 1
+         * ZAN_COUNT : 11
+         * INTRODUCTION : 让工作都见鬼去吧！哈哈哈哈~
+         * ISDELETE : 0
+         * ID : 1
+         * LASTUPDATEDATE : 11
+         * PL_COUNT : 11
+         * BM_COUNT : 1
+         * AUTOGRAPH : 解救不开心
+         * PHOTO : /upLoadResource/1/2.jpg
+         * TITLE : 11
          */
 
-        private int id;
-        private String movieName;
-        private String coverImg;
-        private int movieId;
-        private String url;
-        private String hightUrl;
-        private String videoTitle;
-        private int videoLength;
-        private double rating;
-        private String summary;
-        private List<String> type;
+        private String NAME;
+        private String BACKGROUND;
+        private String MARK;
+        private String corporationID;
+        private String SH_COUNT;
+        private String LASTUPDATEID;
+        private String CREATEDATE;
+        private String CONTENT;
+        private String COLLECT_COUNT;
+        private String ZAN_COUNT;
+        private String INTRODUCTION;
+        private String ISDELETE;
+        private String ID;
+        private String LASTUPDATEDATE;
+        private String PL_COUNT;
+        private String BM_COUNT;
+        private String AUTOGRAPH;
+        private String PHOTO;
+        private String TITLE;
 
-        public int getId() {
-            return id;
+        public String getNAME() {
+            return NAME;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public void setNAME(String NAME) {
+            this.NAME = NAME;
         }
 
-        public String getMovieName() {
-            return movieName;
+        public String getBACKGROUND() {
+            return BACKGROUND;
         }
 
-        public void setMovieName(String movieName) {
-            this.movieName = movieName;
+        public void setBACKGROUND(String BACKGROUND) {
+            this.BACKGROUND = BACKGROUND;
         }
 
-        public String getCoverImg() {
-            return coverImg;
+        public String getMARK() {
+            return MARK;
         }
 
-        public void setCoverImg(String coverImg) {
-            this.coverImg = coverImg;
+        public void setMARK(String MARK) {
+            this.MARK = MARK;
         }
 
-        public int getMovieId() {
-            return movieId;
+        public String getCorporationID() {
+            return corporationID;
         }
 
-        public void setMovieId(int movieId) {
-            this.movieId = movieId;
+        public void setCorporationID(String corporationID) {
+            this.corporationID = corporationID;
         }
 
-        public String getUrl() {
-            return url;
+        public String getSH_COUNT() {
+            return SH_COUNT;
         }
 
-        public void setUrl(String url) {
-            this.url = url;
+        public void setSH_COUNT(String SH_COUNT) {
+            this.SH_COUNT = SH_COUNT;
         }
 
-        public String getHightUrl() {
-            return hightUrl;
+        public String getLASTUPDATEID() {
+            return LASTUPDATEID;
         }
 
-        public void setHightUrl(String hightUrl) {
-            this.hightUrl = hightUrl;
+        public void setLASTUPDATEID(String LASTUPDATEID) {
+            this.LASTUPDATEID = LASTUPDATEID;
         }
 
-        public String getVideoTitle() {
-            return videoTitle;
+        public String getCREATEDATE() {
+            return CREATEDATE;
         }
 
-        public void setVideoTitle(String videoTitle) {
-            this.videoTitle = videoTitle;
+        public void setCREATEDATE(String CREATEDATE) {
+            this.CREATEDATE = CREATEDATE;
         }
 
-        public int getVideoLength() {
-            return videoLength;
+        public String getCONTENT() {
+            return CONTENT;
         }
 
-        public void setVideoLength(int videoLength) {
-            this.videoLength = videoLength;
+        public void setCONTENT(String CONTENT) {
+            this.CONTENT = CONTENT;
         }
 
-        public double getRating() {
-            return rating;
+        public String getCOLLECT_COUNT() {
+            return COLLECT_COUNT;
         }
 
-        public void setRating(double rating) {
-            this.rating = rating;
+        public void setCOLLECT_COUNT(String COLLECT_COUNT) {
+            this.COLLECT_COUNT = COLLECT_COUNT;
         }
 
-        public String getSummary() {
-            return summary;
+        public String getZAN_COUNT() {
+            return ZAN_COUNT;
         }
 
-        public void setSummary(String summary) {
-            this.summary = summary;
+        public void setZAN_COUNT(String ZAN_COUNT) {
+            this.ZAN_COUNT = ZAN_COUNT;
         }
 
-        public List<String> getType() {
-            return type;
+        public String getINTRODUCTION() {
+            return INTRODUCTION;
         }
 
-        public void setType(List<String> type) {
-            this.type = type;
+        public void setINTRODUCTION(String INTRODUCTION) {
+            this.INTRODUCTION = INTRODUCTION;
+        }
+
+        public String getISDELETE() {
+            return ISDELETE;
+        }
+
+        public void setISDELETE(String ISDELETE) {
+            this.ISDELETE = ISDELETE;
+        }
+
+        public String getID() {
+            return ID;
+        }
+
+        public void setID(String ID) {
+            this.ID = ID;
+        }
+
+        public String getLASTUPDATEDATE() {
+            return LASTUPDATEDATE;
+        }
+
+        public void setLASTUPDATEDATE(String LASTUPDATEDATE) {
+            this.LASTUPDATEDATE = LASTUPDATEDATE;
+        }
+
+        public String getPL_COUNT() {
+            return PL_COUNT;
+        }
+
+        public void setPL_COUNT(String PL_COUNT) {
+            this.PL_COUNT = PL_COUNT;
+        }
+
+        public String getBM_COUNT() {
+            return BM_COUNT;
+        }
+
+        public void setBM_COUNT(String BM_COUNT) {
+            this.BM_COUNT = BM_COUNT;
+        }
+
+        public String getAUTOGRAPH() {
+            return AUTOGRAPH;
+        }
+
+        public void setAUTOGRAPH(String AUTOGRAPH) {
+            this.AUTOGRAPH = AUTOGRAPH;
+        }
+
+        public String getPHOTO() {
+            return PHOTO;
+        }
+
+        public void setPHOTO(String PHOTO) {
+            this.PHOTO = PHOTO;
+        }
+
+        public String getTITLE() {
+            return TITLE;
+        }
+
+        public void setTITLE(String TITLE) {
+            this.TITLE = TITLE;
         }
     }
 }

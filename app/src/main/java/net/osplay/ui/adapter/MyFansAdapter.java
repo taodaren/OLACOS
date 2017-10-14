@@ -44,7 +44,8 @@ public class MyFansAdapter extends RecyclerView.Adapter<FansViewHolder>{
 
     @Override
     public void onBindViewHolder(FansViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.fans_picture);
+       // Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).error(R.drawable.avatar_default).into(holder.fans_picture);
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getHEAD_PATH()).into(holder.fans_picture);
         holder.fans_name.setText(rows.get(position).getNICK_NAME());
 
 

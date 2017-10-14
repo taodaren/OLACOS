@@ -1,33 +1,50 @@
 package net.osplay.ui.fragment.sub;
 
+
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.prefill.PreFillType;
+import com.google.gson.Gson;
+import com.yanzhenjie.nohttp.NoHttp;
+import com.yanzhenjie.nohttp.RequestMethod;
+import com.yanzhenjie.nohttp.rest.OnResponseListener;
+import com.yanzhenjie.nohttp.rest.Request;
+import com.yanzhenjie.nohttp.rest.RequestQueue;
+import com.yanzhenjie.nohttp.rest.Response;
+
 import net.osplay.app.AppHelper;
+import net.osplay.app.I;
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.ui.activity.sub.LeagueIMActivity;
+import net.osplay.service.entity.AssociationInfoBean;
+import net.osplay.service.entity.JoinBean;
+import net.osplay.service.entity.MemberInfoBean;
+import net.osplay.ui.activity.sub.HotRankingActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 社团模块
@@ -41,43 +58,73 @@ public class TabLeagueFragment extends BaseFragment {
     private String[] titles = new String[]{"推荐", "社团活动", "社团作品"};
     private FragmentAdapter fragmentAdapter = null;
     private NewestFragment nFragment;
-    private SocialActivityFragment hFragment;
-    private MineFragment mFragment;
-    private CommunityFragment cFragment;
-    private CommunityWorksFragment wFragment;
     private CommunityALoginFragment lFragment;
     private CommunityPLoginFragment pFragment;
-    private String lannotated = "olacos";
-    private String cAnnotated;
-    private String addlannotated = "addolacos";
-    private String addcAnnotated;
     private View inflate;
     private AppBarLayout appBarLayout;
-    private Toolbar toolbar;
-    private ImageView league_bg;
-    private Button jcd_release_but;
-    private ImageView league_menu;
-    private PopupMenu popupMenu;
-    private Menu menu;
-    private String string;
+    private Toolbar league_toolbar;
+    private Gson mGson=new Gson();
 
-    @Override
+    private CircleImageView association_avatar_img;
+    private ImageView association_bg_img;
+    private TextView association_name_tv;
+    private TextView association_time_tv;
+    private TextView association_membet_tv;
+    private TextView association_jianjie_tv;
+    private ImageView league_menu;
+    private RelativeLayout ranking_rl;
+
+   @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
-        //获取创建社团的值
-        SharedPreferences preferences1 = getActivity().getSharedPreferences("CreateCommunity", getActivity().MODE_PRIVATE);
-        cAnnotated = preferences1.getString("Annotated", "defaultname");
-        //获取加入社团的值
-        SharedPreferences preferences2 = getActivity().getSharedPreferences("AddCommunity", getActivity().MODE_PRIVATE);
-        addcAnnotated = preferences2.getString("addAnnotated", "defaultname");
-
         setView();
-        isJoin();//判断是否加入过社团
+        setOnClick();
+        setFragment();
+        setToolbars();
+        getAssociationHttp();
+
         return inflate;
     }
 
+
+
+    private void setFragment() {
+        mList.add(nFragment);
+        mList.add(lFragment);
+        mList.add(pFragment);
+        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
+        viewPager.setAdapter(fragmentAdapter);
+        tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
+    }
+
+    //设置toolbar
+    private void setToolbars() {
+        league_toolbar.setNavigationIcon(R.drawable.menu_set);
+        league_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+        league_toolbar.setPopupTheme(R.style.toolbarMenu);
+        league_toolbar.inflateMenu(R.menu.popupmenu);
+        league_toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.special_topic:
+                        Log.e("JGB","菜单");
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    //设置
     private void setView() {
+        league_toolbar= (Toolbar) inflate.findViewById(R.id.league_toolbar);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
         tabLayout.post(new Runnable() {
@@ -87,185 +134,216 @@ public class TabLeagueFragment extends BaseFragment {
             }
         });
         viewPager = (ViewPager) inflate.findViewById(R.id.league_viewPager);
-        nFragment = new NewestFragment(getActivity(), R.layout.fragment_newest);//社团推荐
-        hFragment = new SocialActivityFragment(getActivity(), R.layout.fragment_create_community);//社团活动
-        cFragment = new CommunityFragment(getActivity(), R.layout.fragment_community);//加入或创建社团之后的社团活动
-        mFragment = new MineFragment(getActivity(), R.layout.fragment_mine);//社团作品
-        wFragment=new CommunityWorksFragment(getActivity(),R.layout.fragment_community_works);//加入或创建社团之后的社团作品
+        appBarLayout = (AppBarLayout) inflate.findViewById(R.id.league_appbar);
+        nFragment = new NewestFragment();//社团推荐
         lFragment=new CommunityALoginFragment();//活动未等陆的提醒
         pFragment=new CommunityPLoginFragment();//作品未的登录的提醒
-        mList.add(nFragment);
-//        if(!AppHelper.getInstance().isLogined()){//未登录状态fragemnt集合当中添加的是提醒登录的fragemnt，else登录之后fragment集合当中添加的是其他布局
-//            mList.add(lFragment);
-//        }else if(AppHelper.getInstance().isLogined()&string.equals("jgb")){
-//            mList.add(hFragment);
-//        }
-//        if(!AppHelper.getInstance().isLogined()){
-//            mList.add(pFragment);
-//        }else if(AppHelper.getInstance().isLogined()&string.equals("jgb")){
-//            mList.add(mFragment);
-//        }
-        mList.add(lFragment);
-        mList.add(pFragment);
-
-//        //如果创建或者加入社团后将不再显示创建或加入社团界面
-//        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
-//            mList.add(cFragment);
-//        } else {
-//            mList.add(hFragment);
-//        }
-//        if(lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)){
-//            mList.add(wFragment);
-//        }else{
-//            mList.add(mFragment);
-//        }
-        fragmentAdapter = new FragmentAdapter(getChildFragmentManager(), mContext, mList, titles);
-        viewPager.setAdapter(fragmentAdapter);
-        tabLayout.setupWithViewPager(viewPager);//设置 TabLayout 和 ViewPager 绑定
-
-        appBarLayout = (AppBarLayout) inflate.findViewById(R.id.league_appbar);
-        toolbar = (Toolbar) inflate.findViewById(R.id.toolbar_league);
-//        league_bg = (ImageView) inflate.findViewById(R.id.league_bg);
-
-        /**
-         * 创建或加入社团成功后才显示的社团主页
-         */
-        if (lannotated.equals(cAnnotated) | addlannotated.equals(addcAnnotated)) {
-            appBarLayout.setVisibility(View.VISIBLE);
-            toolbar.setVisibility(View.GONE);
-        } else {
-            appBarLayout.setVisibility(View.GONE);
-            toolbar.setVisibility(View.VISIBLE);
-        }
-        /**
-         * menu菜单
-         */
-        popupMenu = new PopupMenu(getContext(), inflate.findViewById(R.id.league_menu));
-        menu = popupMenu.getMenu();
-        addMenu();
-        setOnMenuItemClickListener();
-
-        /**
-         * 发布
-         */
-        jcd_release_but = (Button) inflate.findViewById(R.id.jcd_release_but);
-        jcd_release_but.setOnClickListener(mOnClickListener);
-        /**
-         * 菜单选项
-         */
+        association_avatar_img = (CircleImageView) inflate.findViewById(R.id.association_avatar_img);
+        association_bg_img = (ImageView) inflate.findViewById(R.id.association_bg_img);
+        association_name_tv = (TextView) inflate.findViewById(R.id.association_name_tv);
+        association_time_tv = (TextView) inflate.findViewById(R.id.association_time_tv);
+        association_membet_tv = (TextView) inflate.findViewById(R.id.association_membet_tv);
+        association_jianjie_tv = (TextView) inflate.findViewById(R.id.association_jianjie_tv);
         league_menu = (ImageView) inflate.findViewById(R.id.league_menu);
-        league_menu.setOnClickListener(mOnClickListener);
+        Glide.with(getActivity()).asGif().load(R.drawable.dtu).into(league_menu);
+        ranking_rl = (RelativeLayout) inflate.findViewById(R.id.ranking_rl);
+    }
+    private void setOnClick() {
+        ranking_rl.setOnClickListener(mOnClickListener);
     }
 
-    private void addMenu() {
-        // 通过代码添加菜单项
-        menu.add(Menu.NONE, Menu.FIRST + 0, 0, "成员管理");
-        menu.add(Menu.NONE, Menu.FIRST + 1, 1, "申请管理");
-        menu.add(Menu.NONE, Menu.FIRST + 2, 2, "积分兑换");
-        menu.add(Menu.NONE, Menu.FIRST + 3, 3, "设置");
-    }
+    //获取当前加入或创建过的社团
+    public void getAssociationHttp() {
+        if(!AppHelper.getInstance().isLogined()){
+            appBarLayout.setVisibility(View.GONE);
+        }else{
+            RequestQueue requestQueue = NoHttp.newRequestQueue();
+            Request<String> request = NoHttp.createStringRequest(I.IS_JOIN, RequestMethod.POST);
+            request.add("memberId", AppHelper.getInstance().getUser().getID());
+            requestQueue.add(0, request, new OnResponseListener<String>() {
+                @Override
+                public void onStart(int what) {
 
-    private void setOnMenuItemClickListener() {
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case Menu.FIRST + 0:
-                        Toast.makeText(getActivity(), "成员管理",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    case Menu.FIRST + 1:
-                        Toast.makeText(getActivity(), "dfs",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    case Menu.FIRST + 2:
-                        Toast.makeText(getActivity(), "复制",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    case Menu.FIRST + 3:
-                        Toast.makeText(getActivity(), "粘贴",
-                                Toast.LENGTH_LONG).show();
-                        break;
-                    default:
-                        break;
                 }
-                return false;
+
+                @Override
+                public void onSucceed(int what, Response<String> response) {
+                    String json = response.get();
+                    Log.e("JGB", "检查是否创建过社团" + json);
+                    if (json == null) {
+                        return;
+                    } else {
+                        formatJsonIsJoin(json);
+                    }
+                }
+
+                @Override
+                public void onFailed(int what, Response<String> response) {
+
+                }
+
+                @Override
+                public void onFinish(int what) {
+
+                }
+            });
+        }
+
+
+        }
+    private void formatJsonIsJoin(String json) {
+        JoinBean joinBean = mGson.fromJson(json, JoinBean.class);
+        List<JoinBean.RowsBean> rows = joinBean.getRows();
+        if (rows.size() == 0) {//没有加入或是创建过社团
+            Log.e("JGB","还没有创建或加入过社团");
+            appBarLayout.setVisibility(View.GONE);
+        } else {//判断当前社团是否通过审核
+            getAssociationInfoHttp(rows);//获取当前社团信息
+        }
+    }
+
+    //查询当前社团信息
+    public void getAssociationInfoHttp(List<JoinBean.RowsBean> rows) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ASSOCIATION_INFO, RequestMethod.POST);
+        request.add("corporationId", rows.get(0).getCORPORATIONID());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "获取社团信息：：" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    formatAssociationInfoJson(json);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
             }
         });
     }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_league, R.string.league_name, View.VISIBLE, View.GONE, true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {//导航按钮固定 id
-            mDrawerLayout.openDrawer(GravityCompat.START);//展示滑动菜单
+    private void formatAssociationInfoJson(String json) {
+        AssociationInfoBean associationInfoBean = mGson.fromJson(json, AssociationInfoBean.class);
+        List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
+        String isexamine = aList.get(0).getISEXAMINE();
+        Log.e("JGB","判断社团是否创建通过："+isexamine);
+        String headid = aList.get(0).getHEADID();
+        Log.e("JGB","判断当前社团是否自己创建的："+headid);
+        if(!aList.get(0).getISEXAMINE().equals("1")){//判断审核是否通过
+            appBarLayout.setVisibility(View.GONE);
+            Log.e("JGB","社团未创建通过");
+        }else{
+            if(AppHelper.getInstance().getUser().getID().equals(headid)){
+                appBarLayout.setVisibility(View.VISIBLE);
+                league_toolbar.setVisibility(View.GONE);
+                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
+                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
+                association_name_tv.setText(aList.get(0).getNAME());
+                association_time_tv.setText(aList.get(0).getCREATEDATE());
+                //association_membet_tv.setText(aList.get(0));
+                association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+                Log.e("JGB","自己的社团创建成功才走这里");
+            }
+            else{
+                getAssociationStatusHttp(aList);
+                Log.e("JGB","加入的用户来到这里");
+            }
         }
-        return true;
+
+
+
     }
 
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+    //查询当前成员信息
+    public void getAssociationStatusHttp(final List<AssociationInfoBean.RowsBean> aList) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ASSOCIATION_STATUS, RequestMethod.POST);
+        request.add("memberId",AppHelper.getInstance().getUser().getID());
+        request.add("corporationId",aList.get(0).getID());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "审核加入是否通过：：" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    MemberInfoBean memberInfoBean = mGson.fromJson(json, MemberInfoBean.class);
+                    List<MemberInfoBean.RowsBean> mLists = memberInfoBean.getRows();
+                    String isexamine = mLists.get(0).getISEXAMINE();
+                    Log.e("JGB", "加入社团的审核状态：：" + isexamine);
+                    if(!isexamine.equals("1")){
+                        appBarLayout.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"还未加入通过",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(),"加入已通过",Toast.LENGTH_SHORT).show();
+                        //加载当前社团信息并显示
+                        appBarLayout.setVisibility(View.VISIBLE);
+                        league_toolbar.setVisibility(View.GONE);
+                        Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
+                        Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
+                        association_name_tv.setText(aList.get(0).getNAME());
+                        association_time_tv.setText(aList.get(0).getCREATEDATE());
+                        //association_membet_tv.setText(aList.get(0));
+                        association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+
+    }
+
+
+    private View.OnClickListener mOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.jcd_release_but://社团管理按钮
-                    startActivity(new Intent(getContext(), LeagueIMActivity.class));
-                    break;
-                case R.id.league_menu:
-                    popupMenu.show();
-                    break;
-
+            switch (v.getId()){
+                case R.id.ranking_rl:
+                    startActivity(new Intent(getActivity(), HotRankingActivity.class));
+                   break;
             }
         }
     };
 
 
-     public void isJoin() {
-         //String id = AppHelper.getInstance().getUser().getID();
-        // Log.e("JGB","获取当前登录用户id:"+id);
-//        RequestQueue requestQueue = NoHttp.newRequestQueue();
-//        Request<String> request = NoHttp.createStringRequest(I.IS_JOIN, RequestMethod.POST);
-//        request.add("memberId", AppHelper.getInstance().getUser().getID());
-//        requestQueue.add(0, request, new OnResponseListener<String>() {
-//            @Override
-//            public void onStart(int what) {
-//
-//            }
-//
-//            @Override
-//            public void onSucceed(int what, Response<String> response) {
-//                String json = response.get();
-//                Log.e("JGB", "获取当前用户是否加入过社会团：:" + json);
-//                if (json != null) {
-//                } else {
-//                    return;
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailed(int what, Response<String> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish(int what) {
-//
-//            }
-//        });
+    @Override
+    public void onStart() {
+        super.onStart();
+        getAssociationHttp();
     }
 
 
-    //    @Override
-//    public void onResume() {
-//        super.onResume();
-//        setView();
-//    }
+
 }
 
 

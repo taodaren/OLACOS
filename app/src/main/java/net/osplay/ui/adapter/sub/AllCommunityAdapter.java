@@ -42,7 +42,8 @@ public class AllCommunityAdapter extends RecyclerView.Adapter<AllCommunityViewHo
 
     @Override
     public void onBindViewHolder(AllCommunityViewHolder holder, final int position) {
-        Glide.with(context).load(I.BASE_URL+rows.get(position).getPHOTO()).error(R.drawable.avatar_default).into(holder.all_im);
+      //  Glide.with(context).load(I.BASE_URL+rows.get(position).getPHOTO()).error(R.drawable.avatar_default).into(holder.all_im);
+        Glide.with(context).load(I.BASE_URL+rows.get(position).getPHOTO()).into(holder.all_im);
         holder.all_tv.setText(rows.get(position).getNAME());
         holder.all_item.setOnClickListener(new View.OnClickListener() {
             @Override

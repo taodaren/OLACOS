@@ -6,7 +6,7 @@ import java.util.List;
  * 加入过社团
  */
 
-public class JoinBean {
+public class    JoinBean {
 
     private List<RowsBean> rows;
 

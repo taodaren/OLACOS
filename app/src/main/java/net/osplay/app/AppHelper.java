@@ -18,7 +18,7 @@ public class AppHelper {
     private String token;
     private String userID;
     private boolean isLogin;
-    private String nickIcon;
+
     private AppHelper() {
     }
 

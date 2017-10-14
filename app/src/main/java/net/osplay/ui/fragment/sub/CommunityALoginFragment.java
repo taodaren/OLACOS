@@ -120,10 +120,10 @@ public class CommunityALoginFragment extends Fragment {
     private void formatJsonIsJoin(String json) {
         JoinBean joinBean = mGson.fromJson(json, JoinBean.class);
         List<JoinBean.RowsBean> rows = joinBean.getRows();
-        if (rows.size() == 0) {
+        if (rows.size() == 0) {//没有加入或是创建过社团
             communityActivityLl.setVisibility(View.GONE);//隐藏社团活动
             communityJoinorEstablishLl.setVisibility(View.VISIBLE);//显示提醒加入或创建
-        } else {
+        } else {//已经加入过社团
             communityJoinorEstablishLl.setVisibility(View.GONE);//隐藏提醒加入或创建
             communityActivityLl.setVisibility(View.VISIBLE);//显示社团活动
             text.setText(rows.toString());

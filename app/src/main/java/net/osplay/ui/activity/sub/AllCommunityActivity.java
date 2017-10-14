@@ -44,7 +44,6 @@ public class AllCommunityActivity extends Activity {
         request.add("rows", 5);
         request.add("page", 1);
 //        request.add("isExamine", 1);
-
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -78,6 +77,7 @@ public class AllCommunityActivity extends Activity {
         AllCommunityBean allCommunityBean = mGson.fromJson(json, AllCommunityBean.class);
         rows = allCommunityBean.getRows();
         Log.e("JGB", "全部社团集合：" + rows);
+        Log.e("JGB", "头像：" + rows);
         all_recy.setAdapter(new AllCommunityAdapter(AllCommunityActivity.this, rows));
     }
     public void onClick(View view) {

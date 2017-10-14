@@ -167,7 +167,8 @@ public class MinePageOtherActivity extends BaseActivity {
         Type type = new TypeToken<List<OtherCenterBean>>() {
         }.getType();
         List<OtherCenterBean> otherList = gson.fromJson(json, type);
-        Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).error(R.drawable.avatar_default).into(minePageOtherAvatar);
+        //Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).error(R.drawable.avatar_default).into(minePageOtherAvatar);
+        Glide.with(this).load(I.BASE_URL + otherList.get(0).getHEAD_PATH()).into(minePageOtherAvatar);
         tvMinePageOtherPraise.setText(otherList.get(0).getNICK_NAME());
         focusTv.setText(otherList.get(0).getFOCUS_COUNT());
         fansTv.setText(otherList.get(0).getFANS_COUNT());

@@ -13,7 +13,10 @@
             android:id="@+id/newly_avatar_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/newly" />
+            android:src="@drawable/heat"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
+
 
         <TextView
             android:id="@+id/newly_title_tv"
@@ -27,26 +30,27 @@
             android:textColor="@color/colorBlack"
             android:textSize="15sp"/>
 
-        <TextView
-            android:id="@+id/newly_number_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/newly_title_tv"
-            android:layout_marginRight="50dp"
-            android:text="46548"
-            android:textColor="@color/colorPrimary" />
+        <!--<TextView-->
+            <!--android:id="@+id/newly_number_tv"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignTop="@id/newly_title_tv"-->
+            <!--android:layout_marginRight="50dp"-->
+            <!--android:text="46548"-->
+            <!--android:textColor="@color/colorPrimary" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignTop="@id/newly_title_tv"-->
+            <!--android:layout_toLeftOf="@id/newly_number_tv"-->
+            <!--android:text="热度:"-->
+            <!--android:textSize="13sp"-->
+            <!--android:textColor="@color/bank_FF6C6C6C"/>-->
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/newly_title_tv"
-            android:layout_toLeftOf="@id/newly_number_tv"
-            android:text="热度:"
-            android:textSize="13sp"
-            android:textColor="@color/bank_FF6C6C6C"/>
-
-        <TextView
+            android:id="@+id/newly_jianjie_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -69,6 +73,7 @@
             android:textColor="@color/bank_FF6C6C6C"/>
 
         <TextView
+            android:id="@+id/newly_members_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/newly_member_tv"
@@ -78,24 +83,25 @@
             android:textColor="@color/bank_FF6C6C6C"/>
 
         <TextView
+            android:id="@+id/zp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/newly_member_tv"
+            android:layout_toRightOf="@id/newly_members_tv"
+            android:layout_marginLeft="20dp"
+            android:text="作品 : "
+            android:textSize="10sp"
+            android:textColor="@color/bank_FF6C6C6C"/>
+        <TextView
             android:id="@+id/newly_works_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/newly_member_tv"
-            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/zp"
+            android:layout_marginRight="20dp"
             android:text="12341654"
             android:textSize="10sp"
             android:textColor="@color/bank_FF6C6C6C"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/newly_member_tv"
-            android:layout_toLeftOf="@id/newly_works_tv"
-            android:text="作品:"
-            android:textSize="10sp"
-            android:textColor="@color/bank_FF6C6C6C"/>
-
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

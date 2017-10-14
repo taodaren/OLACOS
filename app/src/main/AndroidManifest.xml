@@ -51,7 +51,7 @@
         <activity
             android:name="net.osplay.ui.activity.sub.PublishActivityActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name="net.osplay.ui.activity.sub.QRCodeActivity" />
+        <!-- <activity android:name="net.osplay.ui.activity.sub.QRCodeActivity" /> -->
         <activity
             android:name="net.osplay.ui.activity.sub.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -89,12 +89,11 @@
         <activity android:name="net.osplay.ui.activity.sub.MoneyWithdrawActivity" />
         <activity android:name="net.osplay.ui.activity.sub.MoneyNewCardActivity" />
         <activity android:name="net.osplay.ui.activity.sub.MoneySelectCardActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.CreateCommunityActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.CreateCommunityActivity"></activity>
         <activity android:name="net.osplay.ui.activity.sub.EventDetailsActivity" />
         <activity android:name="net.osplay.ui.activity.sub.CreateOrJoinActivity" />
         <activity android:name="net.osplay.ui.activity.sub.JoinCommunityDetailsActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity" >
-        </activity>
+        <activity android:name="net.osplay.ui.activity.sub.AllCommunityActivity"></activity>
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsTopicActivity"
             android:screenOrientation="portrait"
@@ -114,7 +113,8 @@
         <activity android:name="net.osplay.ui.activity.sub.ChangeAgeActivity" />
         <activity android:name="net.osplay.ui.activity.sub.ChangeXingzuoActivity" />
         <activity android:name="net.osplay.ui.activity.sub.ChangeAreaActivity" />
-        <activity android:name="net.osplay.ui.activity.sub.WaitDevActivity"></activity>
+        <activity android:name="net.osplay.ui.activity.sub.WaitDevActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.HotRankingActivity"></activity>
     </application>
 
 </manifest>
