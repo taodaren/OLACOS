@@ -50,12 +50,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DetailsTopicActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DetailsTopicActivity";
-    @BindView(R.id.topic_details_nick) TextView tvNick;
-    @BindView(R.id.tv_topic_details_level) TextView tvLevel;
-    @BindView(R.id.pb_topic_details_level) ProgressBar progressBar;
-    @BindView(R.id.topic_page_avatar) CircleImageView imgAvatar;
-    @BindView(R.id.btn_topic_heck_in) Button btnHeckIn;
-    @BindView(R.id.btn_topic_attention) Button btnAttention;
+    @BindView(R.id.topic_details_nick)
+    TextView tvNick;
+    @BindView(R.id.tv_topic_details_level)
+    TextView tvLevel;
+    @BindView(R.id.pb_topic_details_level)
+    ProgressBar progressBar;
+    @BindView(R.id.topic_page_avatar)
+    CircleImageView imgAvatar;
+    @BindView(R.id.btn_topic_heck_in)
+    Button btnHeckIn;
+    @BindView(R.id.btn_topic_attention)
+    Button btnAttention;
 
     private Unbinder unbinder;
     private int flag;
@@ -109,9 +115,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             Intent intent = getIntent();
             if (intent != null) {
                 String title = intent.getStringExtra(I.Type.TYPE_NAME);
+                String strAvatarId = intent.getStringExtra(I.Img.IMG_KEY);
+//                int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);//传过来模拟数据
                 tvNick.setText(title);
-                int imgId = intent.getIntExtra(I.Img.IMG_KEY, 0);
-                Glide.with(DetailsTopicActivity.this).load(imgId).into(imgAvatar);
+                Glide.with(DetailsTopicActivity.this).load(strAvatarId).into(imgAvatar);
             }
         } else {//登录状态
             tvLevel.setVisibility(View.VISIBLE);

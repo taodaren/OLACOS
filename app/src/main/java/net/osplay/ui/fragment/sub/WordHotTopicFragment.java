@@ -42,7 +42,7 @@ public class WordHotTopicFragment extends BaseFragment {
                 new WordTopicBean("影视", R.drawable.example06),
                 new WordTopicBean("同人", R.drawable.example08),
                 new WordTopicBean("周边", R.drawable.example09),
-                new WordTopicBean("斗图", R.drawable.example12)
+                new WordTopicBean("斗图", R.drawable.dou_picture)
         };
         topicList = new ArrayList<>();
         Collections.addAll(topicList, topicBeen);

@@ -298,7 +298,7 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 case R.id.layout_recommend_word://推荐的专区列表项
                     Intent intent = new Intent(mContext, DetailsTopicActivity.class);
                     intent.putExtra("partId", data.getID());
-                    intent.putExtra(I.Img.IMG_KEY, data.getPART_PATH());
+                    intent.putExtra(I.Img.IMG_KEY, I.BASE_URL + data.getPART_PATH());
                     intent.putExtra(I.Type.TYPE_NAME, data.getPART());
                     mContext.startActivity(intent);
                     break;
