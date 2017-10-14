@@ -26,9 +26,8 @@
         android:id="@+id/posts_window"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ll_close"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:gravity="center"
@@ -71,6 +70,32 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="发布商品"
+            android:textColor="#606060"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dou_picture_window"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_close"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_shape_circle"
+            android:padding="20dp"
+            android:src="@mipmap/ic_publish_dou" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="发起斗图"
             android:textColor="#606060"
             android:textSize="15sp" />
     </LinearLayout>

@@ -14,10 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
+import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.PublishActivityActivity;
 import net.osplay.ui.activity.sub.PublishGoodsActivity;
 import net.osplay.ui.activity.sub.PublishPostsActivity;
-import net.osplay.olacos.R;
+import net.osplay.ui.activity.sub.WaitDevActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -154,6 +155,7 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
             }
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -168,6 +170,10 @@ public class PublishPopWindow extends PopupWindow implements View.OnClickListene
             case R.id.activity_window:
                 Intent intentActivity = new Intent(mContext, PublishActivityActivity.class);
                 mContext.startActivity(intentActivity);
+                break;
+            case R.id.dou_picture_window:
+                mContext.startActivity(new Intent(mContext, WaitDevActivity.class));//开发中
+//                mContext.startActivity(new Intent(mContext, DetailsDouPictureActivity.class));//实际跳转界面
                 break;
             case R.id.ll_close:
                 if (isShowing()) {
