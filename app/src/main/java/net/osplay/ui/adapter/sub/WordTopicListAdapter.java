@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -80,7 +79,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private class PostsInfoListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final String TAG = "PostsInfoListHolder";
-        private int flag;
         private View outView;
         private LinearLayout llZan, llCollect, llComment;
         private TextView tvNick, tvTime, tvTitle, tvZan, tvCollect, tvComment;
@@ -123,8 +121,12 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvComment.setText(rowsBean.getPINGLUN_COUNT());
             postsId = rowsBean.getID();
 
-            if ("true".equals(rowsBean.getZAN())) {
+            if ("true".equals(rowsBean.getZAN())) {//如果已点赞，显示点赞状态
                 imgZan.setImageResource(R.drawable.ic_sugar_selected);
+            }
+
+            if ("true".equals(rowsBean.getCOLLECT())) {//如果已收藏，显示收藏状态
+                imgCollect.setImageResource(R.drawable.ic_collect_selected);
             }
         }
 
