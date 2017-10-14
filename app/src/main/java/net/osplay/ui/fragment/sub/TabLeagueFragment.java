@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -29,6 +30,7 @@ import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.AssociationInfoBean;
 import net.osplay.service.entity.JoinBean;
+import net.osplay.service.entity.MemberInfoBean;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
@@ -136,10 +138,10 @@ public class TabLeagueFragment extends BaseFragment {
     }
 
 
+    //展示社团信息
     public void getAssociationHttp() {
         if(!AppHelper.getInstance().isLogined()){
             appBarLayout.setVisibility(View.GONE);
-//            league_toolbar.setVisibility(View.VISIBLE);
         }else{
             RequestQueue requestQueue = NoHttp.newRequestQueue();
             Request<String> request = NoHttp.createStringRequest(I.IS_JOIN, RequestMethod.POST);
@@ -226,9 +228,11 @@ public class TabLeagueFragment extends BaseFragment {
         List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
         String isexamine = aList.get(0).getISEXAMINE();
         Log.e("JGB","判断社团是否创建通过："+isexamine);
-        if(!aList.get(0).getISEXAMINE().equals("1")){//未审核通过
+        String headid = aList.get(0).getHEADID();
+        Log.e("JGB","判断当前社团是否自己创建的："+headid);
+        if(!aList.get(0).getISEXAMINE().equals("1")){//判断审核是否通过
             appBarLayout.setVisibility(View.GONE);
-        } else{//显示加载社团信息
+        }else if(AppHelper.getInstance().getUser().getID().equals(headid)){//当前社团是否自己创建的
             appBarLayout.setVisibility(View.VISIBLE);
             league_toolbar.setVisibility(View.GONE);
             Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
@@ -237,10 +241,55 @@ public class TabLeagueFragment extends BaseFragment {
             association_time_tv.setText(aList.get(0).getCREATEDATE());
             //association_membet_tv.setText(aList.get(0));
             association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+        }else {
+            getAssociationStatusHttp(aList);
+
         }
 
-    }
 
+    }
+    public void getAssociationStatusHttp(List<AssociationInfoBean.RowsBean> aList) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ASSOCIATION_STATUS, RequestMethod.POST);
+        request.add("memberId",AppHelper.getInstance().getUser().getID());
+        request.add("corporationId",aList.get(0).getID());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "审核加入是否通过：：" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    MemberInfoBean memberInfoBean = mGson.fromJson(json, MemberInfoBean.class);
+                    List<MemberInfoBean.RowsBean> mLists = memberInfoBean.getRows();
+                    String isexamine = mLists.get(0).getISEXAMINE();
+                    if(!isexamine.equals("1")){
+                        appBarLayout.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"还未加入通过",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(),"加入已通过",Toast.LENGTH_SHORT).show();
+                   }
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
     @Override
     public void onStart() {
         super.onStart();

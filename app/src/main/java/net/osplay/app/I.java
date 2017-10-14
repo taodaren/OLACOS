@@ -128,8 +128,8 @@ public interface I {
     String  ASSOCIATION_INFO=BASE_URL + "/corporationMobile/getCorporationById.do";
     //推荐
     String RECOMMEND=BASE_URL+"/corporationMobile/recommend.do";
-    //审核用户创建或加入社团的状态
-    String ASSOCIATION_STATUS=BASE_URL+"/corporationMobile/examine.do";
+    //审核用户加入社团的状态
+    String ASSOCIATION_STATUS=BASE_URL+"/corporationMobile/getMemberById.do";
 
 /**
  * 上传图片
