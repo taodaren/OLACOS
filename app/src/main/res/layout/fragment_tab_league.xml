@@ -9,6 +9,7 @@
 
 
     <android.support.design.widget.AppBarLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/league_appbar">
@@ -28,17 +29,27 @@
                 android:scaleType="fitXY"/>
 
             <RelativeLayout
+                android:id="@+id/ranking_rl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/menu"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/league_menu"
-                android:background="@color/white"/>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/remen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="热门排行>"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/white"
+                    />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:id="@+id/league_menu"
+                  android:src="@mipmap/ic_launcher_round"
+                    android:layout_toLeftOf="@id/remen"/>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"

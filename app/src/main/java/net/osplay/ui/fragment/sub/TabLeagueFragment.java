@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
@@ -13,10 +14,13 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.prefill.PreFillType;
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -27,10 +31,12 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.AssociationInfoBean;
 import net.osplay.service.entity.JoinBean;
 import net.osplay.service.entity.MemberInfoBean;
+import net.osplay.ui.activity.sub.HotRankingActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
@@ -65,18 +71,23 @@ public class TabLeagueFragment extends BaseFragment {
     private TextView association_time_tv;
     private TextView association_membet_tv;
     private TextView association_jianjie_tv;
+    private ImageView league_menu;
+    private RelativeLayout ranking_rl;
 
    @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
         setView();
+        setOnClick();
         setFragment();
         setToolbars();
         getAssociationHttp();
 
         return inflate;
     }
+
+
 
     private void setFragment() {
         mList.add(nFragment);
@@ -113,7 +124,6 @@ public class TabLeagueFragment extends BaseFragment {
 
     //设置
     private void setView() {
-
         league_toolbar= (Toolbar) inflate.findViewById(R.id.league_toolbar);
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         tabLayout = (TabLayout) inflate.findViewById(R.id.league_tabLayout);
@@ -134,9 +144,13 @@ public class TabLeagueFragment extends BaseFragment {
         association_time_tv = (TextView) inflate.findViewById(R.id.association_time_tv);
         association_membet_tv = (TextView) inflate.findViewById(R.id.association_membet_tv);
         association_jianjie_tv = (TextView) inflate.findViewById(R.id.association_jianjie_tv);
-
+        league_menu = (ImageView) inflate.findViewById(R.id.league_menu);
+        Glide.with(getActivity()).asGif().load(R.drawable.dtu).into(league_menu);
+        ranking_rl = (RelativeLayout) inflate.findViewById(R.id.ranking_rl);
     }
-
+    private void setOnClick() {
+        ranking_rl.setOnClickListener(mOnClickListener);
+    }
 
     //展示社团信息
     public void getAssociationHttp() {
@@ -177,12 +191,11 @@ public class TabLeagueFragment extends BaseFragment {
 
 
         }
-
-
     private void formatJsonIsJoin(String json) {
         JoinBean joinBean = mGson.fromJson(json, JoinBean.class);
         List<JoinBean.RowsBean> rows = joinBean.getRows();
         if (rows.size() == 0) {//没有加入或是创建过社团
+            Log.e("JGB","还没有创建或加入过社团");
             appBarLayout.setVisibility(View.GONE);
         } else {//判断当前社团是否通过审核
             getAssociationInfoHttp(rows);//获取当前社团信息
@@ -222,7 +235,6 @@ public class TabLeagueFragment extends BaseFragment {
             }
         });
     }
-
     private void formatAssociationInfoJson(String json) {
         AssociationInfoBean associationInfoBean = mGson.fromJson(json, AssociationInfoBean.class);
         List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
@@ -232,23 +244,31 @@ public class TabLeagueFragment extends BaseFragment {
         Log.e("JGB","判断当前社团是否自己创建的："+headid);
         if(!aList.get(0).getISEXAMINE().equals("1")){//判断审核是否通过
             appBarLayout.setVisibility(View.GONE);
-        }else if(AppHelper.getInstance().getUser().getID().equals(headid)){//当前社团是否自己创建的
-            appBarLayout.setVisibility(View.VISIBLE);
-            league_toolbar.setVisibility(View.GONE);
-            Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
-            Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
-            association_name_tv.setText(aList.get(0).getNAME());
-            association_time_tv.setText(aList.get(0).getCREATEDATE());
-            //association_membet_tv.setText(aList.get(0));
-            association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
-        }else {
-            getAssociationStatusHttp(aList);
-
+            Log.e("JGB","社团未创建通过");
+        }else{
+            if(AppHelper.getInstance().getUser().getID().equals(headid)){
+                appBarLayout.setVisibility(View.VISIBLE);
+                league_toolbar.setVisibility(View.GONE);
+                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
+                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
+                association_name_tv.setText(aList.get(0).getNAME());
+                association_time_tv.setText(aList.get(0).getCREATEDATE());
+                //association_membet_tv.setText(aList.get(0));
+                association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+                Log.e("JGB","自己的社团创建成功才走这里");
+            }
+            else{
+                getAssociationStatusHttp(aList);
+                Log.e("JGB","加入的用户来到这里");
+            }
         }
 
 
+
     }
-    public void getAssociationStatusHttp(List<AssociationInfoBean.RowsBean> aList) {
+
+    //查询当前成员信息
+    public void getAssociationStatusHttp(final List<AssociationInfoBean.RowsBean> aList) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ASSOCIATION_STATUS, RequestMethod.POST);
         request.add("memberId",AppHelper.getInstance().getUser().getID());
@@ -269,12 +289,23 @@ public class TabLeagueFragment extends BaseFragment {
                     MemberInfoBean memberInfoBean = mGson.fromJson(json, MemberInfoBean.class);
                     List<MemberInfoBean.RowsBean> mLists = memberInfoBean.getRows();
                     String isexamine = mLists.get(0).getISEXAMINE();
+                    Log.e("JGB", "加入社团的审核状态：：" + isexamine);
                     if(!isexamine.equals("1")){
                         appBarLayout.setVisibility(View.GONE);
                         Toast.makeText(getActivity(),"还未加入通过",Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(getActivity(),"加入已通过",Toast.LENGTH_SHORT).show();
-                   }
+                        //加载当前社团信息并显示
+                        appBarLayout.setVisibility(View.VISIBLE);
+                        league_toolbar.setVisibility(View.GONE);
+                        Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
+                        Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
+                        association_name_tv.setText(aList.get(0).getNAME());
+                        association_time_tv.setText(aList.get(0).getCREATEDATE());
+                        //association_membet_tv.setText(aList.get(0));
+                        association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+
+                    }
 
                 }
             }
@@ -289,12 +320,28 @@ public class TabLeagueFragment extends BaseFragment {
 
             }
         });
+
     }
+
+
+    private View.OnClickListener mOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.ranking_rl:
+                    startActivity(new Intent(getActivity(), HotRankingActivity.class));
+                   break;
+            }
+        }
+    };
+
+
     @Override
     public void onStart() {
         super.onStart();
         getAssociationHttp();
     }
+
 
 
 }
