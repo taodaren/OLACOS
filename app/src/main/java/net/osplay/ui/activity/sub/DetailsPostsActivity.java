@@ -23,8 +23,10 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.WordDetailsCommentBean;
 import net.osplay.service.entity.WordDetailsPostsBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.DetailsPostsContentAdapter;
@@ -47,7 +49,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView mRvContent, mRvComment;
     private Gson gson = new Gson();
     private List<WordDetailsPostsBean> mContentList;
-    //    private List<MeiZiBean.ResultsBean> mCommentList;
+    private List<WordDetailsCommentBean> mCommentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         String postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);
-        Log.d(TAG, "initData: " + postsId);
+        Log.d(TAG, "initData: postsId==" + postsId);
+        Log.d(TAG, "initData: memberId==" + AppHelper.getInstance().getUser().getID());
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
         request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
