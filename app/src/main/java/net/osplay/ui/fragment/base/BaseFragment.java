@@ -258,7 +258,7 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
     public void requestCodeQRCodePermissions() {
         String[] perms = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         if (!EasyPermissions.hasPermissions(getContext(), perms)) {
-            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和散光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
+            EasyPermissions.requestPermissions(this, "扫描二维码需要打开相机和闪光灯的权限", REQUEST_QR_CODE_PERMISSIONS, perms);
         }
     }
 
