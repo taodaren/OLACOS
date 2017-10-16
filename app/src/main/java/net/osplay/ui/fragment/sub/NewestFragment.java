@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.sub;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,12 +41,11 @@ public class NewestFragment extends BaseFragment {
     private Gson mGson = new Gson();
     private View inflate;
 
-
     @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_newest, null);
         setView();
-       getRecommendHttp();
+        getRecommendHttp();
         return inflate;
     }
 
@@ -90,7 +90,7 @@ public class NewestFragment extends BaseFragment {
             }
         });
     }
-   //推荐数据解析
+    //推荐数据解析
     private void gsonFormat(String json) {
         RecommendBean recommendBean = mGson.fromJson(json, RecommendBean.class);
         List<RecommendBean.RowsBean> rows = recommendBean.getRows();

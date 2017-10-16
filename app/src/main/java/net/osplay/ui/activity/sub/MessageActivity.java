@@ -19,6 +19,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MeiZiBean;
+import net.osplay.service.entity.MemberInfoBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.MessageAdapter;
 
@@ -29,9 +30,9 @@ import java.util.List;
  */
 
 public class MessageActivity extends BaseActivity {
-    private static final String TAG = "MessageActivity";
     private RecyclerView mRvMsg;
     private Gson gson = new Gson();
+    private String corporationId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,24 @@ public class MessageActivity extends BaseActivity {
         setContentView(R.layout.activity_message);
         initData();
         initView();
+        corporationId = getIntent().getStringExtra("corporationId");
+
+
+    }
+
+    private void initView() {
+        setToolbar("消息", View.VISIBLE);
+        mRvMsg = (RecyclerView) findViewById(R.id.recycler_msg);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mRvMsg.setLayoutManager(layoutManager);
     }
 
     private void initData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> msgRequest = NoHttp.createStringRequest(I.MSG_FULI, RequestMethod.GET);
-        getMsgItemData(requestQueue, msgRequest);
-    }
-
-    private void getMsgItemData(RequestQueue requestQueue, Request<String> request) {
+        Request<String> request = NoHttp.createStringRequest(I.SELECT_GROUP_MEMBER, RequestMethod.POST);
+        request.add("rows", 10);
+        request.add("page", 1);
+        request.add("corporationId", corporationId);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -56,14 +66,13 @@ public class MessageActivity extends BaseActivity {
 
             @Override
             public void onSucceed(int what, Response<String> response) {
-                String json = response.get();//得到请求数据
-                Log.d(TAG, "onSucceed: msgRequest====================" + json);
-
-                //数据解析（集合）
-                MeiZiBean bean = gson.fromJson(json, MeiZiBean.class);
-                List<MeiZiBean.ResultsBean> results = bean.getResults();
-                Log.d(TAG, "onSucceed: results====================" + results);
-                initRecyclerView(results);
+                String json = response.get();
+                Log.e("JGB", "获取全部申请列表：：" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    formatMembetJson(json);
+                }
             }
 
             @Override
@@ -78,42 +87,11 @@ public class MessageActivity extends BaseActivity {
         });
     }
 
-    private void initRecyclerView(List<MeiZiBean.ResultsBean> results) {
-        if (results != null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mRvMsg.setLayoutManager(layoutManager);
-            mRvMsg.setHasFixedSize(true);
-            MessageAdapter adapter = new MessageAdapter(this, results);
-            mRvMsg.setAdapter(adapter);
-        }
-    }
+    private void formatMembetJson(String json) {
+        MemberInfoBean memberInfoBean = gson.fromJson(json, MemberInfoBean.class);
+        List<MemberInfoBean.RowsBean> rows = memberInfoBean.getRows();
+        mRvMsg.setAdapter(new MessageAdapter(this,rows));
 
-    private void initView() {
-        setToolbar("消息", View.VISIBLE);
-        setClickListener();
-        setChat();
-    }
-
-    private void setChat() {
-        mRvMsg = (RecyclerView) findViewById(R.id.recycler_msg);
-    }
-
-    private void setClickListener() {
-        //回复我的
-        findViewById(R.id.layout_msg_replay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MessageActivity.this, "回复我的【需要空白页】", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //消息提醒
-        findViewById(R.id.layout_msg_remind).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MessageActivity.this, "消息提醒【需要空白页】", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

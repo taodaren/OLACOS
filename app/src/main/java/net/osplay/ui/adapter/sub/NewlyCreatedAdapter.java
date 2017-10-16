@@ -1,6 +1,7 @@
 package net.osplay.ui.adapter.sub;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.HotRanKingBean;
 import net.osplay.service.entity.goods.NewCreatedBean;
 import net.osplay.service.entity.goods.ResultBeanData;
+import net.osplay.ui.activity.sub.JoinCommunityDetailsActivity;
 
 import java.util.List;
 
@@ -40,13 +42,21 @@ public class NewlyCreatedAdapter extends RecyclerView.Adapter<NewlyViewHolder> {
 
     @Override
     public void onBindViewHolder(NewlyViewHolder holder, final int position) {
-        Glide.with(mContext).load(I.BASE_URL+rows.get(position).getPHOTO()).into(holder.newly_avatar_iv);
-        holder.newly_title_tv.setText(rows.get(position).getNAME());
-        holder.newly_jianjie_tv.setText(rows.get(position).getINTRODUCTION());
-        holder.newly_members_tv.setText(""+rows.get(position).getMEMBERCOUNT());
-        holder.newly_works_tv.setText(""+rows.get(position).getZPCOUNT());
-    }
+            Glide.with(mContext).load(I.BASE_URL+rows.get(position).getPHOTO()).into(holder.newly_avatar_iv);
+            holder.newly_title_tv.setText(rows.get(position).getNAME());
+            holder.newly_jianjie_tv.setText(rows.get(position).getINTRODUCTION());
+            holder.newly_members_tv.setText(""+rows.get(position).getMEMBERCOUNT());
+            holder.newly_works_tv.setText(""+rows.get(position).getZPCOUNT());
+        holder.newly_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext,JoinCommunityDetailsActivity.class);
+                intent.putExtra("corporationId",rows.get(position).getID());
+                mContext.startActivity(intent);
+            }
+        });
 
+    }
     @Override
     public int getItemCount() {
         return rows.size();

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.google.gson.Gson;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -132,7 +133,19 @@ public class CreateCommunityActivity extends BaseActivity {
             } else if (backgroupList==null) {
                 Toast.makeText(CreateCommunityActivity.this, "请设置社团背景", Toast.LENGTH_SHORT).show();
             } else {
-                establishHttp();//提交创建社团信息
+                new BottomDialog.Builder(this)
+                        .setTitle("请认真阅读以下规则：")
+                        .setContent("1.申请必须符合olacos社团氛围及相关法律法规\n2.同兴趣人数不足的申请将不予通过\n3.已有类似专区的申请将不予通过\n4.请勿重复申请相同内容\n若申请通过，olacos将会在2周之内将消息通知给您")
+                        .setNegativeText("确定")
+                        .setNegativeTextColorResource(R.color.colorAccent)
+                        .onNegative(new BottomDialog.ButtonCallback() {
+                            @Override
+                            public void onClick(BottomDialog dialog) {
+                               establishHttp();
+                                finish();
+                            }
+                        }).show();
+
             }
                 break;
         }

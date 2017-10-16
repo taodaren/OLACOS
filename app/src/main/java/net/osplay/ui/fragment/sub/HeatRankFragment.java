@@ -57,6 +57,7 @@ public class HeatRankFragment extends BaseFragment {
         Request<String> request = NoHttp.createStringRequest(I.HOT_RANKING, RequestMethod.POST);
         request.add("rows", 10);
         request.add("page",1);
+        request.add("isExamine",1);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {

@@ -30,7 +30,7 @@ public abstract class BaseBussFragment extends Fragment {
         View view = null;
         if(view == null){
             view = inflater.inflate(resId, null);
-            initView(view, savedInstanceState);
+            initView(view,savedInstanceState);
             bindEvent();
             initData();
         }

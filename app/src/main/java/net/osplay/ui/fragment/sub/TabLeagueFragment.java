@@ -2,8 +2,9 @@ package net.osplay.ui.fragment.sub;
 
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,14 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.engine.prefill.PreFillType;
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -31,12 +31,13 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
-import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.AssociationInfoBean;
 import net.osplay.service.entity.JoinBean;
 import net.osplay.service.entity.MemberInfoBean;
 import net.osplay.ui.activity.sub.HotRankingActivity;
+import net.osplay.ui.activity.sub.LeagueIMActivity;
+import net.osplay.ui.activity.sub.MessageActivity;
 import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.TabUtils;
@@ -73,8 +74,10 @@ public class TabLeagueFragment extends BaseFragment {
     private TextView association_jianjie_tv;
     private ImageView league_menu;
     private RelativeLayout ranking_rl;
+    private Button jcd_release_but,news_tv;
+    private List<AssociationInfoBean.RowsBean> aa;
 
-   @Override
+    @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
         initDrawerLayout();
@@ -83,6 +86,7 @@ public class TabLeagueFragment extends BaseFragment {
         setFragment();
         setToolbars();
         getAssociationHttp();
+        Log.e("JGB","alist集合数据::::::::::："+aa);
 
         return inflate;
     }
@@ -144,12 +148,16 @@ public class TabLeagueFragment extends BaseFragment {
         association_time_tv = (TextView) inflate.findViewById(R.id.association_time_tv);
         association_membet_tv = (TextView) inflate.findViewById(R.id.association_membet_tv);
         association_jianjie_tv = (TextView) inflate.findViewById(R.id.association_jianjie_tv);
-        league_menu = (ImageView) inflate.findViewById(R.id.league_menu);
-        Glide.with(getActivity()).asGif().load(R.drawable.dtu).into(league_menu);
+        // league_menu = (ImageView) inflate.findViewById(R.id.league_menu);
+        //Glide.with(getActivity()).asGif().load(R.drawable.dtu).into(league_menu);加载动态图
         ranking_rl = (RelativeLayout) inflate.findViewById(R.id.ranking_rl);
+        jcd_release_but = (Button) inflate.findViewById(R.id.jcd_release_but);
+        news_tv = (Button) inflate.findViewById(R.id.news_tv);
+
     }
     private void setOnClick() {
         ranking_rl.setOnClickListener(mOnClickListener);
+        jcd_release_but.setOnClickListener(mOnClickListener);
     }
 
     //获取当前加入或创建过的社团
@@ -237,7 +245,8 @@ public class TabLeagueFragment extends BaseFragment {
     }
     private void formatAssociationInfoJson(String json) {
         AssociationInfoBean associationInfoBean = mGson.fromJson(json, AssociationInfoBean.class);
-        List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
+        final List<AssociationInfoBean.RowsBean> aList = associationInfoBean.getRows();
+        Handler mainHandler = new Handler(Looper.getMainLooper());
         String isexamine = aList.get(0).getISEXAMINE();
         Log.e("JGB","判断社团是否创建通过："+isexamine);
         String headid = aList.get(0).getHEADID();
@@ -249,12 +258,20 @@ public class TabLeagueFragment extends BaseFragment {
             if(AppHelper.getInstance().getUser().getID().equals(headid)){
                 appBarLayout.setVisibility(View.VISIBLE);
                 league_toolbar.setVisibility(View.GONE);
-                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getPHOTO()).into(association_avatar_img);
-                Glide.with(getActivity()).load(I.BASE_URL+aList.get(0).getBACKGROUND()).into(association_bg_img);
+                Glide.with(getActivity()).load(I.BASE_URL+ aList.get(0).getPHOTO()).into(association_avatar_img);
+                Glide.with(getActivity()).load(I.BASE_URL+ aList.get(0).getBACKGROUND()).into(association_bg_img);
                 association_name_tv.setText(aList.get(0).getNAME());
                 association_time_tv.setText(aList.get(0).getCREATEDATE());
                 //association_membet_tv.setText(aList.get(0));
                 association_jianjie_tv.setText(aList.get(0).getINTRODUCTION());
+                news_tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(getActivity(),MessageActivity.class);
+                        intent.putExtra("corporationId",aList.get(0).getID());
+                        startActivity(intent);
+                    }
+                });
                 Log.e("JGB","自己的社团创建成功才走这里");
             }
             else{
@@ -331,6 +348,10 @@ public class TabLeagueFragment extends BaseFragment {
                 case R.id.ranking_rl:
                     startActivity(new Intent(getActivity(), HotRankingActivity.class));
                    break;
+                case R.id.jcd_release_but:
+                    startActivity(new Intent(getActivity(), LeagueIMActivity.class));
+                    break;
+
             }
         }
     };
