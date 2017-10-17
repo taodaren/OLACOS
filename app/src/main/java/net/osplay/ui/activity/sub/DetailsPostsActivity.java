@@ -2,7 +2,6 @@ package net.osplay.ui.activity.sub;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -29,7 +27,6 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsCommentBean;
 import net.osplay.service.entity.WordDetailsPostsBean;
 import net.osplay.ui.activity.base.BaseActivity;
-import net.osplay.ui.adapter.DetailsPostsContentAdapter;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -49,7 +46,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView mRvContent, mRvComment;
     private Gson gson = new Gson();
     private List<WordDetailsPostsBean> mContentList;
-    private List<WordDetailsCommentBean> mCommentList;
+    private WordDetailsCommentBean mCommentBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +58,27 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initData() {
         String postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);
-        Log.d(TAG, "initData: postsId==" + postsId);
-        Log.d(TAG, "initData: memberId==" + AppHelper.getInstance().getUser().getID());
+        String memberId = AppHelper.getInstance().getUser().getID();
         RequestQueue requestQueue = NoHttp.newRequestQueue();
+
         Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
         request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
 
+        Request<String> comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
+        comRequest.add("topicId", postsId);
+        comRequest.add("page", 1);
+        comRequest.add("rows", 5);
+        comRequest.add("twoNum", 3);
+        comRequest.add("memberId", memberId);
+
         getContentData(requestQueue, request);//帖子内容
-//        getCommentData(requestQueue, msgRequest);//评论
+        getCommentData(requestQueue, comRequest);//评论
     }
 
     private void getContentData(RequestQueue requestQueue, Request<String> request) {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
             }
 
             @Override
@@ -87,38 +90,70 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 }.getType();
                 mContentList = gson.fromJson(json, type);
                 Log.d(TAG, "帖子详情解析 Succeed");
-                initContentData();
+//                initContentData();
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
-
             }
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
 
-    private void initContentData() {
-        if (mContentList != null) {
-            for (int i = 0; i < mContentList.size(); i++) {
-                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
-                mTvNick.setText(mContentList.get(i).getNICK_NAME());
-                mTvTime.setText(mContentList.get(i).getCREATEDATE());
-                mTvType.setText(mContentList.get(i).getPART());
-                mTvTitle.setText(mContentList.get(i).getTITLE());
+    private void getCommentData(RequestQueue requestQueue, Request<String> request) {
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
             }
 
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mRvContent.setLayoutManager(layoutManager);
-            mRvContent.setHasFixedSize(true);
-            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
-            mRvContent.setAdapter(adapter);
-        }
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.e(TAG, "评论的json数据：" + json);
+                mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
+                List<WordDetailsCommentBean.OneBean> one1 = mCommentBean.getOne();
+                Log.e("JGB", "一级评论：：：：：：：" + one1);
+                if (mCommentBean.getOne().size() == 0) {
+                    return;
+
+                } else {
+                    List<WordDetailsCommentBean.OneBean> one = mCommentBean.getOne();
+                    Log.d(TAG, "帖子详情评论解析 集合数据：：" + one);
+                }
+
+//                initContentData();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
     }
+
+//    private void initContentData() {
+//        if (mContentList != null) {
+//            for (int i = 0; i < mContentList.size(); i++) {
+//                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
+//                mTvNick.setText(mContentList.get(i).getNICK_NAME());
+//                mTvTime.setText(mContentList.get(i).getCREATEDATE());
+//                mTvType.setText(mContentList.get(i).getPART());
+//                mTvTitle.setText(mContentList.get(i).getTITLE());
+//            }
+//
+//            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//            mRvContent.setLayoutManager(layoutManager);
+//            mRvContent.setHasFixedSize(true);
+//            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
+//            mRvContent.setAdapter(adapter);
+//        }
+//    }
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
