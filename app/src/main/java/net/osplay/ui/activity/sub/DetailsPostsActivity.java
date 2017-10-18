@@ -112,17 +112,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
-                Log.e(TAG, "评论的json数据：" + json);
+                Log.d(TAG, "onSucceed: 帖子评论 json 数据====================" + json);
                 mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
-                List<WordDetailsCommentBean.OneBean> one1 = mCommentBean.getOne();
-                Log.e("JGB", "一级评论：：：：：：：" + one1);
-                if (mCommentBean.getOne().size() == 0) {
-                    return;
 
-                } else {
-                    List<WordDetailsCommentBean.OneBean> one = mCommentBean.getOne();
-                    Log.d(TAG, "帖子详情评论解析 集合数据：：" + one);
-                }
 
 //                initContentData();
             }
