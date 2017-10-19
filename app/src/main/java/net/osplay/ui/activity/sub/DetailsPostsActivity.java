@@ -71,7 +71,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         Request<String> comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
         comRequest.add("topicId", postsId);
         comRequest.add("page", 1);
-        comRequest.add("rows", 5);
+        comRequest.add("rows", 10);
         comRequest.add("twoNum", 3);
         comRequest.add("memberId", memberId);
 
