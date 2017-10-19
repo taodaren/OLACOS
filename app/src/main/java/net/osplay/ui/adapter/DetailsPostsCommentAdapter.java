@@ -11,11 +11,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MeiZiBean;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.osplay.service.entity.WordDetailsCommentBean;
 
 /**
  * 帖子详情评论适配器
@@ -25,13 +23,12 @@ public class DetailsPostsCommentAdapter extends RecyclerView.Adapter<RecyclerVie
     private static final String TAG = "DetailsPostsCommentAdapter";
     private Activity mContext;
     private LayoutInflater mInflater;
-    private List<MeiZiBean.ResultsBean> mBeanList;
+    private WordDetailsCommentBean mCommentBean;
 
-    public DetailsPostsCommentAdapter(Activity context, List<MeiZiBean.ResultsBean> commentList) {
+    public DetailsPostsCommentAdapter(Activity context, WordDetailsCommentBean commentBean) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
-        this.mBeanList = new ArrayList<>();
-        this.mBeanList.addAll(commentList);
+        this.mCommentBean = commentBean;
     }
 
     @Override
@@ -49,19 +46,21 @@ public class DetailsPostsCommentAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return mBeanList == null ? 0 : mBeanList.size();
+        return mCommentBean == null ? 0 : mCommentBean.getOne().size();
     }
 
     private class PostsCommentHolder extends RecyclerView.ViewHolder {
         private View outView;//保存子项最外层布局的实例
         private ImageView imgAvatar;
-        private TextView tvContent;
+        private TextView tvName, tvContent, tvTime;
 
         private PostsCommentHolder(View itemView) {
             super(itemView);
             outView = itemView;
             imgAvatar = (ImageView) itemView.findViewById(R.id.dtl_posts_comment_avatar);
+            tvName = (TextView) itemView.findViewById(R.id.dtl_posts_comment_name);
             tvContent = (TextView) itemView.findViewById(R.id.dtl_posts_comment_content);
+            tvTime = (TextView) itemView.findViewById(R.id.dtl_posts_comment_time);
         }
 
         public void setClickListener() {
@@ -74,9 +73,10 @@ public class DetailsPostsCommentAdapter extends RecyclerView.Adapter<RecyclerVie
         }
 
         public void bindData(int position) {
-            MeiZiBean.ResultsBean meiZiBean = mBeanList.get(position);
-            Glide.with(mContext).load(meiZiBean.getUrl()).into(imgAvatar);
-            tvContent.setText(meiZiBean.getUrl());
+            Glide.with(mContext).load(I.BASE_URL + mCommentBean.getOne().get(position).getHEAD_PATH()).into(imgAvatar);
+            tvName.setText(mCommentBean.getOne().get(position).getNICK_NAME());
+            tvContent.setText(mCommentBean.getOne().get(position).getCONTENT());
+            tvTime.setText(mCommentBean.getOne().get(position).getCREATEDATE());
         }
     }
 }

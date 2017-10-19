@@ -2,6 +2,7 @@ package net.osplay.ui.activity.sub;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -27,6 +29,8 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsCommentBean;
 import net.osplay.service.entity.WordDetailsPostsBean;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.ui.adapter.DetailsPostsCommentAdapter;
+import net.osplay.ui.adapter.DetailsPostsContentAdapter;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -90,7 +94,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 }.getType();
                 mContentList = gson.fromJson(json, type);
                 Log.d(TAG, "帖子详情解析 Succeed");
-//                initContentData();
+                initContentData();
             }
 
             @Override
@@ -114,9 +118,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 String json = response.get();//得到请求数据
                 Log.d(TAG, "onSucceed: 帖子评论 json 数据====================" + json);
                 mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
-
-
-//                initContentData();
+                Log.d(TAG, "帖子评论解析 Succeed");
+                initCommentData();
             }
 
             @Override
@@ -129,27 +132,37 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-//    private void initContentData() {
-//        if (mContentList != null) {
-//            for (int i = 0; i < mContentList.size(); i++) {
-//                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
-//                mTvNick.setText(mContentList.get(i).getNICK_NAME());
-//                mTvTime.setText(mContentList.get(i).getCREATEDATE());
-//                mTvType.setText(mContentList.get(i).getPART());
-//                mTvTitle.setText(mContentList.get(i).getTITLE());
-//            }
-//
-//            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//            mRvContent.setLayoutManager(layoutManager);
-//            mRvContent.setHasFixedSize(true);
-//            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
-//            mRvContent.setAdapter(adapter);
-//        }
-//    }
+    private void initCommentData() {
+        if (mCommentBean != null) {
+            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mRvComment.setLayoutManager(manager);
+            mRvComment.setHasFixedSize(true);
+            DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentBean);
+            mRvComment.setAdapter(adapter);
+        }
+    }
+
+    private void initContentData() {
+        if (mContentList != null) {
+            for (int i = 0; i < mContentList.size(); i++) {
+                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
+                mTvNick.setText(mContentList.get(i).getNICK_NAME());
+                mTvTime.setText(mContentList.get(i).getCREATEDATE());
+                mTvType.setText(mContentList.get(i).getPART());
+                mTvTitle.setText(mContentList.get(i).getTITLE());
+            }
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mRvContent.setLayoutManager(layoutManager);
+            mRvContent.setHasFixedSize(true);
+            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
+            mRvContent.setAdapter(adapter);
+        }
+    }
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
-//        mRvComment = (RecyclerView) findViewById(R.id.recycler_details_posts_comment);
+        mRvComment = (RecyclerView) findViewById(R.id.recycler_details_posts_comment);
         setToolbar();
         mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
         mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);
