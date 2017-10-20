@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,7 +48,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private Button mBtnAttention;
     private TextView mTvNick, mTvTime, mTvType, mTvTitle;
 
-    private RecyclerView mRvContent, mRvComment;
+    private RecyclerView mRvContent;
+    private ExpandableListView mElvComment;
     private Gson gson = new Gson();
     private List<WordDetailsPostsBean> mContentList;
     private WordDetailsCommentBean mCommentBean;
@@ -71,7 +73,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         Request<String> comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
         comRequest.add("topicId", postsId);
         comRequest.add("page", 1);
-        comRequest.add("rows", 10);
+        comRequest.add("rows", Integer.MAX_VALUE);
         comRequest.add("twoNum", 3);
         comRequest.add("memberId", memberId);
 
@@ -134,11 +136,19 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initCommentData() {
         if (mCommentBean != null) {
-            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mRvComment.setLayoutManager(manager);
-            mRvComment.setHasFixedSize(true);
             DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentBean);
-            mRvComment.setAdapter(adapter);
+            mElvComment.setAdapter(adapter);
+            mElvComment.setGroupIndicator(null);
+            // 默认展开每一个分组
+            for (int i = 0; i < adapter.getGroupCount(); i++) {
+                mElvComment.expandGroup(i);
+            }
+
+//            LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//            mElvComment.setLayoutManager(manager);
+//            mElvComment.setHasFixedSize(true);
+//            DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentBean);
+//            mElvComment.setAdapter(adapter);
         }
     }
 
@@ -162,7 +172,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
-        mRvComment = (RecyclerView) findViewById(R.id.recycler_details_posts_comment);
+        mElvComment = (ExpandableListView) findViewById(R.id.elv_details_posts_comment);
         setToolbar();
         mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
         mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);

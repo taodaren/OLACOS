@@ -196,10 +196,10 @@
                     android:textColor="@color/colorPrimaryDark" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_details_posts_comment"
+            <net.osplay.utils.NestedExpandableListView
+                android:id="@+id/elv_details_posts_comment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
