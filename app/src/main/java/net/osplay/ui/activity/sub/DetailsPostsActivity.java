@@ -196,77 +196,85 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 if(tv_details_posts_ed.getText().toString().isEmpty()){
                     return;
                 }else{
-                    requestQueue = NoHttp.newRequestQueue();
-                    Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
-                    request.add("topicId", postsId);
-                    request.add("authorId", mContentList.get(0).getUSERID());
-                    request.add("memberId", AppHelper.getInstance().getUser().getID());
-                    request.add("beenMemberId", mContentList.get(0).getUSERID());
-                    request.add("atId", Uuid.getUuid());
-                    request.add("parentId", 0);
-                    request.add("atIds", "");
-                    request.add("atUsers", "");
-                    request.add("content", tv_details_posts_ed.getText().toString());
-                    requestQueue.add(0, request, new OnResponseListener<String>() {
-                        @Override
-                        public void onStart(int what) {
-                        }
-
-                        @Override
-                        public void onSucceed(int what, Response<String> response) {
-                            String json = response.get();
-                            Log.e("JGB", "评论结果:" + json);
-                            //阻止键盘弹出
-                            InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                            imm1.hideSoftInputFromWindow(tv_details_posts_ed.getWindowToken(), 0);
-                            tv_details_posts_ed.setText("");
-                            handler.sendEmptyMessage(1);
-
-                            comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
-                            comRequest.add("topicId", postsId);
-                            comRequest.add("page", 1);
-                            comRequest.add("rows", Integer.MAX_VALUE);
-                            comRequest.add("twoNum", 3);
-                            comRequest.add("memberId", memberId);
-
-                            requestQueue.add(0, comRequest, new OnResponseListener<String>() {
-                                @Override
-                                public void onStart(int what) {
-                                }
-
-                                @Override
-                                public void onSucceed(int what, Response<String> response) {
-                                    String json = response.get();//得到请求数据
-                                    Log.d(TAG, "onSucceed: 帖子重新评论 json 数据====================" + json);
-                                    mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
-                                    Log.d(TAG, "帖子重新评论解析 Succeed");
-                                    initCommentData();
-                                }
-
-                                @Override
-                                public void onFailed(int what, Response<String> response) {
-                                }
-
-                                @Override
-                                public void onFinish(int what) {
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFailed(int what, Response<String> response) {
-                        }
-
-                        @Override
-                        public void onFinish(int what) {
-                        }
-                    });
+                    getCommit(mContentList);
                 }
 
             }
         });
 
     }
+
+    private void getCommit(List<WordDetailsPostsBean> mContentList) {
+        requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
+        request.add("topicId", postsId);
+        request.add("authorId", mContentList.get(0).getUSERID());
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("beenMemberId", mContentList.get(0).getUSERID());
+        request.add("atId", Uuid.getUuid());
+        request.add("parentId", 0);
+        request.add("atIds", "");
+        request.add("atUsers", "");
+        request.add("content", tv_details_posts_ed.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "评论结果:" + json);
+                //阻止键盘弹出
+                InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(tv_details_posts_ed.getWindowToken(), 0);
+                tv_details_posts_ed.setText("");
+                getCommitPL();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    private void getCommitPL() {
+        comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
+        comRequest.add("topicId", postsId);
+        comRequest.add("page", 1);
+        comRequest.add("rows", Integer.MAX_VALUE);
+        comRequest.add("twoNum", 3);
+        comRequest.add("memberId", memberId);
+
+        requestQueue.add(0, comRequest, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();//得到请求数据
+                Log.d(TAG, "onSucceed: 帖子重新评论 json 数据====================" + json);
+                mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
+                Log.d(TAG, "帖子重新评论解析 Succeed");
+                initCommentData();
+                handler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
@@ -334,6 +342,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             case R.id.tv_details_posts_switch://切换
                 mllShow.setVisibility(View.GONE);
                 mllHide.setVisibility(View.VISIBLE);
+                //弹出键盘
+                ((InputMethodManager)getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+                tv_details_posts_ed.requestFocus();
                 break;
             case R.id.img_details_posts_sugar://糖果
                 if (flag == 0) {
