@@ -97,7 +97,7 @@ public interface I {
     //查询可以@的所有用户
     String FOLLOW_ALL_AT = BASE_URL + "/topicMobile/followAll.do";
     //保存评论
-    String WORD_ = BASE_URL + "/topicMobile/publishComment.do";
+    String SAVE_COMMENT = BASE_URL + "/topicMobile/publishComment.do";
 
     /**
      * 热帖

@@ -186,7 +186,6 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
             dtl_posts_comment_content = (TextView) convertView.findViewById(R.id.dtl_posts_comment_content);
             dtl_posts_comment_time = (TextView) convertView.findViewById(R.id.dtl_posts_comment_time);
             dtl_posts_comment_zan = (ImageView) convertView.findViewById(R.id.dtl_posts_comment_zan);
-
         }
     }
 
