@@ -52,7 +52,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout mllShow, mllHide;
     private ImageView mImgSugar, mImgCollect, mAvatar;
     private Button mBtnAttention, btn_details_posts_send;
-    private TextView mTvNick, mTvTime, mTvType, mTvTitle,mTvSwitch;
+    private TextView mTvNick, mTvTime, mTvType, mTvTitle, mTvSwitch;
     private NestedScrollView details_layout_nsv;
     private LinearLayout details_layout_ll;
 
@@ -83,10 +83,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_posts);
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);
+        memberId = AppHelper.getInstance().getUser().getID();
         initData();
         initView();
     }
 
+    //获取帖子详情数据
     private void initData() {
         requestQueue = NoHttp.newRequestQueue();
         request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
@@ -104,13 +106,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();//得到请求数据
                 Log.d(TAG, "onSucceed: 帖子详情 json 数据====================" + json);
-                Type type = new TypeToken<List<WordDetailsPostsBean>>() {}.getType();
+                Type type = new TypeToken<List<WordDetailsPostsBean>>() {
+                }.getType();
                 mContentList = gson.fromJson(json, type);
                 Log.d(TAG, "帖子详情解析 Succeed");
                 getCommentData(mContentList);//获取评论数据
                 getCommitComment(mContentList);//提交评论数据
                 initContentData();//设置帖子内容
-
             }
 
             @Override
@@ -123,7 +125,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    //获取评论数据
+    //获取全部评论数据
     private void getCommentData(final List<WordDetailsPostsBean> mContentList) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
@@ -145,7 +147,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 List<WordDetailsCommentBean.OneBean> one = mCommentBean.getOne();
                 List<WordDetailsCommentBean.TwoBean> two = mCommentBean.getTwo();
                 initCommentData();
-                getItemCommentHttp(one, two, mContentList);
+                getItemCommentHttp(one, two, mContentList);//一级评论人的评论
             }
 
             @Override
@@ -163,59 +165,54 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mElvComment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
-                mllShow.setVisibility(View.GONE);
-                mllHide.setVisibility(View.VISIBLE);
+                //弹出软键盘
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 tv_details_posts_ed.requestFocus();
+                mllShow.setVisibility(View.GONE);
+                mllHide.setVisibility(View.VISIBLE);
+
                 btn_details_posts_send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        if (tv_details_posts_ed.getText().toString().isEmpty()) {
-//                            return;
-//                        } else {
-                            requestQueue = NoHttp.newRequestQueue();
-                            Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
-                            request.add("topicId", postsId);
-                            request.add("authorId", mContentList.get(0).getUSERID());
-                            request.add("memberId", AppHelper.getInstance().getUser().getID());
-                            request.add("beenMemberId", one.get(groupPosition).getMEMBERID());
-                            request.add("atId", Uuid.getUuid());
-                            request.add("parentId", one.get(groupPosition).getID());
-                            request.add("atIds", "");
-                            request.add("atUsers", "");
-                            request.add("content",tv_details_posts_ed.getText().toString());
-                            requestQueue.add(0, request, new OnResponseListener<String>() {
-                                @Override
-                                public void onStart(int what) {
-                                }
+                        requestQueue = NoHttp.newRequestQueue();
+                        Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
+                        request.add("topicId", postsId);
+                        request.add("authorId", mContentList.get(0).getUSERID());
+                        request.add("memberId", AppHelper.getInstance().getUser().getID());
+                        request.add("beenMemberId", one.get(groupPosition).getMEMBERID());
+                        request.add("atId", Uuid.getUuid());
+                        request.add("parentId", one.get(groupPosition).getID());
+                        request.add("atIds", "");
+                        request.add("atUsers", "");
+                        request.add("content", tv_details_posts_ed.getText().toString());
+                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                            @Override
+                            public void onStart(int what) {
+                            }
 
-                                @Override
-                                public void onSucceed(int what, Response<String> response) {
-                                    String json = response.get();
-                                    Log.e("JGB", "一级评论人的评论的评论结果:" + json);
-                                    //阻止键盘弹出
-                                    InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                                    imm1.hideSoftInputFromWindow(tv_details_posts_ed.getWindowToken(), 0);
-                                   // tv_details_posts_ed.setText("");
-                                    tv_details_posts_ed.getText().clear();
-                                    mllShow.setVisibility(View.VISIBLE);
-                                    mllHide.setVisibility(View.GONE);
-                                    getCommitPL(2);
-                                }
+                            @Override
+                            public void onSucceed(int what, Response<String> response) {
+                                String json = response.get();
+                                Log.e("JGB", "一级评论人评论的评论结果:" + json);
+                                //阻止键盘弹出
+                                InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                                imm1.hideSoftInputFromWindow(tv_details_posts_ed.getWindowToken(), 0);
+                                tv_details_posts_ed.getText().clear();
+                                mllShow.setVisibility(View.VISIBLE);
+                                mllHide.setVisibility(View.GONE);
+                                getCommitPL(2);
+                            }
 
-                                @Override
-                                public void onFailed(int what, Response<String> response) {
-                                }
+                            @Override
+                            public void onFailed(int what, Response<String> response) {
+                            }
 
-                                @Override
-                                public void onFinish(int what) {
-                                }
-                            });
-                        }
-
-                    //}
+                            @Override
+                            public void onFinish(int what) {
+                            }
+                        });
+                    }
                 });
-
                 return false;
             }
         });
@@ -231,7 +228,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    //设置评论adapter
+    //设置评论数据adapter
     private void initCommentData() {
         if (mCommentBean != null) {
             DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentBean);
@@ -246,13 +243,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initContentData() {
         if (mContentList != null) {
-            for (int i = 0; i < mContentList.size(); i++) {
-                Glide.with(this).load(I.BASE_URL + mContentList.get(i).getHEAD_PATH()).into(mAvatar);
-                mTvNick.setText(mContentList.get(i).getNICK_NAME());
-                mTvTime.setText(mContentList.get(i).getCREATEDATE());
-                mTvType.setText(mContentList.get(i).getPART());
-                mTvTitle.setText(mContentList.get(i).getTITLE());
-            }
+            Glide.with(this).load(I.BASE_URL + mContentList.get(0).getHEAD_PATH()).into(mAvatar);
+            mTvNick.setText(mContentList.get(0).getNICK_NAME());
+            mTvTime.setText(mContentList.get(0).getCREATEDATE());
+            mTvType.setText(mContentList.get(0).getPART());
+            mTvTitle.setText(mContentList.get(0).getTITLE());
+
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);
@@ -262,15 +258,17 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    //提交一级评论数据
     private void getCommitComment(final List<WordDetailsPostsBean> mContentList) {
         mTvSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mllShow.setVisibility(View.GONE);
-                mllHide.setVisibility(View.VISIBLE);
                 //弹出键盘
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 tv_details_posts_ed.requestFocus();
+
+                mllShow.setVisibility(View.GONE);
+                mllHide.setVisibility(View.VISIBLE);
                 btn_details_posts_send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -279,13 +277,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         } else {
                             getCommit(mContentList);
                         }
-
                     }
                 });
             }
         });
-
-
     }
 
     //帖子评论
@@ -314,6 +309,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm1.hideSoftInputFromWindow(tv_details_posts_ed.getWindowToken(), 0);
                 tv_details_posts_ed.getText().clear();
+                mllShow.setVisibility(View.VISIBLE);
+                mllHide.setVisibility(View.GONE);
                 getCommitPL(1);
             }
 
@@ -327,6 +324,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    //获取评论数据
     private void getCommitPL(final int i) {
         comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
         comRequest.add("topicId", postsId);
@@ -347,10 +345,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
                 Log.d(TAG, "帖子重新评论解析 Succeed");
                 initCommentData();
-                if(i==1){
+                if (i == 1) {
                     handler.sendEmptyMessage(1);
                 }
-
             }
 
             @Override
@@ -362,7 +359,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
-
 
     private void initView() {
         mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
@@ -385,9 +381,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mImgSugar.setOnClickListener(this);
         mImgCollect.setOnClickListener(this);
         mBtnAttention.setOnClickListener(this);
-        mTvSwitch= (TextView) findViewById(R.id.tv_details_posts_switch);
+        mTvSwitch = (TextView) findViewById(R.id.tv_details_posts_switch);
         findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
-
     }
 
     private void setToolbar() {
