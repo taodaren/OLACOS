@@ -66,13 +66,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private Gson gson = new Gson();
     private WordDetailsCommentBean mCommentBean;
+    private IsFollowBean mIsFollowBean;
     private List<WordDetailsPostsBean> mContentList;
     private List<WordDetailsCommentBean.OneBean> mOneList;
     private List<WordDetailsCommentBean.TwoBean> mTwoList;
 
+    private String postsId, memberId, userId;
     private RequestQueue requestQueue;
-    private String postsId;
-    private String memberId;
 
     private Handler handler = new Handler() {
         @Override
@@ -83,8 +83,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             }
         }
     };
-    private IsFollowBean mIsFollowBean;
-    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -468,12 +466,15 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void initDetailsPosts() {
         if (mContentList != null) {
-            Glide.with(this).load(I.BASE_URL + mContentList.get(0).getHEAD_PATH()).into(mAvatar);
+            if (mContentList.get(0).getHEAD_PATH() != null) {//如果用户设置头像则显示
+                Glide.with(this).load(I.BASE_URL + mContentList.get(0).getHEAD_PATH()).into(mAvatar);
+            } else {//如果没设置，显示默认头像
+                Glide.with(this).load(R.drawable.avatar_default).into(mAvatar);
+            }
             mTvNick.setText(mContentList.get(0).getNICK_NAME());
             mTvTime.setText(mContentList.get(0).getCREATEDATE());
             mTvType.setText(mContentList.get(0).getPART());
             mTvTitle.setText(mContentList.get(0).getTITLE());
-
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);
@@ -581,7 +582,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                             break;
                     }
                 }
-
             }
 
             @Override
