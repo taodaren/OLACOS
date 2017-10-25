@@ -131,6 +131,8 @@ public interface I {
     String HOT_RANKING = BASE_URL + "/corporationMobile/corporationNewList.do";
     //最新创建
     String NEWLYCREATED = BASE_URL + "/corporationMobile/corporationNewList.do";
+    //审核社团成员
+    String CORPORATION=BASE_URL+"/corporationMobile/examine.do";
 
     /**
      * 上传图片

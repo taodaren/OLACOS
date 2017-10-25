@@ -75,7 +75,7 @@ public class MallInfoActivity extends AppCompatActivity implements GradationScro
         params.height = getScreenHeight(this) * 2 / 4;
         iv.setLayoutParams(params);
         container = new ScrollViewContainer(getApplicationContext());
-        initImgDatas();
+        //initImgDatas();
         initListeners();
 
 

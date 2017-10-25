@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.jiangyy.easydialog.OtherDialog;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -103,12 +105,12 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         }
     }
 
-    private void joinHttp() {
+    private void joinHttp(String message) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.ADD_GROUP_MEMBER, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("corporationId", corporationId);
-
+        request.add("reason", message);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -142,8 +144,21 @@ public class JoinCommunityDetailsActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.jcd_add_but://加入社团
-                    joinHttp();
-                    Toast.makeText(JoinCommunityDetailsActivity.this, "加入成功", Toast.LENGTH_SHORT).show();
+                    new OtherDialog.Builder(JoinCommunityDetailsActivity.this)
+                            .setGravity(Gravity.CENTER)
+                            .setContentView(R.layout.layout_dialog)
+                            .setText(R.id.dialog_title, "请填写申请理由")
+                            .bundleInputListener(R.id.dialog_input, R.id.dialog_button2, new OtherDialog.InputListener() {
+                                @Override
+                                public void onClick(View view, String message) {
+                                    if(message.equals("")){
+                                        Toast.makeText(JoinCommunityDetailsActivity.this, "请填写申请理由", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        joinHttp(message);
+                                    }
+                                }
+                            })
+                            .setWidth(0.8f).show();
                     break;
             }
         }
