@@ -43,7 +43,6 @@ import net.osplay.utils.Uuid;
 
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 帖子详情
@@ -52,7 +51,7 @@ import java.util.Objects;
 public class DetailsPostsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DetailsPostsActivity";
     private static final String ACTION_ATTENTION = "0";
-    private static final String ACTION_UNATTENTION = "1";
+    private static final String ACTION_ATTENTION_UN = "1";
     private static final int FOCUS_DOWN = 1;//置底
 
     private int flag;
@@ -179,8 +178,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void getIsFollowData() {
         userId = mContentList.get(0).getUSERID();
-        Log.i(TAG, "getIsFollowData: memberId==" + memberId);
-        Log.i(TAG, "getIsFollowData: userId==" + userId);
         Request<String> request = NoHttp.createStringRequest(I.IS_FOLLOW, RequestMethod.POST);
         request.add("followId", userId);//被关注人id
         request.add("memberId", memberId);
@@ -197,6 +194,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
                 mIsFollowBean = gson.fromJson(json, IsFollowBean.class);
                 Log.d(TAG, "是否关注用户数据解析成功");
+
+                //如果已关注，显示关注状态
+                if ("true".equals(mIsFollowBean.getOk())) {
+                    mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    mBtnAttention.setText("已关注");
+                }
             }
 
             @Override
@@ -471,6 +474,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             mTvType.setText(mContentList.get(0).getPART());
             mTvTitle.setText(mContentList.get(0).getTITLE());
 
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);
             mRvContent.setHasFixedSize(true);
@@ -543,7 +547,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private void actionAttention() {
         final String action;
         if ("true".equals(mIsFollowBean.getOk())) {
-            action = ACTION_UNATTENTION;//取消关注
+            action = ACTION_ATTENTION_UN;//取消关注
         } else {
             action = ACTION_ATTENTION;//关注
         }
@@ -552,7 +556,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("followId", userId);
         request.add("mark", action);
 
-        final String finalAction = action;
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -565,13 +568,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
                 mIsFollowBean = gson.fromJson(json, IsFollowBean.class);
                 if ("true".equals(mIsFollowBean.getOk())) {
-                    switch (finalAction) {
+                    switch (action) {
                         case ACTION_ATTENTION://关注成功
                             mIsFollowBean.setOk("true");//重置用户对当前帖子的关注状态
                             mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                             mBtnAttention.setText("已关注");
                             break;
-                        case ACTION_UNATTENTION://取消关注
+                        case ACTION_ATTENTION_UN://取消关注
                             mIsFollowBean.setOk("false");//重置用户对当前帖子的关注状态
                             mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
                             mBtnAttention.setText("关注");
