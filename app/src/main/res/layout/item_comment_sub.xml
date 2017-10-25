@@ -60,5 +60,5 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="20dp"
         android:padding="5dp"
-        android:src="@drawable/ic_sugar_unselected" />
+        android:src="@drawable/ic_zan_unselected" />
 </RelativeLayout>
