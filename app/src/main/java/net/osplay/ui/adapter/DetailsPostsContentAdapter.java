@@ -83,12 +83,10 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
 
                     @Override
                     public void onBitmapFailed(Drawable errorDrawable) {
-
                     }
 
                     @Override
                     public void onPrepareLoad(Drawable placeHolderDrawable) {
-
                     }
                 });
                 return urlDrawable;

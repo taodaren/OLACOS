@@ -18,13 +18,13 @@
         app:popupTheme="@style/AlertDialog.AppCompat.Light" />
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/details_layout_nsv"
+        android:id="@+id/nsv_details_posts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/details_layout_ll"
+            android:id="@+id/ll_details_posts_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorContentBg"
@@ -250,7 +250,7 @@
         android:visibility="gone">
 
         <EditText
-            android:id="@+id/tv_details_posts_ed"
+            android:id="@+id/etv_details_posts_ed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
