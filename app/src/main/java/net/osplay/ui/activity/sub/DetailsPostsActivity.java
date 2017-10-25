@@ -84,15 +84,49 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_posts);
-        initData();
         initView();
     }
 
-    private void initData() {
+    private void initView() {
+        setToolbar();
+        mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
+        mElvComment = (ExpandableListView) findViewById(R.id.elv_details_posts_comment);
+        mNsv = (NestedScrollView) findViewById(R.id.nsv_details_posts);
+        mllAll = (LinearLayout) findViewById(R.id.ll_details_posts_all);
+        mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
+        mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);
+        mTvNick = (TextView) findViewById(R.id.tv_details_posts_nick);
+        mTvTime = (TextView) findViewById(R.id.tv_details_posts_time);
+        mTvType = (TextView) findViewById(R.id.tv_details_posts_type);
+        mTvTitle = (TextView) findViewById(R.id.tv_details_posts_title);
+        mTvSwitch = (TextView) findViewById(R.id.tv_details_posts_switch);
+        mEdEnter = (EditText) findViewById(R.id.etv_details_posts_ed);
+        mAvatar = (ImageView) findViewById(R.id.img_details_posts_avatar);
+        mImgSugar = (ImageView) findViewById(R.id.img_details_posts_sugar);
+        mImgCollect = (ImageView) findViewById(R.id.img_details_posts_collect);
+        mBtnAttention = (Button) findViewById(R.id.btn_details_posts_attention);
+        mBtnSend = (Button) findViewById(R.id.btn_details_posts_send);
+        mImgSugar.setOnClickListener(this);
+        mImgCollect.setOnClickListener(this);
+        mBtnAttention.setOnClickListener(this);
+        findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
-        memberId = AppHelper.getInstance().getUser().getID();//登录用户ID
         requestQueue = NoHttp.newRequestQueue();
         getContentData();
+        changeViewByState();
+    }
+
+    private void changeViewByState() {
+        if (!AppHelper.getInstance().isLogined()) {//未登录状态
+            memberId = "";
+        } else {//登录状态
+            memberId = AppHelper.getInstance().getUser().getID();//登录用户ID
+        }
     }
 
     /**
@@ -396,32 +430,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
             mRvContent.setAdapter(adapter);
         }
-    }
-
-
-    private void initView() {
-        setToolbar();
-        mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
-        mElvComment = (ExpandableListView) findViewById(R.id.elv_details_posts_comment);
-        mNsv = (NestedScrollView) findViewById(R.id.nsv_details_posts);
-        mllAll = (LinearLayout) findViewById(R.id.ll_details_posts_all);
-        mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
-        mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);
-        mTvNick = (TextView) findViewById(R.id.tv_details_posts_nick);
-        mTvTime = (TextView) findViewById(R.id.tv_details_posts_time);
-        mTvType = (TextView) findViewById(R.id.tv_details_posts_type);
-        mTvTitle = (TextView) findViewById(R.id.tv_details_posts_title);
-        mTvSwitch = (TextView) findViewById(R.id.tv_details_posts_switch);
-        mEdEnter = (EditText) findViewById(R.id.etv_details_posts_ed);
-        mAvatar = (ImageView) findViewById(R.id.img_details_posts_avatar);
-        mImgSugar = (ImageView) findViewById(R.id.img_details_posts_sugar);
-        mImgCollect = (ImageView) findViewById(R.id.img_details_posts_collect);
-        mBtnAttention = (Button) findViewById(R.id.btn_details_posts_attention);
-        mBtnSend = (Button) findViewById(R.id.btn_details_posts_send);
-        mImgSugar.setOnClickListener(this);
-        mImgCollect.setOnClickListener(this);
-        mBtnAttention.setOnClickListener(this);
-        findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
     }
 
     private void setToolbar() {
