@@ -33,6 +33,7 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.IsFollowBean;
 import net.osplay.service.entity.WordDetailsCommentBean;
 import net.osplay.service.entity.WordDetailsPostsBean;
 import net.osplay.ui.activity.base.BaseActivity;
@@ -42,6 +43,7 @@ import net.osplay.utils.Uuid;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 帖子详情
@@ -49,6 +51,8 @@ import java.util.List;
 
 public class DetailsPostsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "DetailsPostsActivity";
+    private static final String ACTION_ATTENTION = "0";
+    private static final String ACTION_UNATTENTION = "1";
     private static final int FOCUS_DOWN = 1;//置底
 
     private int flag;
@@ -80,6 +84,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             }
         }
     };
+    private IsFollowBean mIsFollowBean;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +122,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onStart() {
         super.onStart();
+        changeViewByState();
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
         requestQueue = NoHttp.newRequestQueue();
         getContentData();
-        changeViewByState();
     }
 
     private void changeViewByState() {
@@ -154,7 +160,43 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
                 getCommentData();//获取一级评论及一级评论下默认显示的二级评论数据
                 commitCommentData();//提交评论数据
+                getIsFollowData();//获取是否关注用户数据
                 initDetailsPosts();//初始化帖子详情
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 获取是否关注用户数据
+     */
+    private void getIsFollowData() {
+        userId = mContentList.get(0).getUSERID();
+        Log.i(TAG, "getIsFollowData: memberId==" + memberId);
+        Log.i(TAG, "getIsFollowData: userId==" + userId);
+        Request<String> request = NoHttp.createStringRequest(I.IS_FOLLOW, RequestMethod.POST);
+        request.add("followId", userId);//被关注人id
+        request.add("memberId", memberId);
+
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.d(TAG, "是否关注用户数据请求成功，json 数据是：" + json);
+
+                mIsFollowBean = gson.fromJson(json, IsFollowBean.class);
+                Log.d(TAG, "是否关注用户数据解析成功");
             }
 
             @Override
@@ -466,22 +508,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_details_posts_attention://关注
-                if (flag == 0) {
-                    mBtnAttention.setText("已关注");
-                    mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                } else if (flag == 1) {
-                    mBtnAttention.setText("关注");
-                    mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                if (!(AppHelper.getInstance().isLogined())) {
+                    MFGT.gotoLogin(DetailsPostsActivity.this, "loginAttention");
+                } else {
+                    actionAttention();
                 }
-                flag = (flag + 1) % 2;
                 break;
-//            case R.id.tv_details_posts_switch://切换
-//                mllShow.setVisibility(View.GONE);
-//                mllHide.setVisibility(View.VISIBLE);
-//                //弹出键盘
-//                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-//                mEdEnter.requestFocus();
-//                break;
             case R.id.img_details_posts_sugar://糖果
                 if (flag == 0) {
                     mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
@@ -503,6 +535,60 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+    /**
+     * 关注功能
+     */
+    private void actionAttention() {
+        final String action;
+        if ("true".equals(mIsFollowBean.getOk())) {
+            action = ACTION_UNATTENTION;//取消关注
+        } else {
+            action = ACTION_ATTENTION;//关注
+        }
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW, RequestMethod.POST);
+        request.add("memberId", memberId);
+        request.add("followId", userId);
+        request.add("mark", action);
+
+        final String finalAction = action;
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "关注数据请求成功，json 数据是：" + json);
+
+                mIsFollowBean = gson.fromJson(json, IsFollowBean.class);
+                if ("true".equals(mIsFollowBean.getOk())) {
+                    switch (finalAction) {
+                        case ACTION_ATTENTION://关注成功
+                            mIsFollowBean.setOk("true");//重置用户对当前帖子的关注状态
+                            mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                            mBtnAttention.setText("已关注");
+                            break;
+                        case ACTION_UNATTENTION://取消关注
+                            mIsFollowBean.setOk("false");//重置用户对当前帖子的关注状态
+                            mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                            mBtnAttention.setText("关注");
+                            break;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
     }
 
 }
