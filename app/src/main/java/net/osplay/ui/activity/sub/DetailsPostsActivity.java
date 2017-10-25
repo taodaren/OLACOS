@@ -31,6 +31,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsCommentBean;
 import net.osplay.service.entity.WordDetailsPostsBean;
@@ -257,22 +258,26 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mTvSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//点击底部 TextView 切换布局
-                //弹出软键盘
-                ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                mEdEnter.requestFocus();
-                //切换布局
-                mllShow.setVisibility(View.GONE);
-                mllHide.setVisibility(View.VISIBLE);
-                //点击发送按钮
-                mBtnSend.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!mEdEnter.getText().toString().isEmpty()) {
-                            //保存评论数据
-                            saveCommentData();
+                if (AppHelper.getInstance().isLogined()) {
+                    //弹出软键盘
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    mEdEnter.requestFocus();
+                    //切换布局
+                    mllShow.setVisibility(View.GONE);
+                    mllHide.setVisibility(View.VISIBLE);
+                    //点击发送按钮
+                    mBtnSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!mEdEnter.getText().toString().isEmpty()) {
+                                //保存评论数据
+                                saveCommentData();
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+                    MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
+                }
             }
         });
     }

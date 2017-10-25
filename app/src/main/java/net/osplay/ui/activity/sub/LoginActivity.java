@@ -121,6 +121,7 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
                 switch (loginId) {
+                    case "sendComment"://提交评论
                     case "loginZan"://点赞
                     case "loginCollect"://收藏
                     case "loginAttention"://关注
