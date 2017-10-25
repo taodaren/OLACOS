@@ -202,6 +202,7 @@
                 android:id="@+id/elv_details_posts_comment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@color/colorTrans1000"
                 android:nestedScrollingEnabled="false" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
