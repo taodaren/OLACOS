@@ -43,6 +43,7 @@ import net.osplay.utils.Uuid;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 帖子详情
@@ -197,6 +198,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 if ("true".equals(mIsFollowBean.getOk())) {
                     mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
                     mBtnAttention.setText("已关注");
+                }
+
+                //如果进入自己的帖子，隐藏关注控件
+                if (Objects.equals(userId, memberId)) {
+                    mBtnAttention.setVisibility(View.GONE);
                 }
             }
 
