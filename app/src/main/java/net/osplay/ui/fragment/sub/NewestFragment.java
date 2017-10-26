@@ -31,7 +31,7 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ *社团推荐
  */
 public class NewestFragment extends BaseFragment {
 

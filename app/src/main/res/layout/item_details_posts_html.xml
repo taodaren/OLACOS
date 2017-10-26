@@ -5,8 +5,9 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
+    <cn.droidlover.xrichtext.XRichText
         android:id="@+id/tv_dtl_posts_html"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="16dp" />
 </LinearLayout>

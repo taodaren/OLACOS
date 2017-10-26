@@ -26,7 +26,7 @@ import net.osplay.ui.fragment.sub.TabWordFragment;
 import net.osplay.utils.PublishPopWindow;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+//import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private Fragment currentFragment;
@@ -223,21 +223,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
-            return;
-        } else {
-            finish();
-        }
-        super.onBackPressed();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if (JCVideoPlayer.backPress()) {
+//            return;
+//        } else {
+//            finish();
+//        }
+//        super.onBackPressed();
+//    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        JCVideoPlayer.releaseAllVideos();
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        JCVideoPlayer.releaseAllVideos();
+//    }
 
     /**
      * 侧滑栏头部布局点击事件

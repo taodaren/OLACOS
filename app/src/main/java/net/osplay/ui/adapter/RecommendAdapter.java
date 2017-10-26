@@ -16,7 +16,7 @@ import net.osplay.ui.activity.sub.MinePageSelfActivity;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+//import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by acer-PC on 2017/8/30.
@@ -61,12 +61,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecommendViewHolder> 
 }
 class RecommendViewHolder extends RecyclerView.ViewHolder{
 
-    public JCVideoPlayerStandard jcVideoPlayer;
+    //public JCVideoPlayerStandard jcVideoPlayer;
     public TextView tv;
     public CircleImageView civ;
     public RecommendViewHolder(View itemView) {
         super(itemView);
-        jcVideoPlayer= (JCVideoPlayerStandard) itemView.findViewById(R.id.league_jcVideoPlayer);
+       // jcVideoPlayer= (JCVideoPlayerStandard) itemView.findViewById(R.id.league_jcVideoPlayer);
         tv= (TextView) itemView.findViewById(R.id.league_title_tv);
         civ= (CircleImageView) itemView.findViewById(R.id.league_avatar_img);
     }

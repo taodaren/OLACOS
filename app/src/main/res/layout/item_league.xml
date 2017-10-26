@@ -67,14 +67,14 @@
             android:text="最新预告"
             android:textSize="13sp" />
 
-        <net.osplay.utils.MyJCVideoPlayerStandard
-            android:id="@+id/league_jcVideoPlayer"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@id/league_title_tv"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"></net.osplay.utils.MyJCVideoPlayerStandard>
+        <!--<net.osplay.utils.MyJCVideoPlayerStandard-->
+            <!--android:id="@+id/league_jcVideoPlayer"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_below="@id/league_title_tv"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_marginTop="15dp"></net.osplay.utils.MyJCVideoPlayerStandard>-->
     </RelativeLayout>
 
     <View

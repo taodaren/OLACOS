@@ -14,7 +14,7 @@ import net.osplay.ui.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+//import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 /**
  * Created by acer-PC on 2017/9/1.
@@ -22,7 +22,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
  */
 
 public class RecommendAdapter extends BaseRecyclerViewAdapter<LeagueBean.TrailersBean>{
-    public JCVideoPlayerStandard jcVideoPlayer;
+   // public JCVideoPlayerStandard jcVideoPlayer;
     public TextView tv;
     private CircleImageView civ;
     public RecommendAdapter(Context context, List<LeagueBean.TrailersBean> datas, int layoutId) {
@@ -31,12 +31,12 @@ public class RecommendAdapter extends BaseRecyclerViewAdapter<LeagueBean.Trailer
 
     @Override
     protected void bindData(final BaseViewHolder holder, LeagueBean.TrailersBean data, final int position) {
-        jcVideoPlayer=holder.getView(R.id.league_jcVideoPlayer);
+       // jcVideoPlayer=holder.getView(R.id.league_jcVideoPlayer);
         tv=holder.getView(R.id.league_title_tv);
         civ=holder.getView(R.id.league_avatar_img);
-        jcVideoPlayer.setUp(data.getHightUrl(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL);
+       // jcVideoPlayer.setUp(data.getHightUrl(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL);
         tv.setText(data.getVideoTitle());
-        Picasso.with(context).load(data.getCoverImg()).into(jcVideoPlayer.thumbImageView);
+      //  Picasso.with(context).load(data.getCoverImg()).into(jcVideoPlayer.thumbImageView);
         civ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

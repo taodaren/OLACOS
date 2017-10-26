@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import net.osplay.app.MyApplication;
+import net.osplay.ui.activity.sub.MainActivity;
 
 /**
  * Created by Administrator on 2017/9/8.
@@ -64,4 +65,5 @@ public class UIUtils {
     public static void toast(String sessage,boolean isLengthLong){
         Toast.makeText(UIUtils.getContext(),sessage,isLengthLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
     }
+
 }
