@@ -104,7 +104,7 @@ public class TabLeagueFragment extends BaseFragment {
 
     //设置toolbar
     private void setToolbars() {
-        league_toolbar.setNavigationIcon(R.drawable.menu_set);
+        league_toolbar.setNavigationIcon(R.drawable.title_mi);
         league_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

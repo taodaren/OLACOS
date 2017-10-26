@@ -10,15 +10,13 @@ public interface I {
     /**
      * 基础 url
      **/
-      String BASE_URL = "http://www.olacos.net";//服务器域名
-//    String BASE_URL = "http://120.27.22.118:8080/qda";//服务器 IP
-//    String BASE_URL = "http://192.168.1.5:8080/qda";//本地（朱）
-//    String BASE_URL = "http://192.168.1.9:8080/qda";//本地（素）
-     //String BASE_URL = "http://120.27.22.118:8080";//测试服务
+    String BASE_URL = "http://www.olacos.net";//服务器域名
+//    String BASE_URL = "120.27.22.118:8080";//测试服务器
+//    String BASE_URL = "http://192.168.1.5:8080/qda";//本地服务器
+
     /**
      * 注册登录
      **/
-
     //注册
     String REGISTER = BASE_URL + "/memberMobile/memberSave.do";
     //登录
@@ -98,7 +96,7 @@ public interface I {
     //查询可以@的所有用户
     String FOLLOW_ALL_AT = BASE_URL + "/topicMobile/followAll.do";
     //保存评论
-    String WORD_ = BASE_URL + "/topicMobile/publishComment.do";
+    String SAVE_COMMENT = BASE_URL + "/topicMobile/publishComment.do";
 
     /**
      * 热帖

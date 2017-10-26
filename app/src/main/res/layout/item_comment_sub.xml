@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorTrans1000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingStart="50dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/dtl_posts_comment_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="5dp"
+            android:src="@drawable/avatar_girl" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/dtl_posts_comment_avatar"
+            android:orientation="vertical"
+            android:padding="3dp">
+
+            <TextView
+                android:id="@+id/dtl_posts_comment_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="评论者"
+                android:textColor="@color/colorBlack2"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/dtl_posts_comment_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="评论内容"
+                android:textColor="@color/colorBlack2"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/dtl_posts_comment_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:text="评论时间"
+                android:textColor="@color/colorTiShiWenZi"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/dtl_posts_comment_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_zan_unselected" />
+    </RelativeLayout>
+</RelativeLayout>
