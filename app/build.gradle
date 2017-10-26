@@ -12,7 +12,7 @@ android {
         }
     }
     compileSdkVersion 25
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "net.osplay.olacos"
         minSdkVersion 21
