@@ -103,12 +103,12 @@ public class MyfocusFragment extends Fragment {
             rows = myFocusBean.getRows();
             myFocusAdapter = new MyFocusAdapter(getActivity(), rows);
             centerRecycler.setAdapter(myFocusAdapter);
-            adapterOnclick();
+            adapterOnclick(rows);
         }
     }
 
     //取消关注的点击事件
-    private void adapterOnclick() {
+    private void adapterOnclick(final List<MyFocusBean.RowsBean> rows) {
         SetOnClickListen setOnClickListen = new SetOnClickListen() {
             @Override
             public void setOnClick(final int position) {
@@ -118,10 +118,8 @@ public class MyfocusFragment extends Fragment {
                         .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                               // unsubScribe();
-                                rows.remove(position);
-                                myFocusAdapter.notifyItemRemoved(position);
-                                myFocusAdapter.notifyDataSetChanged();
+                                unsubScribe(rows,position);
+
                             }
                         }).setNegativeButton("取消", null).show();
             }
@@ -134,42 +132,44 @@ public class MyfocusFragment extends Fragment {
         myFocusAdapter .onClick(setOnClickListen);
     }
 
-    //取消关注的方法
-//    private void unsubScribe() {
-//        RequestQueue requestQueue = NoHttp.newRequestQueue();
-//        Request<String> request = NoHttp.createStringRequest(I.FOLLOW, RequestMethod.POST);
-//        request.add("memberId", AppHelper.getInstance().getUser().getID());
-//        request.add("followId", );
-//        request.add("memberId", AppHelper.getInstance().getUser().getID());
-//        requestQueue.add(0, request, new OnResponseListener<String>() {
-//            @Override
-//            public void onStart(int what) {
-//
-//            }
-//
-//            @Override
-//            public void onSucceed(int what, Response<String> response) {
-//                String json = response.get();
-//                Log.e("JGB", "关注的人数据:" + json);
-//                if (json != null) {
-//                    formatMyfocus(json);
-//                } else {
-//                    return;
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailed(int what, Response<String> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFinish(int what) {
-//
-//            }
-//        });
-//    }
+   // 取消关注的方法
+    private void unsubScribe(List<MyFocusBean.RowsBean> rows, final int position) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("followId",rows.get(position).getID());
+        request.add("mark",1);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "我的关注取消结果:" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    MyfocusFragment.this.rows.remove(position);
+                    myFocusAdapter.notifyItemRemoved(position);
+                    myFocusAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
 
 
     @Override
