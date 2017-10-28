@@ -1,5 +1,6 @@
 package net.osplay.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -8,14 +9,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.jiangyy.easydialog.CommonDialog;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MyApplication;
+import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MyFocusBean;
 import net.osplay.ui.activity.sub.MinePageOtherActivity;
@@ -30,6 +34,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class MyFocusAdapter extends RecyclerView.Adapter<FocusViewHolder> {
+    private SetOnClickListen setOnClickListen;
+
+    public void onClick(SetOnClickListen setOnClickListen) {
+        this.setOnClickListen = setOnClickListen;
+    }
     private Activity context;
     private List<MyFocusBean.RowsBean> rows;
 
@@ -62,6 +71,14 @@ public class MyFocusAdapter extends RecyclerView.Adapter<FocusViewHolder> {
                 }
             }
         });
+        holder.item_gz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String followId = rows.get(position).getID();
+                setOnClickListen.setOnClick(position);
+            }
+        });
+
     }
 
     @Override
@@ -74,10 +91,12 @@ class FocusViewHolder extends RecyclerView.ViewHolder{
     public CircleImageView focus_user_icon;
     public TextView focus_nick_name;
     public LinearLayout focus_ll;
+    public ImageView item_gz;
     public FocusViewHolder(View itemView) {
         super(itemView);
         focus_user_icon= (CircleImageView) itemView.findViewById(R.id.focus_user_icon);
         focus_nick_name= (TextView) itemView.findViewById(R.id.focus_nick_name);
         focus_ll= (LinearLayout) itemView.findViewById(R.id.focus_ll);
+        item_gz=(ImageView) itemView.findViewById(R.id.item_gz);
     }
 }

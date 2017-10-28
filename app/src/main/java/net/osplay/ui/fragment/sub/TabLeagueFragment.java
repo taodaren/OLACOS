@@ -280,8 +280,6 @@ public class TabLeagueFragment extends BaseFragment {
             }
         }
 
-
-
     }
 
     //查询当前成员信息
@@ -339,8 +337,6 @@ public class TabLeagueFragment extends BaseFragment {
         });
 
     }
-
-
     private View.OnClickListener mOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -351,11 +347,9 @@ public class TabLeagueFragment extends BaseFragment {
                 case R.id.jcd_release_but:
                     startActivity(new Intent(getActivity(), LeagueIMActivity.class));
                     break;
-
             }
         }
     };
-
 
     @Override
     public void onStart() {

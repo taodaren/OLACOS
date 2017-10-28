@@ -30,4 +30,5 @@ public class GreenDaoHelper {
     public static SQLiteDatabase getDb() {
         return db;
     }
+
 }

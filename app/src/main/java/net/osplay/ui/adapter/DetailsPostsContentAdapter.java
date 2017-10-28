@@ -1,13 +1,19 @@
 package net.osplay.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.liji.imagezoom.util.ImageZoom;
 
 import net.osplay.olacos.R;
@@ -25,16 +31,17 @@ import cn.droidlover.xrichtext.XRichText;
  */
 
 public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = "DetailsPostsContentAdapter";
     private Activity mContext;
     private LayoutInflater mInflater;
     private List<WordDetailsPostsBean> mDtlPostsList;
+
 
     public DetailsPostsContentAdapter(Activity context, List<WordDetailsPostsBean> dtlPostsList) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mDtlPostsList = new ArrayList<>();
         this.mDtlPostsList.addAll(dtlPostsList);
+
     }
 
     @Override
@@ -45,6 +52,7 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((PostsContentHolder) holder).bindData(position);
+
     }
 
     @Override
@@ -71,8 +79,22 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onImageClick(List<String> urlList, int position) {
                     super.onImageClick(urlList, position);
+
                     ImageZoom.show(mContext, position, urlList);//查看大图
                     //Toast.makeText(mContext,"图片下标：："+urlList.get(position),Toast.LENGTH_SHORT).show();//图片地址和下标
+                    //获取图片真正的宽高
+                    Glide.with(mContext)
+                            .asBitmap()//强制Glide返回一个Bitmap对象
+                            .load(urlList.get(position))
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                                    int width = resource.getWidth();
+                                    int height = resource.getHeight();
+                                    Log.d("JGB", "width " + width); //200px
+                                    Log.d("JGB", "height " + height); //200px
+                                }
+                            });
                 }
 
                 @Override
@@ -85,22 +107,11 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
                     } else {
                         holder.setStyle(XRichText.Style.CENTER);
                     }
-//                    //获取图片真正的宽高
-//                    Glide.with(mContext)
-//                            .load()
-//                            .asBitmap()//强制Glide返回一个Bitmap对象
-//                            .into(new SimpleTarget<Bitmap>() {
-//                                @Override
-//                                public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
-//                                    int width = bitmap.getWidth();
-//                                    int height = bitmap.getHeight();
-//                                    Log.d(TAG, "width " + width); //200px
-//                                    Log.d(TAG, "height " + height); //200px
-//                                }
-//                            });
+                    WindowManager wm = mContext.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
                     //设置宽高
-                    holder.setWidth(700);
-                    holder.setHeight(700);
+                    holder.setWidth(width);
+                    holder.setHeight(1000);
                 }
             }).imageDownloader(new cn.droidlover.xrichtext.ImageLoader() {//如果不设置，有默认的下载器
                 @Override

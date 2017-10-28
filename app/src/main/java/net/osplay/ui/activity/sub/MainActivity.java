@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         switch (view.getId()) {
             case R.id.nav_avatar:
                 MFGT.gotoLogin(MainActivity.this, MinePageSelfActivity.class, "loginMine");
+
                 break;
             case R.id.nav_code:
 //                startActivity(new Intent(this, QRCodeActivity.class));

@@ -30,6 +30,7 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -76,13 +77,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         unbinder = ButterKnife.bind(this);
         initData();
         initView();
+        getAttention();
     }
 
     private void initData() {
         partId = getIntent().getStringExtra("partId");//获取大区 id
 
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
+        Request<String> topicRequest = NoHttp.createStringRequest(I.AREA_SUB,
+                RequestMethod.POST);
         topicRequest.add("partId", partId);
 
         getDetailsTopicData(requestQueue, topicRequest);//请求专区数据
@@ -124,7 +127,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             tvLevel.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             // set Avatar and Nick
-            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance
+                    ().getUser().getHEAD_PATH()).into(imgAvatar);
             tvNick.setText(AppHelper.getInstance().getUser().getNICK_NAME());
         }
     }
@@ -145,7 +149,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                         progressBar.setProgress(progressBar.getProgress() + 10);
                         flag++;
                     } else {
-                        Toast.makeText(this, "今天签完啦，明天再来呦~", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "今天签完啦，明天再来呦~",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -154,14 +159,11 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
-                    if (flag == 0) {
-                        btnAttention.setText("已关注");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                        getAttentionData();//关注数据请求解析
-                    } else if (flag == 1) {
-                        btnAttention.setText("关注专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    CharSequence text = btnAttention.getText();
+                    if (text.equals("取消关注")) {
                         getUnAttentionData();//取消关注数据请求解析
+                    } else if(text.equals("关注专区")) {
+                        getAttentionData();//关注数据请求解析
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -204,18 +206,22 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
                 List<Fragment> mFragmentList = new ArrayList<>();
                 for (int i = 0; i < wordTopicList.size(); i++) {
-                    mFragmentList.add(DetailsTopicInfoFragment.newInstance(wordTopicList.get(i).getID()));//对应专区添加布局
+                    mFragmentList.add(DetailsTopicInfoFragment.newInstance
+                            (wordTopicList.get(i).getID()));//对应专区添加布局
                 }
 
-                TabViewPagerAdapter adapter = new TabViewPagerAdapter(getSupportFragmentManager(), DetailsTopicActivity.this, mFragmentList, areaArr);
+                TabViewPagerAdapter adapter = new TabViewPagerAdapter
+                        (getSupportFragmentManager(), DetailsTopicActivity.this, mFragmentList, areaArr);
                 mViewPager.setAdapter(adapter);
             }
         });
     }
 
+    //取消关注专区
     private void getUnAttentionData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL,
+                RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", partId);
         request.add("mark", 1);
@@ -227,10 +233,16 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                if (json != null) {
-
-                } else {
+                if (json == null) {
                     return;
+                } else {
+                    Log.e("JGB","取消关注专区结果："+json);
+                    UserRegisterBean userRegisterBean = gson.fromJson(json,
+                            UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    if(code.equals("true")){
+                        btnAttention.setText("关注专区");
+                    }
                 }
             }
 
@@ -244,9 +256,11 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    //关注社区
     private void getAttentionData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL,
+                RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", partId);
         request.add("mark", 0);
@@ -258,10 +272,16 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "关注：" + json);
-                if (json != null) {
-                } else {
+                if (json == null) {
                     return;
+                } else {
+                    Log.e("JGB","关注专区结果："+json);
+                    UserRegisterBean userRegisterBean = gson.fromJson(json,
+                            UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    if(code.equals("true")){
+                        btnAttention.setText("取消关注");
+                    }
                 }
             }
 
@@ -277,7 +297,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_topic_page);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_topic);
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById
+                (R.id.collapsing_toolbar_topic);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -308,4 +329,45 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         unbinder.unbind();
     }
 
+    //验证当前社区是否关注过
+    public void getAttention() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.IS_ATTENTION,
+                RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("deparId", partId);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                if (json == null) {
+                    return;
+                } else {
+                    UserRegisterBean userRegisterBean = gson.fromJson(json,
+                            UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    Log.e("JGB","当前关注状态：："+code);
+                    if(code.equals("true")){
+                        btnAttention.setText("取消关注");
+//                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    }else{
+                        btnAttention.setText("关注专区");
+//                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
 }

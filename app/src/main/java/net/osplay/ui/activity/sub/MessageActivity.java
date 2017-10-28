@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yanzhenjie.nohttp.NoHttp;
@@ -21,8 +20,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MeiZiBean;
-import net.osplay.service.entity.MemberInfoBean;
 import net.osplay.service.entity.MessageBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.MessageAdapter;

@@ -99,7 +99,6 @@ public class MyareaFragment extends Fragment {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
         }else{
-
             rows = myAreaBean.getRows();
             centerRecycler.setAdapter(new MyAreaAdapter(getActivity(), rows));
         }
@@ -109,5 +108,11 @@ public class MyareaFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onStart() {
+        initData();
+        super.onStart();
     }
 }

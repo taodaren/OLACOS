@@ -1,6 +1,7 @@
 package net.osplay.ui.activity.sub;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -223,6 +224,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void getCommentData() {
         Request<String> request = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
+        Log.e("JGB","topicId"+postsId);
+        Log.e("JGB","memberId"+memberId);
         request.add("topicId", postsId);
         request.add("page", 1);
         request.add("rows", Integer.MAX_VALUE);
@@ -483,6 +486,24 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             mTvTime.setText(mContentList.get(0).getCREATEDATE());
             mTvType.setText(mContentList.get(0).getPART());
             mTvTitle.setText(mContentList.get(0).getTITLE());
+
+            //跳转至个人用户
+            mTvNick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                 if(mContentList.get(0).getUSERID().equals(AppHelper.getInstance().getUser().getID())){
+                     boolean equals = mContentList.get(0).getUSERID().equals(AppHelper.getInstance().getUser().getID());
+                     Log.e("JGB","当前用户是否为自己:"+equals);
+                     startActivity(new Intent(DetailsPostsActivity.this,MinePageSelfActivity.class));
+                 }else{
+                     Intent intent=new Intent(DetailsPostsActivity.this,MinePageOtherActivity.class);
+                     Intent intent1 = intent.putExtra("memberId", mContentList.get(0).getUSERID());
+                     startActivity(intent1);
+                 }
+
+                }
+            });
+
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);

@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import net.osplay.app.AppHelper;
+import net.osplay.data.db.GreenDaoHelper;
 import net.osplay.olacos.R;
 
 /**
