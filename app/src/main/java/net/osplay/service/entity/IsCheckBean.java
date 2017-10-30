@@ -4,7 +4,7 @@ package net.osplay.service.entity;
  * 今天是否签到过
  */
 
-public class IsCheckData {
+public class IsCheckBean {
 
     /**
      * ok : false

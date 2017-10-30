@@ -61,7 +61,7 @@
                         android:id="@+id/tv_topic_details_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="我的等级 LV 1"
+                        android:text="我的等级 LV 0"
                         android:textColor="@color/colorWhite"
                         android:textSize="15sp" />
 

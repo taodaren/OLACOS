@@ -30,7 +30,8 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.IsCheckData;
+import net.osplay.service.entity.CheckLvBean;
+import net.osplay.service.entity.IsCheckBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -70,7 +71,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private String memberId, partId;
     private RequestQueue mRequestQueue;
     private Gson gson = new Gson();
-    private IsCheckData mIsCheckBean;
+    private IsCheckBean mIsCheckBean;
+    private List<CheckLvBean> mCheckLvList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         mRequestQueue = NoHttp.newRequestQueue();
         getDetailsTopicData();//请求专区数据
+        getCheckLvData();//获取当前签到用户的等级数据
         getIsCheckInData();//今天是否签到过
     }
 
@@ -172,6 +175,41 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    private void getCheckLvData() {
+        Request<String> request = NoHttp.createStringRequest(I.GET_CHECK_LV, RequestMethod.POST);
+        request.add("memberId", memberId);
+        request.add("departId", partId);
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.d(TAG, "获取当前签到用户的等级数据请求成功，json 数据是：" + json);
+
+                Type type = new TypeToken<List<CheckLvBean>>() {
+                }.getType();
+                mCheckLvList = gson.fromJson(json, type);
+                Log.d(TAG, "获取当前签到用户的等级数据解析成功");
+
+                //如果当前用户为登录状态且获取当前签到用户的等级数据不为空，显示当前等级
+                if (AppHelper.getInstance().isLogined() && mCheckLvList != null) {
+                    tvLevel.setText("我的等级 LV " + mCheckLvList.get(0).getMEMBER_RANK());
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
     private void getIsCheckInData() {
         Request<String> request = NoHttp.createStringRequest(I.IS_CHECK_IN, RequestMethod.POST);
         request.add("memberId", memberId);
@@ -186,7 +224,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 String json = response.get();
                 Log.d(TAG, "今天是否签到过数据请求成功，json 数据是：" + json);
 
-                mIsCheckBean = gson.fromJson(json, IsCheckData.class);
+                mIsCheckBean = gson.fromJson(json, IsCheckBean.class);
                 Log.d(TAG, "今天是否签到过数据解析成功");
 
                 //如果已签到，显示签到状态
@@ -194,7 +232,6 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
                     btnHeckIn.setText("已签到");
                 }
-
             }
 
             @Override

@@ -81,6 +81,8 @@ public interface I {
     String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
     //今天是否签到过
     String IS_CHECK_IN = BASE_URL + "/sign/signGuo.do";
+    //获取当前签到用户的等级，给页面初始化
+    String GET_CHECK_LV = BASE_URL + "/sign/getSignInfo.do";
 
 
     /**
