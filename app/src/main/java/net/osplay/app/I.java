@@ -10,9 +10,9 @@ public interface I {
     /**
      * 基础 url
      **/
-    String BASE_URL = "http://www.olacos.net";//服务器域名
+//    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
-//    String BASE_URL = "http://192.168.1.5:8080/qda";//本地服务器
+    String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
 
     /**
      * 注册登录
@@ -79,6 +79,9 @@ public interface I {
     String IS_FOLLOW = BASE_URL + "/topicMobile/isFollow.do";
     //帖子详情
     String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
+    //今天是否签到过
+    String IS_CHECK_IN = BASE_URL + "/sign/signGuo.do";
+
 
     /**
      * 评论
