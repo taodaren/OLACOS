@@ -36,5 +36,11 @@ public class VerificationUtil {
         return m.matches();
     }
 
+    //验证身份证是否合法
+    public static boolean checkIdCard(String idCard) {
+        String regex = "[1-9]\\d{16}[a-zA-Z0-9]{1}";
+        return Pattern.matches(regex,idCard);
+    }
+
 }
 

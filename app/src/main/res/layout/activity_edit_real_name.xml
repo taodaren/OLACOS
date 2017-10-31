@@ -49,7 +49,7 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:paddingTop="5dp"
-                    android:text="已认证"
+                    android:text="未认证"
                     android:textColor="@color/colorPrimary"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -61,62 +61,44 @@
                 android:layout_marginTop="1dp"
                 android:background="@color/white">
 
-                <EditText
-                    android:hint="姓名："
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:background="@null"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/real_name_idcard"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white">
-                <EditText
-                    android:hint="身份证号："
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@null"
-                    android:layout_marginLeft="10dp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/real_name_office"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white">
-
-                <EditText
-                    android:hint="发证机关："
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@null"
-                    android:layout_marginLeft="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/real_name_effective"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="1dp"
-                android:background="@color/white">
-
-                <EditText
-                    android:hint="有效日期："
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@null"
                     android:layout_marginLeft="10dp"
-                    />
+                    android:text="真实姓名："
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/certification_name_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="身份证号："
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/certification_id_card_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -127,11 +109,11 @@
                 android:background="@color/white">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="10dp"
-                    android:text="身份证图片"
+                    android:text="身份证图片："
                     android:textSize="15sp" />
             </LinearLayout>
 
@@ -157,11 +139,15 @@
                         android:textSize="10sp" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/certification_positive_iv"
+                        android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_below="@id/text_id_1"
+                        android:layout_centerHorizontal="true"
                         android:padding="10dp"
-                        android:src="@drawable/id_card_1" />
+                        android:src="@drawable/add"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -180,15 +166,83 @@
                         android:textSize="10sp" />
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/certification_anti_iv"
+                        android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_below="@id/text_id_2"
                         android:padding="10dp"
-                        android:src="@drawable/id_card_2" />
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/add"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitXY"/>
                 </RelativeLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="10dp"
+                    android:text="是否为学生："
+                    android:textSize="15sp" />
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <RadioButton
+                        android:id="@+id/certification_yes_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="是"
+                        android:layout_marginRight="20dp"
+                        android:textSize="13sp"/>
+                    <RadioButton
+                        android:id="@+id/certification_no_rb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="不是"
+                        android:textSize="13sp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/certification_student_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:text="*请上传清晰的学生证照片"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="10sp" />
+
+                <ImageView
+                    android:id="@+id/certification_student_iv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:padding="10dp"
+                    android:src="@drawable/add"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY"/>
+            </LinearLayout>
             <Button
+                android:id="@+id/certification_submit_bt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
