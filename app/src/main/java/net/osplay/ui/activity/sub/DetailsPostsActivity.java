@@ -33,6 +33,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
+import net.osplay.data.bean.ActionResultBean;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.IsFollowBean;
 import net.osplay.service.entity.WordDetailsCommentBean;
@@ -71,10 +72,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private IsFollowBean mIsFollowBean;
     private List<WordDetailsPostsBean> mContentList;
     private List<WordDetailsCommentBean.OneBean> mOneList;
-    private List<WordDetailsCommentBean.TwoBean> mTwoList;
+//    private List<WordDetailsCommentBean.TwoBean> mTwoList;
 
     private String postsId, memberId, userId;
-    private RequestQueue requestQueue;
+    private RequestQueue mRequestQueue;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -96,23 +97,23 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         setToolbar();
-        mRvContent = (RecyclerView) findViewById(R.id.recycler_details_posts_content);
-        mElvComment = (ExpandableListView) findViewById(R.id.elv_details_posts_comment);
-        mNsv = (NestedScrollView) findViewById(R.id.nsv_details_posts);
-        mllAll = (LinearLayout) findViewById(R.id.ll_details_posts_all);
-        mllShow = (LinearLayout) findViewById(R.id.ll_details_posts_show);
-        mllHide = (LinearLayout) findViewById(R.id.ll_details_posts_hide);
-        mTvNick = (TextView) findViewById(R.id.tv_details_posts_nick);
-        mTvTime = (TextView) findViewById(R.id.tv_details_posts_time);
-        mTvType = (TextView) findViewById(R.id.tv_details_posts_type);
-        mTvTitle = (TextView) findViewById(R.id.tv_details_posts_title);
-        mTvSwitch = (TextView) findViewById(R.id.tv_details_posts_switch);
-        mEdEnter = (EditText) findViewById(R.id.etv_details_posts_ed);
-        mAvatar = (ImageView) findViewById(R.id.img_details_posts_avatar);
-        mImgSugar = (ImageView) findViewById(R.id.img_details_posts_sugar);
-        mImgCollect = (ImageView) findViewById(R.id.img_details_posts_collect);
-        mBtnAttention = (Button) findViewById(R.id.btn_details_posts_attention);
-        mBtnSend = (Button) findViewById(R.id.btn_details_posts_send);
+        mRvContent = findViewById(R.id.recycler_details_posts_content);
+        mElvComment = findViewById(R.id.elv_details_posts_comment);
+        mNsv = findViewById(R.id.nsv_details_posts);
+        mllAll = findViewById(R.id.ll_details_posts_all);
+        mllShow = findViewById(R.id.ll_details_posts_show);
+        mllHide = findViewById(R.id.ll_details_posts_hide);
+        mTvNick = findViewById(R.id.tv_details_posts_nick);
+        mTvTime = findViewById(R.id.tv_details_posts_time);
+        mTvType = findViewById(R.id.tv_details_posts_type);
+        mTvTitle = findViewById(R.id.tv_details_posts_title);
+        mTvSwitch = findViewById(R.id.tv_details_posts_switch);
+        mEdEnter = findViewById(R.id.etv_details_posts_ed);
+        mAvatar = findViewById(R.id.img_details_posts_avatar);
+        mImgSugar = findViewById(R.id.img_details_posts_sugar);
+        mImgCollect = findViewById(R.id.img_details_posts_collect);
+        mBtnAttention = findViewById(R.id.btn_details_posts_attention);
+        mBtnSend = findViewById(R.id.btn_details_posts_send);
         mImgSugar.setOnClickListener(this);
         mImgCollect.setOnClickListener(this);
         mBtnAttention.setOnClickListener(this);
@@ -124,7 +125,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         super.onStart();
         changeViewByState();
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
-        requestQueue = NoHttp.newRequestQueue();
+        Log.i(TAG, "onStart: postsId==" + postsId);
+        mRequestQueue = NoHttp.newRequestQueue();
         getContentData();
     }
 
@@ -141,9 +143,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void getContentData() {
         Request<String> request = NoHttp.createStringRequest(I.POSTS_DETAIL, RequestMethod.POST);
-        request.add("id", postsId);//帖子ID，只用帖子ID即可，json 数据中没有用户 ID
+        request.add("id", postsId);
+        request.add("memberId", memberId);
 
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -162,6 +165,14 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 commitCommentData();//提交评论数据
                 getIsFollowData();//获取是否关注用户数据
                 initDetailsPosts();//初始化帖子详情
+
+                if ("true".equals(mContentList.get(0).getZAN())) {//如果已点赞，显示点赞状态
+                    mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                }
+
+                if ("true".equals(mContentList.get(0).getCOLLECT())) {//如果已收藏，显示收藏状态
+                    mImgCollect.setImageResource(R.drawable.ic_collect_selected);
+                }
             }
 
             @Override
@@ -183,7 +194,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("followId", userId);//被关注人id
         request.add("memberId", memberId);
 
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -229,7 +240,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("twoNum", Integer.MAX_VALUE);
         request.add("memberId", memberId);
 
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -241,7 +252,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
                 mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
                 mOneList = mCommentBean.getOne();
-                mTwoList = mCommentBean.getTwo();
+//                mTwoList = mCommentBean.getTwo();
                 Log.d(TAG, "帖子评论解析成功");
 
                 initCommentPosts();//初始化帖子评论
@@ -271,7 +282,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         comRequest.add("twoNum", Integer.MAX_VALUE);
         comRequest.add("memberId", memberId);
 
-        requestQueue.add(0, comRequest, new OnResponseListener<String>() {
+        mRequestQueue.add(0, comRequest, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -348,7 +359,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("atUsers", "");
         request.add("content", mEdEnter.getText().toString());
 
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -408,7 +419,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         request.add("atUsers", "");
                         request.add("content", mEdEnter.getText().toString());
 
-                        requestQueue.add(0, request, new OnResponseListener<String>() {
+                        mRequestQueue.add(0, request, new OnResponseListener<String>() {
                             @Override
                             public void onStart(int what) {
                             }
@@ -493,7 +504,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_posts_details);
+        Toolbar toolbar = findViewById(R.id.toolbar_posts_details);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -527,21 +538,19 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                     actionAttention();
                 }
                 break;
-            case R.id.img_details_posts_sugar://糖果
-                if (flag == 0) {
-                    mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
-                } else if (flag == 1) {
-                    mImgSugar.setImageResource(R.drawable.ic_sugar_unselected);
+            case R.id.img_details_posts_sugar://点赞
+                if (!(AppHelper.getInstance().isLogined())) {
+                    MFGT.gotoLogin(this, "loginZan");
+                } else {
+                    actionSupport();
                 }
-                flag = (flag + 1) % 2;
                 break;
             case R.id.img_details_posts_collect://收藏
-                if (flag == 0) {
-                    mImgCollect.setImageResource(R.drawable.ic_collect_selected);
-                } else if (flag == 1) {
-                    mImgCollect.setImageResource(R.drawable.ic_collect_unselected);
+                if (!(AppHelper.getInstance().isLogined())) {
+                    MFGT.gotoLogin(this, "loginCollect");
+                } else {
+                    actionCommunity();
                 }
-                flag = (flag + 1) % 2;
                 break;
             case R.id.img_details_posts_expression://表情
                 break;
@@ -551,7 +560,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 关注功能
+     * 关注专区功能
      */
     private void actionAttention() {
         final String action;
@@ -565,7 +574,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("followId", userId);
         request.add("mark", action);
 
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -588,6 +597,121 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                             mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
                             mBtnAttention.setText("关注");
                             break;
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 点赞功能
+     */
+    private void actionSupport() {
+        mRequestQueue = NoHttp.newRequestQueue();
+        int action = 0;
+        if ("true".equals(mContentList.get(0).getZAN())) {
+            action = 1;//取消点赞
+        }
+        Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUserID());
+        request.add("topickId", mContentList.get(0).getID());
+        request.add("mark", action);
+
+        final int finalAction = action;
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "点赞请求：" + json);
+                if (json != null) {
+                    Type type = new TypeToken<ActionResultBean>() {
+                    }.getType();
+                    Gson gson = new Gson();
+                    ActionResultBean resultBean = gson.fromJson(json, type);
+                    if (resultBean.isOk()) {
+                        switch (finalAction) {
+                            case 0://点赞成功
+                                mContentList.get(0).setZAN("true");//重置用户对当前帖子的点赞状态
+                                mContentList.get(0).setZAN_COUNT(String.valueOf(
+                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) + 1));
+                                mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                                break;
+                            case 1://取消点赞成功
+                                mContentList.get(0).setZAN("false");//重置用户对当前帖子的点赞状态
+                                mContentList.get(0).setZAN_COUNT(String.valueOf(
+                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) - 1));
+                                mImgSugar.setImageResource(R.drawable.ic_sugar_unselected);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 收藏功能
+     */
+    private void actionCommunity() {
+        mRequestQueue = NoHttp.newRequestQueue();
+        int action = 0;
+        if ("true".equals(mContentList.get(0).getCOLLECT())) {
+            action = 1;//取消收藏
+        }
+        Request<String> request = NoHttp.createStringRequest(I.POSTS_COLLECT, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUserID());
+        request.add("CommunityId", mContentList.get(0).getID());
+        request.add("mark", action);
+
+        final int finalAction = action;
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "收藏请求：" + json);
+                if (json != null) {
+                    Type type = new TypeToken<ActionResultBean>() {
+                    }.getType();
+                    ActionResultBean resultBean = gson.fromJson(json, type);
+                    if (resultBean.isOk()) {
+                        switch (finalAction) {
+                            case 0://收藏成功
+                                mContentList.get(0).setCOLLECT("true");//重置用户对当前帖子的收藏状态
+                                mContentList.get(0).setCOLLECT_COUNT(String.valueOf(
+                                        Integer.parseInt(mContentList.get(0).getCOLLECT_COUNT()) + 1));
+                                mImgCollect.setImageResource(R.drawable.ic_collect_selected);
+                                break;
+                            case 1://取消收藏成功
+                                mContentList.get(0).setCOLLECT("false");//重置用户对当前帖子的收藏状态
+                                mContentList.get(0).setCOLLECT_COUNT(String.valueOf(
+                                        Integer.parseInt(mContentList.get(0).getCOLLECT_COUNT()) - 1));
+                                mImgCollect.setImageResource(R.drawable.ic_collect_unselected);
+                                break;
+                        }
                     }
                 }
             }
