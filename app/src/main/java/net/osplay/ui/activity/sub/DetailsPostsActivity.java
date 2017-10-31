@@ -559,7 +559,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 关注专区功能
+     * 关注功能
      */
     private void actionAttention() {
         final String action;
