@@ -9,13 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.EventDetailsActivity;
-import net.osplay.ui.activity.sub.JoinCommunityDetailsActivity;
 import net.osplay.ui.adapter.sub.CommunityAdapter;
 import net.osplay.ui.fragment.base.BaseBussFragment;
 

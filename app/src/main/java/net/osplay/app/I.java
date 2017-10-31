@@ -49,10 +49,10 @@ public interface I {
     String IS_FANS = BASE_URL + "/centerMobile/foFollow.do";
     //点赞/取消赞
     String GOOD = BASE_URL + "/centerMobile/zan.do";
-    //验证是否关注当前的专区
-    String IS_ATTENTION = BASE_URL + "/centerMobile/departBymemberId.do";
     //他人个人主页
     String OTHER_CENTER = BASE_URL + "/member/getMemberInfo.do";
+    //实名认证
+    String VERIFIED = BASE_URL + "/memberMobile/shiming.do";
 
     /**
      * 社区
@@ -65,7 +65,9 @@ public interface I {
     String AREA = BASE_URL + "/partMobile/all.do";
     //专区子分区
     String AREA_SUB = BASE_URL + "/partMobile/twoPart.do";
-    //关注专区/取消专区
+    //验证是否加入过当前的专区
+    String IS_ATTENTION = BASE_URL + "/centerMobile/departBymemberId.do";
+    //加入/取消加入 专区
     String FOLLOW_WORD = BASE_URL + "/centerMobile/foMyarrondi.do";
     //帖子列表
     String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";
@@ -138,7 +140,7 @@ public interface I {
     //最新创建
     String NEWLYCREATED = BASE_URL + "/corporationMobile/corporationNewList.do";
     //审核社团成员
-    String CORPORATION=BASE_URL+"/corporationMobile/examine.do";
+    String CORPORATION = BASE_URL + "/corporationMobile/examine.do";
 
     /**
      * 上传图片

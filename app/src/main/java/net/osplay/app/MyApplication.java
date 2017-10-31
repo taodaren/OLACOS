@@ -1,6 +1,7 @@
 package net.osplay.app;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
@@ -10,6 +11,10 @@ import com.yanzhenjie.nohttp.NoHttp;
 
 import net.osplay.data.db.GreenDaoHelper;
 import net.osplay.utils.UILKit;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MyApplication extends Application {
     @SuppressLint("StaticFieldLeak")
@@ -37,7 +42,10 @@ public class MyApplication extends Application {
         Logger.setTag("NoHttpSample");//设置 NoHttp 打印 Log 的 tag
         UILKit.init(getApplicationContext());        //初始化UIL
         initDatabase();
+
     }
+
+
 
     private void initDatabase() {
         GreenDaoHelper.initDatabase();
@@ -46,5 +54,8 @@ public class MyApplication extends Application {
     public static Context getContext() {
         return instance;
     }
+
+
+
 
 }

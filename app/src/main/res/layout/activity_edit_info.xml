@@ -71,6 +71,7 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_info_tag">
                     <Button
+                        android:id="@+id/edit_info_add"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_alignParentBottom="true"

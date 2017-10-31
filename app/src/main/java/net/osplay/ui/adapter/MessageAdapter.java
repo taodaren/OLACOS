@@ -2,22 +2,17 @@ package net.osplay.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.MeiZiBean;
-import net.osplay.service.entity.MemberInfoBean;
 import net.osplay.service.entity.MessageBean;
 
 import java.util.List;

@@ -1,11 +1,18 @@
 package net.osplay.ui.activity.sub;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import net.osplay.app.AppHelper;
+import net.osplay.app.MyApplication;
+import net.osplay.data.bean.Account;
+import net.osplay.data.db.DaoMaster;
+import net.osplay.data.db.GreenDaoHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
 
@@ -69,7 +76,12 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.btn_mine_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                //注销登录重新跳转至
+                AppHelper.getInstance().setLogined(false);
+                Intent intent=new Intent(MineSetActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
             }
         });
     }
@@ -83,5 +95,6 @@ public class MineSetActivity extends BaseActivity {
         }
         return true;
     }
+
 
 }

@@ -61,26 +61,13 @@
                 android:layout_marginTop="1dp"
                 android:background="@color/white">
 
-                <TextView
-                    android:layout_width="80dp"
+                <EditText
+                    android:hint="姓名："
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:text="姓名"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center_vertical"
-                    android:text="奥世普雷"
-                    android:textSize="14sp" />
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -89,27 +76,14 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="1dp"
                 android:background="@color/white">
-
-                <TextView
-                    android:layout_width="80dp"
+                <EditText
+                    android:hint="身份证号："
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:text="身份证号"
-                    android:textSize="15sp" />
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"/>
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center_vertical"
-                    android:text="220205201708281234"
-                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -119,26 +93,13 @@
                 android:layout_marginTop="1dp"
                 android:background="@color/white">
 
-                <TextView
-                    android:layout_width="80dp"
+                <EditText
+                    android:hint="发证机关："
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:text="发证机关"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center_vertical"
-                    android:text="北京市公安局"
-                    android:textSize="14sp" />
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -148,26 +109,14 @@
                 android:layout_marginTop="1dp"
                 android:background="@color/white">
 
-                <TextView
-                    android:layout_width="80dp"
+                <EditText
+                    android:hint="有效日期："
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_margin="10dp"
-                    android:text="有效日期"
-                    android:textSize="15sp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:gravity="center_vertical"
-                    android:text="2017年8月28日"
-                    android:textSize="14sp" />
+                    android:background="@null"
+                    android:layout_marginLeft="10dp"
+                    />
             </LinearLayout>
 
             <LinearLayout

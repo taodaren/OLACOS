@@ -3,6 +3,7 @@ package net.osplay.app;
 import android.content.Context;
 
 import net.osplay.data.bean.Account;
+import net.osplay.data.db.GreenDaoHelper;
 
 /**
  * App 的辅助类

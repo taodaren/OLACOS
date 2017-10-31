@@ -33,6 +33,7 @@ import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.CheckInfoBean;
 import net.osplay.service.entity.IsCheckBean;
+import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -82,6 +83,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         unbinder = ButterKnife.bind(this);
         initData();
         initView();
+        getAttention();
     }
 
     private void initData() {
@@ -103,8 +105,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         btnAttention.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout_topic_details);
-        mViewPager = (ViewPager) findViewById(R.id.vp_topic_details);
+        TabLayout tabLayout = findViewById(R.id.tab_layout_topic_details);
+        mViewPager = findViewById(R.id.vp_topic_details);
         tabLayout.setupWithViewPager(mViewPager);
     }
 
@@ -146,7 +148,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.btn_topic_heck_in://签到
                 if (!(AppHelper.getInstance().isLogined())) {
-                    Toast.makeText(this, "请先关注专区", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "请先加入专区", Toast.LENGTH_SHORT).show();
                 } else {
                     if ("false".equals(mIsCheckBean.getCode())) {
                         btnHeckIn.setText("已签到");
@@ -162,19 +164,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 break;
-            // TODO:2017/10/6 取消关注时接口存在问题
             case R.id.btn_topic_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
-                    if (flag == 0) {
-                        btnAttention.setText("已关注");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                        getAttentionData();//关注数据请求解析
-                    } else if (flag == 1) {
-                        btnAttention.setText("关注专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
-                        getUnAttentionData();//取消关注数据请求解析
+                    CharSequence text = btnAttention.getText();
+                    if (text.equals("已加入")) {
+                        getUnAttentionData();//取消加入专区数据请求解析
+                    } else if (text.equals("加入专区")) {
+                        getAttentionData();//加入专区数据请求解析
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -338,13 +336,14 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
-    private void getUnAttentionData() {
-        RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
-        request.add("memberId", AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId", partId);
-        request.add("mark", 1);
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+    /**
+     * 验证专区是否加入过
+     */
+    public void getAttention() {
+        Request<String> request = NoHttp.createStringRequest(I.IS_ATTENTION, RequestMethod.POST);
+        request.add("memberId", memberId);
+        request.add("deparId", partId);
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -353,9 +352,16 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 if (json != null) {
-
-                } else {
-                    return;
+                    UserRegisterBean userRegisterBean = gson.fromJson(json,
+                            UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    if (code.equals("true")) {
+                        btnAttention.setText("已加入");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    } else {
+                        btnAttention.setText("加入专区");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    }
                 }
             }
 
@@ -369,13 +375,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * 加入专区
+     */
     private void getAttentionData() {
-        RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", partId);
         request.add("mark", 0);
-        requestQueue.add(0, request, new OnResponseListener<String>() {
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
             }
@@ -383,10 +391,49 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "关注：" + json);
                 if (json != null) {
-                } else {
-                    return;
+                    UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    if (code.equals("true")) {
+                        btnAttention.setText("已加入");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 取消加入专区
+     */
+    private void getUnAttentionData() {
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
+        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("myarrondiId", partId);
+        request.add("mark", 1);
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                if (json != null) {
+                    UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
+                    String code = userRegisterBean.getCode();
+                    if (code.equals("true")) {
+                        btnAttention.setText("加入专区");
+                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    }
                 }
             }
 
@@ -401,8 +448,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_topic_page);
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_topic);
+        Toolbar toolbar = findViewById(R.id.toolbar_topic_page);
+        CollapsingToolbarLayout collapsingToolbar = findViewById(R.id.collapsing_toolbar_topic);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
