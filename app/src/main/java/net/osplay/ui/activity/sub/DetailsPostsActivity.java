@@ -117,6 +117,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mImgSugar.setOnClickListener(this);
         mImgCollect.setOnClickListener(this);
         mBtnAttention.setOnClickListener(this);
+        mTvNick.setOnClickListener(this);
+        mAvatar.setOnClickListener(this);
         findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
     }
 
@@ -234,8 +236,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void getCommentData() {
         Request<String> request = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
-        Log.e("JGB","topicId"+postsId);
-        Log.e("JGB","memberId"+memberId);
+        Log.e(TAG, "topicId" + postsId);
+        Log.e(TAG, "memberId" + memberId);
         request.add("topicId", postsId);
         request.add("page", 1);
         request.add("rows", Integer.MAX_VALUE);
@@ -497,24 +499,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             mTvType.setText(mContentList.get(0).getPART());
             mTvTitle.setText(mContentList.get(0).getTITLE());
 
-            //跳转至个人用户
-            mTvNick.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                 if(mContentList.get(0).getUSERID().equals(AppHelper.getInstance().getUser().getID())){
-                     boolean equals = mContentList.get(0).getUSERID().equals(AppHelper.getInstance().getUser().getID());
-                     Log.e("JGB","当前用户是否为自己:"+equals);
-                     startActivity(new Intent(DetailsPostsActivity.this,MinePageSelfActivity.class));
-                 }else{
-                     Intent intent=new Intent(DetailsPostsActivity.this,MinePageOtherActivity.class);
-                     Intent intent1 = intent.putExtra("memberId", mContentList.get(0).getUSERID());
-                     startActivity(intent1);
-                 }
-
-                }
-            });
-
-
             LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             mRvContent.setLayoutManager(layoutManager);
             mRvContent.setHasFixedSize(true);
@@ -573,6 +557,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.img_details_posts_expression://表情
+                break;
+            case R.id.img_details_posts_avatar://头像
+            case R.id.tv_details_posts_nick://贴主名
+                //跳转至个人中心
+                startActivity(new Intent(this, MinePageOtherActivity.class).putExtra("memberId", userId));
                 break;
             default:
                 break;
