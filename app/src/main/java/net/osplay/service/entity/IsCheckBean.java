@@ -1,22 +1,22 @@
 package net.osplay.service.entity;
 
 /**
- * 今天是否签到过
+ * 签到/今天是否签到过
  */
 
 public class IsCheckBean {
 
     /**
-     * ok : false
+     * code : true
      */
 
-    private String ok;
+    private String code;
 
-    public String getOk() {
-        return ok;
+    public String getCode() {
+        return code;
     }
 
-    public void setOk(String ok) {
-        this.ok = ok;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

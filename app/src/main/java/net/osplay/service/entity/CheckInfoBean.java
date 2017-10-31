@@ -4,7 +4,7 @@ package net.osplay.service.entity;
  * 获取当前签到用户的等级数据
  */
 
-public class CheckLvBean {
+public class CheckInfoBean {
 
     /**
      * PARTID : 1
@@ -17,11 +17,11 @@ public class CheckLvBean {
      * NEXTPOINT : 5
      */
 
-    private String PARTID;
-    private String CREATEID;
+    private String PARTID;//专区ID
+    private String CREATEID;//签到用户ID
     private String LAST;
     private String MEMBER_RANK;//等级
-    private String CREATDATE;
+    private String CREATDATE;//创建时间
     private String FENSHU;//当前积分
     private String ID;
     private String NEXTPOINT;//满分
