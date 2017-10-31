@@ -57,7 +57,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private static final String ACTION_ATTENTION_UN = "1";
     private static final int FOCUS_DOWN = 1;//置底
 
-    private int flag;
     private NestedScrollView mNsv;
     private LinearLayout mllShow, mllHide, mllAll;
     private TextView mTvNick, mTvTime, mTvType, mTvTitle, mTvSwitch;
@@ -533,7 +532,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_details_posts_attention://关注
                 if (!(AppHelper.getInstance().isLogined())) {
-                    MFGT.gotoLogin(DetailsPostsActivity.this, "loginAttention");
+                    MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     actionAttention();
                 }

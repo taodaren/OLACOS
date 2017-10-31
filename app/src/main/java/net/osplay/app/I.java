@@ -35,8 +35,6 @@ public interface I {
     String CHANGE_USER = BASE_URL + "/memberMobile/updateMember.do";
     //我的专区列表
     String MY_AREA = BASE_URL + "/centerMobile/myarrondi.do";
-    //关注专区/取消专区
-    String ATTENORCANCEL = BASE_URL + "/centerMobile/foMyarrondi.do";
     //我的帖子
     String MY_POSTS = BASE_URL + "/centerMobile/community.do";
     //我的收藏
@@ -67,18 +65,20 @@ public interface I {
     String AREA = BASE_URL + "/partMobile/all.do";
     //专区子分区
     String AREA_SUB = BASE_URL + "/partMobile/twoPart.do";
+    //关注专区/取消专区
+    String FOLLOW_WORD = BASE_URL + "/centerMobile/foMyarrondi.do";
     //帖子列表
     String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";
     //帖子点赞
     String POSTS_ZAN = BASE_URL + "/topicMobile/zan.do";
     //帖子收藏
     String POSTS_COLLECT = BASE_URL + "/topicMobile/foCollect.do";
+    //帖子详情
+    String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
     //关注用户
     String FOLLOW = BASE_URL + "/topicMobile/foFollow.do";
     //是否关注用户
     String IS_FOLLOW = BASE_URL + "/topicMobile/isFollow.do";
-    //帖子详情
-    String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
     //是否签到过
     String IS_CHECK_IN = BASE_URL + "/sign/signGuoMobile.do";
     //获取用户当前的签到经验等级

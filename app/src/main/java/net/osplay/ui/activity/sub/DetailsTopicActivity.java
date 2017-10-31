@@ -340,7 +340,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void getUnAttentionData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", partId);
         request.add("mark", 1);
@@ -371,7 +371,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void getAttentionData() {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", partId);
         request.add("mark", 0);

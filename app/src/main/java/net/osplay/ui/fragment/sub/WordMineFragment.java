@@ -48,33 +48,29 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
 
     private RecyclerView mRvWordMine;
     private TextView mTvActionRefresh;
-    private TextView mTvActionMore;
+//    private TextView mTvActionMore;
 
     private Gson gson = new Gson();
+    private List<HomeData> mDatas = new ArrayList<>();
     private List<WordAddBean> mAddWorList = new ArrayList<>();
     private List<WordRecoBean> mRecoWordList = new ArrayList<>();
-    private List<HomeData> mDatas = new ArrayList<>();
-    private WordMineAdapter mAdapter;
+    private WordAddBean actionFollowBean;
 
+    private WordMineAdapter mAdapter;
     private String accountID;
     private HomeData addBean;
     private RequestQueue requestQueue;
     private Request<String> requestAddWord;
     private Request<String> requestRecoWord;
-    private int followAction;
-    private int actionPosition;
-    private WordAddBean actionFollowBean;
-    /**
-     * 换一换时集合的更新的起始坐标
-     */
-    private int refreshIndex;
+    private int followAction, actionPosition;
+    private int refreshIndex;//换一换时集合的更新的起始坐标
 
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_word_mine, null);
-        mRvWordMine = (RecyclerView) inflate.findViewById(R.id.recycler_word_mine);
-        mTvActionRefresh = (TextView) inflate.findViewById(R.id.tv_fm_word_mine_refresh);
-        mTvActionMore = (TextView) inflate.findViewById(R.id.tv_fm_word_mine_more);
+        mRvWordMine = inflate.findViewById(R.id.recycler_word_mine);
+        mTvActionRefresh = inflate.findViewById(R.id.tv_fm_word_mine_refresh);
+//        mTvActionMore = inflate.findViewById(R.id.tv_fm_word_mine_more);
         return inflate;
     }
 
@@ -89,12 +85,12 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
             }
         });
 
-        mTvActionMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // goto somewhere
-            }
-        });
+//        mTvActionMore.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // goto somewhere
+//            }
+//        });
     }
 
     /**
@@ -103,7 +99,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
     private void getNewRecoData() {
         if (mDatas != null && !mDatas.isEmpty() && mDatas.size() > 3) {
             // clear old reco data
-            for (int i=0;i<3;i++) {
+            for (int i = 0; i < 3; i++) {
                 mDatas.remove(mDatas.size() - 1);
             }
             refreshIndex = mDatas.size();
@@ -175,7 +171,6 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -234,7 +229,6 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
 
             @Override
             public void onFinish(int what) {
-
             }
         });
     }
@@ -252,11 +246,11 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
                 updateRecyclerView(getDataAction);
                 break;
         }
-
     }
 
     /**
      * 更新RecyclrView的方法
+     *
      * @param getDataAction: 更新数据的操作，ACTION_FOLLOW：更新关注Item; ACTION_RECO: 更新推荐Item;
      */
     private void updateRecyclerView(int getDataAction) {
@@ -269,7 +263,6 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
                 mAdapter.setData(mDatas, refreshIndex, mRecoWordList.size());
                 break;
         }
-
     }
 
     /**
@@ -279,7 +272,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
         HomeData homeData = HomeDataMapper.transformWordAddData(actionFollowBean, WordMineAdapter.TYPE_ADD_WORD, false);
         if (followAction == I.Action.ACTION_DO) {// 加入专区
             // change follow state
-            ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("true");
+            ((WordRecoBean) mDatas.get(actionPosition).getData()).setFOLLOW("true");
             // add follow bean
             refreshIndex = mDatas.indexOf(addBean);
             mDatas.add(refreshIndex, homeData);
@@ -287,7 +280,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
             showMsgByStr("加入专区成功");
         } else if (followAction == I.Action.ACTION_CANCEL) {// 退出专区
             // change follow state
-            ((WordRecoBean)mDatas.get(actionPosition).getData()).setFOLLOW("false");
+            ((WordRecoBean) mDatas.get(actionPosition).getData()).setFOLLOW("false");
             refreshIndex = mDatas.indexOf(addBean);
             for (int i = 1; i < refreshIndex; i++) {
                 if (((WordAddBean) mDatas.get(i).getData()).getID().equals(actionFollowBean.getID())) {
@@ -321,7 +314,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
 
     @Override
     public void actionFollow(String areaID, int action, WordAddBean bean, int actionPosition) {
-        Request<String> request = NoHttp.createStringRequest(I.ATTENORCANCEL, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", areaID);
         request.add("mark", action);
@@ -363,4 +356,5 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
             }
         });
     }
+
 }
