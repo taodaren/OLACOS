@@ -2,6 +2,7 @@ package net.osplay.ui.activity.sub;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.lljjcoder.city_20170724.CityPickerView;
+import com.lljjcoder.city_20170724.bean.CityBean;
+import com.lljjcoder.city_20170724.bean.DistrictBean;
+import com.lljjcoder.city_20170724.bean.ProvinceBean;
+import com.lljjcoder.citylist.CityListSelectActivity;
+import com.lljjcoder.citylist.bean.CityInfoBean;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -98,6 +105,7 @@ public class EditInfoActivity extends BaseActivity  {
             xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
             areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
             shenhe = AppHelper.getInstance().getUser().getSHENHE();
+            Log.e("JGb","认证结果：："+shenhe);
             if(shenhe==null){
                 Certification.setText("待审核");
             }else{
@@ -110,7 +118,6 @@ public class EditInfoActivity extends BaseActivity  {
                         break;
                     case "2":
                         Certification.setText("待审核");
-
                         break;
                 }
             }
@@ -130,7 +137,7 @@ public class EditInfoActivity extends BaseActivity  {
 
 
 
-    @OnClick({R.id.name_tv, R.id.age_tv, R.id.xingxuo_tv, R.id.area_tv,R.id.Certification})
+    @OnClick({R.id.name_tv, R.id.age_tv, R.id.area_tv,R.id.Certification,R.id.edit_info_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.name_tv:
@@ -141,24 +148,21 @@ public class EditInfoActivity extends BaseActivity  {
             case R.id.age_tv:
                 getDate();
                 break;
-            case R.id.xingxuo_tv:
-                Intent intent3 =new  Intent(EditInfoActivity.this,ChangeXingzuoActivity.class);
-                intent3.putExtra("xingzuoTv",xingxuoTv.getText().toString());
-                startActivityForResult(intent3,3);
-                break;
             case R.id.area_tv:
-                Intent intent4 =new  Intent(EditInfoActivity.this,ChangeAreaActivity.class);
-                intent4.putExtra("area_tv",areaTv.getText().toString());
-                startActivityForResult(intent4,4);
+                Intent i = new Intent(EditInfoActivity.this, CityListSelectActivity.class);
+                startActivityForResult(i, CityListSelectActivity.CITY_SELECT_RESULT_FRAG);
                 break;
             case R.id.Certification:
                 if(shenhe==null){
                     startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
-                }else if(shenhe.equals(2)){
+                }else if(Certification.getText().toString().equals("审核未通过")|Certification.getText().toString().equals("待审核")){
                     startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
                 }else{
                    Toast.makeText(EditInfoActivity.this,"您已实名认证过",Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id.edit_info_add:
+                startActivity(new Intent(EditInfoActivity.this,LabelActivity.class));
                 break;
         }
     }
@@ -167,14 +171,68 @@ public class EditInfoActivity extends BaseActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //姓名的回调
         if(requestCode == 1){
             if (data == null)
                 return;
            if(data.getStringExtra("returnName")!=null){
                nameTv.setText(data.getStringExtra("returnName"));
            }
-
         }
+        //地区的回调
+        if (requestCode == CityListSelectActivity.CITY_SELECT_RESULT_FRAG) {
+            if (resultCode == RESULT_OK) {
+                if (data == null) {
+                    return;
+                }
+                Bundle bundle = data.getExtras();
+                CityInfoBean cityInfoBean = (CityInfoBean) bundle.getParcelable("cityinfo");
+
+                if (null == cityInfoBean)
+                    return;
+                //城市名称
+                String cityName = cityInfoBean.getName();
+                areaTv.setText(cityName);
+                getAreaHttp(cityName);
+
+            }
+        }
+    }
+
+    //修改地区
+    private void getAreaHttp(String cityName) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
+        request.add("ID",AppHelper.getInstance().getUser().getId());
+        request.add("NICK_NAME",AppHelper.getInstance().getUser().getNICK_NAME());
+        request.add("CN",AppHelper.getInstance().getUser().getCN());
+        request.add("BIRTHDAY",AppHelper.getInstance().getUser().getBIRTHDAY());
+        request.add("TARGET",AppHelper.getInstance().getUser().getTARGET());
+        request.add("XINGZUO",AppHelper.getInstance().getUser().getXINGZUO());
+        request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("LOCAL_DRESS",cityName);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB","修改地区的结果：："+json);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
     }
 
     //修改时间
@@ -190,10 +248,66 @@ public class EditInfoActivity extends BaseActivity  {
                     public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         //因为 monthOfYear 会比实际月份少一月所以这边要加 1
                         ageTv.setText(year + "年" + (monthOfYear + 1) + "月" + dayOfMonth + "日");
+                        getAstro((monthOfYear + 1),dayOfMonth);
+                        String age = ageTv.getText().toString();
+                        modifyAgeHeep(age);
                     }
                 }, year, month, day);
                 //弹出选择日期对话框
                 datePickerStart.show();
         }
+
+   //修改年龄的网络请求
+    private void modifyAgeHeep(String age) {
+        String s = xingxuoTv.getText().toString();
+        Log.e("JGB","星座："+s);
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
+        request.add("ID",AppHelper.getInstance().getUser().getId());
+        request.add("NICK_NAME",AppHelper.getInstance().getUser().getNICK_NAME());
+        request.add("CN",AppHelper.getInstance().getUser().getCN());
+        request.add("BIRTHDAY",age);
+        request.add("TARGET",AppHelper.getInstance().getUser().getTARGET());
+        request.add("XINGZUO",xingxuoTv.getText().toString());
+        request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("LOCAL_DRESS",AppHelper.getInstance().getUser().getLOCAL_DRESS());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB","修改年龄的结果：："+json);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
     }
+
+    //根据日期指定星座
+    private String getAstro(int month, int day) {
+        String[] astro = new String[]{"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座",
+                "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
+        int[] arr = new int[]{20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22};// 两个星座分割日
+        int index = month;
+        // 所查询日期在分割日之前，索引-1，否则不变
+        if (day < arr[month - 1]) {
+            index = index - 1;
+        }
+        xingxuoTv.setText(astro[index]);
+        // 返回索引指向的星座string
+        return astro[index];
+    }
+}
 

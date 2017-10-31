@@ -115,6 +115,7 @@
         <activity android:name="net.osplay.ui.activity.sub.ChangeAreaActivity" />
         <activity android:name="net.osplay.ui.activity.sub.WaitDevActivity" />
         <activity android:name="net.osplay.ui.activity.sub.HotRankingActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.LabelActivity"></activity>
     </application>
 
 </manifest>

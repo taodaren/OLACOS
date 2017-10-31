@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -223,6 +224,7 @@ public class MinePageOtherActivity extends BaseActivity {
 
     @OnClick(R.id.btn_mine_page_other_picture)
     public void onViewClicked() {
-        startActivity(new Intent(MinePageOtherActivity.this, DouPictureActivity.class));
+        Toast.makeText(MinePageOtherActivity.this,"功能还未开放，敬请期待！",Toast.LENGTH_SHORT).show();
+        //startActivity(new Intent(MinePageOtherActivity.this, DouPictureActivity.class));
     }
 }

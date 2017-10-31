@@ -135,7 +135,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="15dp"
                     android:background="@drawable/btn_shape_white"
-                    android:text="关注"
+                    android:text="斗图"
                     android:textColor="@color/colorPrimary"
                     android:textSize="16sp" />
             </RelativeLayout>

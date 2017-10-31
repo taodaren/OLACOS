@@ -94,4 +94,5 @@ dependencies {
     compile 'com.github.limedroid:XRichText:v1.0.0'//加载html数据
     compile 'liji.library.dev:imagezoom:1.2.2'//查看大图
     compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'liji.library.dev:citypickerview:2.0.1'//地区选择
 }

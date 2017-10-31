@@ -17,7 +17,6 @@ public class EditRealNameActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_real_name);
-
         setToolbar("实名认证", View.VISIBLE);
     }
 
