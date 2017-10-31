@@ -42,6 +42,8 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context mContext;
     private LayoutInflater mInflater;
     private List<WordTopicListBean.RowsBean> mRowsBeanList;
+    private RequestQueue mRequestQueue;
+    private Gson gson = new Gson();
 
     public WordTopicListAdapter(Context mContext, List<WordTopicListBean.RowsBean> rowsBeanList) {
         this.mContext = mContext;
@@ -90,19 +92,19 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
         private PostsInfoListHolder(View itemView) {
             super(itemView);
             outView = itemView;
-            tvNick = (TextView) itemView.findViewById(R.id.tv_topic_list_nick);
-            tvTime = (TextView) itemView.findViewById(R.id.tv_topic_list_time);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_topic_list_title);
-            tvZan = (TextView) itemView.findViewById(R.id.tv_topic_list_zan);
-            tvCollect = (TextView) itemView.findViewById(R.id.tv_topic_list_collect);
-            tvComment = (TextView) itemView.findViewById(R.id.tv_topic_list_comment);
-            imgAvatar = (ImageView) itemView.findViewById(R.id.img_topic_list_avatar);
-            imgBg = (ImageView) itemView.findViewById(R.id.img_topic_list_icon);
-            imgZan = (ImageView) itemView.findViewById(R.id.img_topic_list_zan);
-            imgCollect = (ImageView) itemView.findViewById(R.id.img_topic_list_collect);
-            llZan = (LinearLayout) itemView.findViewById(R.id.ll_topic_list_zan);
-            llCollect = (LinearLayout) itemView.findViewById(R.id.ll_topic_list_collect);
-            llComment = (LinearLayout) itemView.findViewById(R.id.ll_topic_list_comment);
+            tvNick = itemView.findViewById(R.id.tv_topic_list_nick);
+            tvTime = itemView.findViewById(R.id.tv_topic_list_time);
+            tvTitle = itemView.findViewById(R.id.tv_topic_list_title);
+            tvZan = itemView.findViewById(R.id.tv_topic_list_zan);
+            tvCollect = itemView.findViewById(R.id.tv_topic_list_collect);
+            tvComment = itemView.findViewById(R.id.tv_topic_list_comment);
+            imgAvatar = itemView.findViewById(R.id.img_topic_list_avatar);
+            imgBg = itemView.findViewById(R.id.img_topic_list_icon);
+            imgZan = itemView.findViewById(R.id.img_topic_list_zan);
+            imgCollect = itemView.findViewById(R.id.img_topic_list_collect);
+            llZan = itemView.findViewById(R.id.ll_topic_list_zan);
+            llCollect = itemView.findViewById(R.id.ll_topic_list_collect);
+            llComment = itemView.findViewById(R.id.ll_topic_list_comment);
         }
 
         public void bindData(int position) {
@@ -164,7 +166,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                case R.id.ll_topic_list_comment://评论
 //                    Toast.makeText(mContext, "click comment", Toast.LENGTH_SHORT).show();
 //                    break;
-                default:
+                default://点击某一个帖子
                     intent = new Intent(mContext, DetailsPostsActivity.class);
                     intent.putExtra(I.Posts.POSTS_ID, postsId);
                     mContext.startActivity(intent);
@@ -176,7 +178,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
          * 点赞功能
          */
         private void actionSupport() {
-            RequestQueue requestQueue = NoHttp.newRequestQueue();
+            mRequestQueue = NoHttp.newRequestQueue();
             int action = 0;
             if ("true".equals(rowsBean.getZAN())) {
                 action = 1;//取消点赞
@@ -187,7 +189,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             request.add("mark", action);
 
             final int finalAction = action;
-            requestQueue.add(0, request, new OnResponseListener<String>() {
+            mRequestQueue.add(0, request, new OnResponseListener<String>() {
                 @Override
                 public void onStart(int what) {
                 }
@@ -199,7 +201,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (json != null) {
                         Type type = new TypeToken<ActionResultBean>() {
                         }.getType();
-                        Gson gson = new Gson();
                         ActionResultBean resultBean = gson.fromJson(json, type);
                         if (resultBean.isOk()) {
                             switch (finalAction) {
@@ -219,8 +220,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                                     break;
                             }
                         }
-                    } else {
-                        return;
                     }
                 }
 
@@ -238,7 +237,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
          * 收藏功能
          */
         private void actionCommunity() {
-            RequestQueue requestQueue = NoHttp.newRequestQueue();
+            mRequestQueue = NoHttp.newRequestQueue();
             int action = 0;
             if ("true".equals(rowsBean.getCOLLECT())) {
                 action = 1;//取消收藏
@@ -249,7 +248,7 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
             request.add("mark", action);
 
             final int finalAction = action;
-            requestQueue.add(0, request, new OnResponseListener<String>() {
+            mRequestQueue.add(0, request, new OnResponseListener<String>() {
                 @Override
                 public void onStart(int what) {
                 }
@@ -261,7 +260,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (json != null) {
                         Type type = new TypeToken<ActionResultBean>() {
                         }.getType();
-                        Gson gson = new Gson();
                         ActionResultBean resultBean = gson.fromJson(json, type);
                         if (resultBean.isOk()) {
                             switch (finalAction) {
@@ -281,8 +279,6 @@ public class WordTopicListAdapter extends RecyclerView.Adapter<RecyclerView.View
                                     break;
                             }
                         }
-                    } else {
-                        return;
                     }
                 }
 
