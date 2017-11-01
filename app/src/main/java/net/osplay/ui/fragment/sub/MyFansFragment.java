@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -41,6 +42,8 @@ public class MyFansFragment extends Fragment {
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
     Unbinder unbinder;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFansBean.RowsBean> rows;
@@ -57,7 +60,7 @@ public class MyFansFragment extends Fragment {
 
     private void initData() {
         String id = AppHelper.getInstance().getUser().getID();
-        Log.e("JGB","个人id"+id);
+        Log.e("JGB", "个人id" + id);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_FANS_PAGER, RequestMethod.POST);
         request.add("page", "1");
@@ -66,17 +69,19 @@ public class MyFansFragment extends Fragment {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
+                avi.show();
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB", "-----------fans:" + json);
-                if (json != null) {
-                    formatMyfans(json);
+                if (json == null) {
+                   return;
                 } else {
-                    return;
+                    avi.hide();
+                    formatMyfans(json);
+
                 }
 
             }
@@ -95,10 +100,10 @@ public class MyFansFragment extends Fragment {
 
     private void formatMyfans(String json) {
         MyFansBean myFansBean = mGson.fromJson(json, MyFansBean.class);
-        if(myFansBean.getTotal()==0){
+        if (myFansBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rows = myFansBean.getRows();
             centerRecycler.setAdapter(new MyFansAdapter(getActivity(), rows));
         }

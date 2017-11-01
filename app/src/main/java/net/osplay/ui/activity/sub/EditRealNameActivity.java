@@ -68,6 +68,10 @@ public class EditRealNameActivity extends BaseActivity {
     LinearLayout certificationStudentLl;//展开学生照片
     @BindView(R.id.certification_submit_bt)
     Button certificationSubmitBt;//提交
+    @BindView(R.id.certification_school_ed)
+    EditText certificationSchoolEd;//所在学校
+    @BindView(R.id.certification_school_ll)
+    LinearLayout certificationSchoolLl;//学校的显示与隐藏
     private List<LocalMedia> positiveList;
     private List<LocalMedia> antiList;
     private List<LocalMedia> studentList;
@@ -114,6 +118,7 @@ public class EditRealNameActivity extends BaseActivity {
                 break;
             case R.id.certification_yes_rb://是学生
                 certificationStudentLl.setVisibility(View.VISIBLE);
+                certificationSchoolLl.setVisibility(View.VISIBLE);
                 break;
             case R.id.certification_no_rb://不是学生
                 certificationStudentLl.setVisibility(View.GONE);
@@ -133,21 +138,24 @@ public class EditRealNameActivity extends BaseActivity {
                 } else if (!VerificationUtil.checkIdCard(certificationIdCardEd.getText().toString())) {
                     Toast.makeText(EditRealNameActivity.this, "身份证号格式不正确", Toast.LENGTH_SHORT).show();
                     certificationIdCardEd.getText().clear();
-                } else if(positiveList ==null){
+                } else if (positiveList == null) {
                     Toast.makeText(EditRealNameActivity.this, "请上传身份证正面照片", Toast.LENGTH_SHORT).show();
-                }else if(antiList==null){
+                } else if (antiList == null) {
                     Toast.makeText(EditRealNameActivity.this, "请上传身份证反面照片", Toast.LENGTH_SHORT).show();
-                }else if(!(certificationYesRb.isChecked()|certificationNoRb.isChecked())){
+                } else if (!(certificationYesRb.isChecked() | certificationNoRb.isChecked())) {
                     Toast.makeText(EditRealNameActivity.this, "请选择是否为学生", Toast.LENGTH_SHORT).show();
-                } else if(certificationYesRb.isChecked()){
-                    if(studentList==null){
+                } else if (certificationYesRb.isChecked()) {
+                    if (studentList == null) {
                         Toast.makeText(EditRealNameActivity.this, "请上传学生证照片", Toast.LENGTH_SHORT).show();
-                    }else{
+                    }else if(certificationSchoolEd.getText().toString().isEmpty()){
+                        Toast.makeText(EditRealNameActivity.this, "学校名称不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
                         studioIvHttp();
                         positiveIvHttp();
                         antiIvHttp();
                     }
-                }else {
+                } else {
 //                    positiveIvHttp();
 //                    antiIvHttp();
                     studentploadHttp();
@@ -159,13 +167,13 @@ public class EditRealNameActivity extends BaseActivity {
 
 
     private void studentploadHttp() {
-        Log.e("JGB","tupian"+posiveUrl);
+        Log.e("JGB", "tupian" + posiveUrl);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.VERIFIED, RequestMethod.POST);
         request.add("ID", AppHelper.getInstance().getUser().getID());
         request.add("CN", AppHelper.getInstance().getUser().getCN());
-        request.add("CARD",certificationIdCardEd.getText().toString());
-        request.add("CARD_F_PATH",posiveUrl);
+        request.add("CARD", certificationIdCardEd.getText().toString());
+        request.add("CARD_F_PATH", posiveUrl);
         request.add("CARD_B_PATH", antiUrl);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override

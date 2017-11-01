@@ -241,6 +241,33 @@
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"/>
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/certification_school_ll"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:text="所在学校："
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/certification_school_ed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/certification_submit_bt"
                 android:layout_width="match_parent"

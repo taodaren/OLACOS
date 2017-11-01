@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
-import com.google.zxing.oned.Code39Reader;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -41,10 +41,11 @@ public class MyareaFragment extends Fragment {
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
     Unbinder unbinder;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyAreaBean.RowsBean> rows;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class MyareaFragment extends Fragment {
         unbinder = ButterKnife.bind(this, inflate);
         centerRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
         initData();
-
         return inflate;
     }
 
@@ -66,17 +66,19 @@ public class MyareaFragment extends Fragment {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
+                avi.show();
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
+                avi.hide();
                 String json = response.get();
-                Log.e("JJJ","个人中心专区列表："+json);
-                if (json != null) {
-                    formatMyarea(json);
-                } else {
+                Log.e("JJJ", "个人中心专区列表：" + json);
+                if (json == null) {
                     return;
+                } else {
+                    avi.hide();
+                    formatMyarea(json);
                 }
 
             }
@@ -95,10 +97,10 @@ public class MyareaFragment extends Fragment {
 
     private void formatMyarea(String json) {
         MyAreaBean myAreaBean = mGson.fromJson(json, MyAreaBean.class);
-        if(myAreaBean.getTotal()==0){
+        if (myAreaBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rows = myAreaBean.getRows();
             centerRecycler.setAdapter(new MyAreaAdapter(getActivity(), rows));
         }

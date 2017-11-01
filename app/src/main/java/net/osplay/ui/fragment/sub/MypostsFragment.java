@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -41,6 +42,8 @@ public class MypostsFragment extends Fragment {
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
     Unbinder unbinder;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyPostsBean.RowsBean> rows;
@@ -58,22 +61,23 @@ public class MypostsFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_POSTS, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "25");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
+                avi.show();
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB", "posts_____" + json);
-                if (json != null) {
-                    formatMyposts(json);
-                } else {
+                if (json == null) {
                     return;
+                } else {
+                    avi.hide();
+                    formatMyposts(json);
                 }
 
             }
@@ -92,16 +96,14 @@ public class MypostsFragment extends Fragment {
 
     private void formatMyposts(String json) {
         MyPostsBean myPostsBean = mGson.fromJson(json, MyPostsBean.class);
-        if(myPostsBean.getTotal()==0){
+        if (myPostsBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             rows = myPostsBean.getRows();
             centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));
         }
-
     }
-
 
     @Override
     public void onDestroyView() {

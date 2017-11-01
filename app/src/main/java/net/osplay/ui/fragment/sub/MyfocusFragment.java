@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.jiangyy.easydialog.CommonDialog;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -43,6 +44,8 @@ public class MyfocusFragment extends Fragment {
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
     Unbinder unbinder;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFocusBean.RowsBean> rows;
@@ -67,17 +70,18 @@ public class MyfocusFragment extends Fragment {
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
-
+                avi.show();
             }
 
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB", "关注的人数据:" + json);
-                if (json != null) {
-                    formatMyfocus(json);
-                } else {
+                if (json == null) {
                     return;
+                } else {
+                    avi.hide();
+                    formatMyfocus(json);
                 }
 
             }
@@ -118,7 +122,7 @@ public class MyfocusFragment extends Fragment {
                         .setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                unsubScribe(rows,position);
+                                unsubScribe(rows, position);
 
                             }
                         }).setNegativeButton("取消", null).show();
@@ -129,16 +133,16 @@ public class MyfocusFragment extends Fragment {
 
             }
         };
-        myFocusAdapter .onClick(setOnClickListen);
+        myFocusAdapter.onClick(setOnClickListen);
     }
 
-   // 取消关注的方法
+    // 取消关注的方法
     private void unsubScribe(List<MyFocusBean.RowsBean> rows, final int position) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.FOLLOW, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
-        request.add("followId",rows.get(position).getID());
-        request.add("mark",1);
+        request.add("followId", rows.get(position).getID());
+        request.add("mark", 1);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
