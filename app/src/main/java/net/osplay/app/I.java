@@ -88,7 +88,6 @@ public interface I {
     //签到
     String CHECK_IN = BASE_URL + "/sign/signMobile.do";
 
-
     /**
      * 评论
      **/
@@ -98,6 +97,8 @@ public interface I {
     String QUERY_COMMENT = BASE_URL + "/topicMobile/queryCommentPage.do";
     //分页查询二级评论
     String QUERY_COMMENT_SUB = BASE_URL + "/topicMobile/queryTwoCommentPage.do";
+    //评论点赞
+    String COMMENT_ZAN = BASE_URL + "/topicMobile/updateCommentZan.do";
 
     /**
      * 提交评论

@@ -20,6 +20,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -34,6 +35,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.MFGT;
+import net.osplay.app.SetOnClickListen;
 import net.osplay.data.bean.ActionResultBean;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.IsFollowBean;
@@ -66,6 +68,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private Button mBtnAttention, mBtnSend;
     private RecyclerView mRvContent;
     private ExpandableListView mElvComment;
+    private DetailsPostsCommentAdapter mCommentAdapter;
 
     private Gson gson = new Gson();
     private WordDetailsCommentBean mCommentBean;
@@ -126,6 +129,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         changeViewByState();
+
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
         Log.i(TAG, "onStart: postsId==" + postsId);
         mRequestQueue = NoHttp.newRequestQueue();
@@ -261,6 +265,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
                 initCommentPosts();//初始化帖子评论
                 getCommentMoreData();//获取多级评论数据
+                OneOnClick();//一级评论点赞点击事件
+                TwoOnClick();//二级评论点赞点击事件
             }
 
             @Override
@@ -474,11 +480,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      */
     private void initCommentPosts() {
         if (mCommentBean != null) {
-            DetailsPostsCommentAdapter adapter = new DetailsPostsCommentAdapter(this, mCommentBean);
-            mElvComment.setAdapter(adapter);
+            mCommentAdapter = new DetailsPostsCommentAdapter(this, mCommentBean);
+            mElvComment.setAdapter(mCommentAdapter);
             mElvComment.setGroupIndicator(null);
             //默认展开每一个分组
-            for (int i = 0; i < adapter.getGroupCount(); i++) {
+            for (int i = 0; i < mCommentAdapter.getGroupCount(); i++) {
                 mElvComment.expandGroup(i);
             }
         }
@@ -566,6 +572,38 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             default:
                 break;
         }
+    }
+
+    /**
+     * 一级评论点赞点击事件
+     */
+    private void OneOnClick() {
+        mCommentAdapter.oneClick(new SetOnClickListen() {
+            @Override
+            public void setOnClick(int position) {
+                actionCommentZan(position);
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+            }
+        });
+    }
+
+    /**
+     * 二级评论点赞点击事件
+     */
+    private void TwoOnClick() {
+        mCommentAdapter.twoClick(new SetOnClickListen() {
+            @Override
+            public void setOnClick(int position) {
+                actionCommentZan(position);
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+            }
+        });
     }
 
     /**
@@ -719,6 +757,72 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                                 mContentList.get(0).setCOLLECT_COUNT(String.valueOf(
                                         Integer.parseInt(mContentList.get(0).getCOLLECT_COUNT()) - 1));
                                 mImgCollect.setImageResource(R.drawable.ic_collect_unselected);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 评论点赞功能
+     */
+    private void actionCommentZan(final int position) {
+        int action = 0;
+        // TODO: 2017/11/1 没有保存评论点赞状态的功能
+        if ("true".equals(mContentList.get(0).getZAN())) {
+            action = 1;//取消点赞
+        }
+        Request<String> request = NoHttp.createStringRequest(I.COMMENT_ZAN, RequestMethod.POST);
+        request.add("topicId", mOneList.get(position).getTOPICID());//帖子id
+        request.add("zanMemberId", memberId);//点赞用户id(登录用户id)
+        request.add("beenZanMemberId", mOneList.get(position).getMEMBERID());//被点赞用户id(当前条评论提交人id)
+        request.add("commentId", mOneList.get(position).getID());//评论id
+        request.add("zan", action);//点赞、取消赞
+
+        Log.i(TAG, "actionCommentZan: topicId==" + mOneList.get(position).getTOPICID());
+        Log.i(TAG, "actionCommentZan: zanMemberId==" + memberId);
+        Log.i(TAG, "actionCommentZan: beenZanMemberId==" + mOneList.get(position).getMEMBERID());
+        Log.i(TAG, "actionCommentZan: commentId==" + mOneList.get(position).getID());
+        Log.i(TAG, "actionCommentZan: zan==" + action);
+
+        final int finalAction = action;
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "点赞请求：" + json);
+                if (json != null) {
+                    Type type = new TypeToken<ActionResultBean>() {
+                    }.getType();
+                    Gson gson = new Gson();
+                    ActionResultBean resultBean = gson.fromJson(json, type);
+                    if (resultBean.isOk()) {
+                        switch (finalAction) {
+                            case 0://点赞成功
+//                                mContentList.get(position).setZAN("true");//重置用户对当前帖子的点赞状态
+//                                mContentList.get(position).setZAN_COUNT(String.valueOf(
+//                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) + 1));
+//                                mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                                break;
+                            case 1://取消点赞成功
+//                                mContentList.get(position).setZAN("false");//重置用户对当前帖子的点赞状态
+//                                mContentList.get(position).setZAN_COUNT(String.valueOf(
+//                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) - 1));
+//                                mImgSugar.setImageResource(R.drawable.ic_sugar_unselected);
                                 break;
                         }
                     }
