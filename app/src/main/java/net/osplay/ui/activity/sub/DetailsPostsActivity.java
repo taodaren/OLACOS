@@ -92,6 +92,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_posts);
+        postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
+        Log.i(TAG, "onStart: postsId==" + postsId);
+        mRequestQueue = NoHttp.newRequestQueue();
+        getContentData();
         initView();
     }
 
@@ -126,10 +130,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     protected void onStart() {
         super.onStart();
         changeViewByState();
-        postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
-        Log.i(TAG, "onStart: postsId==" + postsId);
-        mRequestQueue = NoHttp.newRequestQueue();
-        getContentData();
     }
 
     private void changeViewByState() {
