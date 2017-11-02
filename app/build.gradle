@@ -95,4 +95,6 @@ dependencies {
     compile 'liji.library.dev:imagezoom:1.2.2'//查看大图
     compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'liji.library.dev:citypickerview:2.0.1'//地区选择
+
+    compile 'com.tencent.sonic:sdk:1.1.1'
 }
