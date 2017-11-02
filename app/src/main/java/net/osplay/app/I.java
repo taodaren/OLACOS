@@ -15,6 +15,11 @@ public interface I {
     String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
 
     /**
+     * 商品模块 WebView
+     */
+    String TAB_GOODS = BASE_URL + "/view/web/app/shopping.jsp";
+
+    /**
      * 注册登录
      **/
     //注册

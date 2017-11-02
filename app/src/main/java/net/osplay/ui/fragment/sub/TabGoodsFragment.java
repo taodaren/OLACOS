@@ -1,85 +1,50 @@
 package net.osplay.ui.fragment.sub;
 
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
+import android.annotation.SuppressLint;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import net.osplay.app.AppHelper;
-import net.osplay.data.db.GreenDaoHelper;
+import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.ui.fragment.base.BaseFragment;
 
 /**
  * 商品模块
  */
-public class TabGoodsFragment extends Fragment {
-    private View view;
-    private ViewPager viewPager;
-    int flag = 0;//定义标记变量
-    private AnimationDrawable animationDrawable;
-    private ImageView switch_egg;
+public class TabGoodsFragment extends BaseFragment {
+    private DrawerLayout mDrawerLayout;//侧滑菜单
 
-    @Nullable
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
-//        initView();
-//        switchFragment();
+    public View initView() {
+        View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
+        //注意 getActivity()若使用 view 会报错，此处有大坑
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
-        return view;
+        //设置 WebView
+        WebView webView = inflate.findViewById(R.id.web_view_goods);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl(I.TAB_GOODS);
+
+        //设置侧滑界面
+        initDrawerLayout();
+        return inflate;
     }
 
-    private void switchFragment() {
-        viewPager.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
-            @Override
-            public int getCount() {
-                return 2;
-            }
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    case 0:
-                        return new GoodsMallFragment();
-                    case 1:
-                        return new GoodsSecondHandFragment();
-
-                }
-                return new GoodsMallFragment();
-            }
-
-        });
-        switch_egg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (flag == 0) {
-                    switch_egg.setImageResource(R.drawable.animation1);
-                    animationDrawable = (AnimationDrawable) switch_egg.getDrawable();
-                    animationDrawable.start();
-                    viewPager.setCurrentItem(1);
-                } else if (flag == 1) {
-                    switch_egg.setImageResource(R.drawable.animation2);
-                    animationDrawable = (AnimationDrawable) switch_egg.getDrawable();
-                    animationDrawable.start();
-                    viewPager.setCurrentItem(0);
-                }
-                flag = (flag + 1) % 2;//其余得到循环执行上面3个不同的功能
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home://导航按钮固定 id
+                //展示滑动菜单
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+        }
+        return true;
     }
-//    private void initView() {
-//        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-//        viewPager = (ViewPager) view.findViewById(R.id.viewPager);
-//        switch_egg = (ImageView) view.findViewById(R.id.switch_egg);
-  //  }
+
 }
