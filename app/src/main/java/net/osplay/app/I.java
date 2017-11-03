@@ -18,6 +18,7 @@ public interface I {
      * 商品模块 WebView
      */
     String TAB_GOODS = BASE_URL + "/view/web/app/shopping.jsp";
+    String WEB_SEARCH = BASE_URL + "/view/web/app/search.jsp";
 
     /**
      * 注册登录
