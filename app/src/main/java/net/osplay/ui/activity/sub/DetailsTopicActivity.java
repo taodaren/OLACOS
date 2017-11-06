@@ -74,6 +74,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     private RequestQueue mRequestQueue;
     private Gson gson = new Gson();
     private IsCheckBean mIsCheckBean;
+    private IsCheckBean mCheckInBean;
     private List<CheckInfoBean> mCheckInfoList;
 
     @Override
@@ -94,9 +95,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
         mRequestQueue = NoHttp.newRequestQueue();
         getDetailsTopicData();//请求专区数据
-//        getCheckInfoData();//获取用户当前的签到经验等级
-//        getCheckInData();//获取签到后用户数据
-//        getIsCheckInData();//今天是否签到过
+        getCheckInfoData();//获取用户当前的签到经验等级
+        getIsCheckInData();//今天是否签到过
     }
 
     private void initView() {
@@ -150,15 +150,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 if (!(AppHelper.getInstance().isLogined())) {
                     Toast.makeText(this, "请先加入专区", Toast.LENGTH_SHORT).show();
                 } else {
-                    if ("false".equals(mIsCheckBean.getCode())) {
+                    if ("false".equals(mIsCheckBean.getOk())) {
                         btnHeckIn.setText("已签到");
                         btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
-
-//                        Log.i(TAG, "onClick: 我的等级 LV =" + mCheckInfoList);
-//                        tvLevel.setText("我的等级 LV " + mCheckInfoList.get(0).getMEMBER_RANK());//当前等级
-//                        progressBar.setMax(Integer.parseInt(mCheckInfoList.get(0).getNEXTPOINT()));//设置经验最大值
-//                        progressBar.setProgress(Integer.parseInt(mCheckInfoList.get(0).getFENSHU())+ Integer.parseInt(mCheckInfoList.get(0).getLAST()));//当前经验
-//                        progressBar.setProgress(progressBar.getProgress() + Integer.parseInt(mCheckInfoList.get(0).getLAST()));//增加的经验值
+                        getCheckInData();//获取签到数据
                     } else {
                         Toast.makeText(this, "今天签完啦，明天再来呦~", Toast.LENGTH_SHORT).show();
                     }
@@ -180,8 +175,11 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * 获取用户当前的签到经验等级数据
+     */
     private void getCheckInfoData() {
-        Request<String> request = NoHttp.createStringRequest(I.CHECK_IN, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.GET_CHECK_INFO, RequestMethod.POST);
         request.add("memberId", memberId);
         request.add("departId", partId);
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
@@ -218,10 +216,13 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * 获取签到数据
+     */
     private void getCheckInData() {
         Request<String> request = NoHttp.createStringRequest(I.CHECK_IN, RequestMethod.POST);
         request.add("memberId", memberId);
-        request.add("departId", partId);
+        request.add("partId", partId);
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -233,17 +234,10 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 String json = response.get();
                 Log.d(TAG, "获取签到后用户数据请求成功，json 数据是：" + json);
 
-                Type type = new TypeToken<List<CheckInfoBean>>() {
-                }.getType();
-                mCheckInfoList = gson.fromJson(json, type);
+                mCheckInBean = gson.fromJson(json, IsCheckBean.class);
                 Log.d(TAG, "获取签到后用户数据解析成功");
 
-                //如果当前用户为登录状态且获取当前签到用户的数据不为空，显示当前数据
-                if (AppHelper.getInstance().isLogined() && mCheckInfoList != null) {
-                    tvLevel.setText("我的等级 LV " + mCheckInfoList.get(0).getMEMBER_RANK());//当前等级
-                    progressBar.setMax(Integer.parseInt(mCheckInfoList.get(0).getNEXTPOINT()));//设置经验最大值
-                    progressBar.setProgress(Integer.parseInt(mCheckInfoList.get(0).getFENSHU()));//当前经验
-                }
+                getCheckInfoData();//获取用户当前的签到经验等级
             }
 
             @Override
@@ -256,6 +250,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * 获取今天是否签到过数据
+     */
     private void getIsCheckInData() {
         Request<String> request = NoHttp.createStringRequest(I.IS_CHECK_IN, RequestMethod.POST);
         request.add("memberId", memberId);
@@ -274,7 +271,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 Log.d(TAG, "今天是否签到过数据解析成功");
 
                 //如果已签到，显示签到状态
-                if ("true".equals(mIsCheckBean.getCode())) {
+                if ("true".equals(mIsCheckBean.getOk())) {
                     btnHeckIn.setBackgroundResource(R.drawable.shape_yuan_trans);
                     btnHeckIn.setText("已签到");
                 }
@@ -290,6 +287,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         });
     }
 
+    /**
+     * 获取请求专区数据
+     */
     private void getDetailsTopicData() {
         Request<String> request = NoHttp.createStringRequest(I.AREA_SUB, RequestMethod.POST);
         request.add("partId", partId);

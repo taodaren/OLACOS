@@ -12,7 +12,7 @@ public interface I {
      **/
 //    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
-    String BASE_URL = "http://192.168.1.10:8080/qda";//本地服务器
+    String BASE_URL = "http://192.168.1.13:8080/qda";//本地服务器
 
     /**
      * 商品模块 WebView
@@ -88,11 +88,11 @@ public interface I {
     //是否关注用户
     String IS_FOLLOW = BASE_URL + "/topicMobile/isFollow.do";
     //是否签到过
-    String IS_CHECK_IN = BASE_URL + "/sign/signGuoMobile.do";
+    String IS_CHECK_IN = BASE_URL + "/sign/signGuo.do";
     //获取用户当前的签到经验等级
-    String GET_CHECK_INFO = BASE_URL + "/sign/getSignInfoMobile.do";
+    String GET_CHECK_INFO = BASE_URL + "/sign/getSignInfo.do";
     //签到
-    String CHECK_IN = BASE_URL + "/sign/signMobile.do";
+    String CHECK_IN = BASE_URL + "/sign/sign.do";
 
     /**
      * 评论
