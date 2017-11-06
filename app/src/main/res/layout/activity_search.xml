@@ -7,16 +7,22 @@
     android:background="@color/colorWhite"
     tools:context="net.osplay.ui.activity.sub.SearchActivity">
 
-    <scut.carson_ho.searchview.SearchView
-        android:id="@+id/search_view"
+    <!--<scut.carson_ho.searchview.SearchView-->
+        <!--android:id="@+id/search_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="5dp"-->
+        <!--app:searchBlockColor="@color/colorWhite"-->
+        <!--app:searchBlockHeight="150"-->
+        <!--app:textColorSearch="@color/colorTiShiWenZi"-->
+        <!--app:textHintSearch="请输入查询关键字"-->
+        <!--app:textSizeSearch="5dp"-->
+        <!--tools:layout_editor_absoluteX="8dp"-->
+        <!--tools:layout_editor_absoluteY="0dp" />-->
+    <WebView
+        android:id="@+id/web_view_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        app:searchBlockColor="@color/colorWhite"
-        app:searchBlockHeight="150"
-        app:textColorSearch="@color/colorTiShiWenZi"
-        app:textHintSearch="请输入查询关键字"
-        app:textSizeSearch="5dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 </RelativeLayout>

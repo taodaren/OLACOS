@@ -12,7 +12,13 @@ public interface I {
      **/
 //    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
-      String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
+    String BASE_URL = "http://192.168.1.10:8080/qda";//本地服务器
+
+    /**
+     * 商品模块 WebView
+     */
+    String TAB_GOODS = BASE_URL + "/view/web/app/shopping.jsp";
+    String WEB_SEARCH = BASE_URL + "/view/web/app/search.jsp";
 
     /**
      * 注册登录
@@ -88,7 +94,6 @@ public interface I {
     //签到
     String CHECK_IN = BASE_URL + "/sign/signMobile.do";
 
-
     /**
      * 评论
      **/
@@ -98,6 +103,8 @@ public interface I {
     String QUERY_COMMENT = BASE_URL + "/topicMobile/queryCommentPage.do";
     //分页查询二级评论
     String QUERY_COMMENT_SUB = BASE_URL + "/topicMobile/queryTwoCommentPage.do";
+    //评论点赞
+    String COMMENT_ZAN = BASE_URL + "/topicMobile/updateCommentZan.do";
 
     /**
      * 提交评论
