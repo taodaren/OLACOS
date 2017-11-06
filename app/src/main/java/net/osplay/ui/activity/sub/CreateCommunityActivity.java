@@ -103,7 +103,7 @@ public class CreateCommunityActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.create_avater_iv:
                 PictureSelector.create(CreateCommunityActivity.this)
-                        .openGallery(PictureMimeType.ofImage())
+                        .openGallery(PictureMimeType.ofAll())
                         .maxSelectNum(1)// 最大图片选择数量 int
                         .previewImage(true)//预览图片
                         .forResult(PictureConfig.CHOOSE_REQUEST);

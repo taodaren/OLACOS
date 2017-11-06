@@ -24,6 +24,7 @@ import net.osplay.service.entity.UserIsNickNameBean;
 import net.osplay.service.entity.UserIsRegisterBean;
 import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.TimeCountUtil;
 import net.osplay.utils.VerificationUtil;
 
 public class RegisterActivity extends BaseActivity {
@@ -33,6 +34,8 @@ public class RegisterActivity extends BaseActivity {
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
     private boolean total;//验证手机号是否注册过
     private String code1;
+    private TimeCountUtil mTimeCountUtil;//验证码倒计时
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class RegisterActivity extends BaseActivity {
         editConfirmPassword = (EditText) findViewById(R.id.edit_confirm_password_register);//确认密码
         btn_get_code = (Button) findViewById(R.id.btn_get_code);//发送验证码
         btn_over = (Button) findViewById(R.id.btn_over);//完成
+        mTimeCountUtil = new TimeCountUtil(btn_get_code, 60000, 1000);
     }
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -94,6 +98,7 @@ public class RegisterActivity extends BaseActivity {
                         Toast.makeText(RegisterActivity.this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
                         editPhone.setText("");
                     } else {
+                        mTimeCountUtil.start();
                         getCode();
                     }
                     break;

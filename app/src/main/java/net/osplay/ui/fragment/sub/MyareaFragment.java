@@ -45,7 +45,7 @@ public class MyareaFragment extends Fragment {
     AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
-    private List<MyAreaBean.RowsBean> rows;
+    private  List<MyAreaBean.RowsBean> rows;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,7 +80,6 @@ public class MyareaFragment extends Fragment {
                     avi.hide();
                     formatMyarea(json);
                 }
-
             }
 
             @Override
