@@ -20,7 +20,6 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -422,7 +421,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         request.add("topicId", postsId);
                         request.add("authorId", mContentList.get(0).getUSERID());
                         request.add("memberId", memberId);
-                        request.add("beenMemberId", mOneList.get(groupPosition).getMEMBERID());
+                        if (Objects.equals(mOneList.get(groupPosition).getMEMBERID(), memberId)) {//如果被评论人是自己
+                            request.add("beenMemberId", memberId);
+                        } else {//如果不是自己
+                            request.add("beenMemberId", mOneList.get(groupPosition).getMEMBERID());
+                        }
                         request.add("atId", Uuid.getUuid());
                         request.add("parentId", mOneList.get(groupPosition).getID());
                         request.add("atIds", "");
