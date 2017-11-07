@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -23,6 +25,7 @@ import net.osplay.ui.fragment.base.BaseFragment;
  */
 public class TabGoodsFragment extends BaseFragment {
     private DrawerLayout mDrawerLayout;//侧滑菜单
+    private WebView mWebView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -31,15 +34,35 @@ public class TabGoodsFragment extends BaseFragment {
         //注意 getActivity()若使用 view 会报错，此处有大坑
         mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
-        //设置 WebView
-        WebView webView = inflate.findViewById(R.id.web_view_goods);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(I.TAB_GOODS);
-
         //设置侧滑界面
         initDrawerLayout();
+        initWebView(inflate);
         return inflate;
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void initWebView(View view) {
+        mWebView = view.findViewById(R.id.web_view_goods);
+        mWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                //按下返回键并且 webView 界面可以返回
+                if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWebView.goBack();
+                        }
+                    });
+                    return true;
+                }
+                return false;
+            }
+        });
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.loadUrl(I.TAB_GOODS);
+//        mWebView.loadUrl("https://m.jd.com/");
     }
 
     /**
@@ -78,6 +101,22 @@ public class TabGoodsFragment extends BaseFragment {
                 break;
         }
         return true;
+    }
+
+    /**
+     * 销毁 WebView
+     */
+    @Override
+    public void onDestroyView() {
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroyView();
     }
 
 }
