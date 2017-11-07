@@ -260,17 +260,19 @@
             android:padding="10dp"
             android:textSize="13sp" />
 
-        <ImageView
-            android:id="@+id/img_details_posts_expression"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:src="@drawable/ic_laugh" />
+        <!-- 表情 -->
+        <!--<ImageView-->
+        <!--android:id="@+id/img_details_posts_expression"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:padding="8dp"-->
+        <!--android:src="@drawable/ic_laugh" />-->
 
         <Button
             android:id="@+id/btn_details_posts_send"
             android:layout_width="70dp"
             android:layout_height="35dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/shape_yuan"
             android:padding="8dp"
             android:src="@drawable/ic_collect_selected"

@@ -126,7 +126,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mBtnAttention.setOnClickListener(this);
         mTvNick.setOnClickListener(this);
         mAvatar.setOnClickListener(this);
-        findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
+//        findViewById(R.id.img_details_posts_expression).setOnClickListener(this);
     }
 
     @Override
@@ -565,8 +565,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                     actionCommunity();
                 }
                 break;
-            case R.id.img_details_posts_expression://表情
-                break;
+//            case R.id.img_details_posts_expression://表情
+//                break;
             case R.id.img_details_posts_avatar://头像
             case R.id.tv_details_posts_nick://贴主名
                 //跳转至个人中心
