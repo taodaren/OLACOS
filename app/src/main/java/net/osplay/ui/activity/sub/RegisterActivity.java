@@ -19,6 +19,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.IsAttentionBean;
 import net.osplay.service.entity.UserCodeBean;
 import net.osplay.service.entity.UserIsNickNameBean;
 import net.osplay.service.entity.UserIsRegisterBean;
@@ -225,8 +226,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void formatSubmit(String json) {
-        UserRegisterBean userRegisterBean = mGson.fromJson(json, UserRegisterBean.class);
-        String registCode = userRegisterBean.getCode();
+        IsAttentionBean bean = mGson.fromJson(json, IsAttentionBean.class);
+        String registCode = bean.getCode();
         if (registCode.equals("true")) {
             Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
             Intent i = new Intent();

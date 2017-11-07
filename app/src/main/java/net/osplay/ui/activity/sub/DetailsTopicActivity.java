@@ -32,6 +32,7 @@ import net.osplay.app.I;
 import net.osplay.app.MFGT;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.CheckInfoBean;
+import net.osplay.service.entity.IsAttentionBean;
 import net.osplay.service.entity.IsCheckBean;
 import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.service.entity.WordTopicTitleBean;
@@ -352,9 +353,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 if (json != null) {
-                    UserRegisterBean userRegisterBean = gson.fromJson(json,
-                            UserRegisterBean.class);
-                    String code = userRegisterBean.getCode();
+                    IsAttentionBean bean = gson.fromJson(json,
+                            IsAttentionBean.class);
+                    String code = bean.getCode();
                     if (code.equals("true")) {
                         btnAttention.setText("已加入");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
@@ -393,7 +394,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 String json = response.get();
                 if (json != null) {
                     UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
-                    String code = userRegisterBean.getCode();
+                    String code = userRegisterBean.getOk();
                     if (code.equals("true")) {
                         btnAttention.setText("已加入");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
@@ -429,7 +430,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 String json = response.get();
                 if (json != null) {
                     UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
-                    String code = userRegisterBean.getCode();
+                    String code = userRegisterBean.getOk();
                     if (code.equals("true")) {
                         btnAttention.setText("加入专区");
                         btnAttention.setBackgroundResource(R.drawable.shape_yuan);

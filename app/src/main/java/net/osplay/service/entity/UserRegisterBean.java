@@ -7,16 +7,16 @@ package net.osplay.service.entity;
 public class UserRegisterBean {
 
     /**
-     * code : true
+     * ok : false
      */
 
-    private String code;
+    private String ok;
 
-    public String getCode() {
-        return code;
+    public String getOk() {
+        return ok;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setOk(String ok) {
+        this.ok = ok;
     }
 }
