@@ -116,5 +116,19 @@ public class MyPostsBean {
         public void setNICK_NAME(String NICK_NAME) {
             this.NICK_NAME = NICK_NAME;
         }
+
+        @Override
+        public String toString() {
+            return "RowsBean{" +
+                    "COVERIMG='" + COVERIMG + '\'' +
+                    ", BOUTIQUE='" + BOUTIQUE + '\'' +
+                    ", PART='" + PART + '\'' +
+                    ", CREATEDATE='" + CREATEDATE + '\'' +
+                    ", TITLE='" + TITLE + '\'' +
+                    ", HEAD_PATH='" + HEAD_PATH + '\'' +
+                    ", ID='" + ID + '\'' +
+                    ", NICK_NAME='" + NICK_NAME + '\'' +
+                    '}';
+        }
     }
 }

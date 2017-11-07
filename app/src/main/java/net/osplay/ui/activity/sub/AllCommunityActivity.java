@@ -34,7 +34,7 @@ public class AllCommunityActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.all_community_activity);
         all_recy = (RecyclerView) findViewById(R.id.all_recy);
-        all_recy.setLayoutManager(new GridLayoutManager(AllCommunityActivity.this, 3));
+        all_recy.setLayoutManager(new GridLayoutManager(AllCommunityActivity.this, 5));
         setData();// 给listView设置adapter
     }
 

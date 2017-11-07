@@ -101,6 +101,8 @@ public class MypostsFragment extends Fragment {
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
             rows = myPostsBean.getRows();
+            Log.e("JGB","我的帖子第5条：："+rows.get(5).toString());
+            Log.e("JGB","我的帖子第5条：："+rows.get(4).toString());
             centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));
         }
     }
