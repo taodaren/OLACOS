@@ -231,7 +231,7 @@ public class EditRealNameActivity extends BaseActivity {
     private void studioIvHttp() {
         RequestQueue requestQueue2 = NoHttp.newRequestQueue();
         Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
-        request2.add("url", new FileBinary(new File(studentList.get(0).getPath())));//上传文件
+        request2.add("url", new FileBinary(new File(studentList.get(0).getCompressPath())));//上传文件
         requestQueue2.add(0, request2, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -265,7 +265,7 @@ public class EditRealNameActivity extends BaseActivity {
         //得到图片路径后上传服务器
         RequestQueue requestQueue2 = NoHttp.newRequestQueue();
         Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
-        request2.add("url", new FileBinary(new File(antiList.get(0).getPath())));//上传文件
+        request2.add("url", new FileBinary(new File(antiList.get(0).getCompressPath())));//上传文件
         requestQueue2.add(0, request2, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -298,7 +298,7 @@ public class EditRealNameActivity extends BaseActivity {
     private void positiveIvHttp() {
         RequestQueue requestQueue1 = NoHttp.newRequestQueue();
         Request<String> request1 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
-        request1.add("url", new FileBinary(new File(positiveList.get(0).getPath())));//上传文件
+        request1.add("url", new FileBinary(new File(positiveList.get(0).getCompressPath())));//上传文件
         requestQueue1.add(0, request1, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {

@@ -58,10 +58,6 @@ public class PublishPostsAdapter extends  RecyclerView.Adapter<PublishPostsViewH
         holder.publish_posts_item_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String path =localMedia.get(position).getPath();
-                List<String> image=new ArrayList<>();
-                image.add(path);
-                Log.e("JGB","image集合："+image);
 
             }
         });

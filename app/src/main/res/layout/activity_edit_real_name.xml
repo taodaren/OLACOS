@@ -147,7 +147,7 @@
                         android:padding="10dp"
                         android:src="@drawable/add"
                         android:adjustViewBounds="true"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="center"/>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -174,7 +174,7 @@
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/add"
                         android:adjustViewBounds="true"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="center"/>
                 </RelativeLayout>
             </LinearLayout>
 
@@ -239,7 +239,7 @@
                     android:padding="10dp"
                     android:src="@drawable/add"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="center"/>
             </LinearLayout>
 
             <LinearLayout

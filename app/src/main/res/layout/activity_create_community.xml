@@ -144,7 +144,7 @@
                     android:src="@drawable/add"
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="center"/>
             </LinearLayout>
 
             <View
@@ -175,7 +175,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="center"/>
             </LinearLayout>
 
             <Button
