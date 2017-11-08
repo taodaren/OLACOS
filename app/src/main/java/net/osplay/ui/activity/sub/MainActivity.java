@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -243,10 +244,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         switch (view.getId()) {
             case R.id.nav_avatar:
                 MFGT.gotoLogin(MainActivity.this, MinePageSelfActivity.class, "loginMine");
-
                 break;
             case R.id.nav_code:
 //                startActivity(new Intent(this, QRCodeActivity.class));
+                Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
                 break;
             default:
         }
