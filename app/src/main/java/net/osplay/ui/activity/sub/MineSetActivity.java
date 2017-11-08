@@ -2,6 +2,7 @@ package net.osplay.ui.activity.sub;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import net.osplay.data.db.DaoMaster;
 import net.osplay.data.db.GreenDaoHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 
 /**
  * 个人中心 → 设置

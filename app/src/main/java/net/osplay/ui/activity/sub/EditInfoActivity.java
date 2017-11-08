@@ -32,8 +32,11 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.data.bean.Account;
+import net.osplay.data.db.AccountDao;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 
 import java.util.Calendar;
 
@@ -87,6 +90,7 @@ public class EditInfoActivity extends BaseActivity  {
     @BindView(R.id.edit_info_real_name)
     LinearLayout editInfoRealName;
     private String shenhe;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,33 +98,73 @@ public class EditInfoActivity extends BaseActivity  {
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         setToolbar("编辑资料", View.VISIBLE);
+        id = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "ID", "");
         setUserInfo();
+        //获取地址
 
     }
 
     private void setUserInfo() {
-            Glide.with(EditInfoActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(mineAvatar);
-            nameTv.setText(AppHelper.getInstance().getUser().getCN());
-            ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
-            xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
-            areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
-            shenhe = AppHelper.getInstance().getUser().getSHENHE();
-            Log.e("JGb","认证结果：："+shenhe);
-            if(shenhe==null){
-                Certification.setText("待审核");
-            }else{
-                switch (shenhe) {
-                    case "0":
-                        Certification.setText("已审核");
-                        break;
-                    case "1":
-                        Certification.setText("审核未通过");
-                        break;
-                    case "2":
+        String LOCAL_DRESS= (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "LOCAL_DRESS", "");//获取地址
+        String BIRTHDAY= (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "BIRTHDAY", "");//获取生日
+        String XINGZUO= (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "XINGZUO", "");//获取星座
+        String CN = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "CN", "");//获取姓名
+        Log.e("JGB","生日："+CN);
+        if((!CN.equals(AppHelper.getInstance().getUser().getCN())
+                ||(!XINGZUO.equals(AppHelper.getInstance().getUser().getXINGZUO())
+                ||(!BIRTHDAY.equals(AppHelper.getInstance().getUser().getBIRTHDAY())
+                ||(!LOCAL_DRESS.equals(AppHelper.getInstance().getUser().getLOCAL_DRESS())))))) {
+                if(id.equals(AppHelper.getInstance().getUser().getID())){
+                    Log.e("JGb", "修该后走这里！！！！！！！！！！！");
+                    Log.e("JGB","修该后走这里的姓名是啥："+CN);
+                    if(!AppHelper.getInstance().getUser().getCN().equals(CN)){
+                        nameTv.setText(CN);
+                    }
+                    if(!AppHelper.getInstance().getUser().getBIRTHDAY().equals(BIRTHDAY)){
+                        ageTv.setText(BIRTHDAY);
+                    }
+                    if(!AppHelper.getInstance().getUser().getXINGZUO().equals(XINGZUO)){
+                        xingxuoTv.setText(XINGZUO);
+                    }
+                    if(!AppHelper.getInstance().getUser().getLOCAL_DRESS().equals(LOCAL_DRESS)){
+                        areaTv.setText(LOCAL_DRESS);
+                    }
+
+                }else{
+                    nameTv.setText(AppHelper.getInstance().getUser().getCN());
+                    String birthday = AppHelper.getInstance().getUser().getCN();
+                    Log.e("JGB", "数据哭的中：" + birthday);
+                    ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
+                    xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
+                    areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
+                    shenhe = AppHelper.getInstance().getUser().getSHENHE();
+                    Log.e("JGb", "认证结果：：" + shenhe);
+                    if (shenhe == null) {
                         Certification.setText("待审核");
-                        break;
+                    } else {
+                        switch (shenhe) {
+                            case "0":
+                                Certification.setText("已审核");
+                                break;
+                            case "1":
+                                Certification.setText("审核未通过");
+                                break;
+                            case "2":
+                                Certification.setText("待审核");
+                                break;
+                        }
+                    }
                 }
-            }
+
+
+
+        }else{
+            nameTv.setText(CN);
+            ageTv.setText(BIRTHDAY);
+            xingxuoTv.setText(XINGZUO);
+            areaTv.setText(LOCAL_DRESS);
+        }
+
             
         }
 
@@ -222,6 +266,9 @@ public class EditInfoActivity extends BaseActivity  {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB","修改地区的结果：："+json);
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "LOCAL_DRESS", areaTv.getText().toString());
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "ID", AppHelper.getInstance().getUser().getID());
+
             }
 
             @Override
@@ -259,7 +306,7 @@ public class EditInfoActivity extends BaseActivity  {
         }
 
    //修改年龄的网络请求(ok)
-    private void modifyAgeHeep(String age) {
+    private void modifyAgeHeep(final String age) {
         String s = xingxuoTv.getText().toString();
         Log.e("JGB","星座："+s);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
@@ -282,6 +329,9 @@ public class EditInfoActivity extends BaseActivity  {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB","修改年龄的结果：："+json);
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "BIRTHDAY", age);
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "XINGZUO", xingxuoTv.getText().toString());
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "ID", AppHelper.getInstance().getUser().getID());
             }
 
             @Override
@@ -343,9 +393,9 @@ public class EditInfoActivity extends BaseActivity  {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 Log.e("JGB","change----------"+json);
-                if (json != null) {
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "CN", nameTv.getText().toString());
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "ID", AppHelper.getInstance().getUser().getID());
 
-                }
             }
 
             @Override

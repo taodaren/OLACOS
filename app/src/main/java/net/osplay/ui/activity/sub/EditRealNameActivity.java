@@ -29,6 +29,7 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
+import net.osplay.data.bean.Account;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.PhotoBean;
 import net.osplay.ui.activity.base.BaseActivity;
