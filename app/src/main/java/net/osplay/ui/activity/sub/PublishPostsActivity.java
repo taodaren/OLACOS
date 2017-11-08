@@ -1,19 +1,19 @@
 package net.osplay.ui.activity.sub;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
+import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +21,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -34,9 +35,9 @@ import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.PhotoBean;
+import net.osplay.service.entity.PostBean;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.service.entity.WordTopicTitleBean;
-import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.PublishAreaAdapter;
 import net.osplay.ui.adapter.PublishPostsAdapter;
 import net.osplay.ui.adapter.PublishTwoAreaAdapter;
@@ -48,39 +49,41 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ch.ielse.view.SwitchView;
 
-public class PublishPostsActivity extends BaseActivity {
+public class PublishPostsActivity extends Activity {
 
-    @BindView(R.id.text_city)
-    TextView textCity;
-    @BindView(R.id.layout_city)
-    RelativeLayout layoutCity;
-    @BindView(R.id.title_toolbar)
-    TextView titleToolbar;
-    @BindView(R.id.tab_layout_toolbar)
-    TabLayout tabLayoutToolbar;
-    @BindView(R.id.main_toolbar)
-    Toolbar mainToolbar;
+
+    @BindView(R.id.league_toolbar)
+    Toolbar leagueToolbar;
     @BindView(R.id.posts_title_tv)
     EditText postsTitleTv;
     @BindView(R.id.posts_content_tv)
     EditText postsContentTv;
-    @BindView(R.id.posts_content_iv)
-    RecyclerView postsContentIv;
     @BindView(R.id.posts_click_iv)
     ImageView postsClickIv;
-    @BindView(R.id.posts_area_recy)
-    RecyclerView postsAreaRecy;
-    @BindView(R.id.posts_original_rb)
-    RadioButton postsOriginalRb;
-    @BindView(R.id.posts_reprint_rb)
-    RadioButton postsReprintRb;
-    @BindView(R.id.posts_tow_area_recy)
-    RecyclerView postsTowAreaRecy;
+    @BindView(R.id.posts_content_iv)
+    RecyclerView postsContentIv;
     @BindView(R.id.posts_area_tv)
     TextView postsAreaTv;
+    @BindView(R.id.posts_area_recy)
+    RecyclerView postsAreaRecy;
     @BindView(R.id.posts_two_area_tv)
     TextView postsTwoAreaTv;
+    @BindView(R.id.posts_tow_area_recy)
+    RecyclerView postsTowAreaRecy;
+    @BindView(R.id.linearLayout)
+    LinearLayout linearLayout;
+    @BindView(R.id.posts_back_iv)
+    ImageView postsBackIv;
+    @BindView(R.id.posts_release_iv)
+    ImageView postsReleaseIv;
+    @BindView(R.id.posts_original_switch)
+    SwitchView postsOriginalSwitch;
+    @BindView(R.id.posts_reprint_switch)
+    SwitchView postsReprintSwitch;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private List<LocalMedia> localMedia;//图片集合
     private PublishPostsAdapter adapter;
     private PublishAreaAdapter paAdapter;
@@ -90,8 +93,10 @@ public class PublishPostsActivity extends BaseActivity {
     private Gson mGson = new Gson();
     private List<WordTopicBean> mTopicList;
     private String url;
-    private String id;//选中大区的id
-    private String id2;//选中分区的id
+    private String id = "";//选中大区的id
+    private String id2 = "";//选中分区的id
+    private String origint = "";//是否原创
+    private String reprint = "";//是否可转载
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,39 +108,34 @@ public class PublishPostsActivity extends BaseActivity {
         postsTowAreaRecy.setLayoutManager(new GridLayoutManager(PublishPostsActivity.this, 4));
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);//滑动样式
 //        postsAreaRecy.setLayoutManager(linearLayoutManager);
-        setToolbar("发布帖子", View.VISIBLE);
         getArea();//获取一级专区的数据
+        switchOnclick();
 
     }
 
-    //点击事件
-    @OnClick({R.id.posts_click_iv, R.id.posts_original_rb, R.id.posts_reprint_rb})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.posts_click_iv:
-                if (bs == 0) {
-                    PictureSelector.create(PublishPostsActivity.this)
-                            .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(9)
-                            .compress(true)
-                            .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
-                    bs = 1;
-                } else {
-                    PictureSelector.create(PublishPostsActivity.this)
-                            .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(9)
-                            .compress(true)
-                            .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
+    //开关的选择
+    private void switchOnclick() {
+        postsOriginalSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isOpened = postsOriginalSwitch.isOpened();
+                if (isOpened == true) {
+                    origint = "0";
+                    Log.e("JGB", "是原创");
                 }
-
-
-                break;
-            case R.id.posts_original_rb:
-                break;
-            case R.id.posts_reprint_rb:
-                break;
-        }
+            }
+        });
+        postsReprintSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isOpened = postsReprintSwitch.isOpened();
+                if (isOpened == true) {
+                    reprint = "0";
+                }
+            }
+        });
     }
+
 
     //选择图片的回调
     @Override
@@ -293,28 +293,9 @@ public class PublishPostsActivity extends BaseActivity {
         ptAdapter.onClick(twoArea);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
-    }
-
-
-    public void click(View view) {
-        if(size==0){
-            ReleaseHttp();
-        }else{
-            input();
-        }
-    }
-
 
     //上传选择
-    private void input(){
+    private void input() {
         switch (size) {
             case 1:
                 RequestQueue requestQueue = NoHttp.newRequestQueue();
@@ -335,9 +316,9 @@ public class PublishPostsActivity extends BaseActivity {
                             PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                             String url1 = photoBean.getFilelist().get(0).getURL();
                             StringBuffer sb1 = new StringBuffer();
-                            StringBuffer append = sb1.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(url1).append("\"/></p>");
+                            StringBuffer append = sb1.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(url1).append("\"/></p>");
                             Log.e("JGB", "图片上传结果：" + append);
-                            case1ReleaseHttp(append);
+                            case1ReleaseHttp(append, url1);
                         }
                     }
 
@@ -588,8 +569,11 @@ public class PublishPostsActivity extends BaseActivity {
                     }
                 });
                 break;
-            case 9:
-                break;
+            default:
+                Toast.makeText(PublishPostsActivity.this, "目前最多只能上传8张图片呢", Toast.LENGTH_SHORT).show();
+                avi.hide();
+                avi.setVisibility(View.GONE);
+                postsReleaseIv.setVisibility(View.VISIBLE);
 
         }
     }
@@ -826,7 +810,7 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image88 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb8 = new StringBuffer();
-                    StringBuffer append = sb8.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image81).append("\"/></p>")
+                    StringBuffer append = sb8.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image81).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image82).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image83).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image84).append("\"/></p>")
@@ -835,7 +819,7 @@ public class PublishPostsActivity extends BaseActivity {
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image87).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image88).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case8ReleaseHttp(append);
+                    case8ReleaseHttp(append, image88);
 
 
                 }
@@ -1046,7 +1030,7 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image77 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb7 = new StringBuffer();
-                    StringBuffer append = sb7.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image71).append("\"/></p>")
+                    StringBuffer append = sb7.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image71).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image72).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image73).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image74).append("\"/></p>")
@@ -1054,7 +1038,7 @@ public class PublishPostsActivity extends BaseActivity {
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image76).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image77).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case7ReleaseHttp(append);
+                    case7ReleaseHttp(append, image77);
                 }
             }
 
@@ -1226,14 +1210,14 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image66 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb6 = new StringBuffer();
-                    StringBuffer append = sb6.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image61).append("\"/></p>")
+                    StringBuffer append = sb6.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image61).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image62).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image63).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image64).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image65).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image66).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case6ReleaseHttp(append);
+                    case6ReleaseHttp(append, image66);
                 }
             }
 
@@ -1372,13 +1356,13 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image55 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb5 = new StringBuffer();
-                    StringBuffer append = sb5.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image51).append("\"/></p>")
+                    StringBuffer append = sb5.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image51).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image52).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image53).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image54).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image55).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case5ReleaseHttp(append);
+                    case5ReleaseHttp(append, image55);
                 }
             }
 
@@ -1479,12 +1463,12 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image44 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb4 = new StringBuffer();
-                    StringBuffer append = sb4.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image41).append("\"/></p>")
+                    StringBuffer append = sb4.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image41).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image42).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image43).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image44).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case4ReleaseHttp(append);
+                    case4ReleaseHttp(append, image44);
                 }
             }
 
@@ -1552,11 +1536,11 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String image33 = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb3 = new StringBuffer();
-                    StringBuffer append = sb3.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(image31).append("\"/></p>").append("<p><img src=\"")
+                    StringBuffer append = sb3.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(image31).append("\"/></p>").append("<p><img src=\"")
                             .append("http://www.olacos.net").append(image32).append("\"/></p>")
                             .append("<p><img src=\"").append("http://www.olacos.net").append(image33).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case3ReleaseHttp(append);
+                    case3ReleaseHttp(append, image33);
                 }
             }
 
@@ -1590,9 +1574,9 @@ public class PublishPostsActivity extends BaseActivity {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
                     String url = photoBean.getFilelist().get(0).getURL();
                     StringBuffer sb2 = new StringBuffer();
-                    StringBuffer append = sb2.append(postsContentTv.getText().toString()+"<p><img src=\"").append("http://www.olacos.net").append(avaterurl).append("\"/></p>").append("<p><img src=\"").append("http://www.olacos.net").append(url).append("\"/></p>");
+                    StringBuffer append = sb2.append(postsContentTv.getText().toString() + "<p><img src=\"").append("http://www.olacos.net").append(avaterurl).append("\"/></p>").append("<p><img src=\"").append("http://www.olacos.net").append(url).append("\"/></p>");
                     Log.e("JGB", "图片上传结果：" + append);
-                    case2ReleaseHttp(append);
+                    case2ReleaseHttp(append, url);
                 }
             }
 
@@ -1618,12 +1602,12 @@ public class PublishPostsActivity extends BaseActivity {
         request.add("bigPartId", id);
         request.add("partId", id2);
         request.add("coverImg", "");
-        request.add("content",postsContentTv.getText().toString() );
+        request.add("content", postsContentTv.getText().toString());
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "北京");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1635,7 +1619,19 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
+
                 }
             }
 
@@ -1650,18 +1646,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case2ReleaseHttp(StringBuffer imageurl) {
+    private void case2ReleaseHttp(StringBuffer imageurl, String url) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", imageurl+"");
+        request.add("coverImg", url);
+        request.add("content", imageurl + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "北京");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1673,7 +1669,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                   Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1688,18 +1695,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case3ReleaseHttp(StringBuffer append) {
+    private void case3ReleaseHttp(StringBuffer append, String image33) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image33);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1711,7 +1718,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1726,18 +1744,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case4ReleaseHttp(StringBuffer append) {
+    private void case4ReleaseHttp(StringBuffer append, String image44) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image44);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1749,7 +1767,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1764,18 +1793,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case5ReleaseHttp(StringBuffer append) {
+    private void case5ReleaseHttp(StringBuffer append, String image55) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image55);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1787,7 +1816,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1802,18 +1842,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case6ReleaseHttp(StringBuffer append) {
+    private void case6ReleaseHttp(StringBuffer append, String image66) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image66);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1825,7 +1865,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1840,18 +1891,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case7ReleaseHttp(StringBuffer append) {
+    private void case7ReleaseHttp(StringBuffer append, String image77) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image77);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1863,7 +1914,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1878,18 +1940,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case8ReleaseHttp(StringBuffer append) {
+    private void case8ReleaseHttp(StringBuffer append, String image88) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", image88);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1901,7 +1963,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1916,18 +1989,18 @@ public class PublishPostsActivity extends BaseActivity {
         });
     }
 
-    private void case1ReleaseHttp(StringBuffer append) {
+    private void case1ReleaseHttp(StringBuffer append, String url1) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/topicMobile/publishTopic.do", RequestMethod.POST);
         request.add("bigPartId", id);
         request.add("partId", id2);
-        request.add("coverImg", "");
-        request.add("content", append+"");
+        request.add("coverImg", url1);
+        request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
         request.add("district", "");
-        request.add("original", 0);
-        request.add("reprint", 0);
+        request.add("original", origint);
+        request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1939,7 +2012,18 @@ public class PublishPostsActivity extends BaseActivity {
                 if (json == null) {
                     return;
                 } else {
-                    Log.e("JGB","发布结果："+json);
+                    PostBean postBean = mGson.fromJson(json, PostBean.class);
+                    if(postBean.isOk()==true){
+                        avi.hide();
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                    }else{
+                        avi.setVisibility(View.GONE);
+                        postsReleaseIv.setVisibility(View.VISIBLE);
+                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                    }
+                    Log.e("JGB", "发布结果：" + json);
                 }
             }
 
@@ -1953,5 +2037,63 @@ public class PublishPostsActivity extends BaseActivity {
             }
         });
     }
+
+    @OnClick({R.id.posts_back_iv, R.id.posts_release_iv, R.id.posts_click_iv})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.posts_back_iv:
+                finish();
+                break;
+            case R.id.posts_release_iv:
+                if (size == 0) {//如果图片集合为空代表直发文字
+                    if (postsTitleTv.getText().toString().isEmpty()) {
+                        Toast.makeText(PublishPostsActivity.this, "标题不能为空哦", Toast.LENGTH_SHORT).show();
+                    } else if (postsContentTv.getText().toString().isEmpty()) {
+                        Toast.makeText(PublishPostsActivity.this, "内容不能为空哦", Toast.LENGTH_SHORT).show();
+                    } else if (id.equals("")) {
+                        Toast.makeText(PublishPostsActivity.this, "还没有选中你要发布的专区哦", Toast.LENGTH_SHORT).show();
+                    } else if (id2.equals("")) {
+                        Toast.makeText(PublishPostsActivity.this, "还没有选中你要发布的二级专区哦", Toast.LENGTH_SHORT).show();
+                    } else {
+                        avi.setVisibility(View.VISIBLE);
+                        postsReleaseIv.setVisibility(View.GONE);
+                        ReleaseHttp();
+                    }
+                } else {
+                    if (postsTitleTv.getText().toString().isEmpty()) {
+                        Toast.makeText(PublishPostsActivity.this, "标题不能为空哦", Toast.LENGTH_SHORT).show();
+                    } else if (id.equals("")) {
+                        Toast.makeText(PublishPostsActivity.this, "还没有选中你要发布的专区哦", Toast.LENGTH_SHORT).show();
+                    } else if (id2.equals("")) {
+                        Toast.makeText(PublishPostsActivity.this, "还没有选中你要发布的二级专区哦", Toast.LENGTH_SHORT).show();
+                    } else {
+                        avi.setVisibility(View.VISIBLE);
+                        postsReleaseIv.setVisibility(View.GONE);
+                        input();
+                    }
+
+                }
+                break;
+            case R.id.posts_click_iv:
+                if (bs == 0) {
+                    PictureSelector.create(PublishPostsActivity.this)
+                            .openGallery(PictureMimeType.ofAll())
+                            .maxSelectNum(9)
+                            .compress(true)
+                            .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
+                    bs = 1;
+                } else {
+                    PictureSelector.create(PublishPostsActivity.this)
+                            .openGallery(PictureMimeType.ofAll())
+                            .maxSelectNum(9)
+                            .compress(true)
+                            .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
+                }
+
+
+                break;
+        }
+    }
+
 
 }

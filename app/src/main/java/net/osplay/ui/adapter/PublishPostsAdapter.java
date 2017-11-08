@@ -2,17 +2,20 @@ package net.osplay.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+
 import com.luck.picture.lib.entity.LocalMedia;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +52,17 @@ public class PublishPostsAdapter extends  RecyclerView.Adapter<PublishPostsViewH
             @Override
             public void onClick(View view) {
                 setOnClickListen.setOnClick(position);
+
+            }
+        });
+        holder.publish_posts_item_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String path =localMedia.get(position).getPath();
+                List<String> image=new ArrayList<>();
+                image.add(path);
+                Log.e("JGB","image集合："+image);
+
             }
         });
     }

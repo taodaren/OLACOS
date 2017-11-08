@@ -1,11 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorContentBg"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/league_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/posts_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_back"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="新建图文帖"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/posts_release_iv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:onClick="click"
+            android:src="@drawable/feiji"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"/>
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avi"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:indicatorName="BallSpinFadeLoaderIndicator"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -16,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,10 +74,19 @@
                 <EditText
                     android:id="@+id/posts_title_tv"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:hint="帖子标题" />
+                    android:background="@null"
+                    android:hint="帖子标题"
+                    android:textSize="14dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"/>
 
                 <EditText
                     android:id="@+id/posts_content_tv"
@@ -35,25 +94,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@null"
-                    android:hint="请输入内容" />
+                    android:hint="请输入内容"
+                    android:textSize="14dp" />
 
-                <ImageView
-                    android:id="@+id/posts_click_iv"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/posts_content_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/add"
-                    android:layout_marginTop="80dp"/>
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="60dp">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/posts_content_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp">
-                    </android.support.v7.widget.RecyclerView>
-
+                </android.support.v7.widget.RecyclerView>
 
 
             </LinearLayout>
@@ -61,87 +115,122 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="专区：" />
+
                 <TextView
                     android:id="@+id/posts_area_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="请选择专区" />
+                    android:text="请选择专区"
+                    android:textColor="#999999"
+                    android:textSize="14dp" />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/posts_area_recy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="7dp"/>
+                android:layout_alignEnd="@+id/linearLayout"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="7dp"
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="二级专区：" />
+
                 <TextView
                     android:id="@+id/posts_two_area_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="请选择二级专区" />
+                    android:text="请选择二级专区"
+                    android:textColor="#999999"
+                    android:textSize="14dp" />
             </LinearLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/posts_tow_area_recy"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="7dp"/>
+                android:layout_margin="7dp"
+                android:layout_marginTop="10dp" />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#726C60">
+        android:background="#e5e5e5">
+        <LinearLayout
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="#808080">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="原创"
-                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
 
-            <RadioButton
-                android:id="@+id/posts_original_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="转载" />
+        <ImageView
+            android:id="@+id/posts_click_iv"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/xiangji" />
 
-            <RadioButton
-                android:id="@+id/posts_reprint_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        <Button
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发布"
-            android:onClick="click"/>
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否原创"
+                android:textSize="14dp" />
+
+            <ch.ielse.view.SwitchView
+                android:id="@+id/posts_original_switch"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否可转载"
+                android:textSize="14dp" />
+
+            <ch.ielse.view.SwitchView
+                android:id="@+id/posts_reprint_switch"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </LinearLayout>
