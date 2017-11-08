@@ -49,8 +49,9 @@ public class MyPostsAdapter extends RecyclerView.Adapter<PostsViewHolder> {
         holder.item_topic_all_nick.setText(rows.get(position).getNICK_NAME());
         holder.item_posts_time.setText(rows.get(position).getCREATEDATE());
         holder.item_posts_title.setText(rows.get(position).getTITLE());
-        //赞、收藏、评论没有值
-        //holder.item_posts_good.setText(rows.get(position).get);
+        holder.item_posts_good.setText(rows.get(position).getZAN_COUNT());
+        holder.item_posts_collect.setText(rows.get(position).getCOLLECT_COUNT());
+        holder.item_posts_comment.setText(rows.get(position).getPINGLUN_COUNT());
         holder.posts_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

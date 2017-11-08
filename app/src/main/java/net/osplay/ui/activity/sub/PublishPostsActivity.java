@@ -2071,7 +2071,6 @@ public class PublishPostsActivity extends Activity {
                         postsReleaseIv.setVisibility(View.GONE);
                         input();
                     }
-
                 }
                 break;
             case R.id.posts_click_iv:

@@ -61,7 +61,7 @@ public class MypostsFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_POSTS, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", Integer.MAX_VALUE);
+        request.add("rows", 1);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -101,8 +101,6 @@ public class MypostsFragment extends Fragment {
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
             rows = myPostsBean.getRows();
-            Log.e("JGB","我的帖子第5条：："+rows.get(5).toString());
-            Log.e("JGB","我的帖子第5条：："+rows.get(4).toString());
             centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));
         }
     }

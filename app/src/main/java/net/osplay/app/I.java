@@ -10,7 +10,7 @@ public interface I {
     /**
      * 基础 url
      **/
-    //String BASE_URL = "http://www.olacos.net";//服务器域名
+   // String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
    String BASE_URL = "http://192.168.1.13:8080/qda";//本地服务器
 
@@ -43,6 +43,7 @@ public interface I {
     String MY_AREA = BASE_URL + "/centerMobile/myarrondi.do";
     //我的帖子
     String MY_POSTS = BASE_URL + "/centerMobile/community.do";
+
     //我的收藏
     String MY_COLLECTION = BASE_URL + "/centerMobile/collect.do";
     //我关注的用户 全部
