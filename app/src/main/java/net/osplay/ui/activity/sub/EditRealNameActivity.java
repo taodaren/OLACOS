@@ -76,9 +76,9 @@ public class EditRealNameActivity extends BaseActivity {
     private List<LocalMedia> antiList;
     private List<LocalMedia> studentList;
     private String posiveUrl;
-    private String antiUrl;
     private String studentUrl;
     private Gson mGson = new Gson();
+    int bs=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,6 @@ public class EditRealNameActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_real_name);
         ButterKnife.bind(this);
         setToolbar("实名认证", View.VISIBLE);
-
     }
 
     @Override
@@ -107,6 +106,7 @@ public class EditRealNameActivity extends BaseActivity {
                         .openGallery(PictureMimeType.ofImage())
                         .maxSelectNum(1)// 最大图片选择数量 int
                         .previewImage(true)//预览图片
+                        .compress(true)
                         .forResult(PictureConfig.CHOOSE_REQUEST);
                 break;
             case R.id.certification_anti_iv://身份证背面照
@@ -114,20 +114,24 @@ public class EditRealNameActivity extends BaseActivity {
                         .openGallery(PictureMimeType.ofImage())
                         .maxSelectNum(1)// 最大图片选择数量 int
                         .previewImage(true)//预览图片
+                        .compress(true)
                         .forResult(PictureConfig.REQUEST_CAMERA);
                 break;
             case R.id.certification_yes_rb://是学生
                 certificationStudentLl.setVisibility(View.VISIBLE);
                 certificationSchoolLl.setVisibility(View.VISIBLE);
+                bs=1;
                 break;
             case R.id.certification_no_rb://不是学生
                 certificationStudentLl.setVisibility(View.GONE);
+                certificationSchoolLl.setVisibility(View.GONE);
                 break;
             case R.id.certification_student_iv://学生证照片
                 PictureSelector.create(EditRealNameActivity.this)
                         .openGallery(PictureMimeType.ofImage())
                         .maxSelectNum(1)// 最大图片选择数量 int
                         .previewImage(true)//预览图片
+                        .compress(true)
                         .forResult(PictureConfig.CAMERA);
                 break;
             case R.id.certification_submit_bt://提交
@@ -151,54 +155,17 @@ public class EditRealNameActivity extends BaseActivity {
                         Toast.makeText(EditRealNameActivity.this, "学校名称不能为空", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        studioIvHttp();
+                        //studioIvHttp();
                         positiveIvHttp();
-                        antiIvHttp();
+                       // antiIvHttp();
                     }
                 } else {
-//                    positiveIvHttp();
-//                    antiIvHttp();
-                    studentploadHttp();
+                    positiveIvHttp();
 
                 }
                 break;
         }
     }
-
-
-    private void studentploadHttp() {
-        Log.e("JGB", "tupian" + posiveUrl);
-        RequestQueue requestQueue = NoHttp.newRequestQueue();
-        Request<String> request = NoHttp.createStringRequest(I.VERIFIED, RequestMethod.POST);
-        request.add("ID", AppHelper.getInstance().getUser().getID());
-        request.add("CN", AppHelper.getInstance().getUser().getCN());
-        request.add("CARD", certificationIdCardEd.getText().toString());
-        request.add("CARD_F_PATH", posiveUrl);
-        request.add("CARD_B_PATH", antiUrl);
-        requestQueue.add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();
-                Log.e("JGB", "实名认证结果" + json);
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-
-            }
-
-            @Override
-            public void onFinish(int what) {
-
-            }
-        });
-    }
-
 
     //图片结果回调
     @Override
@@ -210,58 +177,23 @@ public class EditRealNameActivity extends BaseActivity {
                     // 图片选择结果回调
                     positiveList = PictureSelector.obtainMultipleResult(data);
                     Glide.with(EditRealNameActivity.this).load(positiveList.get(0).getPath()).into(certificationPositiveIv);
-                    positiveIvHttp();
                     break;
                 case PictureConfig.REQUEST_CAMERA:
                     antiList = PictureSelector.obtainMultipleResult(data);
                     Glide.with(EditRealNameActivity.this).load(antiList.get(0).getPath()).into(certificationAntiIv);
-                    antiIvHttp();
                     break;
                 case PictureConfig.CAMERA:
                     studentList = PictureSelector.obtainMultipleResult(data);
                     Glide.with(EditRealNameActivity.this).load(studentList.get(0).getPath()).into(certificationStudentIv);
-                    studioIvHttp();
                     break;
 
             }
         }
     }
 
-    //上传学生证图片
-    private void studioIvHttp() {
-        RequestQueue requestQueue2 = NoHttp.newRequestQueue();
-        Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
-        request2.add("url", new FileBinary(new File(studentList.get(0).getCompressPath())));//上传文件
-        requestQueue2.add(0, request2, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();
-                Log.e("JGB", "上传学生证图片结果" + json);
-                if (json == null) {
-                    return;
-                } else {
-                    PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
-                    studentUrl = photoBean.getFilelist().get(0).getURL();
-                }
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-            }
-
-            @Override
-            public void onFinish(int what) {
-
-            }
-        });
-    }
 
     //上传背面身份证图片
-    private void antiIvHttp() {
+    private void antiIvHttp(final String positive) {
         //得到图片路径后上传服务器
         RequestQueue requestQueue2 = NoHttp.newRequestQueue();
         Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
@@ -279,7 +211,12 @@ public class EditRealNameActivity extends BaseActivity {
                     return;
                 } else {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
-                    antiUrl = photoBean.getFilelist().get(0).getURL();
+                    String back = photoBean.getFilelist().get(0).getURL();//背面照
+                    if(bs==1){//bs==1说明是学生
+                        studioIvHttp(positive,back);
+                    }else{
+                        notStudentploadHttp(positive,back);
+                    }
                 }
             }
 
@@ -293,12 +230,11 @@ public class EditRealNameActivity extends BaseActivity {
             }
         });
     }
-
     //上传正面身份证图片
     private void positiveIvHttp() {
         RequestQueue requestQueue1 = NoHttp.newRequestQueue();
         Request<String> request1 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
-        request1.add("url", new FileBinary(new File(positiveList.get(0).getCompressPath())));//上传文件
+        request1.add("url", new FileBinary(new File(this.positiveList.get(0).getCompressPath())));//上传文件
         requestQueue1.add(0, request1, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -312,12 +248,117 @@ public class EditRealNameActivity extends BaseActivity {
                     return;
                 } else {
                     PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
-                    posiveUrl = photoBean.getFilelist().get(0).getURL();
+                    String positive = photoBean.getFilelist().get(0).getURL();//正面学生照
+                    antiIvHttp(positive);
                 }
             }
 
             @Override
             public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+    //非学生上传
+    private void notStudentploadHttp(String positive, String back) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.VERIFIED, RequestMethod.POST);
+        request.add("ID", AppHelper.getInstance().getUser().getID());
+        request.add("CN",certificationNameEd.getText().toString() );
+        request.add("CARD", certificationIdCardEd.getText().toString());
+        request.add("CARD_F_PATH", positive);
+        request.add("CARD_B_PATH", back);
+        request.add("STU_PATH", "");
+        request.add("SCHOOL", "");
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "请求到这里" );
+                Log.e("JGB", "实名认证结果" + json);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+    //上传学生证图片
+    private void studioIvHttp(final String positive, final String back) {
+        RequestQueue requestQueue2 = NoHttp.newRequestQueue();
+        Request<String> request2 = NoHttp.createStringRequest(I.PHOTO, RequestMethod.POST);
+        request2.add("url", new FileBinary(new File(studentList.get(0).getCompressPath())));//上传文件
+        requestQueue2.add(0, request2, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "上传学生证图片结果" + json);
+                if (json == null) {
+                    return;
+                } else {
+                    PhotoBean photoBean = mGson.fromJson(json, PhotoBean.class);
+                    String studentim = photoBean.getFilelist().get(0).getURL();
+                    studentLoadHttp(positive,back,studentim);
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+    //学生上传
+    private void studentLoadHttp(String positive, String back, String studentim) {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.VERIFIED, RequestMethod.POST);
+        request.add("ID", AppHelper.getInstance().getUser().getID());
+        request.add("CN", AppHelper.getInstance().getUser().getCN());
+        request.add("CARD", certificationIdCardEd.getText().toString());
+        request.add("CARD_F_PATH", positive);
+        request.add("CARD_B_PATH", back);
+        request.add("STU_PATH", studentim);
+        request.add("SCHOOL", certificationSchoolEd.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "请求到这里" );
+                Log.e("JGB", "学生实名认证结果" + json);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
             }
 
             @Override

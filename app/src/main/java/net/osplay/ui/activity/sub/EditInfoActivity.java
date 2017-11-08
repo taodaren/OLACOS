@@ -177,6 +177,7 @@ public class EditInfoActivity extends BaseActivity  {
                 return;
            if(data.getStringExtra("returnName")!=null){
                nameTv.setText(data.getStringExtra("returnName"));
+               formatChangeName();
            }
         }
         //地区的回调
@@ -203,14 +204,14 @@ public class EditInfoActivity extends BaseActivity  {
     private void getAreaHttp(String cityName) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
-        request.add("ID",AppHelper.getInstance().getUser().getId());
+        request.add("ID",AppHelper.getInstance().getUser().getID());
         request.add("NICK_NAME",AppHelper.getInstance().getUser().getNICK_NAME());
-        request.add("CN",AppHelper.getInstance().getUser().getCN());
-        request.add("BIRTHDAY",AppHelper.getInstance().getUser().getBIRTHDAY());
+        request.add("CN",nameTv.getText().toString());
+        request.add("BIRTHDAY",ageTv.getText().toString());
         request.add("TARGET",AppHelper.getInstance().getUser().getTARGET());
-        request.add("XINGZUO",AppHelper.getInstance().getUser().getXINGZUO());
+        request.add("XINGZUO",xingxuoTv.getText().toString());
         request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
-        request.add("LOCAL_DRESS",cityName);
+        request.add("LOCAL_DRESS",areaTv.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -257,20 +258,20 @@ public class EditInfoActivity extends BaseActivity  {
                 datePickerStart.show();
         }
 
-   //修改年龄的网络请求
+   //修改年龄的网络请求(ok)
     private void modifyAgeHeep(String age) {
         String s = xingxuoTv.getText().toString();
         Log.e("JGB","星座："+s);
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
-        request.add("ID",AppHelper.getInstance().getUser().getId());
+        request.add("ID",AppHelper.getInstance().getUser().getID());
         request.add("NICK_NAME",AppHelper.getInstance().getUser().getNICK_NAME());
-        request.add("CN",AppHelper.getInstance().getUser().getCN());
+        request.add("CN",nameTv.getText().toString());
         request.add("BIRTHDAY",age);
         request.add("TARGET",AppHelper.getInstance().getUser().getTARGET());
         request.add("XINGZUO",xingxuoTv.getText().toString());
         request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
-        request.add("LOCAL_DRESS",AppHelper.getInstance().getUser().getLOCAL_DRESS());
+        request.add("LOCAL_DRESS",areaTv.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -308,6 +309,55 @@ public class EditInfoActivity extends BaseActivity  {
         xingxuoTv.setText(astro[index]);
         // 返回索引指向的星座string
         return astro[index];
+    }
+
+    //修改姓名
+    private void formatChangeName() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
+        request.add("ID",AppHelper.getInstance().getUser().getID());
+        request.add("NICK_NAME",AppHelper.getInstance().getUser().getNICK_NAME());
+        request.add("CN",nameTv.getText().toString());
+        request.add("BIRTHDAY",ageTv.getText().toString());
+        request.add("TARGET",AppHelper.getInstance().getUser().getTARGET());
+        request.add("XINGZUO",xingxuoTv.getText().toString());
+        request.add("INTRODUCE",AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("LOCAL_DRESS",areaTv.getText().toString());
+        //  http://www.olacos.net//memberMobile/updateMember.do?ID=69f1badc98cc441c838310561d11bcb7&NICK_NAME=呆子&CN=朱呵呵&BIRTHDAY=1994-11-06&TARGET=1&XINGZUO=天蝎座&INTRODUCE=啊累累&LOCAL_DRESS=北京
+//        request.add("ID","69f1badc98cc441c838310561d11bcb7");
+//        request.add("NICK_NAME","呆子");
+//        request.add("CN","朱呵呵");
+//        request.add("BIRTHDAY","1994-11-06");
+//        request.add("TARGET","1");
+//        request.add("XINGZUO","天蝎座");
+//        request.add("INTRODUCE","啊累累");
+//        request.add("LOCAL_DRESS","北京");
+
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB","change----------"+json);
+                if (json != null) {
+
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
     }
 }
 
