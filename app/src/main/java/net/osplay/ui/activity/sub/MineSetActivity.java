@@ -2,6 +2,7 @@ package net.osplay.ui.activity.sub;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import net.osplay.data.db.DaoMaster;
 import net.osplay.data.db.GreenDaoHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 
 /**
  * 个人中心 → 设置
@@ -76,6 +78,7 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.btn_mine_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferencesUtils.clear(MineSetActivity.this);
                 //注销登录重新跳转至
                 AppHelper.getInstance().setLogined(false);
                 Intent intent=new Intent(MineSetActivity.this,MainActivity.class);

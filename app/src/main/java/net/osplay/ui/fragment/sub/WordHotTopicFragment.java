@@ -60,8 +60,7 @@ public class WordHotTopicFragment extends BaseFragment {
                 Log.d(TAG, "onSucceed: 专区请求 --> " + json);
 
                 //数据解析
-                Type type = new TypeToken<List<WordTopicBean>>() {
-                }.getType();
+                Type type = new TypeToken<List<WordTopicBean>>() {}.getType();
                 mTopicList = gson.fromJson(json, type);
                 Log.d(TAG, "专区 data 解析成功" + mTopicList.size());
                 initRecyclerView();

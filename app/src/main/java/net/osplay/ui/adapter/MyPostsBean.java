@@ -8,9 +8,10 @@ import java.util.List;
 
 public class MyPostsBean {
 
+
     /**
-     * total : 25
-     * rows : [{"COVERIMG":"/upLoadResource/c2e8595799f14ab39649b51e910e805e/图片2.png","BOUTIQUE":"1","PART":"老番","CREATEDATE":"2017-09-16 16:20:18","TITLE":"动漫人物大变脸 让网友最有感的四大天王出炉惹","HEAD_PATH":"/upLoadResource/2b46b52f1c9940e2b7b4d0fe37a0aa74/2b46b52f1c9940e2b7b4d0fe37a0aa74.png","ID":"03e42e4dd61b46bb825dcce71ac3a056","NICK_NAME":"呆子"},{"COVERIMG":"/upLoadResource/c4aa9c952e9c47dba3f189206c20a280/timg (2).jpg","BOUTIQUE":"1","PART":"零食","CREATEDATE":"2017-09-16 15:46:03","TITLE":"各种零食推荐","HEAD_PATH":"/upLoadResource/2b46b52f1c9940e2b7b4d0fe37a0aa74/2b46b52f1c9940e2b7b4d0fe37a0aa74.png","ID":"0c89c9821a2a46bda31b0430527ba78c","NICK_NAME":"呆子"}]
+     * rows : [{"BOUTIQUE":"1","COLLECT_COUNT":"0","COVERIMG":"/upLoadResource/4f0fcde73a244e37a3f14d7d855cf38b/【资讯】24.《少女与战车》手游推出多位角色泳装形象福利 字数：461110.png","CREATEDATE":"2017-09-16 17:41:57","HEAD_PATH":"/upLoadResource/5f162825dd714c549cce22da687a4b16/5f162825dd714c549cce22da687a4b16.png","ID":"007d551712ca431d81fb6086df25c9ed","NICK_NAME":"伤心小男孩","PART":"手游","PINGLUN_COUNT":"0","TITLE":"《少女与战车》手游推出多位角色泳装形象福利","ZAN_COUNT":"0"}]
+     * total : 27
      */
 
     private int total;
@@ -34,32 +35,30 @@ public class MyPostsBean {
 
     public static class RowsBean {
         /**
-         * COVERIMG : /upLoadResource/c2e8595799f14ab39649b51e910e805e/图片2.png
          * BOUTIQUE : 1
-         * PART : 老番
-         * CREATEDATE : 2017-09-16 16:20:18
-         * TITLE : 动漫人物大变脸 让网友最有感的四大天王出炉惹
-         * HEAD_PATH : /upLoadResource/2b46b52f1c9940e2b7b4d0fe37a0aa74/2b46b52f1c9940e2b7b4d0fe37a0aa74.png
-         * ID : 03e42e4dd61b46bb825dcce71ac3a056
-         * NICK_NAME : 呆子
+         * COLLECT_COUNT : 0
+         * COVERIMG : /upLoadResource/4f0fcde73a244e37a3f14d7d855cf38b/【资讯】24.《少女与战车》手游推出多位角色泳装形象福利 字数：461110.png
+         * CREATEDATE : 2017-09-16 17:41:57
+         * HEAD_PATH : /upLoadResource/5f162825dd714c549cce22da687a4b16/5f162825dd714c549cce22da687a4b16.png
+         * ID : 007d551712ca431d81fb6086df25c9ed
+         * NICK_NAME : 伤心小男孩
+         * PART : 手游
+         * PINGLUN_COUNT : 0
+         * TITLE : 《少女与战车》手游推出多位角色泳装形象福利
+         * ZAN_COUNT : 0
          */
 
-        private String COVERIMG;
         private String BOUTIQUE;
-        private String PART;
+        private String COLLECT_COUNT;
+        private String COVERIMG;
         private String CREATEDATE;
-        private String TITLE;
         private String HEAD_PATH;
         private String ID;
         private String NICK_NAME;
-
-        public String getCOVERIMG() {
-            return COVERIMG;
-        }
-
-        public void setCOVERIMG(String COVERIMG) {
-            this.COVERIMG = COVERIMG;
-        }
+        private String PART;
+        private String PINGLUN_COUNT;
+        private String TITLE;
+        private String ZAN_COUNT;
 
         public String getBOUTIQUE() {
             return BOUTIQUE;
@@ -69,12 +68,20 @@ public class MyPostsBean {
             this.BOUTIQUE = BOUTIQUE;
         }
 
-        public String getPART() {
-            return PART;
+        public String getCOLLECT_COUNT() {
+            return COLLECT_COUNT;
         }
 
-        public void setPART(String PART) {
-            this.PART = PART;
+        public void setCOLLECT_COUNT(String COLLECT_COUNT) {
+            this.COLLECT_COUNT = COLLECT_COUNT;
+        }
+
+        public String getCOVERIMG() {
+            return COVERIMG;
+        }
+
+        public void setCOVERIMG(String COVERIMG) {
+            this.COVERIMG = COVERIMG;
         }
 
         public String getCREATEDATE() {
@@ -83,14 +90,6 @@ public class MyPostsBean {
 
         public void setCREATEDATE(String CREATEDATE) {
             this.CREATEDATE = CREATEDATE;
-        }
-
-        public String getTITLE() {
-            return TITLE;
-        }
-
-        public void setTITLE(String TITLE) {
-            this.TITLE = TITLE;
         }
 
         public String getHEAD_PATH() {
@@ -115,6 +114,38 @@ public class MyPostsBean {
 
         public void setNICK_NAME(String NICK_NAME) {
             this.NICK_NAME = NICK_NAME;
+        }
+
+        public String getPART() {
+            return PART;
+        }
+
+        public void setPART(String PART) {
+            this.PART = PART;
+        }
+
+        public String getPINGLUN_COUNT() {
+            return PINGLUN_COUNT;
+        }
+
+        public void setPINGLUN_COUNT(String PINGLUN_COUNT) {
+            this.PINGLUN_COUNT = PINGLUN_COUNT;
+        }
+
+        public String getTITLE() {
+            return TITLE;
+        }
+
+        public void setTITLE(String TITLE) {
+            this.TITLE = TITLE;
+        }
+
+        public String getZAN_COUNT() {
+            return ZAN_COUNT;
+        }
+
+        public void setZAN_COUNT(String ZAN_COUNT) {
+            this.ZAN_COUNT = ZAN_COUNT;
         }
     }
 }

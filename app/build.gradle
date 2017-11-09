@@ -33,7 +33,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "net.osplay.olacos"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -108,4 +108,6 @@ dependencies {
     compile 'liji.library.dev:citypickerview:2.0.1'//地区选择
     compile 'com.wang.avi:library:2.1.3'//加载loading
     compile 'com.tencent.sonic:sdk:1.1.1'
+    compile 'ch.ielse:switchbutton:1.0.0'
+
 }
