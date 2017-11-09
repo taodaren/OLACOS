@@ -38,12 +38,14 @@ import net.osplay.service.entity.PhotoBean;
 import net.osplay.service.entity.PostBean;
 import net.osplay.service.entity.WordTopicBean;
 import net.osplay.service.entity.WordTopicTitleBean;
+import net.osplay.service.entity.YSBean;
 import net.osplay.ui.adapter.PublishAreaAdapter;
 import net.osplay.ui.adapter.PublishPostsAdapter;
 import net.osplay.ui.adapter.PublishTwoAreaAdapter;
 
 import java.io.File;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -84,7 +86,7 @@ public class PublishPostsActivity extends Activity {
     SwitchView postsReprintSwitch;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
-    private List<LocalMedia> localMedia;//图片集合
+   // private List<LocalMedia> localMedia;//图片集合
     private PublishPostsAdapter adapter;
     private PublishAreaAdapter paAdapter;
     private PublishTwoAreaAdapter ptAdapter;
@@ -97,6 +99,9 @@ public class PublishPostsActivity extends Activity {
     private String id2 = "";//选中分区的id
     private String origint = "";//是否原创
     private String reprint = "";//是否可转载
+
+    private int imageSize=8;
+    private List<YSBean> ysList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,18 +150,21 @@ public class PublishPostsActivity extends Activity {
             switch (requestCode) {
                 case PictureConfig.CHOOSE_REQUEST:
                     // 图片选择结果回调
-                    localMedia = PictureSelector.obtainMultipleResult(data);
+                    List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
                     size = localMedia.size();
-                    adapter = new PublishPostsAdapter(PublishPostsActivity.this, localMedia);
+                    for(int i=0;i<size;i++){
+                        ysList.add(new YSBean(localMedia.get(i).getCompressPath()));
+                    }
+                    adapter = new PublishPostsAdapter(PublishPostsActivity.this, ysList);
                     postsContentIv.setAdapter(adapter);
                     Log.e("JGB", "第一次图片集合长度：" + size);
                     SetOnClickListen Image = new SetOnClickListen() {
                         @Override
                         public void setOnClick(int position) {
-                            localMedia.remove(position);
+                            ysList.remove(position);
                             adapter.notifyItemRemoved(position);
                             adapter.notifyDataSetChanged();
-                            size = localMedia.size();
+                            size = ysList.size();
                             Log.e("JGB", "删除图片集合长度：：" + size);
                         }
 
@@ -169,12 +177,19 @@ public class PublishPostsActivity extends Activity {
                     break;
                 case PictureConfig.REQUEST_CAMERA:
                     List<LocalMedia> localMedias = PictureSelector.obtainMultipleResult(data);
-                    for (int i = 0; i < localMedias.size(); i++) {
-                        localMedia.add(new LocalMedia(localMedias.get(i).getCompressPath(), 0, 0, ""));
-                        adapter.notifyItemInserted(1);
-                        adapter.notifyItemRangeChanged(2, localMedia.size() - 2);
-                        size = localMedia.size();
+
+                    for(int i=0;i<localMedias.size();i++){
+                            ysList.add(new YSBean(localMedias.get(i).getCompressPath()));
+                            size = ysList.size();
+                            adapter.notifyItemInserted(size-1);
+                            adapter.notifyItemRangeChanged(0, size);
                     }
+                    Log.e("JGB","压缩集合的长度："+ysList);
+
+                            break;
+
+
+
             }
         }
     }
@@ -298,11 +313,9 @@ public class PublishPostsActivity extends Activity {
     private void input() {
         switch (size) {
             case 1:
-                Log.e("JGB","一张图片走这里size="+size);
-
                 RequestQueue requestQueue = NoHttp.newRequestQueue();
                 Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue.add(0, request, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -337,7 +350,7 @@ public class PublishPostsActivity extends Activity {
             case 2:
                 RequestQueue requestQueue2 = NoHttp.newRequestQueue();
                 Request<String> request2 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request2.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request2.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue2.add(0, request2, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -371,7 +384,7 @@ public class PublishPostsActivity extends Activity {
             case 3:
                 RequestQueue requestQueue3 = NoHttp.newRequestQueue();
                 Request<String> request3 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request3.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request3.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue3.add(0, request3, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -404,7 +417,7 @@ public class PublishPostsActivity extends Activity {
             case 4:
                 RequestQueue requestQueue4 = NoHttp.newRequestQueue();
                 Request<String> request4 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request4.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request4.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue4.add(0, request4, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -438,7 +451,7 @@ public class PublishPostsActivity extends Activity {
             case 5:
                 RequestQueue requestQueue5 = NoHttp.newRequestQueue();
                 Request<String> request5 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request5.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request5.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue5.add(0, request5, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -472,7 +485,7 @@ public class PublishPostsActivity extends Activity {
             case 6:
                 RequestQueue requestQueue6 = NoHttp.newRequestQueue();
                 Request<String> request6 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request6.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request6.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue6.add(0, request6, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -506,7 +519,7 @@ public class PublishPostsActivity extends Activity {
             case 7:
                 RequestQueue requestQueue7 = NoHttp.newRequestQueue();
                 Request<String> request7 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request7.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request7.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue7.add(0, request7, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -540,7 +553,7 @@ public class PublishPostsActivity extends Activity {
             case 8:
                 RequestQueue requestQueue8 = NoHttp.newRequestQueue();
                 Request<String> request8 = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-                request8.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
+                request8.add("url", new FileBinary(new File(ysList.get(0).getYs())));//上传文件
                 requestQueue8.add(0, request8, new OnResponseListener<String>() {
                     @Override
                     public void onStart(int what) {
@@ -587,7 +600,7 @@ public class PublishPostsActivity extends Activity {
     private void case82imageHttp(final String image81) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(1).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(1).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -622,7 +635,7 @@ public class PublishPostsActivity extends Activity {
     private void case83imageHttp(final String image81, final String image82) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(2).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(2).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -657,7 +670,7 @@ public class PublishPostsActivity extends Activity {
     private void case84imageHttp(final String image81, final String image82, final String image83) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(3).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(3).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -692,7 +705,7 @@ public class PublishPostsActivity extends Activity {
     private void case85imageHttp(final String image81, final String image82, final String image83, final String image84) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(4).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(4).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -727,7 +740,7 @@ public class PublishPostsActivity extends Activity {
     private void case86imageHttp(final String image81, final String image82, final String image83, final String image84, final String image85) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(5).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(5).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -762,7 +775,7 @@ public class PublishPostsActivity extends Activity {
     private void case87imageHttp(final String image81, final String image82, final String image83, final String image84, final String image85, final String image86) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(6).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(6).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -797,7 +810,7 @@ public class PublishPostsActivity extends Activity {
     private void case88imageHttp(final String image81, final String image82, final String image83, final String image84, final String image85, final String image86, final String image87) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(7).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(7).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -842,7 +855,7 @@ public class PublishPostsActivity extends Activity {
     private void case72imageHttp(final String image71) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(1).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(1).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -877,7 +890,7 @@ public class PublishPostsActivity extends Activity {
     private void case73imageHttp(final String image71, final String image72) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(2).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(2).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -912,7 +925,7 @@ public class PublishPostsActivity extends Activity {
     private void case74imageHttp(final String image71, final String image72, final String image73) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(3).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(3).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -947,7 +960,7 @@ public class PublishPostsActivity extends Activity {
     private void case75imageHttp(final String image71, final String image72, final String image73, final String image74) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(4).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(4).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -982,7 +995,7 @@ public class PublishPostsActivity extends Activity {
     private void case76imageHttp(final String image71, final String image72, final String image73, final String image74, final String image75) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(5).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(5).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1017,7 +1030,7 @@ public class PublishPostsActivity extends Activity {
     private void case77imageHttp(final String image71, final String image72, final String image73, final String image74, final String image75, final String image76) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(6).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(6).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1059,7 +1072,7 @@ public class PublishPostsActivity extends Activity {
     private void case62imageHttp(final String image61) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(1).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(1).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1094,7 +1107,7 @@ public class PublishPostsActivity extends Activity {
     private void case63imageHttp(final String image61, final String image62) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(2).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(2).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1129,7 +1142,7 @@ public class PublishPostsActivity extends Activity {
     private void case64imageHttp(final String image61, final String image62, final String image63) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(3).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(3).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1164,7 +1177,7 @@ public class PublishPostsActivity extends Activity {
     private void case65imageHttp(final String image61, final String image62, final String image63, final String image64) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(4).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(4).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1197,7 +1210,7 @@ public class PublishPostsActivity extends Activity {
     private void case66imageHttp(final String image61, final String image62, final String image63, final String image64, final String image65) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(5).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(5).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1238,7 +1251,7 @@ public class PublishPostsActivity extends Activity {
     private void case52imageHttp(final String image51) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(1).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(1).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1273,7 +1286,7 @@ public class PublishPostsActivity extends Activity {
     private void case53imageHttp(final String image51, final String image52) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(2).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(2).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1308,7 +1321,7 @@ public class PublishPostsActivity extends Activity {
     private void case54imageHttp(final String image51, final String image52, final String image53) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(3).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(3).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1343,7 +1356,7 @@ public class PublishPostsActivity extends Activity {
     private void case55imageHttp(final String image51, final String image52, final String image53, final String image54) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File(localMedia.get(4).getCompressPath())));//上传文件
+        request.add("url", new FileBinary(new File(ysList.get(4).getYs())));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1383,7 +1396,7 @@ public class PublishPostsActivity extends Activity {
     private void case42imageHttp(final String image41) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(1).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(1).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1417,7 +1430,7 @@ public class PublishPostsActivity extends Activity {
     private void case43imageHttp(final String image41, final String image42) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(2).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(2).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1449,9 +1462,10 @@ public class PublishPostsActivity extends Activity {
     }
 
     private void case44imageHttp(final String image41, final String image42, final String image43) {
+        Log.e("JGB","第四张图片："+ysList.get(3).getYs());
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(3).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(3).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1489,7 +1503,7 @@ public class PublishPostsActivity extends Activity {
     private void case32imageHttp(final String image31) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(1).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(1).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1524,7 +1538,7 @@ public class PublishPostsActivity extends Activity {
     private void case33imageHttp(final String image31, final String image32) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(2).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(2).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1561,7 +1575,7 @@ public class PublishPostsActivity extends Activity {
     private void case2imageHttp(final String avaterurl) {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
-        request.add("url", new FileBinary(new File((localMedia.get(1).getCompressPath()))));//上传文件
+        request.add("url", new FileBinary(new File((ysList.get(1).getYs()))));//上传文件
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -1780,6 +1794,7 @@ public class PublishPostsActivity extends Activity {
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
                         finish();
+
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -2089,14 +2104,14 @@ public class PublishPostsActivity extends Activity {
                 if (bs == 0) {
                     PictureSelector.create(PublishPostsActivity.this)
                             .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(8)
+                            .maxSelectNum(imageSize)
                             .compress(true)
                             .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                     bs = 1;
                 } else {
                     PictureSelector.create(PublishPostsActivity.this)
                             .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(8)
+                            .maxSelectNum(imageSize-size)
                             .compress(true)
                             .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
                 }

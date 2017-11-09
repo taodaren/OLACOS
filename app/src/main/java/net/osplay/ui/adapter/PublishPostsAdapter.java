@@ -14,6 +14,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.YSBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,11 @@ public class PublishPostsAdapter extends  RecyclerView.Adapter<PublishPostsViewH
 
 
     private Context context;
-    private List<LocalMedia> localMedia;
+    private  List<YSBean> ysList;
 
-    public PublishPostsAdapter(Context context, List<LocalMedia> localMedia) {
+    public PublishPostsAdapter(Context context,  List<YSBean> ysList) {
         this.context = context;
-        this.localMedia = localMedia;
+        this.ysList = ysList;
     }
 
     @Override
@@ -47,7 +48,7 @@ public class PublishPostsAdapter extends  RecyclerView.Adapter<PublishPostsViewH
 
     @Override
     public void onBindViewHolder(PublishPostsViewHolder holder, final int position) {
-        Glide.with(context).load(localMedia.get(position).getPath()).into(holder.publish_posts_item_iv);
+        Glide.with(context).load(ysList.get(position).getYs()).into(holder.publish_posts_item_iv);
         holder.publish_posts_delect_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +66,7 @@ public class PublishPostsAdapter extends  RecyclerView.Adapter<PublishPostsViewH
 
     @Override
     public int getItemCount() {
-        return localMedia.size();
+        return ysList.size();
     }
 }
 class PublishPostsViewHolder extends RecyclerView.ViewHolder{
