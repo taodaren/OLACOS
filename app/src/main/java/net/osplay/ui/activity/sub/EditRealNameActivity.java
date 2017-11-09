@@ -288,7 +288,7 @@ public class EditRealNameActivity extends BaseActivity {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 IsCheckBean isCheckBean = mGson.fromJson(json, IsCheckBean.class);
-                if(isCheckBean.getCode().equals("true")){
+                if(isCheckBean.getOk().equals("true")){
                     Log.e("JGB", "请求到这里" );
                     Log.e("JGB", "实名认证结果" + json);
                     Toast.makeText(EditRealNameActivity.this,"信息已提交请等待审核",Toast.LENGTH_SHORT).show();
@@ -364,7 +364,7 @@ public class EditRealNameActivity extends BaseActivity {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 IsCheckBean isCheckBean = mGson.fromJson(json, IsCheckBean.class);
-                if(isCheckBean.getCode().equals("true")){
+                if(isCheckBean.getOk().equals("true")){
                     Log.e("JGB", "请求到这里" );
                     Log.e("JGB", "学生实名认证结果" + json);
                     SharedPreferencesUtils.setParam(EditRealNameActivity.this, "STUDENT","200" );
