@@ -159,8 +159,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 mContentList = gson.fromJson(json, type);
                 Log.d(TAG, "帖子详情解析成功");
 
-                getCommentData();//获取一级评论及一级评论下默认显示的二级评论数据
-                commitCommentData();//提交评论功能
+                getCommentData(2);//获取一级评论及一级评论下默认显示的二级评论数据
                 getIsFollowData();//获取是否关注用户数据
                 initDetailsPosts();//初始化帖子详情
 
@@ -231,11 +230,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 获取一级评论及一级评论下默认显示的二级评论数据
+     * 重新获取评论数据（刷新评论）
+     *
+     * @param i 位置
      */
-    private void getCommentData() {
+    private void getCommentData(final int i) {
         Request<String> request = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
-        Log.e(TAG, "topicId" + postsId);
-        Log.e(TAG, "memberId" + memberId);
         request.add("topicId", postsId);
         request.add("page", 1);
         request.add("rows", Integer.MAX_VALUE);
@@ -258,53 +258,17 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 Log.d(TAG, "帖子评论解析成功");
 
                 initCommentPosts();//初始化帖子评论
-                getCommentMoreData();//获取多级评论数据
-                OneOnClick();//一级评论点赞点击事件
-                TwoOnClick();//二级评论点赞点击事件
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-            }
-
-            @Override
-            public void onFinish(int what) {
-            }
-        });
-    }
-
-    /**
-     * 重新获取评论数据，到达指定位置（刷新评论）
-     *
-     * @param i 位置
-     */
-    private void getCommentData(final int i) {
-        Request<String> comRequest = NoHttp.createStringRequest(I.QUERY_COMMENT, RequestMethod.POST);
-        comRequest.add("topicId", postsId);
-        comRequest.add("page", 1);
-        comRequest.add("rows", Integer.MAX_VALUE);
-        comRequest.add("twoNum", Integer.MAX_VALUE);
-        comRequest.add("memberId", memberId);
-
-        mRequestQueue.add(0, comRequest, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();//得到请求数据
-                Log.d(TAG, "帖子重新评论数据请求成功，json 数据是：" + json);
-
-                mCommentBean = gson.fromJson(json, WordDetailsCommentBean.class);
-                Log.d(TAG, "帖子重新评论解析成功");
-
-                initCommentPosts();//初始化帖子评论
-
-                //置底
-                if (i == FOCUS_DOWN) {
+                if (i == FOCUS_DOWN) {//置底
                     handler.sendEmptyMessage(FOCUS_DOWN);
                 }
+
+                clickCommentDefault();//点击默认评论
+                commitComment();//提交一级评论功能
+
+                oneCommentClick();//一级评论点击事件
+                twoCommentClick();//二级评论点击事件
+                zanOneOnClick();//一级评论点赞点击事件
+                zanTwoOnClick();//二级评论点赞点击事件
             }
 
             @Override
@@ -318,13 +282,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 提交评论功能
+     * 进入帖子详情点击评论切换（默认评论）
      */
-    private void commitCommentData() {
+    private void clickCommentDefault() {
         mTvSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//点击底部 TextView 切换布局
-                if (AppHelper.getInstance().isLogined()) {
+                if (AppHelper.getInstance().isLogined()) {//登录状态
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     mEdEnter.requestFocus();
@@ -336,12 +300,12 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         @Override
                         public void onClick(View v) {
                             if (!mEdEnter.getText().toString().isEmpty()) {
-                                //保存评论数据
-                                saveCommentData();
+                                //保存默认评论数据
+                                saveOneCommentData();
                             }
                         }
                     });
-                } else {
+                } else {//未登录状态
                     MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
                 }
             }
@@ -349,9 +313,40 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 保存评论数据
+     * 提交评论功能
      */
-    private void saveCommentData() {
+    private void commitComment() {
+        mTvSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {//点击底部 TextView 切换布局
+                if (AppHelper.getInstance().isLogined()) {//登录状态
+                    //弹出软键盘
+                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    mEdEnter.requestFocus();
+                    //切换布局
+                    mllShow.setVisibility(View.GONE);
+                    mllHide.setVisibility(View.VISIBLE);
+                    //点击发送按钮
+                    mBtnSend.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!mEdEnter.getText().toString().isEmpty()) {
+                                //保存一级及默认评论数据
+                                saveOneCommentData();
+                            }
+                        }
+                    });
+                } else {//未登录状态
+                    MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
+                }
+            }
+        });
+    }
+
+    /**
+     * 保存一级及默认评论数据
+     */
+    private void saveOneCommentData() {
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
         request.add("authorId", mOneList.get(0).getBEENMEMBERID());//帖子作者id
@@ -367,7 +362,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("atUsers", "");
         request.add("content", mEdEnter.getText().toString());
 
-
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -376,7 +370,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e(TAG, "保存评论数据请求成功，json 数据是：" + json);
+                Log.e(TAG, "保存一级评论数据请求成功，json 数据是：" + json);
                 //阻止键盘弹出（关闭软键盘）
                 InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
@@ -384,8 +378,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 mEdEnter.getText().clear();
                 mllShow.setVisibility(View.VISIBLE);
                 mllHide.setVisibility(View.GONE);
-                //刷新评论数据
-                getCommentData(FOCUS_DOWN);
+                //重新获取帖子评论数据（刷新）
+                getCommentData(FOCUS_DOWN);//一级评论结束置底
             }
 
             @Override
@@ -400,187 +394,167 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 获取多级评论数据
+     * 保存二级评论数据
      */
-    private void getCommentMoreData() {
-        //一级评论
+    private void saveTwoCommentData() {
+        Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
+        request.add("topicId", postsId);//帖子id
+        request.add("authorId", mTwoList.get(0).getBEENMEMBERID());//被回复人id
+        request.add("memberId", memberId);//评论人id
+        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
+            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
+        } else {//如果被评论人不是自己
+            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
+        }
+        request.add("atId", Uuid.getUuid());
+        request.add("parentId", mOneList.get(0).getID());//父级评论id，这里传为一级评论的id
+        request.add("atIds", "");
+        request.add("atUsers", "");
+        request.add("content", mEdEnter.getText().toString());
+
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "保存二级评论数据请求成功，json 数据是：" + json);
+                //阻止键盘弹出（关闭软键盘）
+                InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
+                //清空输入内容，切换布局
+                mEdEnter.getText().clear();
+                mllShow.setVisibility(View.VISIBLE);
+                mllHide.setVisibility(View.GONE);
+                //重新获取帖子评论数据（刷新）
+                getCommentData(2);//二级评论保持原位
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+    }
+
+    /**
+     * 保存多级评论数据
+     */
+    private void saveMoreCommentData() {
+        Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
+        request.add("topicId", postsId);//帖子id
+        request.add("authorId", mTwoList.get(0).getBEENMEMBERID());//帖子作者id
+        request.add("memberId", memberId);//评论人id
+        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
+            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
+        } else {//如果被评论人不是自己
+            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
+        }
+        request.add("atId", Uuid.getUuid());
+        request.add("parentId", mOneList.get(0).getID());//父级评论id，这里传为一级评论的id
+        request.add("atIds", "");
+        request.add("atUsers", mTwoList.get(0).getATUSERS());
+        request.add("content", mEdEnter.getText().toString());
+
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "保存三级评论数据请求成功，json 数据是：" + json);
+                //阻止键盘弹出（关闭软键盘）
+                InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
+                //清空输入内容，切换布局
+                mEdEnter.getText().clear();
+                mllShow.setVisibility(View.VISIBLE);
+                mllHide.setVisibility(View.GONE);
+                //重新获取帖子评论数据（刷新）
+                getCommentData(2);//多级评论保持原位
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+    }
+
+    /**
+     * 一级评论点击事件
+     */
+    private void oneCommentClick() {
         mElvComment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
-                if (AppHelper.getInstance().isLogined()) {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if (AppHelper.getInstance().isLogined()) {//登录状态
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     mEdEnter.requestFocus();
                     //切换布局
                     mllShow.setVisibility(View.GONE);
                     mllHide.setVisibility(View.VISIBLE);
-                    //发送评论内容
+                    //点击发送按钮
                     mBtnSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-//                            Log.i(TAG, "onClickOne: MEMBERID==" + mOneList.get(groupPosition).getMEMBERID());
-//                            Log.i(TAG, "onClickOne: BEENMEMBERID==" + mOneList.get(groupPosition).getBEENMEMBERID());
-
-                            Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);//保存评论接口
-                            request.add("topicId", postsId);//帖子id
-                            request.add("authorId", mOneList.get(groupPosition).getBEENMEMBERID());//帖子作者id
-                            request.add("memberId", memberId);//评论人id
-                            if (Objects.equals(mOneList.get(groupPosition).getMEMBERID(), memberId)) {//如果被评论人是自己
-                                request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
-                            } else {//如果被评论人不是自己
-                                request.add("beenMemberId", mOneList.get(groupPosition).getBEENMEMBERID());//被评论人id
+                            if (!mEdEnter.getText().toString().isEmpty()) {
+                                //保存二级评论数据
+                                saveTwoCommentData();
                             }
-                            request.add("atId", Uuid.getUuid());
-                            request.add("parentId", "0");//"0"代表一级评论
-                            request.add("atIds", "");
-                            request.add("atUsers", "");
-                            request.add("content", mEdEnter.getText().toString());
-
-                            mRequestQueue.add(0, request, new OnResponseListener<String>() {
-                                @Override
-                                public void onStart(int what) {
-                                }
-
-                                @Override
-                                public void onSucceed(int what, Response<String> response) {
-                                    String json = response.get();
-                                    Log.e(TAG, "保存评论数据请求成功，json 数据是：" + json);
-                                    //阻止键盘弹出
-                                    InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                                    imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
-                                    //清空输入内容，切换布局
-                                    mEdEnter.getText().clear();
-                                    mllShow.setVisibility(View.VISIBLE);
-                                    mllHide.setVisibility(View.GONE);
-                                    //刷新评论数据
-                                    getCommentData(2);
-                                }
-
-                                @Override
-                                public void onFailed(int what, Response<String> response) {
-                                }
-
-                                @Override
-                                public void onFinish(int what) {
-                                }
-                            });
                         }
                     });
-                } else {
-                    MFGT.gotoLogin(DetailsPostsActivity.this, "getComment");
+                } else {//未登录状态
+                    MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
                 }
                 return false;
             }
         });
+    }
 
-        //二级评论
+    /**
+     * 二级评论点击事件
+     */
+    private void twoCommentClick() {
         mElvComment.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, final int childPosition, long id) {
-                if (AppHelper.getInstance().isLogined()) {
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if (AppHelper.getInstance().isLogined()) {//登录状态
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     mEdEnter.requestFocus();
                     //切换布局
                     mllShow.setVisibility(View.GONE);
                     mllHide.setVisibility(View.VISIBLE);
-                    //发送评论内容
+                    //点击发送按钮
                     mBtnSend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Log.i(TAG, "onClickTwo: MEMBERID==" + mTwoList.get(childPosition).getMEMBERID());
-                            Log.i(TAG, "onClickTwo: BEENMEMBERID==" + mTwoList.get(childPosition).getBEENMEMBERID());
-                            Log.i(TAG, "onClickTwo: PARENTID==" + mTwoList.get(childPosition).getPARENTID());
-
-                            Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);//保存评论接口
-                            request.add("topicId", postsId);//帖子id
-                            request.add("authorId", mTwoList.get(childPosition).getBEENMEMBERID());//帖子作者id
-                            request.add("memberId", memberId);//评论人id
-                            if (Objects.equals(mTwoList.get(childPosition).getMEMBERID(), memberId)) {//如果被评论人是自己
-                                request.add("beenMemberId", memberId);//被评论人id
-                            } else {//如果被评论人不是自己
-                                request.add("beenMemberId", mTwoList.get(childPosition).getBEENMEMBERID());//被评论人id
+                            if (!mEdEnter.getText().toString().isEmpty()) {
+                                //保存多级评论数据
+                                saveMoreCommentData();
                             }
-                            request.add("atId", Uuid.getUuid());
-                            request.add("parentId", mTwoList.get(childPosition).getPARENTID());//父评论id
-                            request.add("atIds", "");
-                            request.add("atUsers", "");
-                            request.add("content", mEdEnter.getText().toString());
-
-                            mRequestQueue.add(0, request, new OnResponseListener<String>() {
-                                @Override
-                                public void onStart(int what) {
-                                }
-
-                                @Override
-                                public void onSucceed(int what, Response<String> response) {
-                                    String json = response.get();
-                                    Log.e(TAG, "保存二级评论数据请求成功，json 数据是：" + json);
-                                    //阻止键盘弹出
-                                    InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                                    imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
-                                    //清空输入内容，切换布局
-                                    mEdEnter.getText().clear();
-                                    mllShow.setVisibility(View.VISIBLE);
-                                    mllHide.setVisibility(View.GONE);
-                                    //刷新评论数据
-                                    getCommentData(2);
-                                }
-
-                                @Override
-                                public void onFailed(int what, Response<String> response) {
-                                }
-
-                                @Override
-                                public void onFinish(int what) {
-                                }
-                            });
                         }
                     });
-                } else {
-                    MFGT.gotoLogin(DetailsPostsActivity.this, "getComment");
+                } else {//未登录状态
+                    MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
                 }
                 return false;
             }
         });
-    }
-
-    /**
-     * 初始化帖子评论
-     */
-    private void initCommentPosts() {
-        if (mCommentBean != null) {
-            mCommentAdapter = new DetailsPostsCommentAdapter(this, mCommentBean);
-            mElvComment.setAdapter(mCommentAdapter);
-            mElvComment.setGroupIndicator(null);
-            //默认展开每一个分组
-            for (int i = 0; i < mCommentAdapter.getGroupCount(); i++) {
-                mElvComment.expandGroup(i);
-            }
-        }
-    }
-
-    /**
-     * 初始化帖子详情
-     */
-    private void initDetailsPosts() {
-        if (mContentList != null) {
-            if (mContentList.get(0).getHEAD_PATH() != null) {//如果用户设置头像则显示
-                Glide.with(this).load(I.BASE_URL + mContentList.get(0).getHEAD_PATH()).into(mAvatar);
-            } else {//如果没设置，显示默认头像
-                Glide.with(this).load(R.drawable.avatar_default).into(mAvatar);
-            }
-            mTvNick.setText(mContentList.get(0).getNICK_NAME());
-            mTvTime.setText(mContentList.get(0).getCREATEDATE());
-            mTvType.setText(mContentList.get(0).getPART());
-            mTvTitle.setText(mContentList.get(0).getTITLE());
-
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mRvContent.setLayoutManager(layoutManager);
-            mRvContent.setHasFixedSize(true);
-            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
-            mRvContent.setAdapter(adapter);
-        }
     }
 
     private void setToolbar() {
@@ -596,16 +570,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             actionBar.setHomeAsUpIndicator(R.drawable.title_back);
             actionBar.setTitle("帖子详情");
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
     }
 
     @Override
@@ -644,36 +608,14 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * 一级评论点赞点击事件
-     */
-    private void OneOnClick() {
-        mCommentAdapter.oneClick(new SetOnClickListen() {
-            @Override
-            public void setOnClick(int position) {
-            }
-
-            @Override
-            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
-                oneCommentZan(position, zanIv, commentTv);
-            }
-        });
-    }
-
-    /**
-     * 二级评论点赞点击事件
-     */
-    private void TwoOnClick() {
-        mCommentAdapter.twoClick(new SetOnClickListen() {
-            @Override
-            public void setOnClick(int position) {
-            }
-
-            @Override
-            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
-                twoCommentZan(position, zanIv, commentTv);
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     /**
@@ -971,6 +913,76 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             public void onFinish(int what) {
             }
         });
+    }
+
+    /**
+     * 一级评论点赞点击事件
+     */
+    private void zanOneOnClick() {
+        mCommentAdapter.oneClick(new SetOnClickListen() {
+            @Override
+            public void setOnClick(int position) {
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                oneCommentZan(position, zanIv, commentTv);
+            }
+        });
+    }
+
+    /**
+     * 二级评论点赞点击事件
+     */
+    private void zanTwoOnClick() {
+        mCommentAdapter.twoClick(new SetOnClickListen() {
+            @Override
+            public void setOnClick(int position) {
+            }
+
+            @Override
+            public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                twoCommentZan(position, zanIv, commentTv);
+            }
+        });
+    }
+
+    /**
+     * 初始化帖子详情
+     */
+    private void initDetailsPosts() {
+        if (mContentList != null) {
+            if (mContentList.get(0).getHEAD_PATH() != null) {//如果用户设置头像则显示
+                Glide.with(this).load(I.BASE_URL + mContentList.get(0).getHEAD_PATH()).into(mAvatar);
+            } else {//如果没设置，显示默认头像
+                Glide.with(this).load(R.drawable.avatar_default).into(mAvatar);
+            }
+            mTvNick.setText(mContentList.get(0).getNICK_NAME());
+            mTvTime.setText(mContentList.get(0).getCREATEDATE());
+            mTvType.setText(mContentList.get(0).getPART());
+            mTvTitle.setText(mContentList.get(0).getTITLE());
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            mRvContent.setLayoutManager(layoutManager);
+            mRvContent.setHasFixedSize(true);
+            DetailsPostsContentAdapter adapter = new DetailsPostsContentAdapter(this, mContentList);
+            mRvContent.setAdapter(adapter);
+        }
+    }
+
+    /**
+     * 初始化帖子评论
+     */
+    private void initCommentPosts() {
+        if (mCommentBean != null) {
+            mCommentAdapter = new DetailsPostsCommentAdapter(this, mCommentBean);
+            mElvComment.setAdapter(mCommentAdapter);
+            mElvComment.setGroupIndicator(null);
+            //默认展开每一个分组
+            for (int i = 0; i < mCommentAdapter.getGroupCount(); i++) {
+                mElvComment.expandGroup(i);
+            }
+        }
     }
 
 }
