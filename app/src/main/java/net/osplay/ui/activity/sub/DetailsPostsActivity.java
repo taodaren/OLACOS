@@ -104,7 +104,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         postsId = getIntent().getStringExtra(I.Posts.POSTS_ID);//帖子ID
 
         mRequestQueue = NoHttp.newRequestQueue();
-
         getContentData();//获取帖子内容数据
     }
 
@@ -275,7 +274,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 重新获取评论数据，到达指定位置
+     * 重新获取评论数据，到达指定位置（刷新评论）
      *
      * @param i 位置
      */
@@ -703,19 +702,17 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 Log.e(TAG, "关注数据请求成功，json 数据是：" + json);
 
                 mIsFollowBean = gson.fromJson(json, IsFollowBean.class);
-                if ("true".equals(mIsFollowBean.getOk())) {
-                    switch (action) {
-                        case ACTION_ATTENTION://关注成功
-                            mIsFollowBean.setOk("true");//重置用户对当前帖子的关注状态
-                            mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                            mBtnAttention.setText("已关注");
-                            break;
-                        case ACTION_ATTENTION_UN://取消关注
-                            mIsFollowBean.setOk("false");//重置用户对当前帖子的关注状态
-                            mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
-                            mBtnAttention.setText("关注");
-                            break;
-                    }
+                switch (action) {
+                    case ACTION_ATTENTION://关注成功
+                        mIsFollowBean.setOk("true");//重置用户对当前帖子的关注状态
+                        mBtnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                        mBtnAttention.setText("已关注");
+                        break;
+                    case ACTION_ATTENTION_UN://取消关注
+                        mIsFollowBean.setOk("false");//重置用户对当前帖子的关注状态
+                        mBtnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                        mBtnAttention.setText("关注");
+                        break;
                 }
             }
 
@@ -975,6 +972,5 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
-
 
 }

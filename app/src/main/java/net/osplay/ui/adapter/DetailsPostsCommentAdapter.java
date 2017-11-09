@@ -161,7 +161,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
         subViewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSetOneClick.setOnClick(childPosition, null, null, subViewHolder.commentZanCount, subViewHolder.commentZan, null);
+                mSetTwoClick.setOnClick(childPosition, null, null, subViewHolder.commentZanCount, subViewHolder.commentZan, null);
             }
         });
         return convertView;
