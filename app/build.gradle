@@ -33,7 +33,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "net.osplay.olacos"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

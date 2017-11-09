@@ -78,6 +78,7 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.btn_mine_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferencesUtils.clear(MineSetActivity.this);
                 //注销登录重新跳转至
                 AppHelper.getInstance().setLogined(false);
                 Intent intent=new Intent(MineSetActivity.this,MainActivity.class);

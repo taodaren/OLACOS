@@ -70,16 +70,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_info_tag">
-                    <Button
+                    <TextView
                         android:id="@+id/edit_info_add"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/btn_shape_cp"
-                        android:text="添加标签"
-                        android:textColor="@color/white" />
+                        android:layout_centerVertical="true"
+                        android:text="但实际负担酒店客房的顺口溜的" />
                 </RelativeLayout>
             </LinearLayout>
 

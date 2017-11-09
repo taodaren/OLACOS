@@ -40,7 +40,7 @@ public class ChangeNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_name);
         ButterKnife.bind(this);
-        setToolbar("更改姓名", View.VISIBLE);
+        setToolbar("设置姓名", View.VISIBLE);
         initData();
     }
 
