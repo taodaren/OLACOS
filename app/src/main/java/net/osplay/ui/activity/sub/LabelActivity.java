@@ -28,8 +28,8 @@ public class LabelActivity extends BaseActivity {
         setContentView(R.layout.activity_label);
         ButterKnife.bind(this);
         setToolbar("设置签名", View.VISIBLE);
-        Intent intent2 = getIntent();
-        editInfoAdd = intent2.getStringExtra("editInfoAdd");
+        Intent intent = getIntent();
+        editInfoAdd = intent.getStringExtra("editInfoAdd");
         infoAddEd.setText(editInfoAdd);
     }
 

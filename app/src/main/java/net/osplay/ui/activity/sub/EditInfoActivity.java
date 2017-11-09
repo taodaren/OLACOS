@@ -23,6 +23,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.FileBinary;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
@@ -103,7 +104,8 @@ public class EditInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_info);
         ButterKnife.bind(this);
         setToolbar("编辑资料", View.VISIBLE);
-        id = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "ID", "");
+   //     id = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "ID", "");
+
         setUserInfo();
 
     }
@@ -113,13 +115,17 @@ public class EditInfoActivity extends BaseActivity {
         String XINGZUO = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "XINGZUO", "");//获取星座
         String CN = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "CN", "");//获取姓名
         String HEAD_PATH = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "HEAD_PATH", "");//获取头像
+        String INTRODUCE = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "INTRODUCE", "");//获取头像
+        shenhe = AppHelper.getInstance().getUser().getSHENHE();//获取审核结果
         if (HEAD_PATH.equals("")) {
             Log.e("JGB", "sp空头像走这里");
-            Glide.with(EditInfoActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(mineAvatar);
+            Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(mineAvatar);
+
             String s = I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH();
             Log.e("JGB", "数据哭的头像：" + s);
         } else {
-            Glide.with(EditInfoActivity.this).load(I.BASE_URL + HEAD_PATH).into(mineAvatar);
+            Log.e("JGB", "sp非空头像走这里");
+            Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(mineAvatar);
         }
         if (CN.equals("")) {
             Log.e("JGB", "sp空姓名走这里");
@@ -145,7 +151,28 @@ public class EditInfoActivity extends BaseActivity {
         } else {
             areaTv.setText(LOCAL_DRESS);
         }
-
+        if(INTRODUCE.equals("")){
+            editInfoAdd.setText(AppHelper.getInstance().getUser().getINTRODUCE());
+        }else{
+            editInfoAdd.setText(INTRODUCE);
+        }
+        if(shenhe==null){
+            Certification.setText("待审核");
+        }else{
+            switch (shenhe) {
+                case "0":
+                    Certification.setText("已审核");
+                    break;
+                case "1":
+                    Certification.setText("审核未通过");
+                    break;
+                case "2":
+                    Certification.setText("待审核");
+                    break;
+                    default:
+                        Certification.setText("待审核");
+            }
+        }
 
     }
 
@@ -196,7 +223,7 @@ public class EditInfoActivity extends BaseActivity {
             case R.id.edit_info_tag:
                 Intent intent2 = new Intent(EditInfoActivity.this, LabelActivity.class);
                 intent2.putExtra("editInfoAdd", editInfoAdd.getText().toString());
-                startActivityForResult(intent2, 2);
+                startActivityForResult(intent2, 3);
                 break;
         }
     }
@@ -205,49 +232,49 @@ public class EditInfoActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PictureConfig.CAMERA) {
-            List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
-            Log.e("JGB", "图片的回调：" + localMedia);
-            getAvatarHttp(localMedia);
-        }
-        //签名的回调
-        if (requestCode == 3) {
-            if (data == null)
-                return;
-            if (data.getStringExtra("returnInfoAdd") != null) {
-                editInfoAdd.setText(data.getStringExtra("returnInfoAdd"));
+            switch (requestCode) {
+                case 1:
+                    if (data == null)
+                        return;
+                    if (data.getStringExtra("returnName") != null) {
+                        nameTv.setText(data.getStringExtra("returnName"));
+                        formatChangeName();
+                    }
+                    break;
+                case CityListSelectActivity.CITY_SELECT_RESULT_FRAG:
+                        if (data == null) {
+                            return;
+                        }
+                        Bundle bundle = data.getExtras();
+                        CityInfoBean cityInfoBean = (CityInfoBean) bundle.getParcelable("cityinfo");
+
+                        if (null == cityInfoBean)
+                            return;
+                        //城市名称
+                        String cityName = cityInfoBean.getName();
+                        areaTv.setText(cityName);
+                        getAreaHttp(cityName);
+                    break;
+                case 3:
+                    if (data == null)
+                        return;
+                    if (data.getStringExtra("returnInfoAdd") != null) {
+                        editInfoAdd.setText(data.getStringExtra("returnInfoAdd"));
+                        XedInfoAddHttp();
+                    }
+                    break;
+                case PictureConfig.CAMERA:
+                    if (resultCode == RESULT_OK) {
+                        List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
+                        Log.e("JGB", "图片的回调：" + localMedia);
+                        getAvatarHttp(localMedia);
+                    }
+                    break;
             }
         }
-        //姓名的回调
-        if (requestCode == 1) {
-            if (data == null)
-                return;
-            if (data.getStringExtra("returnName") != null) {
-                nameTv.setText(data.getStringExtra("returnName"));
-                formatChangeName();
-            }
-        }
 
 
-        //地区的回调
-        if (requestCode == CityListSelectActivity.CITY_SELECT_RESULT_FRAG) {
-            if (resultCode == RESULT_OK) {
-                if (data == null) {
-                    return;
-                }
-                Bundle bundle = data.getExtras();
-                CityInfoBean cityInfoBean = (CityInfoBean) bundle.getParcelable("cityinfo");
 
-                if (null == cityInfoBean)
-                    return;
-                //城市名称
-                String cityName = cityInfoBean.getName();
-                areaTv.setText(cityName);
-                getAreaHttp(cityName);
-
-            }
-        }
-    }
 
     //上传头像
     private void getAvatarHttp(List<LocalMedia> localMedia) {
@@ -298,7 +325,7 @@ public class EditInfoActivity extends BaseActivity {
         request.add("BIRTHDAY", ageTv.getText().toString());
         request.add("TARGET", AppHelper.getInstance().getUser().getTARGET());
         request.add("XINGZUO", xingxuoTv.getText().toString());
-        request.add("INTRODUCE", AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("INTRODUCE",editInfoAdd.getText().toString());
         request.add("LOCAL_DRESS", areaTv.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -337,7 +364,7 @@ public class EditInfoActivity extends BaseActivity {
         request.add("BIRTHDAY", ageTv.getText().toString());
         request.add("TARGET", AppHelper.getInstance().getUser().getTARGET());
         request.add("XINGZUO", xingxuoTv.getText().toString());
-        request.add("INTRODUCE", AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("INTRODUCE",editInfoAdd.getText().toString());
         request.add("LOCAL_DRESS", areaTv.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -400,7 +427,7 @@ public class EditInfoActivity extends BaseActivity {
         request.add("BIRTHDAY", age);
         request.add("TARGET", AppHelper.getInstance().getUser().getTARGET());
         request.add("XINGZUO", xingxuoTv.getText().toString());
-        request.add("INTRODUCE", AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("INTRODUCE", editInfoAdd.getText().toString());
         request.add("LOCAL_DRESS", areaTv.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -454,7 +481,7 @@ public class EditInfoActivity extends BaseActivity {
         request.add("BIRTHDAY", ageTv.getText().toString());
         request.add("TARGET", AppHelper.getInstance().getUser().getTARGET());
         request.add("XINGZUO", xingxuoTv.getText().toString());
-        request.add("INTRODUCE", AppHelper.getInstance().getUser().getINTRODUCE());
+        request.add("INTRODUCE", editInfoAdd.getText().toString());
         request.add("LOCAL_DRESS", areaTv.getText().toString());
         //  http://www.olacos.net//memberMobile/updateMember.do?ID=69f1badc98cc441c838310561d11bcb7&NICK_NAME=呆子&CN=朱呵呵&BIRTHDAY=1994-11-06&TARGET=1&XINGZUO=天蝎座&INTRODUCE=啊累累&LOCAL_DRESS=北京
 //        request.add("ID","69f1badc98cc441c838310561d11bcb7");
@@ -477,6 +504,45 @@ public class EditInfoActivity extends BaseActivity {
                 String json = response.get();
                 Log.e("JGB", "change----------" + json);
                 SharedPreferencesUtils.setParam(EditInfoActivity.this, "CN", nameTv.getText().toString());
+
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
+
+    //修改签名
+    private void XedInfoAddHttp() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.CHANGE_USER, RequestMethod.POST);
+        request.add("ID", AppHelper.getInstance().getUser().getID());
+        request.add("HEAD_PATH", AppHelper.getInstance().getUser().getHEAD_PATH());
+        request.add("NICK_NAME", AppHelper.getInstance().getUser().getNICK_NAME());
+        request.add("CN", nameTv.getText().toString());
+        request.add("BIRTHDAY", ageTv.getText().toString());
+        request.add("TARGET", AppHelper.getInstance().getUser().getTARGET());
+        request.add("XINGZUO", xingxuoTv.getText().toString());
+        request.add("INTRODUCE",editInfoAdd.getText().toString());
+        request.add("LOCAL_DRESS", areaTv.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "修改签名结果：：" + json);
+                SharedPreferencesUtils.setParam(EditInfoActivity.this, "INTRODUCE", editInfoAdd.getText().toString());
 
             }
 

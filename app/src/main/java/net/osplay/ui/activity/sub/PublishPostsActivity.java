@@ -298,6 +298,8 @@ public class PublishPostsActivity extends Activity {
     private void input() {
         switch (size) {
             case 1:
+                Log.e("JGB","一张图片走这里size="+size);
+
                 RequestQueue requestQueue = NoHttp.newRequestQueue();
                 Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
                 request.add("url", new FileBinary(new File(localMedia.get(0).getCompressPath())));//上传文件
@@ -574,6 +576,7 @@ public class PublishPostsActivity extends Activity {
                 avi.hide();
                 avi.setVisibility(View.GONE);
                 postsReleaseIv.setVisibility(View.VISIBLE);
+                break;
 
         }
     }
@@ -1625,6 +1628,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1675,6 +1679,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1724,6 +1729,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1773,6 +1779,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1822,6 +1829,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1871,6 +1879,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1920,6 +1929,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -1969,6 +1979,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -2018,6 +2029,7 @@ public class PublishPostsActivity extends Activity {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
                         Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        finish();
                     }else{
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
@@ -2077,14 +2089,14 @@ public class PublishPostsActivity extends Activity {
                 if (bs == 0) {
                     PictureSelector.create(PublishPostsActivity.this)
                             .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(9)
+                            .maxSelectNum(8)
                             .compress(true)
                             .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                     bs = 1;
                 } else {
                     PictureSelector.create(PublishPostsActivity.this)
                             .openGallery(PictureMimeType.ofAll())
-                            .maxSelectNum(9)
+                            .maxSelectNum(8)
                             .compress(true)
                             .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
                 }

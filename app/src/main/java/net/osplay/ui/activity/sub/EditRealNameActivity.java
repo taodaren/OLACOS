@@ -31,8 +31,10 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.data.bean.Account;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.IsCheckBean;
 import net.osplay.service.entity.PhotoBean;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 import net.osplay.utils.VerificationUtil;
 
 import java.io.File;
@@ -41,6 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import scut.carson_ho.searchview.ICallBack;
 
 /**
  * 编辑资料 → 实名认证
@@ -284,8 +287,14 @@ public class EditRealNameActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "请求到这里" );
-                Log.e("JGB", "实名认证结果" + json);
+                IsCheckBean isCheckBean = mGson.fromJson(json, IsCheckBean.class);
+                if(isCheckBean.getCode().equals("true")){
+                    Log.e("JGB", "请求到这里" );
+                    Log.e("JGB", "实名认证结果" + json);
+                    Toast.makeText(EditRealNameActivity.this,"信息已提交请等待审核",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             }
 
             @Override
@@ -353,8 +362,14 @@ public class EditRealNameActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "请求到这里" );
-                Log.e("JGB", "学生实名认证结果" + json);
+                IsCheckBean isCheckBean = mGson.fromJson(json, IsCheckBean.class);
+                if(isCheckBean.getCode().equals("true")){
+                    Log.e("JGB", "请求到这里" );
+                    Log.e("JGB", "学生实名认证结果" + json);
+                    Toast.makeText(EditRealNameActivity.this,"信息已提交请等待审核",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+
             }
 
             @Override

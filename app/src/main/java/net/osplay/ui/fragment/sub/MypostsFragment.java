@@ -61,7 +61,7 @@ public class MypostsFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_POSTS, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", 1);
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override

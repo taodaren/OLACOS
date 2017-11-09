@@ -76,7 +76,7 @@
                         android:layout_height="30dp"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:text="但实际负担酒店客房的顺口溜的" />
+                        android:text="一句话介绍你自己" />
                 </RelativeLayout>
             </LinearLayout>
 
