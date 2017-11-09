@@ -101,7 +101,8 @@
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsColumnActivity"
             android:theme="@style/transparentStatusTheme" />
-        <activity android:name="net.osplay.ui.activity.sub.DetailsPostsActivity" />
+        <activity android:name="net.osplay.ui.activity.sub.DetailsPostsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
         <activity
             android:name="net.osplay.ui.activity.sub.DetailsDouPictureActivity"
             android:theme="@style/transparentStatusTheme" />
