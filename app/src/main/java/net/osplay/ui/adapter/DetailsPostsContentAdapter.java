@@ -1,6 +1,5 @@
 package net.osplay.ui.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -35,13 +34,11 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
     private LayoutInflater mInflater;
     private List<WordDetailsPostsBean> mDtlPostsList;
 
-
     public DetailsPostsContentAdapter(Activity context, List<WordDetailsPostsBean> dtlPostsList) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.mDtlPostsList = new ArrayList<>();
         this.mDtlPostsList.addAll(dtlPostsList);
-
     }
 
     @Override
@@ -52,7 +49,6 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((PostsContentHolder) holder).bindData(position);
-
     }
 
     @Override
@@ -121,4 +117,5 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
             }).text(mDtlPostsList.get(position).getCONTENT());
         }
     }
+
 }

@@ -31,19 +31,14 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
     private WordDetailsCommentBean mCommentBean;
     private SetOnClickListen mSetOneClick, mSetTwoClick;
 
-//    private AlertDialog mCommentEditDialog;
-//    private int mCurrentGroupPosition = 0;
-
     public DetailsPostsCommentAdapter(Context context, WordDetailsCommentBean mCommentBean) {
         this.mContext = context;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mCommentBean = mCommentBean;
-//        createCommentEditDialog();
     }
 
     public void oneClick(SetOnClickListen setOneClick) {
         this.mSetOneClick = setOneClick;
-
     }
 
     public void twoClick(SetOnClickListen setTwoClick) {
@@ -120,7 +115,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        CommentViewHolder viewHolder;
+        final CommentViewHolder viewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_comment, null);
             viewHolder = new CommentViewHolder(convertView);
@@ -133,10 +128,11 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
         viewHolder.commentName.setText(mCommentBean.getOne().get(groupPosition).getNICK_NAME());
         viewHolder.commentContent.setText(mCommentBean.getOne().get(groupPosition).getCONTENT());
         viewHolder.commentTime.setText(mCommentBean.getOne().get(groupPosition).getCREATEDATE());
+        viewHolder.commentZanCount.setText(mCommentBean.getOne().get(groupPosition).getZANCOUNT());
         viewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSetOneClick.setOnClick(groupPosition);
+                mSetOneClick.setOnClick(groupPosition, null, null, viewHolder.commentZanCount, viewHolder.commentZan,null);
             }
         });
         return convertView;
@@ -148,7 +144,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
     @SuppressLint("InflateParams")
     @Override
     public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        SubViewHolder subViewHolder;
+        final SubViewHolder subViewHolder;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.item_comment_sub, null);
             subViewHolder = new SubViewHolder(convertView);
@@ -161,10 +157,11 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
         subViewHolder.commentName.setText(mCommentBean.getTwo().get(childPosition).getNICK_NAME());
         subViewHolder.commentContent.setText(mCommentBean.getTwo().get(childPosition).getCONTENT());
         subViewHolder.commentTime.setText(mCommentBean.getTwo().get(childPosition).getCREATEDATE());
+        subViewHolder.commentZanCount.setText(mCommentBean.getTwo().get(childPosition).getZANCOUNT());
         subViewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSetTwoClick.setOnClick(childPosition);
+                mSetOneClick.setOnClick(childPosition, null, null, subViewHolder.commentZanCount, subViewHolder.commentZan, null);
             }
         });
         return convertView;
@@ -180,61 +177,33 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
 
     class CommentViewHolder {
         CircleImageView avatar;
-        TextView commentName, commentContent, commentTime;
+        TextView commentName, commentContent, commentTime, commentZanCount;
         ImageView commentZan;
 
         private CommentViewHolder(View convertView) {
-            avatar = convertView.findViewById(R.id.dtl_posts_comment_avatar);
-            commentName = convertView.findViewById(R.id.dtl_posts_comment_name);
-            commentContent = convertView.findViewById(R.id.dtl_posts_comment_content);
-            commentTime = convertView.findViewById(R.id.dtl_posts_comment_time);
-            commentZan = convertView.findViewById(R.id.dtl_posts_comment_zan);
+            avatar = convertView.findViewById(R.id.one_posts_comment_avatar);
+            commentName = convertView.findViewById(R.id.one_posts_comment_name);
+            commentContent = convertView.findViewById(R.id.one_posts_comment_content);
+            commentTime = convertView.findViewById(R.id.one_posts_comment_time);
+            commentZan = convertView.findViewById(R.id.one_posts_comment_zan);
+            commentZanCount = convertView.findViewById(R.id.one_posts_comment_zan_count);
         }
     }
 
     class SubViewHolder {
         CircleImageView avatar;
-        TextView commentName, commentContent, commentTime;
+        TextView commentName, commentContent, commentTime, commentZanCount;
         ImageView commentZan;
 
         private SubViewHolder(View convertView) {
-            avatar = convertView.findViewById(R.id.dtl_posts_comment_avatar);
-            commentName = convertView.findViewById(R.id.dtl_posts_comment_name);
-            commentContent = convertView.findViewById(R.id.dtl_posts_comment_content);
-            commentTime = convertView.findViewById(R.id.dtl_posts_comment_time);
-            commentZan = convertView.findViewById(R.id.dtl_posts_comment_zan);
+            avatar = convertView.findViewById(R.id.two_posts_comment_avatar);
+            commentName = convertView.findViewById(R.id.two_posts_comment_name);
+            commentContent = convertView.findViewById(R.id.two_posts_comment_content);
+            commentTime = convertView.findViewById(R.id.two_posts_comment_time);
+            commentZan = convertView.findViewById(R.id.two_posts_comment_zan);
+            commentZanCount = convertView.findViewById(R.id.two_posts_comment_zan_count);
         }
     }
-
-    //    private void createCommentEditDialog() {
-//        View commentInputView = mInflater.inflate(R.layout.dialog_sub, null);
-//        final EditText commentEdit = (EditText) commentInputView.findViewById(R.id.dialogSubComment_commentContentInput_edt);
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-//        builder.setTitle("请输入内容");
-//        builder.setView(commentInputView);
-//        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void oneClick(DialogInterface dialog, int which) {
-//
-//            }
-//        });
-//        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void oneClick(DialogInterface dialog, int which) {
-//
-//                String commentContent = commentEdit.getText().toString().trim();
-//                SubCommentItem subCommentItem = new SubCommentItem(R.drawable.ic_launcher, "评论用户", commentContent);
-//                if (!commentContent.equals("")) {
-//                    mCommentItemList.get(mCurrentGroupPosition).getSubCommentItems().add(subCommentItem);
-//
-//                    notifyDataSetChanged();
-//                }
-//            }
-//        });
-//
-//        mCommentEditDialog = builder.create();
-//    }
 
 }
 

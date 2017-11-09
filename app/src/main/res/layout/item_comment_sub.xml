@@ -11,7 +11,7 @@
         android:paddingStart="50dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/dtl_posts_comment_avatar"
+            android:id="@+id/two_posts_comment_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentStart="true"
@@ -23,12 +23,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/dtl_posts_comment_avatar"
+            android:layout_toEndOf="@+id/two_posts_comment_avatar"
             android:orientation="vertical"
             android:padding="3dp">
 
             <TextView
-                android:id="@+id/dtl_posts_comment_name"
+                android:id="@+id/two_posts_comment_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -37,7 +37,7 @@
                 android:textSize="11sp" />
 
             <TextView
-                android:id="@+id/dtl_posts_comment_content"
+                android:id="@+id/two_posts_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -46,7 +46,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/dtl_posts_comment_time"
+                android:id="@+id/two_posts_comment_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
@@ -56,13 +56,23 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/dtl_posts_comment_zan"
+            android:id="@+id/two_posts_comment_zan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:padding="5dp"
+            android:layout_marginEnd="38dp"
+            android:padding="8dp"
             android:src="@drawable/ic_zan_unselected" />
+
+        <TextView
+            android:id="@+id/two_posts_comment_zan_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="30dp"
+            android:text="9"
+            android:textColor="@color/colorTiShiWenZi" />
     </RelativeLayout>
 </RelativeLayout>

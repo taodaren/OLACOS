@@ -652,11 +652,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mCommentAdapter.oneClick(new SetOnClickListen() {
             @Override
             public void setOnClick(int position) {
-                actionCommentZan(position);
             }
 
             @Override
             public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                oneCommentZan(position, zanIv, commentTv);
             }
         });
     }
@@ -668,11 +668,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         mCommentAdapter.twoClick(new SetOnClickListen() {
             @Override
             public void setOnClick(int position) {
-                actionCommentZan(position);
             }
 
             @Override
             public void setOnClick(int position, TextView zanTv, TextView collecTv, TextView commentTv, ImageView zanIv, ImageView cllecIv) {
+                twoCommentZan(position, zanIv, commentTv);
             }
         });
     }
@@ -845,14 +845,14 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 评论点赞功能
+     * 一级评论点赞功能
      */
-    private void actionCommentZan(final int position) {
-        int action = 0;
-        // TODO: 2017/11/1 没有保存评论点赞状态的功能
-        if ("true".equals(mContentList.get(0).getZAN())) {
-            action = 1;//取消点赞
-        }
+    private void oneCommentZan(final int position, final ImageView zanIv, final TextView commentTv) {
+        int action = 0;//点赞
+        // TODO: 2017/11/1 没有保存评论点赞状态的功能字段
+//        if ("true".equals(mOneList.get(position).getISZAN())) {
+//            action = 1;//取消点赞
+//        }
         Request<String> request = NoHttp.createStringRequest(I.COMMENT_ZAN, RequestMethod.POST);
         request.add("topicId", mOneList.get(position).getTOPICID());//帖子id
         request.add("zanMemberId", memberId);//点赞用户id(登录用户id)
@@ -860,11 +860,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("commentId", mOneList.get(position).getID());//评论id
         request.add("zan", action);//点赞、取消赞
 
-        Log.i(TAG, "actionCommentZan: topicId==" + mOneList.get(position).getTOPICID());
-        Log.i(TAG, "actionCommentZan: zanMemberId==" + memberId);
-        Log.i(TAG, "actionCommentZan: beenZanMemberId==" + mOneList.get(position).getMEMBERID());
-        Log.i(TAG, "actionCommentZan: commentId==" + mOneList.get(position).getID());
-        Log.i(TAG, "actionCommentZan: zan==" + action);
+        Log.i(TAG, "oneCommentZan: topicId==" + mOneList.get(position).getTOPICID());
+        Log.i(TAG, "oneCommentZan: zanMemberId==" + memberId);
+        Log.i(TAG, "oneCommentZan: beenZanMemberId==" + mOneList.get(position).getMEMBERID());
+        Log.i(TAG, "oneCommentZan: commentId==" + mOneList.get(position).getID());
+        Log.i(TAG, "oneCommentZan: zan==" + action);
 
         final int finalAction = action;
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
@@ -885,15 +885,15 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         switch (finalAction) {
                             case 0://点赞成功
 //                                mContentList.get(position).setZAN("true");//重置用户对当前帖子的点赞状态
-//                                mContentList.get(position).setZAN_COUNT(String.valueOf(
-//                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) + 1));
-//                                mImgSugar.setImageResource(R.drawable.ic_sugar_selected);
+                                mOneList.get(position).setZANCOUNT(String.valueOf(Integer.parseInt(mOneList.get(position).getZANCOUNT()) + 1));
+                                commentTv.setText(mOneList.get(position).getZANCOUNT());
+                                zanIv.setImageResource(R.drawable.ic_zan_selected);
                                 break;
                             case 1://取消点赞成功
 //                                mContentList.get(position).setZAN("false");//重置用户对当前帖子的点赞状态
-//                                mContentList.get(position).setZAN_COUNT(String.valueOf(
-//                                        Integer.parseInt(mContentList.get(0).getZAN_COUNT()) - 1));
-//                                mImgSugar.setImageResource(R.drawable.ic_sugar_unselected);
+                                mOneList.get(position).setZANCOUNT(String.valueOf(Integer.parseInt(mOneList.get(position).getZANCOUNT()) - 1));
+                                commentTv.setText(mOneList.get(position).getZANCOUNT());
+                                zanIv.setImageResource(R.drawable.ic_zan_unselected);
                                 break;
                         }
                     }
@@ -909,5 +909,72 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             }
         });
     }
+
+    /**
+     * 二级评论点赞功能
+     */
+    private void twoCommentZan(final int position, final ImageView zanIv, final TextView commentTv) {
+        int action = 0;//点赞
+        // TODO: 2017/11/1 没有保存评论点赞状态的功能字段
+//        if ("true".equals(mOneList.get(position).getISZAN())) {
+//            action = 1;//取消点赞
+//        }
+        Request<String> request = NoHttp.createStringRequest(I.COMMENT_ZAN, RequestMethod.POST);
+        request.add("topicId", mTwoList.get(position).getTOPICID());//帖子id
+        request.add("zanMemberId", memberId);//点赞用户id(登录用户id)
+        request.add("beenZanMemberId", mTwoList.get(position).getMEMBERID());//被点赞用户id(当前条评论提交人id)
+        request.add("commentId", mTwoList.get(position).getID());//评论id
+        request.add("zan", action);//点赞、取消赞
+
+        Log.i(TAG, "twoCommentZan: topicId==" + mTwoList.get(position).getTOPICID());
+        Log.i(TAG, "twoCommentZan: zanMemberId==" + memberId);
+        Log.i(TAG, "twoCommentZan: beenZanMemberId==" + mTwoList.get(position).getMEMBERID());
+        Log.i(TAG, "twoCommentZan: commentId==" + mTwoList.get(position).getID());
+        Log.i(TAG, "twoCommentZan: zan==" + action);
+
+        final int finalAction = action;
+        mRequestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e(TAG, "点赞请求：" + json);
+                if (json != null) {
+                    Type type = new TypeToken<ActionResultBean>() {
+                    }.getType();
+                    Gson gson = new Gson();
+                    ActionResultBean resultBean = gson.fromJson(json, type);
+                    if (resultBean.isOk()) {
+                        switch (finalAction) {
+                            case 0://点赞成功
+//                                mContentList.get(position).setZAN("true");//重置用户对当前帖子的点赞状态
+                                mTwoList.get(position).setZANCOUNT(String.valueOf(Integer.parseInt(mTwoList.get(position).getZANCOUNT()) + 1));
+                                commentTv.setText(mTwoList.get(position).getZANCOUNT());
+                                zanIv.setImageResource(R.drawable.ic_zan_selected);
+                                break;
+                            case 1://取消点赞成功
+//                                mContentList.get(position).setZAN("false");//重置用户对当前帖子的点赞状态
+                                mTwoList.get(position).setZANCOUNT(String.valueOf(Integer.parseInt(mTwoList.get(position).getZANCOUNT()) - 1));
+                                commentTv.setText(mTwoList.get(position).getZANCOUNT());
+                                zanIv.setImageResource(R.drawable.ic_zan_unselected);
+                                break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
 
 }
