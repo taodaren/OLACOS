@@ -57,6 +57,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private static final String TAG = "DetailsPostsActivity";
     private static final String ACTION_ATTENTION = "0";
     private static final String ACTION_ATTENTION_UN = "1";
+
     private static final int FOCUS_DOWN = 1;//置底
 
     private NestedScrollView mNsv;
@@ -262,7 +263,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                     handler.sendEmptyMessage(FOCUS_DOWN);
                 }
 
-                clickCommentDefault();//点击默认评论
+//                clickCommentDefault();//点击默认评论
                 commitComment();//提交一级评论功能
 
                 oneCommentClick();//一级评论点击事件
@@ -378,8 +379,9 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                 mEdEnter.getText().clear();
                 mllShow.setVisibility(View.VISIBLE);
                 mllHide.setVisibility(View.GONE);
-                //重新获取帖子评论数据（刷新）
+                //重新获取帖子评论数据（刷新）？为什么刷新 直接底部增加数据不就可以了吗？
                 getCommentData(FOCUS_DOWN);//一级评论结束置底
+//                insertParentComment(mOneList.size()-1,);
             }
 
             @Override
@@ -395,19 +397,21 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 保存二级评论数据
+     * @param groupPosition
      */
-    private void saveTwoCommentData() {
+    private void saveTwoCommentData(int groupPosition) {
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
-        request.add("authorId", mTwoList.get(0).getBEENMEMBERID());//被回复人id
+        request.add("authorId", mContentList.get(0).getUSERID());//帖子作者ID
         request.add("memberId", memberId);//评论人id
-        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
-            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
-        } else {//如果被评论人不是自己
-            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
-        }
+//        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
+//            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
+//        } else {//如果被评论人不是自己
+//            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
+//        }
+        request.add("beenMemberId", mOneList.get(groupPosition).getMEMBERID());//被评论人id
         request.add("atId", Uuid.getUuid());
-        request.add("parentId", mOneList.get(0).getID());//父级评论id，这里传为一级评论的id
+        request.add("parentId", mOneList.get(groupPosition).getID());//父级评论id，这里传为一级评论的id
         request.add("atIds", "");
         request.add("atUsers", "");
         request.add("content", mEdEnter.getText().toString());
@@ -445,8 +449,10 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 保存多级评论数据
+     * @param groupPosition
+     * @param childPosition
      */
-    private void saveMoreCommentData() {
+    private void saveMoreCommentData(int groupPosition, int childPosition) {
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
         request.add("authorId", mTwoList.get(0).getBEENMEMBERID());//帖子作者id
@@ -499,7 +505,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private void oneCommentClick() {
         mElvComment.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+            public boolean onGroupClick(ExpandableListView parent, View v, final int groupPosition, long id) {
                 if (AppHelper.getInstance().isLogined()) {//登录状态
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
@@ -513,7 +519,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         public void onClick(View v) {
                             if (!mEdEnter.getText().toString().isEmpty()) {
                                 //保存二级评论数据
-                                saveTwoCommentData();
+                                saveTwoCommentData(groupPosition);
                             }
                         }
                     });
@@ -531,7 +537,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private void twoCommentClick() {
         mElvComment.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+            public boolean onChildClick(ExpandableListView parent, View v, final int groupPosition, final int childPosition, long id) {
                 if (AppHelper.getInstance().isLogined()) {//登录状态
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
@@ -545,7 +551,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         public void onClick(View v) {
                             if (!mEdEnter.getText().toString().isEmpty()) {
                                 //保存多级评论数据
-                                saveMoreCommentData();
+                                saveMoreCommentData(groupPosition, childPosition);
                             }
                         }
                     });
