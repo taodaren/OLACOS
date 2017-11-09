@@ -292,6 +292,7 @@ public class EditRealNameActivity extends BaseActivity {
                     Log.e("JGB", "请求到这里" );
                     Log.e("JGB", "实名认证结果" + json);
                     Toast.makeText(EditRealNameActivity.this,"信息已提交请等待审核",Toast.LENGTH_SHORT).show();
+                    SharedPreferencesUtils.setParam(EditRealNameActivity.this, "NOTSTUDENT","100" );
                     finish();
                 }
 
@@ -366,6 +367,7 @@ public class EditRealNameActivity extends BaseActivity {
                 if(isCheckBean.getCode().equals("true")){
                     Log.e("JGB", "请求到这里" );
                     Log.e("JGB", "学生实名认证结果" + json);
+                    SharedPreferencesUtils.setParam(EditRealNameActivity.this, "STUDENT","200" );
                     Toast.makeText(EditRealNameActivity.this,"信息已提交请等待审核",Toast.LENGTH_SHORT).show();
                     finish();
                 }

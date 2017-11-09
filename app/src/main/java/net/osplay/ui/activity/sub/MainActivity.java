@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
@@ -23,6 +24,7 @@ import net.osplay.ui.fragment.sub.TabHomeFragment;
 import net.osplay.ui.fragment.sub.TabLeagueFragment;
 import net.osplay.ui.fragment.sub.TabWordFragment;
 import net.osplay.utils.PublishPopWindow;
+import net.osplay.utils.SharedPreferencesUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -60,11 +62,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
 
         if (AppHelper.getInstance().isLogined()) {//如果是登录状态
             tvAccount.setText(AppHelper.getInstance().getUser().getNICK_NAME());
-            if (AppHelper.getInstance().getUser().getHEAD_PATH() == null) {
-                Glide.with(this).load(R.drawable.avatar_default).into(imgAvatar);
+            String HEAD_PATH = (String) SharedPreferencesUtils.getParam(MainActivity.this, "HEAD_PATH", "");//获取头像
+            if (HEAD_PATH.equals("")) {
+                Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(imgAvatar);
             } else {
-                Glide.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+                Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(imgAvatar);
             }
+        }else{
+            Picasso.with(this).load(R.drawable.avatar_default).into(imgAvatar);
         }
     }
 

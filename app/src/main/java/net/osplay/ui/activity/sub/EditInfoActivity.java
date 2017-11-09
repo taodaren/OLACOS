@@ -115,38 +115,31 @@ public class EditInfoActivity extends BaseActivity {
         String XINGZUO = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "XINGZUO", "");//获取星座
         String CN = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "CN", "");//获取姓名
         String HEAD_PATH = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "HEAD_PATH", "");//获取头像
-        String INTRODUCE = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "INTRODUCE", "");//获取头像
+        String INTRODUCE = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "INTRODUCE", "");//获取签名
+        String STUDENT = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "STUDENT", "");//获取学生认证状态 200已发起认证
+        String NOTSTUDENT = (String) SharedPreferencesUtils.getParam(EditInfoActivity.this, "NOTSTUDENT", "");//获取非学生认证状态 100已发起认证
         shenhe = AppHelper.getInstance().getUser().getSHENHE();//获取审核结果
-        if (HEAD_PATH.equals("")) {
-            Log.e("JGB", "sp空头像走这里");
+        if (HEAD_PATH.equals("")) {//如果sp中的存储为空那么加载库中的数据，因为每次退出都清空，那么就等于每次进来都先获取库中的数据
             Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(mineAvatar);
-
-            String s = I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH();
-            Log.e("JGB", "数据哭的头像：" + s);
         } else {
-            Log.e("JGB", "sp非空头像走这里");
             Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(mineAvatar);
         }
         if (CN.equals("")) {
-            Log.e("JGB", "sp空姓名走这里");
             nameTv.setText(AppHelper.getInstance().getUser().getCN());
         } else {
             nameTv.setText(CN);
         }
         if (BIRTHDAY.equals("")) {
-            Log.e("JGB", "sp空年龄走这里");
             ageTv.setText(AppHelper.getInstance().getUser().getBIRTHDAY());
         } else {
             ageTv.setText(BIRTHDAY);
         }
         if (XINGZUO.equals("")) {
-            Log.e("JGB", "sp空星座走这里");
             xingxuoTv.setText(AppHelper.getInstance().getUser().getXINGZUO());
         } else {
             xingxuoTv.setText(XINGZUO);
         }
         if (LOCAL_DRESS.equals("")) {
-            Log.e("JGB", "sp空地址走这里");
             areaTv.setText(AppHelper.getInstance().getUser().getLOCAL_DRESS());
         } else {
             areaTv.setText(LOCAL_DRESS);
@@ -156,24 +149,27 @@ public class EditInfoActivity extends BaseActivity {
         }else{
             editInfoAdd.setText(INTRODUCE);
         }
-        if(shenhe==null){
-            Certification.setText("待审核");
-        }else{
-            switch (shenhe) {
-                case "0":
-                    Certification.setText("已审核");
-                    break;
-                case "1":
-                    Certification.setText("审核未通过");
-                    break;
-                case "2":
-                    Certification.setText("待审核");
-                    break;
-                    default:
+        if(STUDENT.equals("")){
+            if(shenhe==null){
+                Certification.setText("未认证");
+            }else{
+                switch (shenhe) {
+                    case "0":
+                        Certification.setText("已审核");
+                        break;
+                    case "1":
+                        Certification.setText("审核未通过");
+                        break;
+                    case "2":
                         Certification.setText("待审核");
+                        break;
+                    default:
+                        Certification.setText("未认证");
+                }
             }
+        }else{
+            Certification.setText("待审核");
         }
-
     }
 
 
@@ -206,7 +202,7 @@ public class EditInfoActivity extends BaseActivity {
             case R.id.Certification:
                 if (shenhe == null) {
                     startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
-                } else if (Certification.getText().toString().equals("审核未通过") | Certification.getText().toString().equals("待审核")) {
+                } else if (Certification.getText().toString().equals("审核未通过") |Certification.getText().toString().equals("未认证")) {
                     startActivity(new Intent(EditInfoActivity.this, EditRealNameActivity.class));
                 } else {
                     Toast.makeText(EditInfoActivity.this, "您已实名认证过", Toast.LENGTH_SHORT).show();

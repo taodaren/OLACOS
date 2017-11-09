@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
@@ -24,6 +26,8 @@ import net.osplay.ui.fragment.sub.MyFansFragment;
 import net.osplay.ui.fragment.sub.MyfocusFragment;
 import net.osplay.ui.fragment.sub.MypostsFragment;
 import net.osplay.ui.fragment.sub.MyareaFragment;
+import net.osplay.utils.SharedPreferencesUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +66,24 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setUserInfo() {
-        Glide.with(MinePageSelfActivity.this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nickIcon);
+        String HEAD_PATH = (String) SharedPreferencesUtils.getParam(MinePageSelfActivity.this, "HEAD_PATH", "");//获取头像
+        String INTRODUCE = (String) SharedPreferencesUtils.getParam(MinePageSelfActivity.this, "INTRODUCE", "");//获取个性签名
+        if (HEAD_PATH.equals("")) {
+            Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(nickIcon);
+        } else {
+            Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(nickIcon);
+        }
+//        Glide.with(MinePageSelfActivity.this).load(I.BASE_URL+AppHelper.getInstance().getUser().getHEAD_PATH()).into(nickIcon);
+//        tv_mine_page_info.setText(AppHelper.getInstance().getUser().getINTRODUCE());
             tv_mine_page_praise.setText(AppHelper.getInstance().getUser().getNICK_NAME());
             attention_tv.setText(AppHelper.getInstance().getUser().getFOCUS_COUNT());
             fans_tv.setText(AppHelper.getInstance().getUser().getFANS_COUNT());
+        if(INTRODUCE.equals("")){
             tv_mine_page_info.setText(AppHelper.getInstance().getUser().getINTRODUCE());
+        }else{
+            tv_mine_page_info.setText(INTRODUCE);
+        }
+
     }
 
     private void setToolbar() {
@@ -136,4 +153,9 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUserInfo();
+    }
 }
