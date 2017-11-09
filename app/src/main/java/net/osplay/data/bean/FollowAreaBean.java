@@ -1,24 +1,22 @@
 package net.osplay.data.bean;
 
 /**
- * Created by xns on 2017/10/10.
+ * 加入/取消专区
  */
 
 public class FollowAreaBean {
-    private boolean code;
 
-    public FollowAreaBean() {
+    /**
+     * ok : true
+     */
+
+    private boolean ok;
+
+    public boolean isOk() {
+        return ok;
     }
 
-    public FollowAreaBean(boolean code) {
-        this.code = code;
-    }
-
-    public boolean isCode() {
-        return code;
-    }
-
-    public void setCode(boolean code) {
-        this.code = code;
+    public void setOk(boolean ok) {
+        this.ok = ok;
     }
 }

@@ -249,16 +249,16 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
     }
 
     /**
-     * 更新RecyclrView的方法
+     * 更新 RecyclerView 的方法
      *
-     * @param getDataAction: 更新数据的操作，ACTION_FOLLOW：更新关注Item; ACTION_RECO: 更新推荐Item;
+     * @param getDataAction: 更新数据的操作
      */
     private void updateRecyclerView(int getDataAction) {
         switch (getDataAction) {
-            case ACTION_FOLLOW:
+            case ACTION_FOLLOW://更新关注Item
                 resultFollowAction();
                 break;
-            case ACTION_RECO:
+            case ACTION_RECO://更新推荐Item
                 mDatas.addAll(HomeDataMapper.transformWordRecoDatas(mRecoWordList, WordMineAdapter.TYPE_RECO_WORD, true));
                 mAdapter.setData(mDatas, refreshIndex, mRecoWordList.size());
                 break;
@@ -333,11 +333,13 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
+                Log.d(TAG, "onSucceed: 加入/取消专区数据请求==" + json);
+
                 if (json != null) {
                     Type type = new TypeToken<FollowAreaBean>() {
                     }.getType();
                     FollowAreaBean bean = gson.fromJson(json, type);
-                    if (bean.isCode()) {
+                    if (bean.isOk()) {
                         updateRecyclerView(ACTION_FOLLOW);
                     } else {
                         showError(what);

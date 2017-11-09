@@ -34,7 +34,6 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.CheckInfoBean;
 import net.osplay.service.entity.IsAttentionBean;
 import net.osplay.service.entity.IsCheckBean;
-import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
@@ -160,15 +159,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
                 break;
-            case R.id.btn_topic_attention://关注
+            case R.id.btn_topic_attention://加入/退出专区
                 if (!(AppHelper.getInstance().isLogined())) {
                     MFGT.gotoLogin(this, "loginAttention");
                 } else {
                     CharSequence text = btnAttention.getText();
                     if (text.equals("已加入")) {
-                        getUnAttentionData();//取消加入专区数据请求解析
+                        getAddExitData(1);//加入/退出专区数据请求解析
                     } else if (text.equals("加入专区")) {
-                        getAttentionData();//加入专区数据请求解析
+                        getAddExitData(0);
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -377,13 +376,13 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 加入专区
+     * 加入/退出专区
      */
-    private void getAttentionData() {
+    private void getAddExitData(final int mark) {
         Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
-        request.add("memberId", AppHelper.getInstance().getUser().getID());
+        request.add("memberId", memberId);
         request.add("myarrondiId", partId);
-        request.add("mark", 0);
+        request.add("mark", mark);
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -393,47 +392,15 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 if (json != null) {
-                    UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
-                    String code = userRegisterBean.getOk();
-                    if (code.equals("true")) {
-                        btnAttention.setText("已加入");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailed(int what, Response<String> response) {
-            }
-
-            @Override
-            public void onFinish(int what) {
-            }
-        });
-    }
-
-    /**
-     * 取消加入专区
-     */
-    private void getUnAttentionData() {
-        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
-        request.add("memberId", AppHelper.getInstance().getUser().getID());
-        request.add("myarrondiId", partId);
-        request.add("mark", 1);
-        mRequestQueue.add(0, request, new OnResponseListener<String>() {
-            @Override
-            public void onStart(int what) {
-            }
-
-            @Override
-            public void onSucceed(int what, Response<String> response) {
-                String json = response.get();
-                if (json != null) {
-                    UserRegisterBean userRegisterBean = gson.fromJson(json, UserRegisterBean.class);
-                    String code = userRegisterBean.getOk();
-                    if (code.equals("true")) {
-                        btnAttention.setText("加入专区");
-                        btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                    switch (mark) {
+                        case 0:
+                            btnAttention.setText("已加入");
+                            btnAttention.setBackgroundResource(R.drawable.shape_yuan_trans);
+                            break;
+                        case 1:
+                            btnAttention.setText("加入专区");
+                            btnAttention.setBackgroundResource(R.drawable.shape_yuan);
+                            break;
                     }
                 }
             }
