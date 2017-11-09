@@ -84,7 +84,7 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
         unbinder = ButterKnife.bind(this);
         initData();
         initView();
-        getAttention();
+        getIsJoinData();
     }
 
     private void initData() {
@@ -165,9 +165,9 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     CharSequence text = btnAttention.getText();
                     if (text.equals("已加入")) {
-                        getAddExitData(1);//加入/退出专区数据请求解析
+                        getJoinOrExitData(1);//加入/退出专区数据请求解析
                     } else if (text.equals("加入专区")) {
-                        getAddExitData(0);
+                        getJoinOrExitData(0);
                     }
                     flag = (flag + 1) % 2;
                 }
@@ -339,8 +339,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     /**
      * 验证专区是否加入过
      */
-    public void getAttention() {
-        Request<String> request = NoHttp.createStringRequest(I.IS_ATTENTION, RequestMethod.POST);
+    public void getIsJoinData() {
+        Request<String> request = NoHttp.createStringRequest(I.IS_JOIN_AREA, RequestMethod.POST);
         request.add("memberId", memberId);
         request.add("deparId", partId);
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
@@ -378,8 +378,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
     /**
      * 加入/退出专区
      */
-    private void getAddExitData(final int mark) {
-        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
+    private void getJoinOrExitData(final int mark) {
+        Request<String> request = NoHttp.createStringRequest(I.JOIN_OR_EXIT_AREA, RequestMethod.POST);
         request.add("memberId", memberId);
         request.add("myarrondiId", partId);
         request.add("mark", mark);

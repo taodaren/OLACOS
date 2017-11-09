@@ -63,40 +63,40 @@ public interface I {
     /**
      * 社区
      **/
-    //加入的专区
-    String ADD_WORD = BASE_URL + "/partMobile/myarrondi.do";
-    //推荐的专区
-    String RECOM_WORD = BASE_URL + "/partMobile/recommend.do";
     //专区
     String AREA = BASE_URL + "/partMobile/all.do";
     //专区子分区
     String AREA_SUB = BASE_URL + "/partMobile/twoPart.do";
-    //验证是否加入过当前的专区
-    String IS_ATTENTION = BASE_URL + "/centerMobile/departBymemberId.do";
-    //加入/取消加入 专区
-    String FOLLOW_WORD = BASE_URL + "/centerMobile/foMyarrondi.do";
-    //帖子列表
-    String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";
-    //帖子点赞
-    String POSTS_ZAN = BASE_URL + "/topicMobile/zan.do";
-    //帖子收藏
-    String POSTS_COLLECT = BASE_URL + "/topicMobile/foCollect.do";
-    //帖子详情
-    String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
-    //关注用户
-    String FOLLOW = BASE_URL + "/topicMobile/foFollow.do";
-    //是否关注用户
-    String IS_FOLLOW = BASE_URL + "/topicMobile/isFollow.do";
     //是否签到过
     String IS_CHECK_IN = BASE_URL + "/sign/signGuo.do";
     //获取用户当前的签到经验等级
     String GET_CHECK_INFO = BASE_URL + "/sign/getSignInfo.do";
     //签到
     String CHECK_IN = BASE_URL + "/sign/sign.do";
-
-    /**
-     * 评论
-     **/
+    //是否加入过当前的专区
+    String IS_JOIN_AREA = BASE_URL + "/centerMobile/departBymemberId.do";
+    //加入/退出专区
+    String JOIN_OR_EXIT_AREA = BASE_URL + "/centerMobile/foMyarrondi.do";
+    //加入的专区
+    String ADD_WORD = BASE_URL + "/partMobile/myarrondi.do";
+    //推荐的专区
+    String RECOM_WORD = BASE_URL + "/partMobile/recommend.do";
+    //帖子列表
+    String POSTS_LIST = BASE_URL + "/topicMobile/postBarPage.do";
+    //热帖列表
+    String POSTS_HOT_LIST = BASE_URL + "/topicMobile/hotTopic.do";
+    //热帖刷新
+    String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
+    //帖子点赞
+    String POSTS_ZAN = BASE_URL + "/topicMobile/zan.do";
+    //帖子收藏
+    String POSTS_COLLECT = BASE_URL + "/topicMobile/foCollect.do";
+    //帖子详情
+    String POSTS_DETAIL = BASE_URL + "/topicMobile/topicDetail.do";
+    //是否关注过用户
+    String IS_FOLLOW = BASE_URL + "/topicMobile/isFollow.do";
+    //关注用户
+    String FOLLOW = BASE_URL + "/topicMobile/foFollow.do";
     //查询一级评论总数（用于评论分页）
     String QUERY_COMMENT_COUNT = BASE_URL + "/topicMobile/queryOneCommentCount.do";
     //分页查询一级评论及一级评论下默认显示的二级评论
@@ -105,23 +105,14 @@ public interface I {
     String QUERY_COMMENT_SUB = BASE_URL + "/topicMobile/queryTwoCommentPage.do";
     //评论点赞
     String COMMENT_ZAN = BASE_URL + "/topicMobile/updateCommentZan.do";
-
-    /**
-     * 提交评论
-     **/
     //查询可以@的所有用户
     String FOLLOW_ALL_AT = BASE_URL + "/topicMobile/followAll.do";
     //保存评论
     String SAVE_COMMENT = BASE_URL + "/topicMobile/publishComment.do";
-
-    /**
-     * 热帖
-     **/
-    //热帖列表
-    String POSTS_HOT_LIST = BASE_URL + "/topicMobile/hotTopic.do";
-    //热帖刷新
-    String POSTS_REFRESH = BASE_URL + "/topicMobile/refreshHotTopic.do";
-
+    //上传图片
+    String PHOTO = BASE_URL + "/upload/uploadFile.do";
+    //获取省市国家等数据
+    String ASCII_CITY = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js";
 
     /**
      * 社团
@@ -148,17 +139,6 @@ public interface I {
     String NEWLYCREATED = BASE_URL + "/corporationMobile/corporationNewList.do";
     //审核社团成员
     String CORPORATION = BASE_URL + "/corporationMobile/examine.do";
-
-    /**
-     * 上传图片
-     */
-    String PHOTO = BASE_URL + "/upload/uploadFile.do";
-
-
-    /**
-     * 获取省市国家等数据
-     **/
-    String ASCII_CITY = "http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js";
 
 
     // TODO: 测试接口

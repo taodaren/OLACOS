@@ -314,7 +314,7 @@ public class WordMineFragment extends BaseFragment implements WordMineAdapter.Ac
 
     @Override
     public void actionFollow(String areaID, int action, WordAddBean bean, int actionPosition) {
-        Request<String> request = NoHttp.createStringRequest(I.FOLLOW_WORD, RequestMethod.POST);
+        Request<String> request = NoHttp.createStringRequest(I.JOIN_OR_EXIT_AREA, RequestMethod.POST);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         request.add("myarrondiId", areaID);
         request.add("mark", action);
