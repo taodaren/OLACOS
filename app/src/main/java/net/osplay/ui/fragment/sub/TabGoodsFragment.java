@@ -1,10 +1,13 @@
 package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -25,7 +28,6 @@ public class TabGoodsFragment extends BaseFragment {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
         //注意 getActivity()若使用 view 会报错，此处有大坑
         mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
-
         //设置侧滑界面
         initDrawerLayout();
         initWebView(inflate);
@@ -52,12 +54,12 @@ public class TabGoodsFragment extends BaseFragment {
             }
         });
         mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.setBackgroundColor(Color.argb(0, 0, 0, 0));//设置背景颜色 透明
         mWebView.loadUrl(I.TAB_GOODS);
     }
 
-//    /**
+    //    /**
 //     * 在 onActivityCreated 方法中初始化 Toolbar
 //     */
 //    @Override
@@ -80,35 +82,35 @@ public class TabGoodsFragment extends BaseFragment {
 //        super.onCreateOptionsMenu(menu, inflater);
 //    }
 //
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home://导航按钮固定 id
-//                //展示滑动菜单
-//                mDrawerLayout.openDrawer(GravityCompat.START);
-//                break;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home://导航按钮固定 id
+                //展示滑动菜单
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
 //            case R.id.menu_search:
 //                //跳转搜索界面
 //                startActivity(new Intent(getContext(), SearchActivity.class));
 //                break;
-//        }
-//        return true;
-//    }
+        }
+        return true;
+    }
 
-//    /**
-//     * 销毁 WebView
-//     */
-//    @Override
-//    public void onDestroyView() {
-//        if (mWebView != null) {
-//            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-//            mWebView.clearHistory();
-//
-//            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
-//            mWebView.destroy();
-//            mWebView = null;
-//        }
-//        super.onDestroyView();
-//    }
+    /**
+     * 销毁 WebView
+     */
+    @Override
+    public void onDestroyView() {
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroyView();
+    }
 
 }
