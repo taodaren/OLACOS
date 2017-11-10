@@ -62,7 +62,7 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.mine_set_about).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MineSetActivity.this, "关于 OLACOS", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MineSetActivity.this, OlacosActivity.class));
             }
         });
 
