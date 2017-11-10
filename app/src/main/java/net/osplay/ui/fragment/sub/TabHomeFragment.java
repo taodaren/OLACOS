@@ -144,7 +144,7 @@ public class TabHomeFragment extends BaseFragment {
         //显示菜单
         inflater.inflate(R.menu.menu_toolbar, menu);
         //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_msg).setVisible(true);
+        menu.findItem(R.id.menu_msg).setVisible(false);
         menu.findItem(R.id.menu_search).setVisible(false);
         menu.findItem(R.id.menu_code).setVisible(false);
         menu.findItem(R.id.menu_category).setVisible(false);

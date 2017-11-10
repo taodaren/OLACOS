@@ -6,19 +6,19 @@
     android:background="@color/colorContentBg"
     tools:context="net.osplay.ui.fragment.sub.TabGoodsFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <include
-            android:id="@+id/toolbar_goods"
-            layout="@layout/layout_toolbar" />
-    </android.support.design.widget.AppBarLayout>
+        <!--<include-->
+            <!--android:id="@+id/toolbar_goods"-->
+            <!--layout="@layout/layout_toolbar" />-->
+    <!--</android.support.design.widget.AppBarLayout>-->
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
         <WebView
             android:id="@+id/web_view_goods"
@@ -27,5 +27,5 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:nestedScrollingEnabled="false" />
-    </android.support.v4.widget.NestedScrollView>
+    <!--</android.support.v4.widget.NestedScrollView>-->
 </android.support.design.widget.CoordinatorLayout>

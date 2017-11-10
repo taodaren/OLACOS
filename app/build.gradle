@@ -110,4 +110,6 @@ dependencies {
     compile 'com.tencent.sonic:sdk:1.1.1'
     compile 'ch.ielse:switchbutton:1.0.0'
 
+    compile 'com.just.agentweb:agentweb:2.0.1'
+
 }

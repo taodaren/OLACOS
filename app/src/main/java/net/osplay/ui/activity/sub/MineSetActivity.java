@@ -34,27 +34,27 @@ public class MineSetActivity extends BaseActivity {
     }
 
     private void setView() {
-        //登录密码修改
-        findViewById(R.id.text_modify_pwd).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MineSetActivity.this, ForgetPwdActivity.class));
-            }
-        });
-
-        //手机号更改
-        findViewById(R.id.text_modify_phone).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MineSetActivity.this, "跳转到手机号更改", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        //登录密码修改
+//        findViewById(R.id.text_modify_pwd).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MineSetActivity.this, ForgetPwdActivity.class));
+//            }
+//        });
+//
+//        //手机号更改
+//        findViewById(R.id.text_modify_phone).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MineSetActivity.this, "跳转到手机号更改", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         //清理缓存
         findViewById(R.id.text_clean_cache).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MineSetActivity.this, "跳转到清理缓存", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MineSetActivity.this, "缓存已清理", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -78,13 +78,16 @@ public class MineSetActivity extends BaseActivity {
         findViewById(R.id.btn_mine_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferencesUtils.clear(MineSetActivity.this);
-                //注销登录重新跳转至
-                AppHelper.getInstance().setLogined(false);
-                Intent intent=new Intent(MineSetActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
+                if (AppHelper.getInstance().isLogined()) {//如果是登录状态
+                    SharedPreferencesUtils.clear(MineSetActivity.this);
+                    //注销登录重新跳转至
+                    AppHelper.getInstance().setLogined(false);
+                    Intent intent=new Intent(MineSetActivity.this,MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(MineSetActivity.this, "您还没有登陆过哦", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

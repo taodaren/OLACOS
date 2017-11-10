@@ -10,8 +10,7 @@
         android:layout_gravity="center"
         android:id="@+id/area_picture"
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/heat" />
+        android:layout_height="100dp" />
 
     <TextView
         android:layout_gravity="center"

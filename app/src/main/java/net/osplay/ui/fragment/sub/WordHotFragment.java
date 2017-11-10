@@ -20,7 +20,7 @@ import java.util.List;
 public class WordHotFragment extends BaseFragment {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-    private String[] mTitles = new String[]{"专区", "热帖", "专栏"};
+    private String[] mTitles = new String[]{"专区", "热帖"};
 
     @Override
     public View initView() {
@@ -43,14 +43,14 @@ public class WordHotFragment extends BaseFragment {
         });
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[0]));
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[1]), true);
-        mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[2]));
+       // mTabLayout.addTab(mTabLayout.newTab().setText(mTitles[2]));
     }
 
     private void setViewPager() {
         List<Fragment> mFragmentList = new ArrayList<>();
         mFragmentList.add(new WordHotTopicFragment());
         mFragmentList.add(new WordHotPostsFragment());
-        mFragmentList.add(new WordHotColumnFragment());
+      //  mFragmentList.add(new WordHotColumnFragment());
         TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }
