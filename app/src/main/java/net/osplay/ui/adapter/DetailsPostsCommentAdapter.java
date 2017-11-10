@@ -16,8 +16,8 @@ import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsCommentBean;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,10 +30,12 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
     private LayoutInflater mInflater;
     private WordDetailsCommentBean mCommentBean;
     private SetOnClickListen mSetOneClick, mSetTwoClick;
+    private List<WordDetailsCommentBean.TwoBean> mTwoBeans;
 
     public DetailsPostsCommentAdapter(Context context, WordDetailsCommentBean mCommentBean) {
         this.mContext = context;
         this.mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mTwoBeans = new ArrayList<>();
         this.mCommentBean = mCommentBean;
     }
 
@@ -58,11 +60,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public int getChildrenCount(int groupPosition) {
-        if (mCommentBean.getTwo() == null) {
-            return 0;
-        } else {
-            return mCommentBean.getOne().get(groupPosition).getCOUNT();
-        }
+        return mCommentBean.getOne().get(groupPosition).getCOUNT();
     }
 
     /**
@@ -70,8 +68,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getGroup(int groupPosition) {
-        List<WordDetailsCommentBean.OneBean> one = mCommentBean.getOne();
-        return one.get(groupPosition);
+        return mCommentBean.getOne().get(groupPosition);
     }
 
     /**
@@ -79,8 +76,10 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        if (Objects.equals(mCommentBean.getOne().get(groupPosition).getID(), mCommentBean.getTwo().get(childPosition).getPARENTID())) {
-            return mCommentBean.getTwo().get(childPosition);
+        for (int i = 0; i < mCommentBean.getOne().size(); i++) {
+            if (mCommentBean.getOne().get(groupPosition).getID().equals(mCommentBean.getTwo().get(i).getPARENTID())) {
+                return mCommentBean.getTwo().get(i);
+            }
         }
         return null;
     }
@@ -153,19 +152,23 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
             subViewHolder = (SubViewHolder) convertView.getTag();
         }
 
-        // TODO: 2017/11/10  二级评论显示问题根源在此
-        Glide.with(mContext).load(I.BASE_URL + mCommentBean.getTwo().get(childPosition).getHEAD_PATH()).into(subViewHolder.avatar);
-        subViewHolder.commentName.setText(mCommentBean.getTwo().get(childPosition).getNICK_NAME());
-        subViewHolder.commentContent.setText(mCommentBean.getTwo().get(childPosition).getCONTENT());
-        subViewHolder.commentTime.setText(mCommentBean.getTwo().get(childPosition).getCREATEDATE());
-        subViewHolder.commentZanCount.setText(mCommentBean.getTwo().get(childPosition).getZANCOUNT());
+        mTwoBeans.clear();
+        for (int i = 0; i < mCommentBean.getTwo().size(); i++) {
+            if (mCommentBean.getOne().get(groupPosition).getID().equals(mCommentBean.getTwo().get(i).getPARENTID())) {
+                mTwoBeans.add(mCommentBean.getTwo().get(i));
+            }
+        }
+        Glide.with(mContext).load(I.BASE_URL + mTwoBeans.get(childPosition).getHEAD_PATH()).into(subViewHolder.avatar);
+        subViewHolder.commentName.setText(mTwoBeans.get(childPosition).getNICK_NAME());
+        subViewHolder.commentContent.setText(mTwoBeans.get(childPosition).getCONTENT());
+        subViewHolder.commentTime.setText(mTwoBeans.get(childPosition).getCREATEDATE());
+        subViewHolder.commentZanCount.setText(mTwoBeans.get(childPosition).getZANCOUNT());
         subViewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mSetTwoClick.setOnClick(childPosition, null, null, subViewHolder.commentZanCount, subViewHolder.commentZan, null);
             }
         });
-
         return convertView;
     }
 
