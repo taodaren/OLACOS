@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.osplay.ui.activity.sub.OlacosActivity"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:gravity="center_horizontal">
+<android.support.v4.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="公司简介"
+    android:textSize="18sp"
+    android:textStyle="bold"
+    android:layout_marginTop="20dp"
+    android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="         北京奥世普雷科技有限公司是一家专注于二次元文化产业的新型互联网文化公司。主营项目为社交平台、渠道推广、线下展会、电商服务。"/>
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="         公司以二次元文化产业为核心，倾力打造出专为二次元文化爱好者使用的自主研发、自主运营，并有5项在申请专利技术的社交平台“OLACOS”。目标在五年内成为国内二次元文化产业的龙头企业。"/>
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="         作为一家新型互联网文化公司，我们深知渠道推广的重要性，“千校联盟”校园推广品牌已覆盖高校多达一千多所，专为互联网公司提供初中期的产品推广服务。"/>
+
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/olacos1"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/olacos2"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/olacos3"
+            />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/olacos4"
+        />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
+</LinearLayout>
