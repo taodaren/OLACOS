@@ -61,9 +61,7 @@ public class TabGoodsFragment extends BaseFragment {
         });
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
-      //  mWebView.loadUrl(I.TAB_GOODS);
-//        mWebView.loadUrl("http://192.168.1.7:8080/qda/html/shopping.html");
-        mWebView.loadUrl("http://www.dcloud.io/hellomui/examples/pullrefresh_with_tab.html");
+        mWebView.loadUrl(I.TAB_GOODS);
     }
 
     /**
