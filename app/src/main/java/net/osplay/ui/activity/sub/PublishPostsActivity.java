@@ -3,10 +3,11 @@ package net.osplay.ui.activity.sub;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -86,7 +87,7 @@ public class PublishPostsActivity extends Activity {
     SwitchView postsReprintSwitch;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
-   // private List<LocalMedia> localMedia;//图片集合
+    // private List<LocalMedia> localMedia;//图片集合
     private PublishPostsAdapter adapter;
     private PublishAreaAdapter paAdapter;
     private PublishTwoAreaAdapter ptAdapter;
@@ -100,8 +101,8 @@ public class PublishPostsActivity extends Activity {
     private String origint = "";//是否原创
     private String reprint = "";//是否可转载
 
-    private int imageSize=8;
-    private List<YSBean> ysList=new ArrayList<>();
+    private int imageSize = 8;
+    private List<YSBean> ysList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,35 @@ public class PublishPostsActivity extends Activity {
 //        postsAreaRecy.setLayoutManager(linearLayoutManager);
         getArea();//获取一级专区的数据
         switchOnclick();
+        editTextSetting();
+    }
 
+    //阻止输入表情
+    private void editTextSetting() {
+        postsTitleTv.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        for (int i = start; i < end; i++) {
+                            if (!Character.isLetterOrDigit(source.charAt(i)) && !Character.toString(source.charAt(i)).equals("_") && !Character.toString(source.charAt(i)).equals("-")) {
+                                return "";
+                            }
+                        }
+                        return null;
+                    }
+                }
+        });
+        postsContentTv.setFilters(new InputFilter[]{
+                new InputFilter() {
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        for (int i = start; i < end; i++) {
+                            if (!Character.isLetterOrDigit(source.charAt(i)) && !Character.toString(source.charAt(i)).equals("_") && !Character.toString(source.charAt(i)).equals("-")) {
+                                return "";
+                            }
+                        }
+                        return null;
+                    }
+                }
+        });
     }
 
     //开关的选择
@@ -152,7 +181,7 @@ public class PublishPostsActivity extends Activity {
                     // 图片选择结果回调
                     List<LocalMedia> localMedia = PictureSelector.obtainMultipleResult(data);
                     size = localMedia.size();
-                    for(int i=0;i<size;i++){
+                    for (int i = 0; i < size; i++) {
                         ysList.add(new YSBean(localMedia.get(i).getCompressPath()));
                     }
                     adapter = new PublishPostsAdapter(PublishPostsActivity.this, ysList);
@@ -178,16 +207,15 @@ public class PublishPostsActivity extends Activity {
                 case PictureConfig.REQUEST_CAMERA:
                     List<LocalMedia> localMedias = PictureSelector.obtainMultipleResult(data);
 
-                    for(int i=0;i<localMedias.size();i++){
-                            ysList.add(new YSBean(localMedias.get(i).getCompressPath()));
-                            size = ysList.size();
-                            adapter.notifyItemInserted(size-1);
-                            adapter.notifyItemRangeChanged(0, size);
+                    for (int i = 0; i < localMedias.size(); i++) {
+                        ysList.add(new YSBean(localMedias.get(i).getCompressPath()));
+                        size = ysList.size();
+                        adapter.notifyItemInserted(size - 1);
+                        adapter.notifyItemRangeChanged(0, size);
                     }
-                    Log.e("JGB","压缩集合的长度："+ysList);
+                    Log.e("JGB", "压缩集合的长度：" + ysList);
 
-                            break;
-
+                    break;
 
 
             }
@@ -1462,7 +1490,7 @@ public class PublishPostsActivity extends Activity {
     }
 
     private void case44imageHttp(final String image41, final String image42, final String image43) {
-        Log.e("JGB","第四张图片："+ysList.get(3).getYs());
+        Log.e("JGB", "第四张图片：" + ysList.get(3).getYs());
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest("http://www.olacos.net/upload/uploadFile.do", RequestMethod.POST);
         request.add("url", new FileBinary(new File((ysList.get(3).getYs()))));//上传文件
@@ -1637,16 +1665,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
 
@@ -1688,16 +1716,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1738,16 +1766,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1788,17 +1816,17 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
 
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1839,16 +1867,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1889,16 +1917,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1939,16 +1967,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -1989,16 +2017,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -2039,16 +2067,16 @@ public class PublishPostsActivity extends Activity {
                     return;
                 } else {
                     PostBean postBean = mGson.fromJson(json, PostBean.class);
-                    if(postBean.isOk()==true){
+                    if (postBean.isOk() == true) {
                         avi.hide();
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖成功!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖成功!", Toast.LENGTH_SHORT).show();
                         finish();
-                    }else{
+                    } else {
                         avi.setVisibility(View.GONE);
                         postsReleaseIv.setVisibility(View.VISIBLE);
-                        Toast.makeText(PublishPostsActivity.this,"发帖失败!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PublishPostsActivity.this, "发帖失败!", Toast.LENGTH_SHORT).show();
                     }
                     Log.e("JGB", "发布结果：" + json);
                 }
@@ -2111,7 +2139,7 @@ public class PublishPostsActivity extends Activity {
                 } else {
                     PictureSelector.create(PublishPostsActivity.this)
                             .openGallery(PictureMimeType.ofImage())
-                            .maxSelectNum(imageSize-size)
+                            .maxSelectNum(imageSize - size)
                             .compress(true)
                             .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
                 }
