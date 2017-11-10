@@ -106,7 +106,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
      */
     @Override
     public boolean hasStableIds() {
-        return false;
+        return true;
     }
 
     /**
@@ -132,7 +132,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
         viewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSetOneClick.setOnClick(groupPosition, null, null, viewHolder.commentZanCount, viewHolder.commentZan,null);
+                mSetOneClick.setOnClick(groupPosition, null, null, viewHolder.commentZanCount, viewHolder.commentZan, null);
             }
         });
         return convertView;
@@ -153,6 +153,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
             subViewHolder = (SubViewHolder) convertView.getTag();
         }
 
+        // TODO: 2017/11/10  二级评论显示问题根源在此
         Glide.with(mContext).load(I.BASE_URL + mCommentBean.getTwo().get(childPosition).getHEAD_PATH()).into(subViewHolder.avatar);
         subViewHolder.commentName.setText(mCommentBean.getTwo().get(childPosition).getNICK_NAME());
         subViewHolder.commentContent.setText(mCommentBean.getTwo().get(childPosition).getCONTENT());
@@ -164,6 +165,7 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
                 mSetTwoClick.setOnClick(childPosition, null, null, subViewHolder.commentZanCount, subViewHolder.commentZan, null);
             }
         });
+
         return convertView;
     }
 
