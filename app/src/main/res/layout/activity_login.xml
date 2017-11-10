@@ -81,13 +81,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:background="@drawable/shape_yuan"
                 android:padding="2dp"
                 android:text="登录"
                 android:textColor="@color/colorWhite" />
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -104,7 +104,7 @@
                     android:text="忘记密码？"
                     android:textColor="@color/colorAccent"
                     android:textSize="15sp" />
-            </LinearLayout>
+            </LinearLayout>-->
 
             <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->

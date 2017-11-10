@@ -121,7 +121,6 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
                 switch (loginId) {
-                    case "sendPosts"://发帖
                     case "getComment"://获取评论
                     case "sendComment"://提交评论
                     case "loginZan"://点赞
@@ -129,6 +128,11 @@ public class LoginActivity extends BaseActivity {
                     case "loginAttention"://关注
                     case "loginCOJ"://社团活动
                     case "loginCOJ1"://社团作品登录成功后跳转的目的地
+                        finish();
+                        break;
+                    case "sendPosts"://发帖
+                        startActivity(new Intent(LoginActivity.this,
+                                PublishPostsActivity.class));
                         finish();
                         break;
                     case "loginMine"://个人中心
