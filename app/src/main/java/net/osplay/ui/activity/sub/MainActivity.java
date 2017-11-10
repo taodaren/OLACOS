@@ -14,9 +14,7 @@ import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
-import com.yanzhenjie.nohttp.able.Startable;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
@@ -26,10 +24,11 @@ import net.osplay.ui.fragment.sub.TabGoodsFragment;
 import net.osplay.ui.fragment.sub.TabHomeFragment;
 import net.osplay.ui.fragment.sub.TabLeagueFragment;
 import net.osplay.ui.fragment.sub.TabWordFragment;
-//import net.osplay.utils.PublishPopWindow;
 import net.osplay.utils.SharedPreferencesUtils;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+//import net.osplay.utils.PublishPopWindow;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
     private Fragment currentFragment;
@@ -69,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             if (HEAD_PATH.equals("")) {
                 Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(imgAvatar);
             } else {
-                Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(imgAvatar);
+                Picasso.with(this).load(I.BASE_URL + HEAD_PATH).error(R.drawable.avatar_default).into(imgAvatar);
             }
-        }else{
+        } else {
             Picasso.with(this).load(R.drawable.avatar_default).into(imgAvatar);
         }
     }
@@ -124,14 +123,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 设置悬浮按钮
      */
     private void initFabButton() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (AppHelper.getInstance().isLogined()) {//如果是登录状态
-                    startActivity(new Intent(MainActivity.this,PublishPostsActivity.class));
-                }else{
-                    Toast.makeText(MainActivity.this,"还未登录过哦，登陆后才能发帖",Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, PublishPostsActivity.class));
+                } else {
+                    MFGT.gotoLogin(MainActivity.this, "sendPosts");
                 }
 
 //                //首页 → 发布弹出动画
