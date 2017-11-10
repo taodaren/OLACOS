@@ -2103,14 +2103,14 @@ public class PublishPostsActivity extends Activity {
             case R.id.posts_click_iv:
                 if (bs == 0) {
                     PictureSelector.create(PublishPostsActivity.this)
-                            .openGallery(PictureMimeType.ofAll())
+                            .openGallery(PictureMimeType.ofImage())
                             .maxSelectNum(imageSize)
                             .compress(true)
                             .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
                     bs = 1;
                 } else {
                     PictureSelector.create(PublishPostsActivity.this)
-                            .openGallery(PictureMimeType.ofAll())
+                            .openGallery(PictureMimeType.ofImage())
                             .maxSelectNum(imageSize-size)
                             .compress(true)
                             .forResult(PictureConfig.REQUEST_CAMERA);//结果回调onActivityResult code
