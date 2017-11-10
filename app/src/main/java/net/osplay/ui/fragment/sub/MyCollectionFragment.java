@@ -67,14 +67,13 @@ public class MyCollectionFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_COLLECTION, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "10");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
                 avi.show();
             }
-
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
@@ -205,5 +204,6 @@ public class MyCollectionFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 
 }

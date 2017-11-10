@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -42,7 +43,8 @@ public class OtherCollectionFragment extends Fragment {
     RecyclerView centerRecycler;
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
-
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private String memberId;
     private Gson mGson = new Gson();
@@ -68,7 +70,7 @@ public class OtherCollectionFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_COLLECTION, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "5");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", memberId);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -81,6 +83,7 @@ public class OtherCollectionFragment extends Fragment {
                 String json = response.get();
                 Log.e("JGB", "其他用户收藏:" + json);
                 if (json != null) {
+                    avi.hide();
                     formatMyarea(json);
                 } else {
                     return;
@@ -107,7 +110,7 @@ public class OtherCollectionFragment extends Fragment {
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
             rows = myCollectionBean.getRows();
-            cAadapter=new MyCollectionAdapter(getContext(), rows);
+            cAadapter = new MyCollectionAdapter(getContext(), rows);
             centerRecycler.setAdapter(cAadapter);
 
             //点赞的点击事件
@@ -124,15 +127,16 @@ public class OtherCollectionFragment extends Fragment {
                         Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
                         request.add("memberId", rows.get(position).getMEMID());
                         request.add("topickId", rows.get(position).getID());
-                        request.add("mark",0);
+                        request.add("mark", 0);
                         requestQueue.add(0, request, new OnResponseListener<String>() {
                             @Override
                             public void onStart(int what) {
                             }
+
                             @Override
                             public void onSucceed(int what, Response<String> response) {
                                 String json = response.get();
-                                Log.e("TAG","点赞结果："+json);
+                                Log.e("TAG", "点赞结果：" + json);
                                 if (json != null) {
                                 } else {
                                     return;
@@ -151,22 +155,23 @@ public class OtherCollectionFragment extends Fragment {
                             }
                         });
                         int zanCount = Integer.parseInt(zanTv.getText().toString());
-                        zanTv.setText(zanCount+1+"");
+                        zanTv.setText(zanCount + 1 + "");
                         zanIv.setImageResource(R.drawable.ic_sugar_selected);
                     } else if (flag == 1) {
                         RequestQueue requestQueue = NoHttp.newRequestQueue();
                         Request<String> request = NoHttp.createStringRequest(I.POSTS_ZAN, RequestMethod.POST);
                         request.add("memberId", rows.get(position).getMEMID());
                         request.add("topickId", rows.get(position).getID());
-                        request.add("mark",1);
+                        request.add("mark", 1);
                         requestQueue.add(0, request, new OnResponseListener<String>() {
                             @Override
                             public void onStart(int what) {
                             }
+
                             @Override
                             public void onSucceed(int what, Response<String> response) {
                                 String json = response.get();
-                                Log.e("TAG","点赞结果："+json);
+                                Log.e("TAG", "点赞结果：" + json);
                                 if (json != null) {
                                 } else {
                                     return;
@@ -185,17 +190,15 @@ public class OtherCollectionFragment extends Fragment {
                             }
                         });
                         int zanCount = Integer.parseInt(zanTv.getText().toString());
-                        zanTv.setText(zanCount-1+"");
+                        zanTv.setText(zanCount - 1 + "");
                         zanIv.setImageResource(R.drawable.ic_sugar_unselected);
                     }
                     flag = (flag + 1) % 2;//其余得到循环执行上面2个不同的功能
                 }
 
 
-
-
             };
-            cAadapter .onClick(setOnClickListen);
+            cAadapter.onClick(setOnClickListen);
         }
 
 

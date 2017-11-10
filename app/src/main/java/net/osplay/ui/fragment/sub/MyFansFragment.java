@@ -64,7 +64,7 @@ public class MyFansFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_FANS_PAGER, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "20");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -75,7 +75,7 @@ public class MyFansFragment extends Fragment {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "-----------fans:" + json);
+                Log.e("JGB", "我的粉丝请求结果" + json);
                 if (json == null) {
                    return;
                 } else {
@@ -100,6 +100,7 @@ public class MyFansFragment extends Fragment {
 
     private void formatMyfans(String json) {
         MyFansBean myFansBean = mGson.fromJson(json, MyFansBean.class);
+        Log.e("JGB","粉丝数量："+myFansBean.getTotal());
         if (myFansBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);

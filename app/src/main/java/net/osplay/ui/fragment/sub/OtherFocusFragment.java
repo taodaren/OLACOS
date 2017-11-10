@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -39,6 +40,8 @@ public class OtherFocusFragment extends Fragment {
     RecyclerView centerRecycler;
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFocusBean.RowsBean> rows;
@@ -61,7 +64,7 @@ public class OtherFocusFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_FOCUS_PAGER, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "20");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", memberId);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -73,6 +76,7 @@ public class OtherFocusFragment extends Fragment {
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
                 if (json != null) {
+                    avi.hide();
                     formatMyfocus(json);
                 } else {
                     return;
@@ -94,10 +98,10 @@ public class OtherFocusFragment extends Fragment {
 
     private void formatMyfocus(String json) {
         MyFocusBean myFocusBean = mGson.fromJson(json, MyFocusBean.class);
-        if(myFocusBean.getTotal()==0){
+        if (myFocusBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             rows = myFocusBean.getRows();
             centerRecycler.setAdapter(new MyFocusAdapter(getActivity(), rows));
         }

@@ -324,6 +324,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                     //弹出软键盘
                     ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     mEdEnter.requestFocus();
+
                     //切换布局
                     mllShow.setVisibility(View.GONE);
                     mllHide.setVisibility(View.VISIBLE);
@@ -400,6 +401,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      * @param groupPosition
      */
     private void saveTwoCommentData(int groupPosition) {
+        EditText ed=findViewById(R.id.etv_details_posts_ed);
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
         request.add("authorId", mContentList.get(0).getUSERID());//帖子作者ID
@@ -414,7 +416,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
         request.add("parentId", mOneList.get(groupPosition).getID());//父级评论id，这里传为一级评论的id
         request.add("atIds", "");
         request.add("atUsers", "");
-        request.add("content", mEdEnter.getText().toString());
+        request.add("content", ed.getText().toString());
 
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
