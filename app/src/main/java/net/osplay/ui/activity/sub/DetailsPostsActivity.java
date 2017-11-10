@@ -263,8 +263,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                     handler.sendEmptyMessage(FOCUS_DOWN);
                 }
 
-//                clickCommentDefault();//点击默认评论
-                commitComment();//提交一级评论功能
+                commitComment();//提交一级评论功能或默认评论
 
                 oneCommentClick();//一级评论点击事件
                 twoCommentClick();//二级评论点击事件
@@ -283,38 +282,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 进入帖子详情点击评论切换（默认评论）
-     */
-    private void clickCommentDefault() {
-        mTvSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {//点击底部 TextView 切换布局
-                if (AppHelper.getInstance().isLogined()) {//登录状态
-                    //弹出软键盘
-                    ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                    mEdEnter.requestFocus();
-                    //切换布局
-                    mllShow.setVisibility(View.GONE);
-                    mllHide.setVisibility(View.VISIBLE);
-                    //点击发送按钮
-                    mBtnSend.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (!mEdEnter.getText().toString().isEmpty()) {
-                                //保存默认评论数据
-                                saveOneCommentData();
-                            }
-                        }
-                    });
-                } else {//未登录状态
-                    MFGT.gotoLogin(DetailsPostsActivity.this, "sendComment");
-                }
-            }
-        });
-    }
-
-    /**
      * 提交评论功能
+     * 进入帖子详情点击评论切换（默认评论）
      */
     private void commitComment() {
         mTvSwitch.setOnClickListener(new View.OnClickListener() {
@@ -398,7 +367,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 保存二级评论数据
-     * @param groupPosition
      */
     private void saveTwoCommentData(int groupPosition) {
         EditText ed=findViewById(R.id.etv_details_posts_ed);
@@ -451,8 +419,6 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
 
     /**
      * 保存多级评论数据
-     * @param groupPosition
-     * @param childPosition
      */
     private void saveMoreCommentData(int groupPosition, int childPosition) {
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
