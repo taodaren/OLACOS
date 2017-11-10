@@ -10,9 +10,9 @@ public interface I {
     /**
      * 基础 url
      **/
-//    String BASE_URL = "http://www.olacos.net";//服务器域名
+    String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
-    String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
+//    String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
 
     /**
      * 商品模块 WebView
