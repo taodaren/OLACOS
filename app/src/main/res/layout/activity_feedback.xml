@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="客服咨询电话：185-1234-1234"
+        android:text="客服咨询电话：61212470"
         android:textColor="@color/colorBlack"
         android:textSize="18sp" />
 </LinearLayout>

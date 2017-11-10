@@ -61,8 +61,9 @@ public class TabGoodsFragment extends BaseFragment {
         });
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl(I.TAB_GOODS);
-//        mWebView.loadUrl("https://m.jd.com/");
+      //  mWebView.loadUrl(I.TAB_GOODS);
+//        mWebView.loadUrl("http://192.168.1.7:8080/qda/html/shopping.html");
+        mWebView.loadUrl("http://www.dcloud.io/hellomui/examples/pullrefresh_with_tab.html");
     }
 
     /**
@@ -71,7 +72,7 @@ public class TabGoodsFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.VISIBLE, View.GONE, true);
+        //setToolbar(R.id.toolbar_goods, R.string.goods_name, View.VISIBLE, View.GONE, true);
     }
 
     @Override

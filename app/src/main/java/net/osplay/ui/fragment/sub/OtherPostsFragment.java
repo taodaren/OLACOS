@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -40,6 +41,8 @@ public class OtherPostsFragment extends Fragment {
     RecyclerView centerRecycler;
     @BindView(R.id.center_not_data_iv)
     ImageView centerNotDataIv;
+    @BindView(R.id.avi)
+    AVLoadingIndicatorView avi;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyPostsBean.RowsBean> rows;
@@ -63,7 +66,7 @@ public class OtherPostsFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_POSTS, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "25");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", memberId);
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -76,6 +79,7 @@ public class OtherPostsFragment extends Fragment {
                 String json = response.get();
                 Log.e("JGB", "Otherposts_____" + json);
                 if (json != null) {
+                    avi.hide();
                     formatOposts(json);
                 } else {
                     return;
@@ -97,10 +101,10 @@ public class OtherPostsFragment extends Fragment {
 
     private void formatOposts(String json) {
         MyPostsBean myPostsBean = mGson.fromJson(json, MyPostsBean.class);
-        if(myPostsBean.getTotal()==0){
+        if (myPostsBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             rows = myPostsBean.getRows();
             centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));
         }

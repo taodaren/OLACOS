@@ -2,17 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
- <include layout="@layout/layout_toolbar" />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white">
+ <android.support.v7.widget.Toolbar
+     android:id="@+id/league_toolbar"
+     android:layout_width="match_parent"
+     android:layout_height="?attr/actionBarSize"
+     android:background="@drawable/bg_toolbar"
+     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+     app:layout_scrollFlags="scroll|enterAlways|snap"
+     app:popupTheme="@style/AlertDialog.AppCompat.Light">
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+   <ImageView
+       android:id="@+id/change_back_iv"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:src="@drawable/title_back"
+       android:layout_centerVertical="true"/>
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_centerInParent="true"
+       android:layout_gravity="center"
+       android:text="设置姓名"
+       android:textColor="@android:color/white"
+       android:textSize="17sp" />
+
+   <TextView
+       android:id="@+id/change_save"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentRight="true"
+       android:layout_marginRight="20dp"
+       android:layout_centerVertical="true"
+       android:text="保存"
+       android:textSize="16sp"
+       android:textColor="@android:color/white"/>
+  </RelativeLayout>
+ </android.support.v7.widget.Toolbar>
 <EditText
     android:id="@+id/change_name"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:layout_margin="10dp"
+    android:textSize="15sp"
     />
- <Button
-     android:id="@+id/change_save"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:text="保存"/>
 </LinearLayout>

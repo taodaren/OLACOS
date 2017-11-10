@@ -2,16 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <include layout="@layout/layout_toolbar" />
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:popupTheme="@style/AlertDialog.AppCompat.Light">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/change_qm_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_back"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="设置签名"
+            android:textColor="@android:color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/change_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            android:text="保存"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"/>
+    </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
 <EditText
     android:id="@+id/info_add_ed"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="个性签名"/>
-    <Button
-        android:id="@+id/info_add_bt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="保存"/>
+    android:layout_height="60dp"
+    android:hint="个性签名"
+    android:textSize="15sp"/>
 </LinearLayout>

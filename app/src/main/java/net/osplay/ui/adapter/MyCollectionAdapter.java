@@ -59,12 +59,12 @@ public class MyCollectionAdapter extends RecyclerView.Adapter<CollectionViewHold
         holder.item_collection_good.setText(rows.get(position).getZAN_COUNT());
         holder.item_collection_collect.setText(rows.get(position).getCOLLECT_COUNT());
         holder.item_collection_comment.setText(rows.get(position).getPINGLUN_COUNT());
-        holder.ll_topic_list_zan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setOnClickListen.setOnClick(position, holder.item_collection_good, holder.item_collection_collect, holder.item_collection_comment, holder.img_topic_list_zan, holder.img_topic_list_collect);
-            }
-        });
+//        holder.ll_topic_list_zan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setOnClickListen.setOnClick(position, holder.item_collection_good, holder.item_collection_collect, holder.item_collection_comment, holder.img_topic_list_zan, holder.img_topic_list_collect);
+//            }
+//        });
 
         //holder.item_posts_good.setText(rows.get(position).get);
         holder.posts_ll.setOnClickListener(new View.OnClickListener() {

@@ -170,6 +170,27 @@ public class EditInfoActivity extends BaseActivity {
         }else{
             Certification.setText("待审核");
         }
+        if(NOTSTUDENT.equals("")){
+            if(shenhe==null){
+                Certification.setText("未认证");
+            }else{
+                switch (shenhe) {
+                    case "0":
+                        Certification.setText("已审核");
+                        break;
+                    case "1":
+                        Certification.setText("审核未通过");
+                        break;
+                    case "2":
+                        Certification.setText("待审核");
+                        break;
+                    default:
+                        Certification.setText("未认证");
+                }
+            }
+        }else{
+            Certification.setText("未认证");
+        }
     }
 
 

@@ -65,7 +65,7 @@ public class MyfocusFragment extends Fragment {
         RequestQueue requestQueue = NoHttp.newRequestQueue();
         Request<String> request = NoHttp.createStringRequest(I.MY_FOCUS_PAGER, RequestMethod.POST);
         request.add("page", "1");
-        request.add("rows", "20");
+        request.add("rows", Integer.MAX_VALUE);
         request.add("memberId", AppHelper.getInstance().getUser().getID());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
@@ -100,7 +100,9 @@ public class MyfocusFragment extends Fragment {
 
     private void formatMyfocus(String json) {
         MyFocusBean myFocusBean = mGson.fromJson(json, MyFocusBean.class);
-        if (myFocusBean.getTotal() == 0) {
+        Log.e("JGB","关注数量："+myFocusBean.getTotal());
+        int total = myFocusBean.getTotal();
+        if (total == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {

@@ -24,13 +24,16 @@ import android.widget.Toast;
 
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
+import net.osplay.app.AppHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.LoginActivity;
+import net.osplay.ui.activity.sub.MainActivity;
 import net.osplay.ui.activity.sub.MineCollectActivity;
 import net.osplay.ui.activity.sub.MineMoneyActivity;
 import net.osplay.ui.activity.sub.MinePublishActivity;
 import net.osplay.ui.activity.sub.MineSetActivity;
 import net.osplay.ui.activity.sub.OrderActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
@@ -215,22 +218,25 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_money:
-                        startActivity(new Intent(getContext(), MineMoneyActivity.class));
-                        break;
-                    case R.id.nav_car:
-                        Toast.makeText(mContext, "跳转到购物车", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.nav_order:
-                        startActivity(new Intent(getContext(), OrderActivity.class));
+                       // startActivity(new Intent(getContext(), MineMoneyActivity.class));
+                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_collect:
-                        startActivity(new Intent(getContext(), MineCollectActivity.class));
+                        //startActivity(new Intent(getContext(), MineCollectActivity.class));
+                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_publish:
-                        startActivity(new Intent(getContext(), MinePublishActivity.class));
+                        //startActivity(new Intent(getContext(), MinePublishActivity.class));
+                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_set:
                         startActivity(new Intent(getContext(), MineSetActivity.class));
+//                        SharedPreferencesUtils.clear(getActivity());
+//                        //注销登录重新跳转至
+//                        AppHelper.getInstance().setLogined(false);
+//                        Intent intent=new Intent(getActivity(),MainActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
                         break;
                     default:
                 }

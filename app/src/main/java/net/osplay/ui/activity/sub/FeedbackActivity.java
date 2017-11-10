@@ -21,7 +21,8 @@ public class FeedbackActivity extends BaseActivity {
         findViewById(R.id.btn_mine_feedback).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FeedbackActivity.this, "提交反馈信息", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedbackActivity.this, "信息已提交，感谢您的反馈", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
