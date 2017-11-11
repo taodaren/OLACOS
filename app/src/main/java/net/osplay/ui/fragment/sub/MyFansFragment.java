@@ -40,8 +40,6 @@ import butterknife.Unbinder;
 public class MyFansFragment extends Fragment {
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
-    @BindView(R.id.center_not_data_iv)
-    ImageView centerNotDataIv;
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
@@ -106,7 +104,6 @@ public class MyFansFragment extends Fragment {
         Log.e("JGB", "粉丝数量：" + myFansBean.getTotal());
         if (myFansBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
-            centerNotDataIv.setVisibility(View.VISIBLE);
             centerNotDataTv.setVisibility(View.VISIBLE);
             centerNotDataTv.setText("你还没有粉丝，快去提高个人魅力吧！");
         } else {

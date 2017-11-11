@@ -19,14 +19,8 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <ImageView
-        android:layout_marginTop="60dp"
-        android:visibility="gone"
-        android:id="@+id/center_not_data_iv"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:src="@drawable/ic_null"/>
     <TextView
+        android:layout_marginTop="100dp"
         android:id="@+id/center_not_data_tv"
         android:layout_width="wrap_content"
         android:layout_height="190dp"

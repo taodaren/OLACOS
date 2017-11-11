@@ -40,8 +40,6 @@ public class MyCollectionFragment extends Fragment {
 
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
-    @BindView(R.id.center_not_data_iv)
-    ImageView centerNotDataIv;
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
@@ -106,7 +104,6 @@ public class MyCollectionFragment extends Fragment {
         MyCollectionBean mycollectionBean = mGson.fromJson(json, MyCollectionBean.class);
         if (mycollectionBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
-            centerNotDataIv.setVisibility(View.VISIBLE);
             centerNotDataTv.setVisibility(View.VISIBLE);
             centerNotDataTv.setText("你还没有收藏过作品，快去淘贴吧！");
         } else {

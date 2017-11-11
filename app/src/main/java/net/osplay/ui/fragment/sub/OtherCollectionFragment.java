@@ -41,8 +41,6 @@ public class OtherCollectionFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
-    @BindView(R.id.center_not_data_iv)
-    ImageView centerNotDataIv;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
     @BindView(R.id.center_not_data_tv)
@@ -109,7 +107,6 @@ public class OtherCollectionFragment extends Fragment {
         MyCollectionBean myCollectionBean = mGson.fromJson(json, MyCollectionBean.class);
         if (myCollectionBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
-            centerNotDataIv.setVisibility(View.VISIBLE);
             centerNotDataTv.setVisibility(View.VISIBLE);
             centerNotDataTv.setText("这只acos的百宝箱是空的！");
         } else {

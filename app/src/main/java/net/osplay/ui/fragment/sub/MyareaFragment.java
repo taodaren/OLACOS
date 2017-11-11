@@ -39,8 +39,6 @@ import butterknife.Unbinder;
 public class MyareaFragment extends Fragment {
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
-    @BindView(R.id.center_not_data_iv)
-    ImageView centerNotDataIv;
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
@@ -103,7 +101,6 @@ public class MyareaFragment extends Fragment {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataTv.setVisibility(View.VISIBLE);
             centerNotDataTv.setText("你还没有加入过专区，快去耍一哈吧！");
-            centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
             rows = myAreaBean.getRows();
             centerRecycler.setAdapter(new MyAreaAdapter(getActivity(), rows));

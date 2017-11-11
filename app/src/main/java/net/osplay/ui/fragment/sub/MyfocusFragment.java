@@ -41,8 +41,6 @@ import butterknife.Unbinder;
 public class MyfocusFragment extends Fragment {
     @BindView(R.id.center_recycler)
     RecyclerView centerRecycler;
-    @BindView(R.id.center_not_data_iv)
-    ImageView centerNotDataIv;
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
@@ -106,7 +104,6 @@ public class MyfocusFragment extends Fragment {
         int total = myFocusBean.getTotal();
         if (total == 0) {
             centerRecycler.setVisibility(View.GONE);
-            centerNotDataIv.setVisibility(View.VISIBLE);
             centerNotDataTv.setVisibility(View.VISIBLE);
             centerNotDataTv.setText("你还没有任何关注，快去逛逛吧！");
         } else {

@@ -17,6 +17,8 @@ import com.liji.imagezoom.util.ImageZoom;
 
 import net.osplay.olacos.R;
 import net.osplay.service.entity.WordDetailsPostsBean;
+import net.osplay.ui.activity.sub.EditInfoActivity;
+import net.osplay.utils.SharedPreferencesUtils;
 import net.osplay.utils.UILKit;
 
 import java.io.IOException;
@@ -75,22 +77,7 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onImageClick(List<String> urlList, int position) {
                     super.onImageClick(urlList, position);
-
                     ImageZoom.show(mContext, position, urlList);//查看大图
-                    //Toast.makeText(mContext,"图片下标：："+urlList.get(position),Toast.LENGTH_SHORT).show();//图片地址和下标
-                    //获取图片真正的宽高
-                    Glide.with(mContext)
-                            .asBitmap()//强制Glide返回一个Bitmap对象
-                            .load(urlList.get(position))
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                    int width = resource.getWidth();
-                                    int height = resource.getHeight();
-                                    Log.d("JGB", "width " + width); //200px
-                                    Log.d("JGB", "height " + height); //200px
-                                }
-                            });
                 }
 
                 @Override
@@ -103,11 +90,13 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
                     } else {
                         holder.setStyle(XRichText.Style.CENTER);
                     }
-                    WindowManager wm = mContext.getWindowManager();
-                    int width = wm.getDefaultDisplay().getWidth();
-                    //设置宽高
-                    holder.setWidth(width);
-                    holder.setHeight(1000);
+//                    WindowManager wm = mContext.getWindowManager();
+//                    int width = wm.getDefaultDisplay().getWidth();
+//                    Log.e("JGB","屏幕的宽度："+width);
+                    //设置宽度
+                //    holder.setWidth(width);
+//                    holder.setHeight(1000);
+
                 }
             }).imageDownloader(new cn.droidlover.xrichtext.ImageLoader() {//如果不设置，有默认的下载器
                 @Override
