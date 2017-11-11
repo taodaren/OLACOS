@@ -6,10 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -21,6 +20,7 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.ImgTvBean;
@@ -42,6 +42,8 @@ public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
+    private String memberId;
+
 
     private WordHotPostsBean hotTopicBean;//
     private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
@@ -52,10 +54,15 @@ public class TabHomeFragment extends BaseFragment {
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_home, null);
         //注意 getActivity()若使用 view 会报错，此处有大坑
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        mRvHome = (RecyclerView) inflate.findViewById(R.id.recycler_home);
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
+        mRvHome = inflate.findViewById(R.id.recycler_home);
 
         initDrawerLayout();
+        if (!AppHelper.getInstance().isLogined()) {//未登录状态
+            memberId = "";
+        } else {//登录状态
+            memberId = AppHelper.getInstance().getUser().getID();//登录用户ID
+        }
         return inflate;
     }
 
@@ -76,11 +83,11 @@ public class TabHomeFragment extends BaseFragment {
 
     private void getDatas() {
         egDatas = new ArrayList<>();
-        egDatas.add(new ImgTvBean(R.drawable.banner01, "资讯"));
-        egDatas.add(new ImgTvBean(R.drawable.banner02, "特卖"));
-        egDatas.add(new ImgTvBean(R.drawable.banner03, "商品"));
-        egDatas.add(new ImgTvBean(R.drawable.banner04, "二手"));
-        egDatas.add(new ImgTvBean(R.drawable.banner05, "教程"));
+        egDatas.add(new ImgTvBean(R.drawable.banner01, "11e22f990c754e1199d3da90e7ca5655"));//生成指南
+        egDatas.add(new ImgTvBean(R.drawable.banner02, "87f3954a4a574a03a8c3d33fa9552488"));//十月新番
+        egDatas.add(new ImgTvBean(R.drawable.banner03, "d7ee4cce6b794edfaea7cc7c6002f525"));//文明公约
+        egDatas.add(new ImgTvBean(R.drawable.banner04, "bd0b0944db404918a7e5d4679d6da436"));//众望所归
+        egDatas.add(new ImgTvBean(R.drawable.banner05, "8908700c0bd64dfab8d48ee07603a0b3"));//内测公告
         initRecyclerView();
     }
 
@@ -114,7 +121,8 @@ public class TabHomeFragment extends BaseFragment {
 
     private void initRecyclerView() {
         if (hotTopicBean != null) {
-            GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+            LinearLayoutManager manager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+//            GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
             mRvHome.setLayoutManager(manager);
             manager.setAutoMeasureEnabled(true);
             manager.setSmoothScrollbarEnabled(true);
@@ -139,19 +147,19 @@ public class TabHomeFragment extends BaseFragment {
         requestCodeQRCodePermissions();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //显示菜单
-        inflater.inflate(R.menu.menu_toolbar, menu);
-        //显示需要菜单项，隐藏多余菜单项
-        menu.findItem(R.id.menu_msg).setVisible(false);
-        menu.findItem(R.id.menu_search).setVisible(false);
-        menu.findItem(R.id.menu_code).setVisible(false);
-        menu.findItem(R.id.menu_category).setVisible(false);
-        menu.findItem(R.id.menu_register).setVisible(false);
-        menu.findItem(R.id.menu_set).setVisible(false);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        //显示菜单
+//        inflater.inflate(R.menu.menu_toolbar, menu);
+//        //显示需要菜单项，隐藏多余菜单项
+//        menu.findItem(R.id.menu_msg).setVisible(false);
+//        menu.findItem(R.id.menu_search).setVisible(false);
+//        menu.findItem(R.id.menu_code).setVisible(false);
+//        menu.findItem(R.id.menu_category).setVisible(false);
+//        menu.findItem(R.id.menu_register).setVisible(false);
+//        menu.findItem(R.id.menu_set).setVisible(false);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -163,9 +171,9 @@ public class TabHomeFragment extends BaseFragment {
 //            case R.id.menu_search:
 //                startActivity(new Intent(getContext(), SearchActivity.class));
 //                break;
-            case R.id.menu_msg:
-                startActivity(new Intent(getContext(), MessageActivity.class));
-                break;
+//            case R.id.menu_msg:
+//                startActivity(new Intent(getContext(), MessageActivity.class));
+//                break;
         }
         return true;
     }

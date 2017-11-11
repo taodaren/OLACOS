@@ -1,59 +1,29 @@
 package net.osplay.ui.fragment.sub;
 
 
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
+import android.annotation.SuppressLint;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.yanzhenjie.nohttp.NoHttp;
-import com.yanzhenjie.nohttp.RequestMethod;
-import com.yanzhenjie.nohttp.rest.OnResponseListener;
-import com.yanzhenjie.nohttp.rest.Request;
-import com.yanzhenjie.nohttp.rest.RequestQueue;
-import com.yanzhenjie.nohttp.rest.Response;
-
-import net.osplay.app.AppHelper;
-import net.osplay.app.I;
 import net.osplay.olacos.R;
-import net.osplay.service.entity.AssociationInfoBean;
-import net.osplay.service.entity.JoinBean;
-import net.osplay.service.entity.MemberInfoBean;
-import net.osplay.ui.activity.sub.HotRankingActivity;
-import net.osplay.ui.activity.sub.LeagueIMActivity;
-import net.osplay.ui.activity.sub.MessageActivity;
-import net.osplay.ui.adapter.base.FragmentAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
-import net.osplay.utils.TabUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * 社团模块
  */
 
 public class TabLeagueFragment extends BaseFragment {
-//    private DrawerLayout mDrawerLayout;
-//    private TabLayout tabLayout;
+    private DrawerLayout mDrawerLayout;
+    private WebView mWebView;
+
+    //    private TabLayout tabLayout;
 //    private ViewPager viewPager;
 //    private List<Fragment> mList = new ArrayList<>();
 //    private String[] titles = new String[]{"推荐", "社团活动", "社团作品"};
@@ -77,21 +47,76 @@ public class TabLeagueFragment extends BaseFragment {
 //    private Button jcd_release_but,news_tv;
 //    private List<AssociationInfoBean.RowsBean> aa;
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
-      //  initDrawerLayout();
+        //注意 getActivity()若使用 view 会报错，此处有大坑
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
+        //设置侧滑界面
+        initDrawerLayout();
+        initWebView(inflate);
 //        setView();
 //        setOnClick();
 //        setFragment();
 //        setToolbars();
 //        getAssociationHttp();
-//        Log.e("JGB","alist集合数据::::::::::："+aa);
-
         return inflate;
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "WrongConstant"})
+    private void initWebView(View view) {
+        mWebView = view.findViewById(R.id.web_view_league);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.requestFocus();
+        mWebView.setScrollBarStyle(0);
+        mWebView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                //按下返回键并且 webView 界面可以返回
+                if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWebView.goBack();
+                        }
+                    });
+                    return true;
+                }
+                return false;
+            }
+        });
+        mWebView.setWebChromeClient(new WebChromeClient());
+        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.loadUrl("http://192.168.1.7:8080/qda/html/noneClub.html");
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home://导航按钮固定 id
+                //展示滑动菜单
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
+        }
+        return true;
+    }
+
+    /**
+     * 销毁 WebView
+     */
+    @Override
+    public void onDestroyView() {
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroyView();
+    }
 
 //    private void setFragment() {
 //        mList.add(nFragment);
@@ -356,7 +381,6 @@ public class TabLeagueFragment extends BaseFragment {
 //        super.onStart();
 //        getAssociationHttp();
 //    }
-
 
 
 }

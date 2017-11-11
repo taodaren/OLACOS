@@ -95,8 +95,10 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void onStart() {
+        super.onStart();
+        //重置状态
+        resetState();
         getData(ACTION_REFRESH);
     }
 
@@ -247,4 +249,5 @@ public class TopicInfoAllFragment extends BaseFragment implements OnRefreshListe
         page = 1;
         data.clear();
     }
+
 }

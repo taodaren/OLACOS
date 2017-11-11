@@ -24,16 +24,9 @@ import android.widget.Toast;
 
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
-import net.osplay.app.AppHelper;
 import net.osplay.olacos.R;
 import net.osplay.ui.activity.sub.LoginActivity;
-import net.osplay.ui.activity.sub.MainActivity;
-import net.osplay.ui.activity.sub.MineCollectActivity;
-import net.osplay.ui.activity.sub.MineMoneyActivity;
-import net.osplay.ui.activity.sub.MinePublishActivity;
 import net.osplay.ui.activity.sub.MineSetActivity;
-import net.osplay.ui.activity.sub.OrderActivity;
-import net.osplay.utils.SharedPreferencesUtils;
 
 import java.util.List;
 
@@ -218,14 +211,14 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_money:
-                       // startActivity(new Intent(getContext(), MineMoneyActivity.class));
+                        //startActivity(new Intent(getContext(), MineMoneyActivity.class));
                         Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_collect:
                         //startActivity(new Intent(getContext(), MineCollectActivity.class));
                         Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.nav_publish:
+                    case R.id.nav_pk:
                         //startActivity(new Intent(getContext(), MinePublishActivity.class));
                         Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
                         break;

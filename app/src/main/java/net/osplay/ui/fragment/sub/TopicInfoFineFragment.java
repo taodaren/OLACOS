@@ -95,8 +95,10 @@ public class TopicInfoFineFragment extends BaseFragment implements OnRefreshList
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void onStart() {
+        super.onStart();
+        //重置状态
+        resetState();
         getData(ACTION_REFRESH);
     }
 

@@ -1,233 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_wait"
-        android:layout_gravity="center"/>
+    <WebView
+        android:id="@+id/web_view_league"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
 
     <!--<android.support.design.widget.AppBarLayout-->
-        <!--android:visibility="gone"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/league_appbar">-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:id="@+id/league_appbar">-->
 
-        <!--<android.support.design.widget.CollapsingToolbarLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="270dp"-->
-            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
-            <!--&gt;-->
+    <!--<android.support.design.widget.CollapsingToolbarLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="270dp"-->
+    <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
+    <!--&gt;-->
 
-            <!--<ImageView-->
-                <!--android:id="@+id/association_bg_img"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:src="@drawable/example03"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:scaleType="fitXY"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/association_bg_img"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/example03"-->
+    <!--android:adjustViewBounds="true"-->
+    <!--android:scaleType="fitXY"/>-->
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/ranking_rl"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/remen"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="更多社团>"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:textColor="@color/white"-->
-                    <!--/>-->
-                <!--<Button-->
-                    <!--android:id="@+id/news_tv"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="消息"/>-->
-                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:id="@+id/league_menu"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:src="@mipmap/ic_launcher_round"&ndash;&gt;-->
-                    <!--&lt;!&ndash;android:layout_toLeftOf="@id/remen"/>&ndash;&gt;-->
-            <!--</RelativeLayout>-->
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_marginTop="20dp">-->
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/ranking_rl"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp">-->
+    <!--<TextView-->
+    <!--android:id="@+id/remen"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="更多社团>"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:textColor="@color/white"-->
+    <!--/>-->
+    <!--<Button-->
+    <!--android:id="@+id/news_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="消息"/>-->
+    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="30dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="30dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_centerVertical="true"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/league_menu"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:src="@mipmap/ic_launcher_round"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_toLeftOf="@id/remen"/>&ndash;&gt;-->
+    <!--</RelativeLayout>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:orientation="vertical"-->
+    <!--android:layout_marginTop="20dp">-->
 
-                <!--<de.hdodenhof.circleimageview.CircleImageView-->
-                    <!--android:id="@+id/association_avatar_img"-->
-                    <!--android:layout_width="80dp"-->
-                    <!--android:layout_height="80dp"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:src="@drawable/example02" />-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="10dp">-->
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+    <!--android:id="@+id/association_avatar_img"-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:src="@drawable/example02" />-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="10dp">-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/association_name_tv"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="哇啦哇啦"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:typeface="monospace"-->
-                        <!--android:textSize="18sp"/>-->
+    <!--<TextView-->
+    <!--android:id="@+id/association_name_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="哇啦哇啦"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:typeface="monospace"-->
+    <!--android:textSize="18sp"/>-->
 
-                <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:orientation="horizontal">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:orientation="horizontal">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="入团时间："-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="13sp"/>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="入团时间："-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="13sp"/>-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/association_time_tv"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="2017/8/8"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="13sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:orientation="horizontal">-->
+    <!--<TextView-->
+    <!--android:id="@+id/association_time_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="2017/8/8"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:orientation="horizontal">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="成员："-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="13sp"/>-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="成员："-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="13sp"/>-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/association_membet_tv"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="15646546"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="13sp"/>-->
-                <!--</LinearLayout>-->
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="5dp">-->
+    <!--<TextView-->
+    <!--android:id="@+id/association_membet_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="15646546"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="5dp">-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/association_jianjie_tv"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="欢迎cosplay同好，打破次元墙~"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:textSize="13sp"/>-->
-                <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:id="@+id/association_jianjie_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="欢迎cosplay同好，打破次元墙~"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="13sp"/>-->
+    <!--</LinearLayout>-->
 
-                <!--<LinearLayout-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_marginTop="5dp">-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_marginTop="5dp">-->
 
-                    <!--<Button-->
-                        <!--android:id="@+id/league_add_but"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:background="@drawable/button_shape"-->
-                        <!--android:text="+签到"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--android:layout_marginRight="10dp"/>-->
+    <!--<Button-->
+    <!--android:id="@+id/league_add_but"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:background="@drawable/button_shape"-->
+    <!--android:text="+签到"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:layout_marginRight="10dp"/>-->
 
-                    <!--<Button-->
-                        <!--android:id="@+id/jcd_release_but"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:background="@drawable/button_shape"-->
-                        <!--android:text="小圈子"-->
-                        <!--android:textColor="@color/white" />-->
-                <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
-            <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-                <!--&lt;!&ndash;android:id="@+id/jcd_toolbar"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:layout_collapseMode="pin"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:layout_scrollFlags="enterAlwaysCollapsed"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:paddingTop="15dp">&ndash;&gt;-->
-            <!--&lt;!&ndash;</android.support.v7.widget.Toolbar>&ndash;&gt;-->
-        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+    <!--<Button-->
+    <!--android:id="@+id/jcd_release_but"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="30dp"-->
+    <!--android:background="@drawable/button_shape"-->
+    <!--android:text="小圈子"-->
+    <!--android:textColor="@color/white" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+    <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/jcd_toolbar"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="60dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_collapseMode="pin"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_scrollFlags="enterAlwaysCollapsed"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:paddingTop="15dp">&ndash;&gt;-->
+    <!--&lt;!&ndash;</android.support.v7.widget.Toolbar>&ndash;&gt;-->
+    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
     <!--</android.support.design.widget.AppBarLayout>-->
     <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:orientation="vertical"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-        <!--&lt;!&ndash;<include&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/toolbar_league"&ndash;&gt;-->
-            <!--&lt;!&ndash;layout="@layout/layout_toolbar" />&ndash;&gt;-->
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/league_toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:background="@drawable/bg_toolbar"-->
-            <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
-            <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
-            <!--app:popupTheme="@style/AlertDialog.AppCompat.Light">-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="社团"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="17sp" />-->
-        <!--</android.support.v7.widget.Toolbar>-->
-        <!--<android.support.design.widget.TabLayout-->
-            <!--android:id="@+id/league_tabLayout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/white"-->
-            <!--app:tabSelectedTextColor="@color/colorAccent"-->
-            <!--app:tabTextColor="@color/colorBlack" />-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+    <!--&lt;!&ndash;<include&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/toolbar_league"&ndash;&gt;-->
+    <!--&lt;!&ndash;layout="@layout/layout_toolbar" />&ndash;&gt;-->
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@+id/league_toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="?attr/actionBarSize"-->
+    <!--android:background="@drawable/bg_toolbar"-->
+    <!--android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+    <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
+    <!--app:popupTheme="@style/AlertDialog.AppCompat.Light">-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:text="社团"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="17sp" />-->
+    <!--</android.support.v7.widget.Toolbar>-->
+    <!--<android.support.design.widget.TabLayout-->
+    <!--android:id="@+id/league_tabLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/white"-->
+    <!--app:tabSelectedTextColor="@color/colorAccent"-->
+    <!--app:tabTextColor="@color/colorBlack" />-->
 
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/league_viewPager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginTop="1dp"-->
-            <!--android:background="@color/white">-->
+    <!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/league_viewPager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="1dp"-->
+    <!--android:background="@color/white">-->
 
-        <!--</android.support.v4.view.ViewPager>-->
+    <!--</android.support.v4.view.ViewPager>-->
     <!--</LinearLayout>-->
 
 </android.support.design.widget.CoordinatorLayout>

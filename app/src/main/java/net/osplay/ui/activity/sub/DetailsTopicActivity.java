@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -101,6 +102,8 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
     private void initView() {
         setToolbar();
+        initFabButton();
+
         btnHeckIn.setOnClickListener(this);
         btnAttention.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
@@ -411,6 +414,23 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
 
             @Override
             public void onFinish(int what) {
+            }
+        });
+    }
+
+    /**
+     * 设置悬浮按钮
+     */
+    private void initFabButton() {
+        FloatingActionButton fab =  findViewById(R.id.fab_layout_topic_details);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (AppHelper.getInstance().isLogined()) {//如果是登录状态
+                    startActivity(new Intent(DetailsTopicActivity.this, PublishPostsActivity.class));
+                } else {
+                    MFGT.gotoLogin(DetailsTopicActivity.this, "sendPosts");
+                }
             }
         });
     }

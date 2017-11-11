@@ -128,12 +128,14 @@ public class DetailsPostsCommentAdapter extends BaseExpandableListAdapter {
         viewHolder.commentContent.setText(mCommentBean.getOne().get(groupPosition).getCONTENT());
         viewHolder.commentTime.setText(mCommentBean.getOne().get(groupPosition).getCREATEDATE());
         viewHolder.commentZanCount.setText(mCommentBean.getOne().get(groupPosition).getZANCOUNT());
-        viewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mSetOneClick.setOnClick(groupPosition, null, null, viewHolder.commentZanCount, viewHolder.commentZan, null);
-            }
-        });
+        if (!(mCommentBean.getOne().get(0).getID().equals("0"))) {
+            viewHolder.commentZan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mSetOneClick.setOnClick(groupPosition, null, null, viewHolder.commentZanCount, viewHolder.commentZan, null);
+                }
+            });
+        }
         return convertView;
     }
 
