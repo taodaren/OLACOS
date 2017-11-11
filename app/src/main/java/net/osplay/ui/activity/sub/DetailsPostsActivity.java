@@ -369,16 +369,11 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      * 保存二级评论数据
      */
     private void saveTwoCommentData(int groupPosition) {
-        EditText ed=findViewById(R.id.etv_details_posts_ed);
+        EditText ed = findViewById(R.id.etv_details_posts_ed);
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
         request.add("authorId", mContentList.get(0).getUSERID());//帖子作者ID
         request.add("memberId", memberId);//评论人id
-//        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
-//            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
-//        } else {//如果被评论人不是自己
-//            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
-//        }
         request.add("beenMemberId", mOneList.get(groupPosition).getMEMBERID());//被评论人id
         request.add("atId", Uuid.getUuid());
         request.add("parentId", mOneList.get(groupPosition).getID());//父级评论id，这里传为一级评论的id
@@ -423,17 +418,13 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
     private void saveMoreCommentData(int groupPosition, int childPosition) {
         Request<String> request = NoHttp.createStringRequest(I.SAVE_COMMENT, RequestMethod.POST);
         request.add("topicId", postsId);//帖子id
-        request.add("authorId", mTwoList.get(0).getBEENMEMBERID());//帖子作者id
+        request.add("authorId", mContentList.get(0).getUSERID());//帖子作者id
         request.add("memberId", memberId);//评论人id
-        if (Objects.equals(mTwoList.get(0).getMEMBERID(), memberId)) {//如果被评论人是自己
-            request.add("beenMemberId", memberId);//被评论人id（一级评论的被评论人是贴主）
-        } else {//如果被评论人不是自己
-            request.add("beenMemberId", mTwoList.get(0).getBEENMEMBERID());//被评论人id
-        }
+        request.add("beenMemberId", mTwoList.get(childPosition).getBEENMEMBERID());//被评论人id
         request.add("atId", Uuid.getUuid());
-        request.add("parentId", mOneList.get(0).getID());//父级评论id，这里传为一级评论的id
+        request.add("parentId", mTwoList.get(childPosition).getID());//父级评论id，这里传为二级评论的id
         request.add("atIds", "");
-        request.add("atUsers", mTwoList.get(0).getATUSERS());
+        request.add("atUsers", mTwoList.get(childPosition).getATUSERS());
         request.add("content", mEdEnter.getText().toString());
 
         mRequestQueue.add(0, request, new OnResponseListener<String>() {
@@ -444,7 +435,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e(TAG, "保存三级评论数据请求成功，json 数据是：" + json);
+                Log.e(TAG, "保存多级评论数据请求成功，json 数据是：" + json);
                 //阻止键盘弹出（关闭软键盘）
                 InputMethodManager imm1 = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm1.hideSoftInputFromWindow(mEdEnter.getWindowToken(), 0);
@@ -519,7 +510,8 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
                         public void onClick(View v) {
                             if (!mEdEnter.getText().toString().isEmpty()) {
                                 //保存多级评论数据
-                                saveMoreCommentData(groupPosition, childPosition);
+//                                saveMoreCommentData(groupPosition, childPosition);
+                                saveTwoCommentData(groupPosition);
                             }
                         }
                     });
@@ -948,7 +940,7 @@ public class DetailsPostsActivity extends BaseActivity implements View.OnClickLi
      * 初始化帖子评论
      */
     private void initCommentPosts() {
-        if (mCommentBean != null) {
+        if (mCommentBean != null) {//与服务器返回数据有关
             mCommentAdapter = new DetailsPostsCommentAdapter(this, mCommentBean);
             mElvComment.setAdapter(mCommentAdapter);
             mElvComment.setGroupIndicator(null);
