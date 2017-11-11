@@ -1,12 +1,15 @@
 package net.osplay.ui.activity.sub;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -17,32 +20,38 @@ import com.yanzhenjie.nohttp.rest.Request;
 import com.yanzhenjie.nohttp.rest.RequestQueue;
 import com.yanzhenjie.nohttp.rest.Response;
 
+import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.CodeBean;
 import net.osplay.service.entity.IsAttentionBean;
 import net.osplay.service.entity.UserCodeBean;
 import net.osplay.service.entity.UserIsNickNameBean;
 import net.osplay.service.entity.UserIsRegisterBean;
 import net.osplay.service.entity.UserRegisterBean;
 import net.osplay.ui.activity.base.BaseActivity;
+import net.osplay.utils.CodeUtils;
 import net.osplay.utils.TimeCountUtil;
 import net.osplay.utils.VerificationUtil;
 
 public class RegisterActivity extends BaseActivity {
     private Button btn_over, btn_get_code;
-    private EditText editAccount, editPhone, editPhoneCode, editPassword, editConfirmPassword;
+    private EditText editAccount, editPhone, editPhoneCode, editPassword, editConfirmPassword,edit_code;
     private Gson mGson = new Gson();
     private RequestQueue requestQueue = NoHttp.newRequestQueue();
     private boolean total;//验证手机号是否注册过
     private String code1;
     private TimeCountUtil mTimeCountUtil;//验证码倒计时
+    private ImageView btn_code_iv;
 
+    private  CodeUtils codeUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setToolbar("注册", View.VISIBLE);
+
         initView();
         bindListener();
     }
@@ -53,6 +62,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initView() {
+        getCodeHttp();
         editAccount = (EditText) findViewById(R.id.edit_account_register);//用户名
         editPhone = (EditText) findViewById(R.id.edit_phone_register);//手机号
         editPhoneCode = (EditText) findViewById(R.id.edit_phone_code);//手机验证码
@@ -60,6 +70,8 @@ public class RegisterActivity extends BaseActivity {
         editConfirmPassword = (EditText) findViewById(R.id.edit_confirm_password_register);//确认密码
         btn_get_code = (Button) findViewById(R.id.btn_get_code);//发送验证码
         btn_over = (Button) findViewById(R.id.btn_over);//完成
+        edit_code = (EditText) findViewById(R.id.edit_code);//图文验证内容
+        btn_code_iv = (ImageView) findViewById(R.id.btn_code_iv);//图文验证图片
         mTimeCountUtil = new TimeCountUtil(btn_get_code, 60000, 1000);
     }
 
@@ -76,6 +88,9 @@ public class RegisterActivity extends BaseActivity {
                         Toast.makeText(RegisterActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     } else if (!(VerificationUtil.isMobileNO(editPhone.getText().toString()))) {
                         Toast.makeText(RegisterActivity.this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
+                        editPhone.setText("");
+                    } else if (TextUtils.isEmpty(edit_code.getText().toString())) {
+                        Toast.makeText(RegisterActivity.this, "图文验证码不能为空", Toast.LENGTH_SHORT).show();
                         editPhone.setText("");
                     } else if (TextUtils.isEmpty(editPhoneCode.getText().toString())) {
                         Toast.makeText(RegisterActivity.this, "手机验证码不能为空", Toast.LENGTH_SHORT).show();
@@ -273,5 +288,45 @@ public class RegisterActivity extends BaseActivity {
         UserCodeBean userCodeBean = mGson.fromJson(code, UserCodeBean.class);
         code1 = userCodeBean.getCode();
     }
+
+
+
+
+
+    public void getCodeHttp(){
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.CODE, RequestMethod.POST);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                Log.e("JGB", "posts_____" + json);
+                CodeBean codeBean = mGson.fromJson(json, CodeBean.class);
+                String code = codeBean.getCode();
+                codeUtils=new CodeUtils(RegisterActivity.this,code);
+//                codeUtils = CodeUtils.getInstance();
+                Bitmap bitmap = codeUtils.createBitmap();
+                btn_code_iv.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+
+    }
+
+
+
 
 }

@@ -10,9 +10,9 @@ public interface I {
     /**
      * 基础 url
      **/
-    String BASE_URL = "http://www.olacos.net";//服务器域名
+  //  String BASE_URL = "http://www.olacos.net";//服务器域名
 //    String BASE_URL = "120.27.22.118:8080";//测试服务器
-//    String BASE_URL = "http://192.168.1.7:8080/qda";//本地服务器
+    String BASE_URL = "http://192.168.1.15:8080/qda";//本地服务器
 
     /**
      * 商品模块 WebView
@@ -59,6 +59,8 @@ public interface I {
     String OTHER_CENTER = BASE_URL + "/member/getMemberInfo.do";
     //实名认证
     String VERIFIED = BASE_URL + "/memberMobile/shiming.do";
+    //图文验证码
+    String  CODE= BASE_URL + "/valide/validateCode.do";
 
     /**
      * 社区
