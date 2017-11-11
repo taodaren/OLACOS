@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -34,9 +35,25 @@ public class TabGoodsFragment extends BaseFragment {
         return inflate;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressLint({"SetJavaScriptEnabled", "WrongConstant"})
     private void initWebView(View view) {
         mWebView = view.findViewById(R.id.web_view_goods);
+
+        //android 原生不支持 onclick 所以js要使用 ontouch 事件。
+        WebSettings settings = mWebView.getSettings();
+        settings.setBuiltInZoomControls(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setSavePassword(true);
+        settings.setSaveFormData(true);
+        settings.setJavaScriptEnabled(true);     // enable navigator.geolocation
+        settings.setGeolocationEnabled(true);
+        settings.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");     // enable Web Storage: localStorage, sessionStorage
+        settings.setDomStorageEnabled(true);
+
+        mWebView.requestFocus();
+        mWebView.setScrollBarStyle(0);
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
@@ -53,7 +70,7 @@ public class TabGoodsFragment extends BaseFragment {
                 return false;
             }
         });
-        mWebView.getSettings().setJavaScriptEnabled(true);
+//        mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.loadUrl(I.TAB_GOODS);
