@@ -4,15 +4,14 @@
         <item
             android:id="@+id/nav_money"
             android:icon="@drawable/menu_money"
-            android:title="我的钱包"
-            />
+            android:title="我的钱包"            />
         <item
             android:id="@+id/nav_collect"
             android:icon="@drawable/menu_collect"
             android:title="小圈子" />
         <item
-            android:id="@+id/nav_publish"
-            android:icon="@drawable/mine_fa_bu"
+            android:id="@+id/nav_pk"
+            android:icon="@drawable/menu_pk"
             android:title="斗图" />
         <item
             android:id="@+id/nav_set"

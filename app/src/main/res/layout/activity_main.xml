@@ -23,7 +23,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_post" />
+                android:src="@drawable/ic_send_posts" />
         </com.ashokvarma.bottomnavigation.BottomNavigationBar>
 
         <FrameLayout
