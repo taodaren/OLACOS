@@ -99,8 +99,10 @@ public class TopicInfoCityFragment extends BaseFragment implements OnRefreshList
     }
 
     @Override
-    public void initData() {
-        super.initData();
+    public void onStart() {
+        super.onStart();
+        //重置状态
+        resetState();
         getCity();
         getData(ACTION_REFRESH);
     }
