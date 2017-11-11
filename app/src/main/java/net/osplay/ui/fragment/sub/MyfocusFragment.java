@@ -46,6 +46,8 @@ public class MyfocusFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFocusBean.RowsBean> rows;
@@ -100,11 +102,13 @@ public class MyfocusFragment extends Fragment {
 
     private void formatMyfocus(String json) {
         MyFocusBean myFocusBean = mGson.fromJson(json, MyFocusBean.class);
-        Log.e("JGB","关注数量："+myFocusBean.getTotal());
+        Log.e("JGB", "关注数量：" + myFocusBean.getTotal());
         int total = myFocusBean.getTotal();
         if (total == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("你还没有任何关注，快去逛逛吧！");
         } else {
             rows = myFocusBean.getRows();
             myFocusAdapter = new MyFocusAdapter(getActivity(), rows);
@@ -161,6 +165,7 @@ public class MyfocusFragment extends Fragment {
                     MyfocusFragment.this.rows.remove(position);
                     myFocusAdapter.notifyItemRemoved(position);
                     myFocusAdapter.notifyDataSetChanged();
+                    initData();
                 }
 
             }
@@ -182,5 +187,11 @@ public class MyfocusFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initData();
     }
 }

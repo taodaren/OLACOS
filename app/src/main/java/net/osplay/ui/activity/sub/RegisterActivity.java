@@ -6,6 +6,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -43,6 +45,7 @@ public class RegisterActivity extends BaseActivity {
     private String code1;
     private TimeCountUtil mTimeCountUtil;//验证码倒计时
     private ImageView btn_code_iv;
+    private AVLoadingIndicatorView avi;
 
     private  CodeUtils codeUtils;
 
@@ -51,7 +54,7 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setToolbar("注册", View.VISIBLE);
-
+        getCodeHttp();//获取图文验证码
         initView();
         bindListener();
     }
@@ -59,10 +62,10 @@ public class RegisterActivity extends BaseActivity {
     private void bindListener() {
         btn_over.setOnClickListener(mOnClickListener);
         btn_get_code.setOnClickListener(mOnClickListener);
+        btn_code_iv.setOnClickListener(mOnClickListener);
     }
 
     private void initView() {
-        getCodeHttp();
         editAccount = (EditText) findViewById(R.id.edit_account_register);//用户名
         editPhone = (EditText) findViewById(R.id.edit_phone_register);//手机号
         editPhoneCode = (EditText) findViewById(R.id.edit_phone_code);//手机验证码
@@ -72,6 +75,7 @@ public class RegisterActivity extends BaseActivity {
         btn_over = (Button) findViewById(R.id.btn_over);//完成
         edit_code = (EditText) findViewById(R.id.edit_code);//图文验证内容
         btn_code_iv = (ImageView) findViewById(R.id.btn_code_iv);//图文验证图片
+        avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         mTimeCountUtil = new TimeCountUtil(btn_get_code, 60000, 1000);
     }
 
@@ -104,24 +108,108 @@ public class RegisterActivity extends BaseActivity {
                         Toast.makeText(RegisterActivity.this, "两次密码输入不正确请重新输入", Toast.LENGTH_SHORT).show();
                         editConfirmPassword.setText("");
                     } else {
+                        avi.setVisibility(View.VISIBLE);
+                        btn_over.setVisibility(View.GONE);
                         getNichName();
                     }
                     break;
                 case R.id.btn_get_code:
+                    String code = codeUtils.getCode();
                     if (TextUtils.isEmpty(editPhone.getText().toString())) {
                         Toast.makeText(RegisterActivity.this, "手机号不能为空", Toast.LENGTH_SHORT).show();
                     } else if (!(VerificationUtil.isMobileNO(editPhone.getText().toString()))) {
                         Toast.makeText(RegisterActivity.this, "手机号格式不正确", Toast.LENGTH_SHORT).show();
                         editPhone.setText("");
                     } else {
-                        mTimeCountUtil.start();
-                        getCode();
+                        if (null == edit_code.getText().toString() || TextUtils.isEmpty(edit_code.getText().toString())) {
+                            Toast.makeText(RegisterActivity.this, "请输入图文验证码", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (code.equalsIgnoreCase(edit_code.getText().toString())) {
+                            codeName();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "图文验证码错误", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
+                    break;
+                case R.id.btn_code_iv:
+                    getCodeHttp();
                     break;
             }
         }
     };
 
+    //点击发送验证码时进行用户名判断
+    public void codeName(){
+        Request<String> request = NoHttp.createStringRequest(I.IS_NICKNAME, RequestMethod.POST);
+        request.add("nickName", editAccount.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String isName = response.get();
+                UserIsNickNameBean userIsNickNameBean = mGson.fromJson(isName, UserIsNickNameBean.class);
+                String code = userIsNickNameBean.getCode();
+                if (code.equals("true")) {
+                    avi.setVisibility(View.GONE);
+                    btn_over.setVisibility(View.VISIBLE);
+                    Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
+                } else {
+                    codePhone();
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+    }
+
+    //判断手机号是否注册过
+    private void codePhone() {
+        Request<String> request = NoHttp.createStringRequest(I.IS_REGISTER, RequestMethod.POST);
+        request.add("phone", editPhone.getText().toString());
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String isRegister = response.get();
+                UserIsRegisterBean userIsRegisterBean = mGson.fromJson(isRegister, UserIsRegisterBean.class);
+                total = userIsRegisterBean.isTotal();
+                if (total == true) {
+                    avi.setVisibility(View.GONE);
+                    btn_over.setVisibility(View.VISIBLE);
+                    Toast.makeText(RegisterActivity.this, "手机号已经被注册", Toast.LENGTH_SHORT).show();
+                } else {
+                    mTimeCountUtil.start();
+                    getCode();
+                }
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+            }
+
+            @Override
+            public void onFinish(int what) {
+            }
+        });
+
+    }
+
+
+    //判断用户名存在与否
     public void getNichName() {
         Request<String> request = NoHttp.createStringRequest(I.IS_NICKNAME, RequestMethod.POST);
         request.add("nickName", editAccount.getText().toString());
@@ -133,8 +221,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String isName = response.get();
-
-                Log.e("JGB", "-----------is:" + isName);
+                Log.e("JGB", "判断用户名存在与否数据" + isName);
                 if (isName != null) {
                     formatName(isName);
                 } else {
@@ -156,6 +243,8 @@ public class RegisterActivity extends BaseActivity {
         UserIsNickNameBean userIsNickNameBean = mGson.fromJson(isName, UserIsNickNameBean.class);
         String code = userIsNickNameBean.getCode();
         if (code.equals("true")) {
+            avi.setVisibility(View.GONE);
+            btn_over.setVisibility(View.VISIBLE);
             Toast.makeText(RegisterActivity.this, "用户名已存在", Toast.LENGTH_SHORT).show();
         } else {
             getData();
@@ -174,7 +263,7 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String isRegister = response.get();
-                Log.e("TAG", "-----------" + isRegister);
+                Log.e("TAG", "手机号是否注册数据" + isRegister);
                 if (isRegister != null) {
                     formatIsRegisterJson(isRegister);
                 } else {
@@ -197,6 +286,8 @@ public class RegisterActivity extends BaseActivity {
         UserIsRegisterBean userIsRegisterBean = mGson.fromJson(isRegister, UserIsRegisterBean.class);
         total = userIsRegisterBean.isTotal();
         if (total == true) {
+            avi.setVisibility(View.GONE);
+            btn_over.setVisibility(View.VISIBLE);
             Toast.makeText(RegisterActivity.this, "手机号已经被注册", Toast.LENGTH_SHORT).show();
         } else {
             submitRegisterInfo();
@@ -205,7 +296,10 @@ public class RegisterActivity extends BaseActivity {
 
     //提交用户信息
     private void submitRegisterInfo() {
+        Log.e("JGB","提交的验证码是啥："+code1);
         if (!(editPhoneCode.getText().toString().equals(code1))) {
+            avi.setVisibility(View.GONE);
+            btn_over.setVisibility(View.VISIBLE);
             Toast.makeText(RegisterActivity.this, "验证码不正确", Toast.LENGTH_SHORT).show();
         } else {
             Request<String> request = NoHttp.createStringRequest(I.REGISTER, RequestMethod.POST);
@@ -220,7 +314,7 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onSucceed(int what, Response<String> response) {
                     String json = response.get();
-                    Log.e("JGB", "submit----------" + json);
+                    Log.e("JGB", "注册结果" + json);
                     if (json != null) {
                         formatSubmit(json);
                     } else {
@@ -257,6 +351,7 @@ public class RegisterActivity extends BaseActivity {
     public void getCode() {
         final Request<String> request = NoHttp.createStringRequest(I.VERIFICATION_CODE, RequestMethod.POST);
         request.add("phone", editPhone.getText().toString());
+        request.add("phoneCode", edit_code.getText().toString());
         requestQueue.add(0, request, new OnResponseListener<String>() {
             @Override
             public void onStart(int what) {
@@ -265,12 +360,11 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String code = response.get();
-                Log.e("JGB", "-----------" + code);
+                Log.e("JGB", "获取验证码" + code);
                 if (code == null) {
                     return;
                 } else {
                     formatCodeJson(code);
-                    Toast.makeText(RegisterActivity.this, "验证码已发送，请注意查收!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -304,11 +398,10 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
-                Log.e("JGB", "posts_____" + json);
+                Log.e("JGB", "获取图文验证码" + json);
                 CodeBean codeBean = mGson.fromJson(json, CodeBean.class);
                 String code = codeBean.getCode();
                 codeUtils=new CodeUtils(RegisterActivity.this,code);
-//                codeUtils = CodeUtils.getInstance();
                 Bitmap bitmap = codeUtils.createBitmap();
                 btn_code_iv.setImageBitmap(bitmap);
             }
@@ -324,6 +417,17 @@ public class RegisterActivity extends BaseActivity {
             }
         });
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
 

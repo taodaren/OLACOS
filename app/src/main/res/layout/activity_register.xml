@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorContentBg"
     android:orientation="vertical">
 
@@ -79,14 +80,8 @@
                 <ImageView
                     android:id="@+id/btn_code_iv"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
-
-
-
-
 
 
             <LinearLayout
@@ -150,9 +145,16 @@
                     android:layout_marginStart="10dp"
                     android:background="@null"
                     android:hint="确认密码"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:inputType="textPassword"
+                    android:theme="@style/MyEditText"
+                    />
             </LinearLayout>
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <Button
                 android:id="@+id/btn_over"
                 android:layout_width="match_parent"
@@ -165,6 +167,17 @@
                 android:padding="10dp"
                 android:text="完成"
                 android:textColor="@color/colorWhite" />
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:indicatorName="BallSpinFadeLoaderIndicator"
+                    app:indicatorColor="@color/colorAccent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="170dp"
+                    />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

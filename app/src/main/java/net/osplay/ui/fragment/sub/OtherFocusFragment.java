@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -42,6 +43,8 @@ public class OtherFocusFragment extends Fragment {
     ImageView centerNotDataIv;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFocusBean.RowsBean> rows;
@@ -101,6 +104,8 @@ public class OtherFocusFragment extends Fragment {
         if (myFocusBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("这只acos还没有找到idol！");
         } else {
             rows = myFocusBean.getRows();
             centerRecycler.setAdapter(new MyFocusAdapter(getActivity(), rows));

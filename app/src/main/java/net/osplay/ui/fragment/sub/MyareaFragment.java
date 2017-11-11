@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -43,9 +44,11 @@ public class MyareaFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private Gson mGson = new Gson();
-    private  List<MyAreaBean.RowsBean> rows;
+    private List<MyAreaBean.RowsBean> rows;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -98,6 +101,8 @@ public class MyareaFragment extends Fragment {
         MyAreaBean myAreaBean = mGson.fromJson(json, MyAreaBean.class);
         if (myAreaBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("你还没有加入过专区，快去耍一哈吧！");
             centerNotDataIv.setVisibility(View.VISIBLE);
         } else {
             rows = myAreaBean.getRows();
@@ -111,9 +116,5 @@ public class MyareaFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @Override
-    public void onStart() {
-        initData();
-        super.onStart();
-    }
+
 }

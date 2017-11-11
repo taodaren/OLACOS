@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -43,6 +44,8 @@ public class OtherPostsFragment extends Fragment {
     ImageView centerNotDataIv;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyPostsBean.RowsBean> rows;
@@ -104,6 +107,8 @@ public class OtherPostsFragment extends Fragment {
         if (myPostsBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("这只acos还没有发布过作品！");
         } else {
             rows = myPostsBean.getRows();
             centerRecycler.setAdapter(new MyPostsAdapter(getContext(), rows));

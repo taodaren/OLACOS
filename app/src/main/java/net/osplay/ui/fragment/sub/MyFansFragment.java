@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -44,6 +45,8 @@ public class MyFansFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private Gson mGson = new Gson();
     private List<MyFansBean.RowsBean> rows;
@@ -77,7 +80,7 @@ public class MyFansFragment extends Fragment {
                 String json = response.get();
                 Log.e("JGB", "我的粉丝请求结果" + json);
                 if (json == null) {
-                   return;
+                    return;
                 } else {
                     avi.hide();
                     formatMyfans(json);
@@ -100,10 +103,12 @@ public class MyFansFragment extends Fragment {
 
     private void formatMyfans(String json) {
         MyFansBean myFansBean = mGson.fromJson(json, MyFansBean.class);
-        Log.e("JGB","粉丝数量："+myFansBean.getTotal());
+        Log.e("JGB", "粉丝数量：" + myFansBean.getTotal());
         if (myFansBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("你还没有粉丝，快去提高个人魅力吧！");
         } else {
             rows = myFansBean.getRows();
             centerRecycler.setAdapter(new MyFansAdapter(getActivity(), rows));

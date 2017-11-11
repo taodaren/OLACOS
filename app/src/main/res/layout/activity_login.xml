@@ -70,8 +70,7 @@
                         android:drawablePadding="10dp"
                         android:drawableStart="@mipmap/pwd"
                         android:hint="密码"
-                        android:inputType="textPassword"
-                        android:theme="@style/MyEditText" />
+                        android:inputType="textPassword" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 

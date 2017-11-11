@@ -121,6 +121,10 @@ public class EditInfoActivity extends BaseActivity {
         shenhe = AppHelper.getInstance().getUser().getSHENHE();//获取审核结果
         if (HEAD_PATH.equals("")) {//如果sp中的存储为空那么加载库中的数据，因为每次退出都清空，那么就等于每次进来都先获取库中的数据
             Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(mineAvatar);
+            if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+                Picasso.with(this).load((R.drawable.avatar_default)).into(mineAvatar);
+            }
+
         } else {
             Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(mineAvatar);
         }

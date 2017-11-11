@@ -70,6 +70,9 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
         String INTRODUCE = (String) SharedPreferencesUtils.getParam(MinePageSelfActivity.this, "INTRODUCE", "");//获取个性签名
         if (HEAD_PATH.equals("")) {
             Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(nickIcon);
+            if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+                Picasso.with(this).load((R.drawable.avatar_default)).into(nickIcon);
+            }
         } else {
             Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(nickIcon);
         }
@@ -80,6 +83,9 @@ public class MinePageSelfActivity extends BaseActivity implements View.OnClickLi
             fans_tv.setText(AppHelper.getInstance().getUser().getFANS_COUNT());
         if(INTRODUCE.equals("")){
             tv_mine_page_info.setText(AppHelper.getInstance().getUser().getINTRODUCE());
+            if(AppHelper.getInstance().getUser().getINTRODUCE()==null){
+                tv_mine_page_info.setText("人生最大的无奈就是，他有签名你没有");
+            }
         }else{
             tv_mine_page_info.setText(INTRODUCE);
         }

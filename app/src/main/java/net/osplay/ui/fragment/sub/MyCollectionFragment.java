@@ -23,7 +23,6 @@ import com.yanzhenjie.nohttp.rest.Response;
 
 import net.osplay.app.AppHelper;
 import net.osplay.app.I;
-import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
 import net.osplay.service.entity.MyCollectionBean;
 import net.osplay.ui.adapter.MyCollectionAdapter;
@@ -46,6 +45,8 @@ public class MyCollectionFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.avi)
     AVLoadingIndicatorView avi;
+    @BindView(R.id.center_not_data_tv)
+    TextView centerNotDataTv;
     private View inflate;
     private MyCollectionAdapter cAadapter;
     int flag = 0;//定义标记变量
@@ -74,6 +75,7 @@ public class MyCollectionFragment extends Fragment {
             public void onStart(int what) {
                 avi.show();
             }
+
             @Override
             public void onSucceed(int what, Response<String> response) {
                 String json = response.get();
@@ -105,6 +107,8 @@ public class MyCollectionFragment extends Fragment {
         if (mycollectionBean.getTotal() == 0) {
             centerRecycler.setVisibility(View.GONE);
             centerNotDataIv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setVisibility(View.VISIBLE);
+            centerNotDataTv.setText("你还没有收藏过作品，快去淘贴吧！");
         } else {
             rows = mycollectionBean.getRows();
             cAadapter = new MyCollectionAdapter(getContext(), rows);

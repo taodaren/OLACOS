@@ -115,7 +115,7 @@
                         android:layout_marginTop="3dp"
                         android:text="这只 coser 太懒了，什么都没有写（`~`）"
                         android:textColor="@color/colorTiShiWenZi"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <de.hdodenhof.circleimageview.CircleImageView

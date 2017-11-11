@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             String HEAD_PATH = (String) SharedPreferencesUtils.getParam(MainActivity.this, "HEAD_PATH", "");//获取头像
             if (HEAD_PATH.equals("")) {
                 Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(imgAvatar);
+                if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+                    Picasso.with(this).load((R.drawable.avatar_default)).into(imgAvatar);
+                }
             } else {
                 Picasso.with(this).load(I.BASE_URL + HEAD_PATH).error(R.drawable.avatar_default).into(imgAvatar);
             }
