@@ -15,8 +15,8 @@
         <ImageView
             android:id="@+id/img_hot_posts_list_bg"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:scaleType="centerCrop"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
             android:src="@drawable/example12"
             tools:ignore="ContentDescription" />
 
