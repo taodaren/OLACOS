@@ -45,11 +45,15 @@ public class PublishAreaAdapter extends RecyclerView.Adapter<PublishAreaViewHold
     public void onBindViewHolder(final PublishAreaViewHolder holder, final int position) {
         Log.e("JGB","适配器中的集合："+mTopicList);
         holder.publish_area_item.setText(mTopicList.get(position).getPART());
+
+
         holder.publish_area_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setOnClickListen.setOnClick(position);
-               // holder.publish_area_item.setBackgroundResource(R.drawable.vote_btn_shape2);//选中后的样式切换
+                holder.publish_area_item.setBackgroundResource(R.drawable.vote_btn_shape2);
+                holder.publish_area_item.setOnClickListener(null);
+
             }
         });
     }

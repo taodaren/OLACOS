@@ -11,6 +11,10 @@
         android:layout_height="30dp"
         android:text="dfd"
         android:gravity="center"
-        android:background="@drawable/vote_btn_shape" />
+        android:background="@drawable/vote_btn_shape"
+
+    />
+
+
 
 </LinearLayout>
