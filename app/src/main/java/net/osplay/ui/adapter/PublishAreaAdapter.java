@@ -51,8 +51,6 @@ public class PublishAreaAdapter extends RecyclerView.Adapter<PublishAreaViewHold
             @Override
             public void onClick(View view) {
                 setOnClickListen.setOnClick(position);
-                holder.publish_area_item.setBackgroundResource(R.drawable.vote_btn_shape2);
-                holder.publish_area_item.setOnClickListener(null);
 
             }
         });
