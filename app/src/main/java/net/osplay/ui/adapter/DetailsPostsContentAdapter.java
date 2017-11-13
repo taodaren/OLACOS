@@ -90,11 +90,12 @@ public class DetailsPostsContentAdapter extends RecyclerView.Adapter<RecyclerVie
                     } else {
                         holder.setStyle(XRichText.Style.CENTER);
                     }
-//                    WindowManager wm = mContext.getWindowManager();
-//                    int width = wm.getDefaultDisplay().getWidth();
-//                    Log.e("JGB","屏幕的宽度："+width);
-                    //设置宽度
-                //    holder.setWidth(width);
+                    WindowManager wm = mContext.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    Log.e("JGB","屏幕的宽度："+width);
+                   // 设置宽度
+                    holder.setWidth(width);
+                 //   holder.setHeight(1500);
 //                    holder.setHeight(1000);
 
                 }

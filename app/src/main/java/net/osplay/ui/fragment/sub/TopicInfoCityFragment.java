@@ -107,6 +107,7 @@ public class TopicInfoCityFragment extends BaseFragment implements OnRefreshList
         getData(ACTION_REFRESH);
     }
 
+    //获取城市地理位置
     private void getCity() {
         Request<String> request = NoHttp.createStringRequest(I.ASCII_CITY, RequestMethod.GET);
         requestQueue.add(0, request, new OnResponseListener<String>() {

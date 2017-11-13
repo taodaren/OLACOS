@@ -35,6 +35,7 @@ import net.osplay.app.AppHelper;
 import net.osplay.app.I;
 import net.osplay.app.SetOnClickListen;
 import net.osplay.olacos.R;
+import net.osplay.service.entity.GetCityBean;
 import net.osplay.service.entity.PhotoBean;
 import net.osplay.service.entity.PostBean;
 import net.osplay.service.entity.WordTopicBean;
@@ -103,6 +104,8 @@ public class PublishPostsActivity extends Activity {
 
     private int imageSize = 8;
     private List<YSBean> ysList = new ArrayList<>();
+    private static String PROVINCE = "";
+    private static String CITY = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +120,7 @@ public class PublishPostsActivity extends Activity {
         getArea();//获取一级专区的数据
         switchOnclick();
         editTextSetting();
+        getCity();
     }
 
     //阻止输入表情
@@ -169,7 +173,6 @@ public class PublishPostsActivity extends Activity {
             }
         });
     }
-
 
     //选择图片的回调
     @Override
@@ -1650,7 +1653,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", postsContentTv.getText().toString());
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "北京");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1701,7 +1704,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", imageurl + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "北京");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1751,7 +1754,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1801,7 +1804,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1852,7 +1855,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1902,7 +1905,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -1952,7 +1955,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -2002,7 +2005,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -2052,7 +2055,7 @@ public class PublishPostsActivity extends Activity {
         request.add("content", append + "");
         request.add("title", postsTitleTv.getText().toString());
         request.add("userId", AppHelper.getInstance().getUser().getID());
-        request.add("district", "");
+        request.add("district",  PROVINCE + "省," + CITY + "市");
         request.add("original", origint);
         request.add("reprint", reprint);
         requestQueue.add(0, request, new OnResponseListener<String>() {
@@ -2150,4 +2153,37 @@ public class PublishPostsActivity extends Activity {
     }
 
 
+    //获取地理位置
+    public void getCity() {
+        RequestQueue requestQueue = NoHttp.newRequestQueue();
+        Request<String> request = NoHttp.createStringRequest(I.ASCII_CITY, RequestMethod.POST);
+        requestQueue.add(0, request, new OnResponseListener<String>() {
+            @Override
+            public void onStart(int what) {
+            }
+
+            @Override
+            public void onSucceed(int what, Response<String> response) {
+                String json = response.get();
+                int jsonLength = json.length();
+                String jsonCity = json.substring(21, jsonLength - 1);
+                GetCityBean cityBean = mGson.fromJson(jsonCity, GetCityBean.class);
+                PROVINCE = cityBean.getProvince();
+                CITY = cityBean.getCity();
+
+//                PROVINCE = cityBean.getProvince();
+//                CITY = cityBean.getCity();
+            }
+
+            @Override
+            public void onFailed(int what, Response<String> response) {
+
+            }
+
+            @Override
+            public void onFinish(int what) {
+
+            }
+        });
+    }
 }
