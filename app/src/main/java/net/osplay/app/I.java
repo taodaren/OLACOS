@@ -18,6 +18,7 @@ public interface I {
      */
     String TAB_GOODS = BASE_URL + "/html/shopping.html";
     String WEB_SEARCH = BASE_URL + "/html/search.html";
+    String TAB_LEAGUE = BASE_URL + "/html/noneClub.html";
 
     /**
      * 注册登录

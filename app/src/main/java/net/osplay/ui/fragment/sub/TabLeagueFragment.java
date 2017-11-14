@@ -12,6 +12,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.base.BaseFragment;
 
@@ -88,7 +89,7 @@ public class TabLeagueFragment extends BaseFragment {
         });
         mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient());
-        mWebView.loadUrl("http://192.168.1.7:8080/qda/html/noneClub.html");
+        mWebView.loadUrl(I.TAB_LEAGUE);
     }
 
     @Override
