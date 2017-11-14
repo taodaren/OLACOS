@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 import com.yanzhenjie.nohttp.NoHttp;
 import com.yanzhenjie.nohttp.RequestMethod;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -39,6 +40,7 @@ import net.osplay.service.entity.WordTopicTitleBean;
 import net.osplay.ui.activity.base.BaseActivity;
 import net.osplay.ui.adapter.TabViewPagerAdapter;
 import net.osplay.ui.fragment.sub.DetailsTopicInfoFragment;
+import net.osplay.utils.SharedPreferencesUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -138,8 +140,18 @@ public class DetailsTopicActivity extends BaseActivity implements View.OnClickLi
             tvLevel.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.VISIBLE);
             // set Avatar and Nick
-            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+//            Glide.with(DetailsTopicActivity.this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).into(imgAvatar);
+            String HEAD_PATH = (String) SharedPreferencesUtils.getParam(DetailsTopicActivity.this, "HEAD_PATH", "");//获取头像
+            if (HEAD_PATH.equals("")) {
+                Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(imgAvatar);
+                if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+                    Picasso.with(this).load((R.drawable.avatar_default)).into(imgAvatar);
+                }
+            } else {
+                Picasso.with(this).load(I.BASE_URL +HEAD_PATH).error(R.drawable.avatar_default).into(imgAvatar);
+            }
             tvNick.setText(AppHelper.getInstance().getUser().getNICK_NAME());
+
         }
     }
 

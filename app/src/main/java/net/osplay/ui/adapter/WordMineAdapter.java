@@ -279,11 +279,13 @@ public class WordMineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             recommendWordInfo.setText(data.getNOTES());
 
             if ("true".equals(data.getFOLLOW())) {
-                recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white_un));
+               // recommendWordAdd.setBackground(R.drawable.btn_shape_white_un);
+                recommendWordAdd.setBackgroundResource(R.drawable.btn_shape_white_un);
                 recommendWordAdd.setTextColor(ContextCompat.getColor(mContext, R.color.colorTiShiWenZi));
                 recommendWordAdd.setText("已加入");
             } else {
-                recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white));
+                recommendWordAdd.setBackgroundResource(R.drawable.btn_shape_white);
+                //recommendWordAdd.setBackground(mContext.getDrawable(R.drawable.btn_shape_white));
                 recommendWordAdd.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
                 recommendWordAdd.setText("+ 加入");
             }
