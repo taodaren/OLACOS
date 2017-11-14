@@ -36,12 +36,9 @@ public class LoginActivity extends BaseActivity {
     private EditText editAccount, editPassword;
     private Gson gson = new Gson();
     private String isLoginOk;//登录成功与否判断
-    private String phone;
-    private String password;
 
     public static Intent getCallIntent(Context context) {
-        Intent callIntent = new Intent(context, LoginActivity.class);
-        return callIntent;
+        return new Intent(context, LoginActivity.class);
     }
 
     @Override
@@ -53,8 +50,8 @@ public class LoginActivity extends BaseActivity {
 
     private void initView() {
         setToolbar("登录", View.VISIBLE);
-        editAccount = (EditText) findViewById(R.id.edit_account_login);
-        editPassword = (EditText) findViewById(R.id.edit_password_login);
+        editAccount = findViewById(R.id.edit_account_login);
+        editPassword = findViewById(R.id.edit_password_login);
         findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,10 +169,8 @@ public class LoginActivity extends BaseActivity {
         return true;
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == 4) {
             String phone = data.getStringExtra("phone");
