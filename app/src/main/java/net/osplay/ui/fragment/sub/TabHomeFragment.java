@@ -40,7 +40,6 @@ import java.util.List;
 
 public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
-    private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
     private String memberId;
 
@@ -53,8 +52,6 @@ public class TabHomeFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_home, null);
-        //注意 getActivity()若使用 view 会报错，此处有大坑
-        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
         mRvHome = inflate.findViewById(R.id.recycler_home);
 
         initDrawerLayout();
@@ -147,20 +144,6 @@ public class TabHomeFragment extends BaseFragment {
         requestCodeQRCodePermissions();
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        //显示菜单
-//        inflater.inflate(R.menu.menu_toolbar, menu);
-//        //显示需要菜单项，隐藏多余菜单项
-//        menu.findItem(R.id.menu_msg).setVisible(false);
-//        menu.findItem(R.id.menu_search).setVisible(false);
-//        menu.findItem(R.id.menu_code).setVisible(false);
-//        menu.findItem(R.id.menu_category).setVisible(false);
-//        menu.findItem(R.id.menu_register).setVisible(false);
-//        menu.findItem(R.id.menu_set).setVisible(false);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -168,12 +151,6 @@ public class TabHomeFragment extends BaseFragment {
                 //展示滑动菜单
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 break;
-//            case R.id.menu_search:
-//                startActivity(new Intent(getContext(), SearchActivity.class));
-//                break;
-//            case R.id.menu_msg:
-//                startActivity(new Intent(getContext(), MessageActivity.class));
-//                break;
         }
         return true;
     }

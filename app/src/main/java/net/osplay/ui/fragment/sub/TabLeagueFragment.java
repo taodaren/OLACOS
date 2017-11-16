@@ -21,7 +21,6 @@ import net.osplay.ui.fragment.base.BaseFragment;
  */
 
 public class TabLeagueFragment extends BaseFragment {
-    private DrawerLayout mDrawerLayout;
     private WebView mWebView;
 
     //    private TabLayout tabLayout;
@@ -52,9 +51,6 @@ public class TabLeagueFragment extends BaseFragment {
     @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
-        //注意 getActivity()若使用 view 会报错，此处有大坑
-        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
-        //设置侧滑界面
         initDrawerLayout();
         initWebView(inflate);
 //        setView();

@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -32,6 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 //import net.osplay.utils.PublishPopWindow;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
+    private DrawerLayout mDrawerLayout;//侧滑菜单
     private Fragment currentFragment;
     private TabHomeFragment tabHomeFragment;
     private TabWordFragment tabWordFragment;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
 
     private void initView() {
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         initBottomNavBar();
         initFabButton();
         defaultShowHome();
@@ -254,22 +258,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         return super.onKeyDown(keyCode, event);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (JCVideoPlayer.backPress()) {
-//            return;
-//        } else {
-//            finish();
-//        }
-//        super.onBackPressed();
-//    }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        JCVideoPlayer.releaseAllVideos();
-//    }
-
     /**
      * 侧滑栏头部布局点击事件
      */
@@ -277,12 +265,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
         switch (view.getId()) {
             case R.id.nav_avatar:
                 MFGT.gotoLogin(MainActivity.this, MinePageSelfActivity.class, "loginMine");
+                toggleDrawer();
                 break;
             case R.id.nav_code:
 //                startActivity(new Intent(this, QRCodeActivity.class));
-                Toast.makeText(this, "开发中...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "功能未开放...", Toast.LENGTH_SHORT).show();
                 break;
             default:
+        }
+    }
+
+    /**
+     * DrawerLayout侧滑菜单开关
+     */
+    public void toggleDrawer() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            mDrawerLayout.openDrawer(GravityCompat.START);
         }
     }
 

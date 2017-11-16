@@ -1,6 +1,7 @@
 package net.osplay.ui.fragment.base;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,6 +41,8 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 
 public abstract class BaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
+    @SuppressLint("StaticFieldLeak")
+    public static DrawerLayout mDrawerLayout;//侧滑菜单
     private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     public Context mContext;
     protected int resId;
@@ -58,6 +63,8 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+        //注意 getActivity()若使用 view 会报错，此处有大坑
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
         //加上这句话，menu才会显示出来
         setHasOptionsMenu(true);
@@ -212,18 +219,19 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
                 switch (item.getItemId()) {
                     case R.id.nav_money:
                         //startActivity(new Intent(getContext(), MineMoneyActivity.class));
-                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "功能未开放...", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_collect:
                         //startActivity(new Intent(getContext(), MineCollectActivity.class));
-                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "功能未开放...", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_pk:
                         //startActivity(new Intent(getContext(), MinePublishActivity.class));
-                        Toast.makeText(mContext, "功能还未开放", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "功能未开放...", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.nav_set:
                         startActivity(new Intent(getContext(), MineSetActivity.class));
+                        toggleDrawer();
 //                        SharedPreferencesUtils.clear(getActivity());
 //                        //注销登录重新跳转至
 //                        AppHelper.getInstance().setLogined(false);
@@ -236,6 +244,17 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
                 return true;
             }
         });
+    }
+
+    /**
+     * DrawerLayout侧滑菜单开关
+     */
+    public void toggleDrawer() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
     }
 
     //////////////////// 二维码使用 ////////////////////

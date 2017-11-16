@@ -6,7 +6,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -22,7 +21,6 @@ import java.util.List;
  */
 
 public class TabWordFragment extends BaseFragment {
-    private DrawerLayout mDrawerLayout;
     private List<Fragment> mFragmentList;
 
     private TabLayout mTabLayout;
@@ -34,9 +32,8 @@ public class TabWordFragment extends BaseFragment {
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_word, null);
 
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);//注意使用的是 getActivity()
-        mTabLayout = (TabLayout) inflate.findViewById(R.id.tab_layout_toolbar);
-        mViewPager = (ViewPager) inflate.findViewById(R.id.vp_tab_word);
+        mTabLayout = inflate.findViewById(R.id.tab_layout_toolbar);
+        mViewPager = inflate.findViewById(R.id.vp_tab_word);
 
         initDrawerLayout();
         initTabLayout();
