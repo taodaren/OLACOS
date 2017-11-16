@@ -1,8 +1,13 @@
 package net.osplay.ui.fragment.sub;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,15 +16,20 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
 import net.osplay.ui.fragment.base.BaseFragment;
 
+import java.net.URISyntaxException;
+import java.util.List;
+
 /**
  * 商品模块
  */
 public class TabGoodsFragment extends BaseFragment {
+    private static final String TAG = "TabGoodsFragment";
     private DrawerLayout mDrawerLayout;//侧滑菜单
     private WebView mWebView;
 
@@ -35,7 +45,7 @@ public class TabGoodsFragment extends BaseFragment {
         return inflate;
     }
 
-    @SuppressLint({"SetJavaScriptEnabled", "WrongConstant"})
+    @SuppressLint({"SetJavaScriptEnabled", "WrongConstant", "SdCardPath"})
     private void initWebView(View view) {
         mWebView = view.findViewById(R.id.web_view_goods);
 
@@ -47,9 +57,11 @@ public class TabGoodsFragment extends BaseFragment {
         settings.setLoadWithOverviewMode(true);
         settings.setSavePassword(true);
         settings.setSaveFormData(true);
-        settings.setJavaScriptEnabled(true);     // enable navigator.geolocation
+        // enable navigator.geolocation
+        settings.setJavaScriptEnabled(true);
         settings.setGeolocationEnabled(true);
-        settings.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");     // enable Web Storage: localStorage, sessionStorage
+        // enable Web Storage: localStorage, sessionStorage
+        settings.setGeolocationDatabasePath("/data/data/org.itri.html5webview/databases/");
         settings.setDomStorageEnabled(true);
 
         mWebView.requestFocus();
@@ -70,9 +82,56 @@ public class TabGoodsFragment extends BaseFragment {
                 return false;
             }
         });
-//        mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.setWebChromeClient(new WebChromeClient());
-        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setWebViewClient(new WebViewClient() {
+            @SuppressLint("ObsoleteSdkInt")
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String newurl) {
+                try {
+                    //处理intent协议
+                    if (newurl.startsWith("intent://")) {
+                        Intent intent;
+                        try {
+                            intent = Intent.parseUri(newurl, Intent.URI_INTENT_SCHEME);
+                            intent.addCategory("android.intent.category.BROWSABLE");
+                            intent.setComponent(null);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+                                intent.setSelector(null);
+                            }
+                            List<ResolveInfo> resolves = getActivity().getPackageManager().queryIntentActivities(intent, 0);
+                            if (resolves.size() > 0) {
+                                getActivity().startActivityIfNeeded(intent, -1);
+                            }
+                            return true;
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    // 处理自定义scheme协议
+                    if (!newurl.startsWith("http")) {
+                        Log.i(TAG, "shouldOverrideUrlLoading: yxx==" + newurl);
+                        try {
+                            // 以下固定写法
+                            final Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse(newurl));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                    | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            // 防止没有安装的情况
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "您所打开的第三方App未安装！", Toast.LENGTH_SHORT).show();
+                            mWebView.loadUrl("https://h5.m.taobao.com/bcec/downloadTaobao.html?pageType=mainIndex&sceneType=default&sprefer=sypc00");//如果没安装淘宝 App 跳转到指定网址
+                        }
+                        return true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return super.shouldOverrideUrlLoading(view, newurl);
+            }
+        });
         mWebView.loadUrl(I.TAB_GOODS);
     }
 
