@@ -19,7 +19,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import net.osplay.app.I;
 import net.osplay.olacos.R;
@@ -88,7 +87,7 @@ public class TabGoodsFragment extends BaseFragment {
 
         mWebView.setWebChromeClient(new WebChromeClient());
 
-        //设置允许加载混合内容
+        // 设置允许加载混合内容
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
@@ -130,6 +129,7 @@ public class TabGoodsFragment extends BaseFragment {
                         } catch (Exception e) {
                             // 防止没有安装的情况
                             e.printStackTrace();
+                            launchAppDetail("com.taobao.taobao", "");//启动到应用商店 app 详情界面
                         }
                         return true;
                     }
@@ -164,26 +164,10 @@ public class TabGoodsFragment extends BaseFragment {
     }
 
     /**
-     * 销毁 WebView
-     */
-    @Override
-    public void onDestroyView() {
-        if (mWebView != null) {
-            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-            mWebView.clearHistory();
-
-            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
-            mWebView.destroy();
-            mWebView = null;
-        }
-        super.onDestroyView();
-    }
-
-    /**
      * 启动到应用商店 app 详情界面
      *
      * @param appPkg    目标 App 的包名
-     * @param marketPkg 应用商店包名 ,如果为"" 则由系统弹出应用商店列表供用户选择,否则调转到目标市场的应用详情界面，某些应用商店可能会失败
+     * @param marketPkg 应用商店包名 ,如果为 "" 则由系统弹出应用商店列表供用户选择,否则调转到目标市场的应用详情界面，某些应用商店可能会失败
      */
     public void launchAppDetail(String appPkg, String marketPkg) {
         try {
@@ -198,6 +182,22 @@ public class TabGoodsFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 销毁 WebView
+     */
+    @Override
+    public void onDestroyView() {
+        if (mWebView != null) {
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.clearHistory();
+
+            ((ViewGroup) mWebView.getParent()).removeView(mWebView);
+            mWebView.destroy();
+            mWebView = null;
+        }
+        super.onDestroyView();
     }
 
 }
