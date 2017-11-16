@@ -8,7 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             String HEAD_PATH = (String) SharedPreferencesUtils.getParam(MainActivity.this, "HEAD_PATH", "");//获取头像
             if (HEAD_PATH.equals("")) {
                 Picasso.with(this).load(I.BASE_URL + AppHelper.getInstance().getUser().getHEAD_PATH()).error(R.drawable.avatar_default).into(imgAvatar);
-                if(AppHelper.getInstance().getUser().getHEAD_PATH()==null){
+                if (AppHelper.getInstance().getUser().getHEAD_PATH() == null) {
                     Picasso.with(this).load((R.drawable.avatar_default)).into(imgAvatar);
                 }
             } else {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
      * 设置悬浮按钮
      */
     private void initFabButton() {
-        FloatingActionButton fab =  findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +235,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     @Override
     public void onTabReselected(int position) {
 
+    }
+
+    private long exitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 //    @Override
