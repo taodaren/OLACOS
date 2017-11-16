@@ -32,12 +32,15 @@ import java.util.List;
  */
 public class TabGoodsFragment extends BaseFragment {
     private static final String TAG = "TabGoodsFragment";
+    private DrawerLayout mDrawerLayout;//侧滑菜单
     private WebView mWebView;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_goods, null);
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
+
         //设置侧滑界面
         initDrawerLayout();
         initWebView(inflate);

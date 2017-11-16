@@ -42,7 +42,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public abstract class BaseFragment extends Fragment implements EasyPermissions.PermissionCallbacks {
     @SuppressLint("StaticFieldLeak")
-    public static DrawerLayout mDrawerLayout;//侧滑菜单
+    private DrawerLayout mDrawerLayout;//侧滑菜单
     private static final int REQUEST_QR_CODE_PERMISSIONS = 1;
     public Context mContext;
     protected int resId;
@@ -63,8 +63,6 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
-        //注意 getActivity()若使用 view 会报错，此处有大坑
-        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
         //加上这句话，menu才会显示出来
         setHasOptionsMenu(true);
@@ -73,6 +71,8 @@ public abstract class BaseFragment extends Fragment implements EasyPermissions.P
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //注意 getActivity()若使用 view 会报错，此处有大坑
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
         layout = initView();
         return layout;
     }

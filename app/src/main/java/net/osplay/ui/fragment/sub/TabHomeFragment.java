@@ -1,11 +1,9 @@
 package net.osplay.ui.fragment.sub;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,7 +24,6 @@ import net.osplay.olacos.R;
 import net.osplay.service.entity.ImgTvBean;
 import net.osplay.service.entity.WordHotPostsBean;
 import net.osplay.service.entity.base.HomeData;
-import net.osplay.ui.activity.sub.MessageActivity;
 import net.osplay.ui.adapter.TabBatAdapter;
 import net.osplay.ui.fragment.base.BaseFragment;
 import net.osplay.utils.HomeDataMapper;
@@ -40,9 +37,9 @@ import java.util.List;
 
 public class TabHomeFragment extends BaseFragment {
     private static final String TAG = "TabHomeFragment";
+    private DrawerLayout mDrawerLayout;//侧滑菜单
     private RecyclerView mRvHome;
     private String memberId;
-
 
     private WordHotPostsBean hotTopicBean;//
     private List<WordHotPostsBean.DataBean> mDataList;//热帖列表各个大区的数据
@@ -52,6 +49,7 @@ public class TabHomeFragment extends BaseFragment {
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_home, null);
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
         mRvHome = inflate.findViewById(R.id.recycler_home);
 
         initDrawerLayout();

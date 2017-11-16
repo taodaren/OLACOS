@@ -22,6 +22,7 @@ import net.osplay.ui.fragment.base.BaseFragment;
 
 public class TabLeagueFragment extends BaseFragment {
     private WebView mWebView;
+    private DrawerLayout mDrawerLayout;//侧滑菜单
 
     //    private TabLayout tabLayout;
 //    private ViewPager viewPager;
@@ -51,6 +52,7 @@ public class TabLeagueFragment extends BaseFragment {
     @Override
     public View initView() {
         inflate = View.inflate(getContext(), R.layout.fragment_tab_league, null);
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
         initDrawerLayout();
         initWebView(inflate);
 //        setView();

@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -21,17 +22,16 @@ import java.util.List;
  */
 
 public class TabWordFragment extends BaseFragment {
-    private List<Fragment> mFragmentList;
-
+    private DrawerLayout mDrawerLayout;//侧滑菜单
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private String[] mTitles = new String[]{"我的", "热区"};
-    private TabViewPagerAdapter mAdapter;
 
     @Override
     public View initView() {
         View inflate = View.inflate(getContext(), R.layout.fragment_tab_word, null);
 
+        mDrawerLayout = getActivity().findViewById(R.id.drawer_layout);
         mTabLayout = inflate.findViewById(R.id.tab_layout_toolbar);
         mViewPager = inflate.findViewById(R.id.vp_tab_word);
 
@@ -48,10 +48,10 @@ public class TabWordFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        mFragmentList = new ArrayList<>();
+        List<Fragment> mFragmentList = new ArrayList<>();
         mFragmentList.add(new WordMineFragment());
         mFragmentList.add(new WordHotFragment());
-        mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
+        TabViewPagerAdapter mAdapter = new TabViewPagerAdapter(getChildFragmentManager(), mContext, mFragmentList, mTitles);
         mViewPager.setAdapter(mAdapter);
     }
 
