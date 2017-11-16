@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -82,7 +85,14 @@ public class TabGoodsFragment extends BaseFragment {
                 return false;
             }
         });
+
         mWebView.setWebChromeClient(new WebChromeClient());
+
+        //设置允许加载混合内容
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mWebView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+
         mWebView.setWebViewClient(new WebViewClient() {
             @SuppressLint("ObsoleteSdkInt")
             @Override
@@ -120,8 +130,6 @@ public class TabGoodsFragment extends BaseFragment {
                         } catch (Exception e) {
                             // 防止没有安装的情况
                             e.printStackTrace();
-                            Toast.makeText(getActivity(), "您所打开的第三方App未安装！", Toast.LENGTH_SHORT).show();
-                            mWebView.loadUrl("https://h5.m.taobao.com/bcec/downloadTaobao.html?pageType=mainIndex&sceneType=default&sprefer=sypc00");//如果没安装淘宝 App 跳转到指定网址
                         }
                         return true;
                     }
@@ -131,33 +139,15 @@ public class TabGoodsFragment extends BaseFragment {
 
                 return super.shouldOverrideUrlLoading(view, newurl);
             }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {//允许所有SSL证书
+                handler.proceed();
+            }
         });
         mWebView.loadUrl(I.TAB_GOODS);
     }
 
-    //    /**
-//     * 在 onActivityCreated 方法中初始化 Toolbar
-//     */
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        setToolbar(R.id.toolbar_goods, R.string.goods_name, View.VISIBLE, View.GONE, true);
-//    }
-//
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        //显示菜单
-//        inflater.inflate(R.menu.menu_toolbar, menu);
-//        //显示需要菜单项，隐藏多余菜单项
-//        menu.findItem(R.id.menu_msg).setVisible(false);
-//        menu.findItem(R.id.menu_search).setVisible(true);
-//        menu.findItem(R.id.menu_code).setVisible(false);
-//        menu.findItem(R.id.menu_category).setVisible(false);
-//        menu.findItem(R.id.menu_register).setVisible(false);
-//        menu.findItem(R.id.menu_set).setVisible(false);
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
-//
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -187,6 +177,27 @@ public class TabGoodsFragment extends BaseFragment {
             mWebView = null;
         }
         super.onDestroyView();
+    }
+
+    /**
+     * 启动到应用商店 app 详情界面
+     *
+     * @param appPkg    目标 App 的包名
+     * @param marketPkg 应用商店包名 ,如果为"" 则由系统弹出应用商店列表供用户选择,否则调转到目标市场的应用详情界面，某些应用商店可能会失败
+     */
+    public void launchAppDetail(String appPkg, String marketPkg) {
+        try {
+            if (TextUtils.isEmpty(appPkg)) return;
+            Uri uri = Uri.parse("market://details?id=" + appPkg);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            if (!TextUtils.isEmpty(marketPkg)) {
+                intent.setPackage(marketPkg);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
